@@ -95,7 +95,9 @@
             100% { filter: hue-rotate(8deg); }
         }
 
-        /* ── TOP BAR ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           BARRA SUPERIOR - ubicacion, horario y telefono
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .top-bar {
             background: linear-gradient(90deg, var(--teal) 0%, #3ab8a8 60%, var(--sky-bright) 100%);
             color: rgba(255,255,255,0.95);
@@ -117,7 +119,10 @@
         .top-bar a { color: rgba(255,255,255,0.9); text-decoration: none; transition: opacity 0.2s; }
         .top-bar a:hover { opacity: 0.7; }
 
-        /* ── NAVIGATION ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           NAVEGACION PRINCIPAL - sticky, glass effect
+           En celular se oculta; aparece el boton corazon
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         nav {
             background: rgba(250,248,249,0.85);
             backdrop-filter: blur(20px);
@@ -174,7 +179,9 @@
             color: var(--white) !important;
         }
 
-        /* ── HERO ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           HERO - seccion principal con orbs flotantes y petals
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .hero {
             position: relative;
             min-height: 92vh;
@@ -268,7 +275,9 @@
             flex-wrap: wrap;
         }
 
-        /* ── BUTTONS ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           BOTONES - estilos generales reutilizables
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .btn {
             display: inline-block;
             text-decoration: none;
@@ -304,7 +313,10 @@
             transform: translateY(-2px);
         }
 
-        /* ── CAROUSEL SLIDES ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           CARRUSEL DE SLIDES - transicion suave con fade
+           En celular: transicion extra lenta para mayor suavidad
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .carousel-wrap {
             position: relative;
             height: 92vh;
@@ -314,7 +326,7 @@
             position: absolute;
             inset: 0;
             opacity: 0;
-            transition: opacity 1.4s ease-in-out;
+            transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -390,7 +402,9 @@
             margin: 0 auto;
         }
 
-        /* ── FLOATING CARD ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           TARJETA VIDRIO - componente base reutilizable
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .glass-card {
             background: rgba(255,255,255,0.65);
             backdrop-filter: blur(18px);
@@ -405,7 +419,9 @@
             box-shadow: 0 20px 60px rgba(100,140,160,0.16);
         }
 
-        /* ── SERVICES BENTO ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           GRILLA DE SERVICIOS - cremacion, urnas, retiro
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .services-bento {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -441,7 +457,9 @@
             font-weight: 300;
         }
 
-        /* ── ABOUT SPLIT ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           SECCION NOSOTROS - historia y valores de la empresa
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .about-split {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -505,7 +523,9 @@
             margin-bottom: 1.2rem;
         }
 
-        /* ── PROCESS TIMELINE ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           PROCESO PASO A PASO - linea de tiempo horizontal
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .process-steps {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -557,7 +577,9 @@
             font-weight: 300;
         }
 
-        /* ── GALLERY MOSAIC ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           GALERIA MOSAICO - fotos de instalaciones
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .gallery-mosaic {
             display: grid;
             grid-template-columns: 1.5fr 1fr 1fr;
@@ -589,7 +611,9 @@
         .mf-4 { background: linear-gradient(145deg, rgba(203,174,242,0.6), rgba(183,240,245,0.4)); }
         .mf-5 { background: linear-gradient(145deg, rgba(168,230,214,0.5), rgba(238,165,233,0.4)); }
 
-        /* ── VIDEO SECTION ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           SECCION VIDEO - explicacion del proceso ecologico
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .video-section {
             background: linear-gradient(160deg, rgba(41,167,152,0.06) 0%, rgba(203,174,242,0.08) 50%, rgba(238,165,233,0.06) 100%);
         }
@@ -611,7 +635,9 @@
             width: 100%; height: 100%;
         }
 
-        /* ── STATS STRIP ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           FRANJA DE ESTADISTICAS - numeros destacados
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .stats-strip {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -645,7 +671,9 @@
             text-transform: uppercase;
         }
 
-        /* ── CTA SECTION ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           LLAMADA A LA ACCION - seccion de cierre con botones
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .cta-section {
             position: relative;
             overflow: hidden;
@@ -694,7 +722,9 @@
             font-weight: 300;
         }
 
-        /* ── CONTACT BAR ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           BARRA DE CONTACTO - telefono, whatsapp y direccion
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .contact-bar {
             background: rgba(255,255,255,0.7);
             border-top: 1px solid rgba(168,230,214,0.3);
@@ -738,7 +768,9 @@
         }
         .contact-value a:hover { color: var(--teal); }
 
-        /* ── FOOTER ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           PIE DE PAGINA - links, redes y derechos
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         footer {
             background: linear-gradient(160deg, #2d4a44 0%, #1e3830 100%);
             color: rgba(255,255,255,0.75);
@@ -796,14 +828,18 @@
             color: rgba(255,255,255,0.45);
         }
 
-        /* ── DIVIDER ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           DIVISOR DECORATIVO - linea entre secciones
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .divider {
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(168,230,214,0.4), rgba(203,174,242,0.4), transparent);
             margin: 0 2rem;
         }
 
-        /* ── SCROLL REVEAL ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           ANIMACION DE ENTRADA - elementos aparecen al hacer scroll
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .reveal {
             opacity: 0;
             transform: translateY(28px);
@@ -818,7 +854,9 @@
         .reveal-delay-3 { transition-delay: 0.3s; }
         .reveal-delay-4 { transition-delay: 0.4s; }
 
-        /* ── ACCESSIBILITY ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           ACCESIBILIDAD - clases para lectores de pantalla
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         .sr-only {
             position: absolute;
             width: 1px; height: 1px;
@@ -829,7 +867,9 @@
             border-width: 0;
         }
 
-        /* ── RESPONSIVE ── */
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           ADAPTACION RESPONSIVE - tablet y celular
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
         @media (max-width: 1024px) {
             .services-bento { grid-template-columns: repeat(2, 1fr); }
             .about-split { grid-template-columns: 1fr; gap: 3rem; }
@@ -855,9 +895,239 @@
             .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
             .about-badge { width: 120px; height: 120px; right: -0.5rem; bottom: -0.5rem; }
         }
+        /* Reduccion de tamano del top bar en celular */
+        @media (max-width: 768px) {
+            .top-bar { font-size: 0.62rem; letter-spacing: 0.01em; }
+            .top-bar-content { padding: 0.45rem 0.9rem; gap: 0.25rem; flex-wrap: nowrap; }
+            .top-bar-left { gap: 0.7rem; flex-wrap: nowrap; }
+            .top-bar-item { gap: 0.25rem; }
+        }
+
+        /* Transicion extra suave del carrusel en celular */
+        @media (max-width: 768px) {
+            .carousel-slide { transition: opacity 2.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           BOTON CORAZON - solo visible en celular
+           Flota fijo a la derecha durante todo el scroll
+           Abre el menu lateral al hacer click
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .heart-btn {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .heart-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: fixed;
+                bottom: 2rem;
+                right: 1.2rem;
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                background: linear-gradient(145deg, #f9c6d8, #e8a0c0);
+                border: none;
+                cursor: pointer;
+                z-index: 9000;
+                box-shadow: 0 4px 18px rgba(220,130,170,0.35);
+                transition: transform 0.2s ease;
+            }
+            .heart-btn:active { transform: scale(0.92); }
+            .heart-btn svg {
+                width: 22px;
+                height: 22px;
+                fill: rgba(255,255,255,0.92);
+            }
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           OVERLAY OSCURO - fondo al abrir el menu
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .drawer-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(60,50,70,0.18);
+            backdrop-filter: blur(2px);
+            z-index: 9100;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+        .drawer-overlay.open {
+            display: block;
+            opacity: 1;
+        }
+
+        /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+           MENU LATERAL DERECHO - aesthetic blanco
+           Solo ocupa el ancho del contenido del menu
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: min(72vw, 300px);
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 9200;
+            padding: 2.5rem 2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            transform: translateX(110%);
+            transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -8px 0 40px rgba(180,140,190,0.14);
+            border-left: 1px solid rgba(240,200,220,0.4);
+            border-radius: 20px 0 0 20px;
+            overflow-y: auto;
+        }
+        .drawer.open { transform: translateX(0); }
+
+        /* Encabezado del drawer con logo y boton cerrar */
+        .drawer-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.2rem;
+        }
+        .drawer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            letter-spacing: 0.02em;
+        }
+        .drawer-logo em {
+            font-style: italic;
+            background: linear-gradient(120deg, var(--teal), var(--lavender));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .drawer-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(240,200,220,0.3);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-mid);
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .drawer-close:hover { background: rgba(240,200,220,0.6); }
+
+        /* Links de navegacion dentro del drawer */
+        .drawer-nav {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .drawer-nav li a {
+            display: block;
+            padding: 0.85rem 0;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(200,220,215,0.4);
+            transition: color 0.2s, padding-left 0.2s;
+            letter-spacing: 0.01em;
+        }
+        .drawer-nav li:last-child a { border-bottom: none; }
+        .drawer-nav li a:hover {
+            color: var(--teal);
+            padding-left: 0.5rem;
+        }
+
+        /* Boton de contacto al final del drawer */
+        .drawer-cta {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .drawer-cta a {
+            display: block;
+            background: linear-gradient(135deg, var(--teal), #3ab8a8);
+            color: white !important;
+            text-decoration: none;
+            padding: 0.85rem 1.5rem;
+            border-radius: 50px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 4px 18px rgba(41,167,152,0.25);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .drawer-cta a:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(41,167,152,0.32); }
+
+        /* Detalle decorativo pastel abajo del drawer */
+        .drawer-deco {
+            margin-top: auto;
+            padding-top: 2rem;
+            text-align: center;
+            font-size: 0.72rem;
+            color: var(--text-soft);
+            letter-spacing: 0.08em;
+        }
+        .drawer-deco span {
+            display: inline-block;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #f9c6d8, var(--lavender));
+            border-radius: 2px;
+            margin-bottom: 0.6rem;
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         BOTON CORAZON FLOTANTE - solo en celular
+         Abre el menu lateral al pulsarlo
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <button class="heart-btn" id="heartBtn" aria-label="Abrir menu de navegacion" aria-expanded="false">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+    </button>
+
+    <!-- Overlay oscuro detras del drawer -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         MENU LATERAL (DRAWER) - aesthetic blanco
+         Se desliza desde la derecha
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <div class="drawer" id="drawer" role="dialog" aria-label="Menu de navegacion" aria-modal="true">
+        <div class="drawer-head">
+            <span class="drawer-logo">Pets<em>Al</em>Cielo</span>
+            <button class="drawer-close" id="drawerClose" aria-label="Cerrar menu">✕</button>
+        </div>
+        <ul class="drawer-nav">
+            <li><a href="#inicio"    class="drawer-link">Inicio</a></li>
+            <li><a href="#servicios" class="drawer-link">Cremación</a></li>
+            <li><a href="#galeria"   class="drawer-link">Galería</a></li>
+            <li><a href="#proceso"   class="drawer-link">Proceso Ecológico</a></li>
+            <li><a href="#nosotros"  class="drawer-link">Nosotros</a></li>
+        </ul>
+        <div class="drawer-cta">
+            <a href="#contacto" class="drawer-link">Contactar ahora</a>
+        </div>
+        <div class="drawer-deco">
+            <span></span><br>
+            Disponibles 24/7 · Puerto Montt
+        </div>
+    </div>
 
     <!-- Top Bar -->
     <aside class="top-bar">
@@ -1329,6 +1599,33 @@
             });
         }, { threshold: 0.12 });
         revealEls.forEach(el => io.observe(el));
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // LOGICA DEL MENU LATERAL (DRAWER)
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const heartBtn      = document.getElementById('heartBtn');
+        const drawer        = document.getElementById('drawer');
+        const drawerOverlay = document.getElementById('drawerOverlay');
+        const drawerClose   = document.getElementById('drawerClose');
+
+        function openDrawer() {
+            drawer.classList.add('open');
+            drawerOverlay.classList.add('open');
+            heartBtn.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeDrawer() {
+            drawer.classList.remove('open');
+            drawerOverlay.classList.remove('open');
+            heartBtn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        heartBtn.addEventListener('click', openDrawer);
+        drawerClose.addEventListener('click', closeDrawer);
+        drawerOverlay.addEventListener('click', closeDrawer);
+        document.querySelectorAll('.drawer-link').forEach(l => l.addEventListener('click', closeDrawer));
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 
         // ── SMOOTH SCROLL ──
         document.querySelectorAll('a[href^="#"]').forEach(a => {
