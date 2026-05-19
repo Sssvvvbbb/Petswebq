@@ -111,11 +111,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             gap: 0.5rem;
         }
-        .top-bar-left { display: flex; gap: 2rem; flex-wrap: wrap; }
-        .top-bar-item { display: flex; align-items: center; gap: 0.4rem; }
+        .top-bar-left { display: flex; gap: 2rem; flex-wrap: nowrap; }
+        .top-bar-item { display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
         .top-bar a { color: rgba(255,255,255,0.9); text-decoration: none; transition: opacity 0.2s; }
         .top-bar a:hover { opacity: 0.7; }
 
@@ -1176,10 +1176,15 @@
                     <span>Disponibles 24 horas, 7 días</span>
                 </span>
             </div>
-            <a href="tel:+56998461172" class="top-bar-item" itemprop="telephone">
-                <span>📱</span>
-                <span>+569 9846 1172</span>
-            </a>
+            <div style="display:flex;align-items:center;gap:0.8rem;flex-wrap:nowrap;">
+                <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,#A8E6D6 0%,#6CD2F5 40%,#EEA5E9 75%,#CBAEF2 100%);text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" class="top-bar-item" itemprop="telephone" aria-label="WhatsApp">
+                    <span>📱</span>
+                    <span>+569 9846 1172</span>
+                </a>
+            </div>
         </div>
     </aside>
 
@@ -1193,7 +1198,7 @@
                 <li><a href="#galeria">Galería</a></li>
                 <li><a href="#proceso">Proceso Ecológico</a></li>
                 <li><a href="#nosotros">Nosotros</a></li>
-                <li><a href="#contacto" class="nav-cta btn">Contactar</a></li>
+                <li><a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" class="nav-cta btn">Contactar</a></li>
             </ul>
         </div>
     </nav>
@@ -1367,6 +1372,49 @@
                 </div>
             </div>
         </div>
+
+        <!-- Instagram Feed -->
+        <div class="container" style="margin-top: 3.5rem;">
+            <div class="section-header" style="margin-bottom: 2rem;">
+                <span class="section-tag reveal">Instagram</span>
+                <h3 class="section-title reveal reveal-delay-1" style="font-size:clamp(1.4rem,3vw,2.2rem);">
+                    Síguenos en <em>Instagram</em>
+                </h3>
+            </div>
+            <div class="glass-card reveal" style="padding: 2rem; text-align:center; border-radius: 20px; overflow:hidden;">
+                <!-- 
+                    NOTA TÉCNICA: Instagram no permite embeds directos de feeds sin autenticación OAuth.
+                    Para mostrar las publicaciones reales de @_petsalcielo, tienes estas opciones gratuitas:
+
+                    OPCIÓN 1 — Elfsight (más fácil):
+                    1. Ve a https://elfsight.com/instagram-feed-widget/ y crea cuenta gratis
+                    2. Conecta @_petsalcielo
+                    3. Copia el código del widget y reemplaza el bloque de abajo
+
+                    OPCIÓN 2 — SnapWidget:
+                    1. Ve a https://snapwidget.com → Instagram Feed → gratis
+                    2. Conecta tu cuenta y copia el <iframe> generado
+
+                    Por ahora se muestra un enlace directo a tu perfil:
+                -->
+                <div style="min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem;">
+                    <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener"
+                       style="display:inline-flex;align-items:center;gap:0.7rem;background:linear-gradient(135deg,#f9c8a0,#e06090,#9060d0);color:white;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;padding:0.85rem 2rem;border-radius:50px;box-shadow:0 4px 18px rgba(180,80,140,0.28);transition:transform 0.2s,box-shadow 0.2s;"
+                       onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 28px rgba(180,80,140,0.38)'"
+                       onmouseout="this.style.transform='';this.style.boxShadow='0 4px 18px rgba(180,80,140,0.28)'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        @_petsalcielo en Instagram
+                    </a>
+                    <p style="font-family:'DM Sans',sans-serif;font-size:0.8rem;color:var(--text-soft);max-width:460px;line-height:1.7;">
+                        Para mostrar el feed automático aquí, conecta un widget gratuito como
+                        <a href="https://elfsight.com/instagram-feed-widget/" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none;font-weight:500;">Elfsight</a>
+                        o <a href="https://snapwidget.com" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none;font-weight:500;">SnapWidget</a>
+                        y reemplaza este bloque con el código que te entregan.
+                        Instagram no permite embeds directos sin autenticación OAuth.
+                    </p>
+                </div>
+            </div>
+        </div>
     </section>
 
     <div class="divider"></div>
@@ -1512,21 +1560,19 @@
                 <div class="contact-item">
                     <div class="contact-icon" style="background: linear-gradient(135deg, rgba(238,165,233,0.4), rgba(203,174,242,0.3));">📱</div>
                     <div class="contact-label">WhatsApp 24/7</div>
-                    <div class="contact-item-inner">
+                    <div class="contact-item-inner" style="flex-direction:column;gap:0.5rem;">
+                        <a href="https://wa.me/56998461172" itemprop="telephone" aria-label="WhatsApp" class="contact-value" style="text-decoration:none;color:inherit;transition:color 0.2s;" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color='inherit'">+569 9846 1172</a>
                         <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" class="ig-btn" aria-label="Instagram PetsAlCielo">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                             @_petsalcielo
                         </a>
-                        <div class="contact-value">
-                            <a href="https://wa.me/56998461172" itemprop="telephone" aria-label="WhatsApp">+569 9846 1172</a>
-                        </div>
                     </div>
                 </div>
                 <div class="contact-item">
                     <div class="contact-icon" style="background: linear-gradient(135deg, rgba(240,201,130,0.4), rgba(244,145,143,0.3));">☎️</div>
                     <div class="contact-label">Atención Inmediata</div>
                     <div class="contact-value">
-                        <a href="tel:+56940082594" itemprop="telephone" aria-label="Llamar">+569 4008 2594</a>
+                        <a href="https://wa.me/56940082594?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" itemprop="telephone" aria-label="WhatsApp">+569 4008 2594</a>
                     </div>
                 </div>
             </div>
