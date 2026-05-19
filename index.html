@@ -6,7 +6,6 @@
     
     <!-- SEO Meta Tags -->
     <title>Crematorio y Funeraria para Mascotas en Puerto Montt | PetsAlCielo</title>
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sssvvvbbb/Petswebq/8bd484737d907fb867d541f484aefe4a132a9b59/Assets/11.svg">
     <meta name="description" content="Servicio de cremación y funeral para mascotas en Puerto Montt, Chile. Cremación ecológica mediante agua, urnas conmemorativas y retiro a domicilio. Despedida digna con amor y respeto.">
     <meta name="keywords" content="crematorio mascotas puerto montt, funeraria mascotas chile, cremación ecológica mascotas, servicios funerarios mascotas, cremación verde agua, urnas mascotas, despedida mascotas, crematorio perros gatos">
     <meta name="author" content="PetsAlCielo">
@@ -1088,6 +1087,40 @@
             margin-bottom: 0.6rem;
         }
 
+        /* ── INSTAGRAM BUTTON - contact bar ── */
+        .ig-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            background: linear-gradient(135deg, #f9c8a0, #e06090, #9060d0);
+            color: white;
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 0.45rem 1rem;
+            border-radius: 50px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 3px 14px rgba(180,80,140,0.25);
+            white-space: nowrap;
+        }
+        .ig-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(180,80,140,0.35);
+        }
+        .ig-btn svg {
+            width: 15px;
+            height: 15px;
+            fill: white;
+            flex-shrink: 0;
+        }
+        .contact-item-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            flex-wrap: wrap;
+        }
+
     </style>
 </head>
 <body>
@@ -1122,7 +1155,7 @@
             <li><a href="#nosotros"  class="drawer-link">Nosotros</a></li>
         </ul>
         <div class="drawer-cta">
-            <a href="#contacto" class="drawer-link">Contactar ahora</a>
+            <a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20sus%20servicios" target="_blank" rel="noopener">Contactar ahora</a>
         </div>
         <div class="drawer-deco">
             <span></span><br>
@@ -1134,10 +1167,10 @@
     <aside class="top-bar">
         <div class="top-bar-content">
             <div class="top-bar-left">
-                <span class="top-bar-item">
+                <a href="https://maps.google.com/?q=La+Vara+Puerto+Montt" target="_blank" rel="noopener" class="top-bar-item" aria-label="Ver ubicación en Google Maps">
                     <span>📍</span>
                     <span itemscope itemtype="https://schema.org/PostalAddress" itemprop="addressLocality">La Vara, Puerto Montt</span>
-                </span>
+                </a>
                 <span class="top-bar-item">
                     <span>⏰</span>
                     <span>Disponibles 24 horas, 7 días</span>
@@ -1188,7 +1221,7 @@
                     Acompañamos a tu familia en este momento con calidez y profesionalismo.
                 </p>
                 <div class="hero-actions">
-                    <a href="#contacto" class="btn btn-primary" aria-label="Contactar servicio de cremación">Contactar Ahora</a>
+                    <a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" class="btn btn-primary" aria-label="Contactar por WhatsApp">Contactar Ahora</a>
                     <a href="#servicios" class="btn btn-ghost">Ver Servicios</a>
                 </div>
             </div>
@@ -1225,7 +1258,7 @@
                 </p>
                 <div class="hero-actions">
                     <a href="#servicios" class="btn btn-primary">Ver Servicios</a>
-                    <a href="#contacto" class="btn btn-ghost">Hablar con Nosotros</a>
+                    <a href="https://wa.me/56998461172?text=Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios" target="_blank" rel="noopener" class="btn btn-ghost">Hablar con Nosotros</a>
                 </div>
             </div>
         </div>
@@ -1308,7 +1341,7 @@
                     <p class="section-lead reveal reveal-delay-2" style="margin-bottom: 2rem;">
                         Nuestras instalaciones en La Vara, Puerto Montt, fueron diseñadas para que tanto tú como tu mascota se sientan con dignidad, calma y amor durante todo el proceso.
                     </p>
-                    <a href="#contacto" class="btn btn-primary reveal reveal-delay-3">Visítanos</a>
+                    <a href="https://maps.google.com/?q=La+Vara+Puerto+Montt" target="_blank" rel="noopener" class="btn btn-primary reveal reveal-delay-3" aria-label="Abrir ubicación en Google Maps">Visítanos</a>
                 </div>
                 <div class="gallery-mosaic reveal" aria-label="Galería de instalaciones">
                     <div class="mosaic-item">
@@ -1369,7 +1402,7 @@
                         de una mascota no tiene horario. Contamos con instalaciones propias, personal capacitado 
                         y tecnología avalada por la Universidad de Concepción.
                     </p>
-                    <a href="#contacto" class="btn btn-primary reveal reveal-delay-4" style="margin-top: 1.5rem;" aria-label="Solicitar servicio de cremación">Solicitar Servicio</a>
+                    <a href="https://wa.me/56998461172?text=Hola%2C%20quisiera%20solicitar%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" class="btn btn-primary reveal reveal-delay-4" style="margin-top: 1.5rem;" aria-label="Solicitar servicio por WhatsApp">Solicitar Servicio</a>
                 </div>
             </div>
         </div>
@@ -1459,8 +1492,7 @@
                 Servicio profesional, cremación individual garantizada y atención personalizada las 24 horas.
             </p>
             <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;" class="reveal reveal-delay-3">
-                <a href="#contacto" class="btn btn-primary" aria-label="Solicitar información sobre cremación">Solicitar Información</a>
-                <a href="https://wa.me/56998461172" class="btn btn-ghost" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">WhatsApp Directo</a>
+                <a href="https://wa.me/56998461172?text=Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20cremaci%C3%B3n" target="_blank" rel="noopener" class="btn btn-primary" aria-label="Solicitar información por WhatsApp">Solicitar información vía WhatsApp</a>
             </div>
         </div>
     </section>
@@ -1480,8 +1512,14 @@
                 <div class="contact-item">
                     <div class="contact-icon" style="background: linear-gradient(135deg, rgba(238,165,233,0.4), rgba(203,174,242,0.3));">📱</div>
                     <div class="contact-label">WhatsApp 24/7</div>
-                    <div class="contact-value">
-                        <a href="https://wa.me/56998461172" itemprop="telephone" aria-label="WhatsApp">+569 9846 1172</a>
+                    <div class="contact-item-inner">
+                        <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" class="ig-btn" aria-label="Instagram PetsAlCielo">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            @_petsalcielo
+                        </a>
+                        <div class="contact-value">
+                            <a href="https://wa.me/56998461172" itemprop="telephone" aria-label="WhatsApp">+569 9846 1172</a>
+                        </div>
                     </div>
                 </div>
                 <div class="contact-item">
