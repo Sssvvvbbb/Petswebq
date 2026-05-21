@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.petsalcielo.cl/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.petsalcielo.cl/Servicios</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.petsalcielo.cl/Testimonios</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.petsalcielo.cl/Nosotros</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.petsalcielo.cl/Instalaciones</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.petsalcielo.cl/RegresoACasa</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.petsalcielo.cl/Preguntas-Frecuentes</loc>
+    <priority>0.7</priority>
+  </url>
+</urlset>
