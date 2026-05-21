@@ -457,12 +457,6 @@
             .service-card {
                 padding: 2.5rem;
             }
-            .service-card-header {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                margin-bottom: 1.2rem;
-            }
             .service-icon-wrap {
                 width: 64px;
                 height: 64px;
@@ -471,19 +465,11 @@
                 align-items: center;
                 justify-content: center;
                 font-size: 1.8rem;
-                flex-shrink: 0;
+                margin-bottom: 1.5rem;
             }
             .ic-1 { background: linear-gradient(135deg, rgba(168,230,214,0.5), rgba(108,210,245,0.3)); }
             .ic-2 { background: linear-gradient(135deg, rgba(238,165,233,0.5), rgba(203,174,242,0.3)); }
             .ic-3 { background: linear-gradient(135deg, rgba(240,201,130,0.5), rgba(244,145,143,0.3)); }
-            .service-card-header h3 {
-                font-family: 'Cormorant Garamond', serif;
-                font-size: 1.4rem;
-                font-weight: 500;
-                color: var(--text-dark);
-                margin-bottom: 0;
-                line-height: 1.2;
-            }
             .service-card h3 {
                 font-family: 'Cormorant Garamond', serif;
                 font-size: 1.4rem;
@@ -1428,24 +1414,18 @@
 
                 <div class="services-bento" aria-label="Lista de servicios">
                     <article class="glass-card service-card reveal reveal-delay-1" itemscope itemtype="https://schema.org/Service">
-                        <div class="service-card-header">
-                            <div class="service-icon-wrap ic-1">🌊</div>
-                            <h3 itemprop="name">Cremación en Agua</h3>
-                        </div>
+                        <div class="service-icon-wrap ic-1">🌊</div>
+                        <h3 itemprop="name">Cremación en Agua</h3>
                         <p itemprop="description">La Hidrólisis alcalina es un proceso de cremación verde sin fuego y respetuoso con el medio ambiente. La mascotita recibe atención individual y su polvito de calcio es entregado en su urna conmemorativa y especial.</p>
                     </article>
                     <article class="glass-card service-card reveal reveal-delay-2" itemscope itemtype="https://schema.org/Service">
-                        <div class="service-card-header">
-                            <div class="service-icon-wrap ic-2">🏺</div>
-                            <h3 itemprop="name">Urnas Conmemorativas Personalizadas</h3>
-                        </div>
+                        <div class="service-icon-wrap ic-2">🏺</div>
+                        <h3 itemprop="name">Urnas Conmemorativas Personalizadas</h3>
                         <p itemprop="description">Ánforas especiales y urnas personalizables para preservar las el polvito de calcio de su perro, gato o mascotita. Contamos con madera de cedro, bronce y anforas en base a maiz para honrar su memoria.</p>
                     </article>
                     <article class="glass-card service-card reveal reveal-delay-3" itemscope itemtype="https://schema.org/Service">
-                        <div class="service-card-header">
-                            <div class="service-icon-wrap ic-3">🚗</div>
-                            <h3 itemprop="name">Retiro a Domicilio dentro de Puerto Montt</h3>
-                        </div>
+                        <div class="service-icon-wrap ic-3">🚗</div>
+                        <h3 itemprop="name">Retiro a Domicilio dentro de Puerto Montt</h3>
                         <p itemprop="description">Contamos con salita __________________ especial donde pueden estar las mascotitas y sus tutores.</p>
                     </article>
                 </div>
