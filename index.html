@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         
         <!-- SEO Meta Tags -->
-        <title>Crematorio y Funeraria para Mascotas en Puerto Montt | PetsAlCielo</title>
-        <meta name="description" content="Servicio de cremación y funeral para mascotas en Puerto Montt, Chile. Cremación ecológica mediante agua, urnas conmemorativas y retiro a domicilio. Despedida digna con amor y respeto.">
+        <title>Servicio de Cremación Ecológica Para Mascotas en Puerto Montt</title>
+        <meta name="description" content="Crematorio ecológico para mascotas en Puerto Montt. Cremación individual mediante agua, sin fuego. Urnas personalizadas y retiro a domicilio. Atención 24/7.">
         <meta name="keywords" content="crematorio mascotas puerto montt, funeraria mascotas chile, cremación ecológica mascotas, servicios funerarios mascotas, cremación verde agua, urnas mascotas, despedida mascotas, crematorio perros gatos">
         <meta name="author" content="PetsAlCielo">
         <meta name="robots" content="index, follow">
@@ -103,6 +103,7 @@
                 background: linear-gradient(90deg, var(--teal) 0%, #3ab8a8 60%, var(--sky-bright) 100%);
                 color: rgba(255,255,255,0.95);
                 font-size: 0.8rem;
+                font-weight: 500;
                 letter-spacing: 0.03em;
                 position: fixed;
                 top: 0;
@@ -332,9 +333,8 @@
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
             .carousel-wrap {
                 position: relative;
-                height: 92vh;
+                height: 100vh;
                 overflow: hidden;
-                /* El carrusel empieza detrás del nav fijo; el contenido interior ya tiene su propio padding */
             }
             .carousel-slide {
                 position: absolute;
@@ -344,6 +344,8 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                /* Compensar top-bar (~36px) + nav (~60px) para que el contenido no quede tapado */
+                padding-top: 96px;
             }
             .carousel-slide.active { opacity: 1; }
 
@@ -369,6 +371,17 @@
                 transition: all 0.3s;
             }
             .dot.active { background: var(--teal); width: 28px; border-radius: 4px; }
+
+            /* ── FOG REVEAL - efecto niebla para el bloque CTA ── */
+            .reveal-fog {
+                opacity: 0;
+                filter: blur(12px);
+                transition: opacity 1.7s ease, filter 1.7s ease;
+            }
+            .reveal-fog.visible {
+                opacity: 1;
+                filter: blur(0px);
+            }
 
             /* ── SECTION BASE ── */
             .section {
@@ -486,7 +499,7 @@
             .about-card-main {
                 aspect-ratio: 4/5;
                 border-radius: 32px;
-                overflow: hidden;
+                overflow: visible;
                 position: relative;
             }
             .about-gradient-fill {
@@ -899,10 +912,20 @@
             }
             @media (max-width: 768px) {
                 .top-bar-content { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
-                .carousel-wrap { height: auto; min-height: 100svh; }
-                .carousel-slide { position: relative; min-height: 100svh; }
-                .carousel-slide:not(.active) { display: none; }
+                .carousel-wrap { height: 100svh; }
+                /* Mantener position:absolute y fade en móvil — NO usar display:none */
+                .carousel-slide {
+                    position: absolute;
+                    inset: 0;
+                    padding-top: 68px; /* top-bar (~28px) + nav (~40px) en móvil */
+                }
                 .services-bento { grid-template-columns: 1fr; }
+                .process-steps { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+                .process-steps::before { display: none; }
+                .step-bubble { width: 48px; height: 48px; font-size: 1.2rem; margin-bottom: 0.8rem; }
+                .process-step { padding: 1.2rem 0.8rem !important; }
+                .process-step h4 { font-size: 0.9rem; margin-bottom: 0.4rem; }
+                .process-step p { font-size: 0.72rem; line-height: 1.5; }
                 .gallery-mosaic {
                     grid-template-columns: 1fr 1fr;
                     grid-template-rows: auto;
@@ -914,7 +937,18 @@
                 .contact-label { font-size: 0.6rem; white-space: nowrap; }
                 .contact-value { font-size: 0.82rem; white-space: nowrap; }
                 .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-                .about-badge { width: 120px; height: 120px; right: -0.5rem; bottom: -0.5rem; }
+                .about-card-main { min-height: 220px; overflow: hidden; }
+                .about-badge {
+                    width: 55px;
+                    height: 55px;
+                    right: 0.7rem;
+                    bottom: 0.7rem;
+                    border-width: 2px;
+                    bottom: 0.7rem;
+                    right: 0.7rem;
+                }
+                .about-badge span:first-child { font-size: 1.1rem; }
+                .about-badge span:last-child { font-size: 0.38rem; max-width: 48px; }
             }
             @media (max-width: 768px) {
                 /* Top bar más pequeña en mobile */
@@ -954,12 +988,22 @@
                     padding: 0 0.25rem;
                     letter-spacing: 0;
                 }
-                /* Ocultar Galería, Proceso Ecológico y Nosotros en celular */
+                /* Galería, Proceso, Nosotros: visibles al inicio, se desvanecen al hacer scroll (JS) */
                 /* Orden: 1-Cremación, 2-Galería, 3-Proceso, 4-Nosotros, 5-Contactar */
                 .nav-menu li:nth-child(2),
                 .nav-menu li:nth-child(3),
                 .nav-menu li:nth-child(4) {
-                    display: none;
+                    opacity: 1;
+                    transition: opacity 0.5s ease;
+                }
+                .nav-menu li:nth-child(4) {
+                    margin-left: -2px;
+                }
+                .nav-menu li:nth-child(2).nav-hidden,
+                .nav-menu li:nth-child(3).nav-hidden,
+                .nav-menu li:nth-child(4).nav-hidden {
+                    opacity: 0;
+                    pointer-events: none;
                 }
                 /* Botón Contactar siempre visible con margen derecho */
                 .nav-menu .nav-cta {
@@ -1159,13 +1203,13 @@
             .ig-btn {
                 display: inline-flex;
                 align-items: center;
-                gap: 0.35rem;
+                gap: 0.45rem;
                 background: linear-gradient(135deg, #f9c8a0, #e06090, #9060d0);
                 color: white;
                 text-decoration: none;
-                font-size: 0.72rem;
+                font-size: 0.82rem;
                 font-weight: 500;
-                padding: 0.32rem 0.75rem;
+                padding: 0.42rem 0.9rem;
                 border-radius: 50px;
                 transition: transform 0.2s, box-shadow 0.2s;
                 box-shadow: 0 3px 14px rgba(180,80,140,0.25);
@@ -1176,8 +1220,8 @@
                 box-shadow: 0 6px 20px rgba(180,80,140,0.35);
             }
             .ig-btn svg {
-                width: 11px;
-                height: 11px;
+                width: 18px;
+                height: 18px;
                 fill: white;
                 flex-shrink: 0;
             }
@@ -1218,7 +1262,6 @@
             <ul class="drawer-nav">
                 <li><a href="#inicio"    class="drawer-link">Inicio</a></li>
                 <li><a href="#servicios" class="drawer-link">Cremación</a></li>
-                <li><a href="#galeria"   class="drawer-link"></a></li>
                 <li><a href="#proceso"   class="drawer-link">Proceso Ecológico</a></li>
                 <li><a href="#nosotros"  class="drawer-link">Nosotros</a></li>
             </ul>
@@ -1234,23 +1277,23 @@
         <!-- Top Bar -->
         <aside class="top-bar">
             <div class="top-bar-content" style="padding-left:0;padding-right:0;justify-content:space-between;align-items:center;display:flex;width:100%;">
-                <a href="https://maps.google.com/?q=La+Vara+Puerto+Montt" target="_blank" rel="noopener" class="top-bar-item" aria-label="Ver ubicación en Google Maps" style="padding-left:0.5rem;">
+                <a href="https://www.google.com/maps/place/Pets+al+Cielo/@-41.4129877,-72.8823701,17z/data=!3m1!4b1!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="top-bar-item" aria-label="Ver ubicación en Google Maps" style="padding-left:0.5rem;">
                     <span>📍</span>
                     <span itemscope itemtype="https://schema.org/PostalAddress" itemprop="addressLocality">La Vara, Puerto Montt</span>
                 </a>
                 <div style="display:flex;align-items:center;gap:0.8rem;flex:1;justify-content:center;">
                     <span class="top-bar-item">
-                        <span>⏰</span>
                         <span>Disponibles 24 horas</span>
                     </span>
-                    <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:4px;background:linear-gradient(135deg,#A8E6D6 0%,#6CD2F5 40%,#EEA5E9 75%,#CBAEF2 100%);text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.5rem;padding-right:0.9rem;">
+                    <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#A8E6D6 0%,#6CD2F5 40%,#EEA5E9 75%,#CBAEF2 100%);text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
+                    <a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" class="top-bar-item" itemprop="telephone" aria-label="WhatsApp">
+                        <span>+569 9846 1172</span>
                     </a>
                 </div>
-                <a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" class="top-bar-item" itemprop="telephone" aria-label="WhatsApp" style="padding-right:0.9rem;">
-                    <span>📱</span>
-                    <span>+569 9846 1172</span>
-                </a>
             </div>
         </aside>
 
@@ -1260,7 +1303,7 @@
                 <a href="#" class="logo" aria-label="PetsAlCielo - Inicio">Pets<em>Al</em>Cielo</a>
                 <ul class="nav-menu">
                     <li><a href="#servicios"></a></li>
-                    <li><a href="#galeria">Galería</a></li>
+                    <li><a href="#galeria">Biblioteca</a></li>
                     <li><a href="#proceso">Proceso Ecológico</a></li>
                     <li><a href="#nosotros">Nosotros</a></li>
                     <li><a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" class="nav-cta btn">Contactar</a></li>
@@ -1318,7 +1361,7 @@
             <!-- Slide 3 -->
             <div class="carousel-slide slide-bg-3" role="tabpanel" aria-label="Slide 3">
                 <div class="hero-inner">
-                    <span class="hero-eyebrow">Porque son Familia</span>
+                    <span class="hero-eyebrow" style="margin-top: 8px; display: inline-block;">Porque son Familia</span>
                     <h2 class="hero-title">
                         Un Adiós <em>Digno</em><br>para Quien Amaste
                     </h2>
@@ -1403,7 +1446,7 @@
                         <p class="section-lead reveal reveal-delay-2" style="margin-bottom: 2rem;">
                             Nuestras instalaciones en La Vara, Puerto Montt, fueron diseñadas para que tanto usted como tu mascota se sientan con dignidad, calma y amor durante todo el proceso.
                         </p>
-                        <a href="https://maps.google.com/?q=La+Vara+Puerto+Montt" target="_blank" rel="noopener" class="btn btn-primary reveal reveal-delay-3" aria-label="Abrir ubicación en Google Maps">Visítanos</a>
+                        <a href="https://www.google.com/maps/place/Pets+al+Cielo/@-41.4129877,-72.8823701,17z/data=!3m1!4b1!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="btn btn-primary reveal reveal-delay-3" aria-label="Abrir ubicación en Google Maps">Visítanos</a>
                     </div>
                     <div class="gallery-mosaic reveal" aria-label="Galería de instalaciones">
                         <div class="mosaic-item">
@@ -1483,10 +1526,10 @@
                     <div class="about-visual reveal">
                         <div class="glass-card about-card-main">
                             <div class="about-gradient-fill" aria-hidden="true">🐾</div>
-                        </div>
-                        <div class="about-badge" aria-hidden="true">
-                            <span>7+</span>
-                            <span>años de amor y servicio</span>
+                            <div class="about-badge" aria-hidden="true">
+                                <span>7+</span>
+                                <span>años de amor y servicio</span>
+                            </div>
                         </div>
                     </div>
                     <div class="about-text">
@@ -1573,17 +1616,17 @@
         <section class="cta-section" id="testimonios">
             <div class="cta-orb-1" aria-hidden="true"></div>
             <div class="cta-orb-2" aria-hidden="true"></div>
-            <div class="cta-inner">
-                <span class="section-tag reveal">Con amor y respeto</span>
-                <h2 class="section-title reveal reveal-delay-1">
+            <div class="cta-inner reveal-fog">
+                <span class="section-tag">Con amor y respeto</span>
+                <h2 class="section-title">
                     Crematorio de Confianza<br>para <em>Familias de Puerto Montt</em>
                 </h2>
-                <p class="reveal reveal-delay-2">
+                <p>
                     Más de 7 años acompañando familias en el adiós de sus mascotitas. 
                     Servicio profesional, cremación individual garantizada y atención personalizada las 24 horas.
                     <p> Usamos Agua, no Fuego</p>
                 </p>
-                <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;" class="reveal reveal-delay-3">
+                <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
                     <a href="https://wa.me/56998461172?text=Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20cremaci%C3%B3n" target="_blank" rel="noopener" class="btn btn-primary" aria-label="Solicitar información por WhatsApp">Solicitar información vía WhatsApp</a>
                 </div>
             </div>
@@ -1597,8 +1640,7 @@
                         <div class="contact-icon">📍</div>
                         <div class="contact-label">Crematorio en</div>
                         <div class="contact-value">
-                            <span itemprop="streetAddress">La Vara</span>, 
-                            <span itemprop="addressLocality">Puerto Montt</span>
+                            <a href="https://www.google.com/maps/place/Pets+al+Cielo/@-41.4129877,-72.8823701,17z/data=!3m1!4b1!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" aria-label="Ver en Google Maps"><span itemprop="streetAddress">La Vara</span>, <span itemprop="addressLocality">Puerto Montt</span></a>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -1668,8 +1710,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p><strong>© 2026 PetsAlCielo — Crematorio Verde para Mascotitas en Décima Región</strong></p>
-                <p style="margin-top: 0.5rem;">🌈Con amor y respeto por quienes fueron y todavía son parte de tu familia 🌈</p>
+                <p style="white-space: nowrap; font-size: clamp(0.55rem, 2.2vw, 0.9rem);"><strong>© 2026 PetsAlCielo — Crematorio Verde para Mascotitas en Décima Región</strong></p>
+                <p style="margin-top: 0.5rem; white-space: nowrap; font-size: clamp(0.55rem, 2.2vw, 0.9rem);">🌈Con amor y respeto por quienes fueron y todavía son parte de tu familia 🌈</p>
             </div>
         </footer>
 
@@ -1716,6 +1758,18 @@
                 petalContainer.appendChild(p);
             }
 
+            // ── FOG REVEAL ──
+            const fogEls = document.querySelectorAll('.reveal-fog');
+            const fogIO = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fogIO.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            fogEls.forEach(el => fogIO.observe(el));
+
             // ── SCROLL REVEAL ──
             const revealEls = document.querySelectorAll('.reveal');
             const io = new IntersectionObserver((entries) => {
@@ -1754,6 +1808,22 @@
             drawerOverlay.addEventListener('click', closeDrawer);
             document.querySelectorAll('.drawer-link').forEach(l => l.addEventListener('click', closeDrawer));
             document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+            // ── MOBILE NAV SCROLL HIDE ──
+            (function() {
+                const mobileNavItems = document.querySelectorAll('.nav-menu li:nth-child(2), .nav-menu li:nth-child(3), .nav-menu li:nth-child(4)');
+                let scrolled = false;
+                window.addEventListener('scroll', function() {
+                    if (window.innerWidth > 768) return;
+                    if (window.scrollY > 10 && !scrolled) {
+                        scrolled = true;
+                        mobileNavItems.forEach(li => li.classList.add('nav-hidden'));
+                    } else if (window.scrollY <= 10 && scrolled) {
+                        scrolled = false;
+                        mobileNavItems.forEach(li => li.classList.remove('nav-hidden'));
+                    }
+                }, { passive: true });
+            })();
 
             // ── SMOOTH SCROLL ──
             document.querySelectorAll('a[href^="#"]').forEach(a => {
