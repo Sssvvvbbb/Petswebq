@@ -1106,8 +1106,8 @@
                 position: fixed;
                 top: 0;
                 right: 0;
-                bottom: 0;
                 width: min(72vw, 300px);
+                height: 100dvh;
                 background: rgba(255,255,255,0.97);
                 backdrop-filter: blur(24px);
                 -webkit-backdrop-filter: blur(24px);
@@ -1122,6 +1122,8 @@
                 border-left: 1px solid rgba(240,200,220,0.4);
                 border-radius: 20px 0 0 20px;
                 overflow-y: auto;
+                overscroll-behavior: contain;
+                -webkit-overflow-scrolling: touch;
             }
             .drawer.open { transform: translateX(0); }
 
@@ -1130,7 +1132,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-bottom: 2.2rem;
+                margin-bottom: 1.2rem;
             }
             .drawer-logo {
                 font-family: 'Cormorant Garamond', serif;
@@ -1171,7 +1173,7 @@
             }
             .drawer-nav li a {
                 display: block;
-                padding: 0.85rem 0;
+                padding: 0.65rem 0;
                 font-family: 'Cormorant Garamond', serif;
                 font-size: 1.35rem;
                 font-weight: 400;
@@ -1189,7 +1191,7 @@
 
             /* Boton de contacto al final del drawer */
             .drawer-cta {
-                margin-top: 2rem;
+                margin-top: 1.2rem;
                 text-align: center;
             }
             .drawer-cta a {
@@ -1210,12 +1212,13 @@
             /* Logo imagen centrada entre CTA y deco */
             .drawer-logo-img {
                 margin-top: auto;
-                padding-top: 1.5rem;
+                padding-top: 0.6rem;
+                padding-bottom: 0;
                 text-align: center;
             }
             .drawer-logo-img img {
-                width: 75%;
-                max-width: 170px;
+                width: 38%;
+                max-width: 72px;
                 height: auto;
                 display: block;
                 margin: 0 auto;
@@ -1224,8 +1227,7 @@
 
             /* Detalle decorativo pastel abajo del drawer */
             .drawer-deco {
-
-                padding-top: 2rem;
+                padding-top: 0.5rem;
                 text-align: center;
                 font-size: 0.72rem;
                 color: var(--text-soft);
@@ -1323,7 +1325,7 @@
                 <a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20sus%20servicios" target="_blank" rel="noopener">Contactar ahora</a>
             </div>
             <div class="drawer-logo-img">
-                <img src="/Assets/logo_para_web.webp" alt="Logo Pets Al Cielo">
+                <img src="logo_para_web.webp" alt="PetsAlCielo logo" />
             </div>
             <div class="drawer-deco">
                 <span></span><br>
@@ -1946,13 +1948,12 @@
                 drawer.classList.add('open');
                 drawerOverlay.classList.add('open');
                 heartBtn.setAttribute('aria-expanded', 'true');
-                document.body.style.overflow = 'hidden';
+                // No bloqueamos body scroll — overscroll-behavior:contain en el drawer lo maneja
             }
             function closeDrawer() {
                 drawer.classList.remove('open');
                 drawerOverlay.classList.remove('open');
                 heartBtn.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
             }
 
             heartBtn.addEventListener('click', openDrawer);
