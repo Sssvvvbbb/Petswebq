@@ -1247,6 +1247,91 @@
                 margin-bottom: 0.6rem;
             }
 
+            /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            CARRUSEL DE INSTAGRAM - mismas propiedades que el carrusel hero
+            Una publicación visible a la vez, fade con opacity
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+            .ig-carousel-wrap {
+                position: relative;
+                /* la altura se ajusta al contenido: usamos min-height fija */
+                min-height: 600px;
+                overflow: hidden;
+                border-radius: 20px;
+            }
+            .ig-slide {
+                position: absolute;
+                inset: 0;
+                opacity: 0;
+                transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1.5rem 1rem 3.5rem; /* bottom para los dots */
+            }
+            .ig-slide.active { opacity: 1; }
+            .ig-slide iframe {
+                border-radius: 12px;
+                max-width: 100%;
+            }
+            /* Dots idénticos al carrusel hero */
+            .ig-carousel-dots {
+                position: absolute;
+                bottom: 1rem;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 0.7rem;
+                z-index: 10;
+            }
+            /* Flechas opcionales */
+            .ig-carousel-arrow {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(255,255,255,0.75);
+                backdrop-filter: blur(8px);
+                border: 1px solid rgba(168,230,214,0.4);
+                border-radius: 50%;
+                width: 38px;
+                height: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                z-index: 10;
+                transition: background 0.2s, transform 0.2s;
+                color: var(--text-mid);
+                font-size: 1rem;
+            }
+            .ig-carousel-arrow:hover {
+                background: rgba(255,255,255,0.95);
+                transform: translateY(-50%) scale(1.08);
+            }
+            .ig-arrow-prev { left: 0.75rem; }
+            .ig-arrow-next { right: 0.75rem; }
+            /* Loading spinner dentro del slide */
+            .ig-loading {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                color: var(--text-soft);
+                font-size: 0.85rem;
+            }
+            .ig-spinner {
+                width: 32px;
+                height: 32px;
+                border: 3px solid rgba(41,167,152,0.15);
+                border-top-color: var(--teal);
+                border-radius: 50%;
+                animation: igSpin 0.8s linear infinite;
+            }
+            @keyframes igSpin { to { transform: rotate(360deg); } }
+            @media (max-width: 768px) {
+                .ig-carousel-wrap { min-height: 520px; }
+                .ig-carousel-arrow { display: none; }
+            }
+
             /* ── INSTAGRAM BUTTON - contact bar ── */
             .ig-btn {
                 display: inline-flex;
@@ -1575,38 +1660,47 @@
                         Estamos en <em>Instagram</em>
                     </h3>
                 </div>
-                <div class="glass-card reveal" style="padding: 2rem; text-align:center; border-radius: 20px; overflow:hidden;">
-                    <!-- 
-                        NOTA TÉCNICA: Instagram no permite embeds directos de feeds sin autenticación OAuth.
-                        Para mostrar las publicaciones reales de @_petsalcielo, tienes estas opciones gratuitas:
+                <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                    CARRUSEL INSTAGRAM
+                    Usa la API pública de oEmbed de Instagram para mostrar
+                    publicaciones de @_petsalcielo una a la vez.
+                    Las URLs de posts se pasan en igPosts[]. Orden: primera
+                    publicación no anclada primero (como indica la instrucción).
+                    El JS carga cada embed de forma lazy al hacerse activo.
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+                <div class="glass-card reveal" style="padding: 1.5rem; border-radius: 20px; overflow: hidden;">
 
-                        OPCIÓN 1 — Elfsight (más fácil):
-                        1. Ve a https://elfsight.com/instagram-feed-widget/ y crea cuenta gratis
-                        2. Conecta @_petsalcielo
-                        3. Copia el código del widget y reemplaza el bloque de abajo
-
-                        OPCIÓN 2 — SnapWidget:
-                        1. Ve a https://snapwidget.com → Instagram Feed → gratis
-                        2. Conecta tu cuenta y copia el <iframe> generado
-
-                        Por ahora se muestra un enlace directo a tu perfil:
-                    -->
-                    <div style="min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem;">
+                    <!-- Header con logo de Instagram -->
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:0.8rem;">
+                        <div style="display:flex;align-items:center;gap:0.6rem;">
+                            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f9c8a0,#e06090,#9060d0);display:flex;align-items:center;justify-content:center;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            </div>
+                            <div>
+                                <div style="font-family:'DM Sans',sans-serif;font-weight:500;font-size:0.9rem;color:var(--text-dark);">@_petsalcielo</div>
+                                <div style="font-size:0.72rem;color:var(--text-soft);">Instagram</div>
+                            </div>
+                        </div>
                         <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener"
-                        style="display:inline-flex;align-items:center;gap:0.7rem;background:linear-gradient(135deg,#f9c8a0,#e06090,#9060d0);color:white;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;padding:0.85rem 2rem;border-radius:50px;box-shadow:0 4px 18px rgba(180,80,140,0.28);transition:transform 0.2s,box-shadow 0.2s;"
-                        onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 28px rgba(180,80,140,0.38)'"
-                        onmouseout="this.style.transform='';this.style.boxShadow='0 4px 18px rgba(180,80,140,0.28)'">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                            @_petsalcielo en Instagram
+                           style="display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,#f9c8a0,#e06090,#9060d0);color:white;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;padding:0.4rem 1rem;border-radius:50px;box-shadow:0 3px 14px rgba(180,80,140,0.25);">
+                            Seguir
                         </a>
-                        <p style="font-family:'DM Sans',sans-serif;font-size:0.8rem;color:var(--text-soft);max-width:460px;line-height:1.7;">
-                            Para mostrar el feed automático aquí, conecta un widget gratuito como
-                            <a href="https://elfsight.com/instagram-feed-widget/" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none;font-weight:500;">Elfsight</a>
-                            o <a href="https://snapwidget.com" target="_blank" rel="noopener" style="color:var(--teal);text-decoration:none;font-weight:500;">SnapWidget</a>
-                            y reemplaza este bloque con el código que te entregan.
-                            Instagram no permite embeds directos sin autenticación OAuth.
-                        </p>
                     </div>
+
+                    <!-- Carrusel: mismas propiedades que .carousel-wrap / .carousel-slide -->
+                    <div class="ig-carousel-wrap" id="igCarouselWrap">
+
+                        <!-- Las slides se generan por JS -->
+                        <div id="igSlidesContainer"></div>
+
+                        <!-- Flechas -->
+                        <button class="ig-carousel-arrow ig-arrow-prev" id="igPrev" aria-label="Publicación anterior">&#8249;</button>
+                        <button class="ig-carousel-arrow ig-arrow-next" id="igNext" aria-label="Publicación siguiente">&#8250;</button>
+
+                        <!-- Dots — idénticos al carrusel hero -->
+                        <div class="ig-carousel-dots" id="igDots" role="tablist" aria-label="Controles del carrusel Instagram"></div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -1952,6 +2046,110 @@
                         mobileNavItems.forEach(li => li.classList.remove('nav-hidden'));
                     }
                 }, { passive: true });
+            })();
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            // CARRUSEL DE INSTAGRAM
+            // Lee /instagram.json (generado cada 24h por GitHub Actions).
+            // Muestra imágenes como <img> nativo — SEO real, sin iframes,
+            // sin SDK externo, carga instantánea.
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            (function () {
+                const container = document.getElementById('igSlidesContainer');
+                const dotsEl    = document.getElementById('igDots');
+                const prevBtn   = document.getElementById('igPrev');
+                const nextBtn   = document.getElementById('igNext');
+                const wrapEl    = document.getElementById('igCarouselWrap');
+                if (!container) return;
+
+                let igCurrent = 0;
+                let igTotal   = 0;
+                let igAutoplay;
+
+                function igShowSlide(n) {
+                    const slides = container.querySelectorAll('.ig-slide');
+                    const dots   = dotsEl.querySelectorAll('.dot');
+                    if (!slides.length) return;
+                    slides.forEach(s => s.classList.remove('active'));
+                    dots.forEach(d => d.classList.remove('active'));
+                    igCurrent = (n + igTotal) % igTotal;
+                    slides[igCurrent].classList.add('active');
+                    dots[igCurrent].classList.add('active');
+                }
+                function startAutoplay() {
+                    igAutoplay = setInterval(() => igShowSlide(igCurrent + 1), 6500);
+                }
+                function stopAutoplay() { clearInterval(igAutoplay); }
+
+                function buildCarousel(posts) {
+                    igTotal = posts.length;
+                    wrapEl.style.minHeight = '0';
+                    posts.forEach((post, i) => {
+                        // Slide
+                        const slide = document.createElement('div');
+                        slide.className = 'ig-slide' + (i === 0 ? ' active' : '');
+                        slide.setAttribute('role', 'tabpanel');
+                        slide.setAttribute('aria-label', 'Publicación ' + (i + 1));
+
+                        // Imagen nativa dentro de enlace a Instagram
+                        const link = document.createElement('a');
+                        link.href   = post.permalink;
+                        link.target = '_blank';
+                        link.rel    = 'noopener';
+                        link.style.cssText = 'display:block;line-height:0;border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(100,140,160,0.13);max-width:480px;width:100%;';
+
+                        const img = document.createElement('img');
+                        img.src      = post.src;
+                        img.alt      = post.alt;
+                        img.loading  = i === 0 ? 'eager' : 'lazy';
+                        img.decoding = 'async';
+                        img.style.cssText = 'width:100%;height:auto;display:block;aspect-ratio:1/1;object-fit:cover;border-radius:16px;';
+
+                        // Caption debajo
+                        const caption = document.createElement('p');
+                        caption.style.cssText = 'font-family:"DM Sans",sans-serif;font-size:0.82rem;color:var(--text-soft);line-height:1.5;margin-top:0.75rem;max-width:480px;width:100%;text-align:left;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;';
+                        caption.textContent = post.alt;
+
+                        link.appendChild(img);
+                        slide.appendChild(link);
+                        slide.appendChild(caption);
+                        container.appendChild(slide);
+
+                        // Dot idéntico al carrusel hero
+                        const dot = document.createElement('button');
+                        dot.className = 'dot' + (i === 0 ? ' active' : '');
+                        dot.setAttribute('aria-label', 'Publicación ' + (i + 1));
+                        dot.setAttribute('role', 'tab');
+                        dot.addEventListener('click', () => { stopAutoplay(); igShowSlide(i); });
+                        dotsEl.appendChild(dot);
+                    });
+
+                    prevBtn.addEventListener('click', () => { stopAutoplay(); igShowSlide(igCurrent - 1); });
+                    nextBtn.addEventListener('click', () => { stopAutoplay(); igShowSlide(igCurrent + 1); });
+                    startAutoplay();
+                }
+
+                function showFallback() {
+                    wrapEl.style.minHeight = '180px';
+                    container.innerHTML = `
+                        <div class="ig-slide active" style="flex-direction:column;gap:1rem;">
+                            <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener"
+                               style="display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,#f9c8a0,#e06090,#9060d0);color:white;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;padding:0.55rem 1.4rem;border-radius:50px;">
+                                Ver @_petsalcielo en Instagram ↗
+                            </a>
+                        </div>`;
+                }
+
+                // Cargar instagram.json
+                fetch('/instagram.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const posts = data.posts || [];
+                        if (posts.length === 0) { showFallback(); return; }
+                        buildCarousel(posts);
+                    })
+                    .catch(() => showFallback());
+
             })();
 
             // ── SMOOTH SCROLL ──
