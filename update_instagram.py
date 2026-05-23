@@ -44,6 +44,9 @@ def main():
     if not ACCESS_TOKEN:
         raise SystemExit("❌  Variable de entorno IG_TOKEN no definida.")
 
+    # Si existe como archivo (no directorio), eliminarlo primero
+    if os.path.isfile(ASSETS_DIR):
+        os.remove(ASSETS_DIR)
     os.makedirs(ASSETS_DIR, exist_ok=True)
 
     # 1. Obtener lista de publicaciones (solo imágenes y carruseles, sin Reels)
