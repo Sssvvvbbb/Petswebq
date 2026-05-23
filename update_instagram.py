@@ -67,15 +67,24 @@ def main():
     raw_posts = data.get("data", [])
     print(f"    → {len(raw_posts)} publicaciones encontradas")
 
-    # 2. Filtrar: solo IMAGE y CAROUSEL_ALBUM (no VIDEO ni REELS)
+    # 2. Incluir IMAGE, CAROUSEL_ALBUM y VIDEO (usando thumbnail como preview)
     posts = []
     for p in raw_posts:
-        if p.get("media_type") not in ("IMAGE", "CAROUSEL_ALBUM"):
+        media_type = p.get("media_type", "")
+        if media_type not in ("IMAGE", "CAROUSEL_ALBUM", "VIDEO"):
             continue
 
         post_id   = p["id"]
-        image_url = p.get("media_url") or p.get("thumbnail_url", "")
-        caption   = p.get("caption", "")[:200]   # máx 200 chars para el alt
+        # VIDEO → thumbnail_url; IMAGE/CAROUSEL → media_url
+        if media_type == "VIDEO":
+            image_url = p.get("thumbnail_url") or p.get("media_url", "")
+        else:
+            image_url = p.get("media_url") or p.get("thumbnail_url", "")
+
+        if not image_url:
+            continue
+
+        caption   = p.get("caption", "")[:200]
         timestamp = p.get("timestamp", "")
         permalink = p.get("permalink", "https://www.instagram.com/_petsalcielo/")
 
