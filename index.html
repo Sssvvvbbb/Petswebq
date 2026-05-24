@@ -710,9 +710,9 @@
                 backdrop-filter: blur(10px);
             }
             .stat-num {
-                font-family: 'Cormorant Garamond', serif;
+                font-family: 'DM Sans', sans-serif;
                 font-size: 3rem;
-                font-weight: 400;
+                font-weight: 300;
                 background: linear-gradient(135deg, var(--teal), var(--lavender));
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
@@ -1626,21 +1626,30 @@
                 <div class="services-bento" aria-label="Lista de servicios">
                     <article class="glass-card service-card reveal reveal-delay-1" itemscope itemtype="https://schema.org/Service">
                         <div class="service-card-header">
-                            <div class="service-icon-wrap ic-1">🌊</div>
+                            <div class="service-icon-wrap ic-1">
+                                <!-- ÍCONO 1: reemplaza src con tu imagen -->
+                                <img src="" alt="Cremación en Agua" width="40" height="40" style="width:40px;height:40px;object-fit:contain;">
+                            </div>
                             <h3 itemprop="name">Cremación verde: En Agua y no en Fuego</h3>
                         </div>
                         <p itemprop="description">Llamado científicamente como Hidrólisis Alcalina, es el proceso natural que ocurre en algunos lagos del mundo. Es respetuoso con el medio ambiente y con la mascotita, ya que nos asegura un proceso individual y no termina en cenizas: es el Polvito de Calcio lo entregado en su urna especial junto a su chip de identificación operativo.</p>
                     </article>
                     <article class="glass-card service-card reveal reveal-delay-2" itemscope itemtype="https://schema.org/Service">
                         <div class="service-card-header">
-                            <div class="service-icon-wrap ic-2">🏺</div>
+                            <div class="service-icon-wrap ic-2">
+                                <!-- ÍCONO 2: reemplaza src con tu imagen -->
+                                <img src="" alt="Urnas Conmemorativas" width="40" height="40" style="width:40px;height:40px;object-fit:contain;">
+                            </div>
                             <h3 itemprop="name">Urnas Conmemorativas Personalizadas</h3>
                         </div>
                         <p itemprop="description">Contamos con ánforas especiales para preservar el polvito de calcio de su mascota. Usamos madera de Raulí, bronce y anforas de impresión 3D a base de maíz como compromiso por nuestra misión ecológica.</p>
                     </article>
                     <article class="glass-card service-card reveal reveal-delay-3" itemscope itemtype="https://schema.org/Service">
                         <div class="service-card-header">
-                            <div class="service-icon-wrap ic-3">🚗</div>
+                            <div class="service-icon-wrap ic-3">
+                                <!-- ÍCONO 3: reemplaza src con tu imagen -->
+                                <img src="" alt="Retiro a Domicilio" width="40" height="40" style="width:40px;height:40px;object-fit:contain;">
+                            </div>
                             <h3 itemprop="name">Servicio de Retiro a Domicilio dentro de Puerto Montt</h3>
                         </div>
                         <p itemprop="description">Recogemos a su mascotita con máximo respeto desde su hogar y es bienvenido a visitarnos. En nuetras instalaciones contamos con una espacio especial donde pueden estar las mascotitas con sus tutores.</p>
@@ -1663,26 +1672,33 @@
                         <p class="section-lead reveal reveal-delay-2" style="margin-bottom: 2rem;">
                             Nuestras instalaciones en La Vara, Puerto Montt, fueron diseñadas para que tanto usted como tu mascota se sientan con dignidad, calma y amor durante todo el proceso.
                         </p>
-                        <a href="https://petsalcielo.cl/preguntas-frecuentes" target="_blank" rel="noopener" class="btn btn-primary reveal reveal-delay-3" aria-label="Ver preguntas frecuentes">Preguntas Frecuentes</a>
+                        <div style="display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;">
+                            <a href="https://petsalcielo.cl/preguntas-frecuentes" target="_blank" rel="noopener" class="btn btn-primary reveal reveal-delay-3" aria-label="Ver preguntas frecuentes">Preguntas Frecuentes</a>
+                            <span class="gallery-hint reveal reveal-delay-3" style="display:flex;align-items:center;gap:0.4em;font-size:1.1rem;line-height:1;color:var(--text-mid);font-family:'DM Sans',sans-serif;font-weight:300;">
+                                Presione la imagen para entrar a la galería
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#F1A7F1" style="width:1rem;height:1rem;flex-shrink:0;display:block;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            </span>
+                        </div>
+                        <style>@media(max-width:768px){.gallery-hint{display:block!important;margin-top:0.8rem;}}</style>
                     </div>
                     <div class="gallery-mosaic reveal" aria-label="Galería de instalaciones">
-                        <div class="mosaic-item">
+                        <div class="mosaic-item" data-gallery="instalaciones" role="button" tabindex="0" aria-label="Ver galería de instalaciones" style="cursor:pointer;">
                             <div class="mosaic-fill mf-1" aria-hidden="true">🏡</div>
                             <figcaption class="sr-only">Instalaciones PetsAlCielo</figcaption>
                         </div>
-                        <div class="mosaic-item">
+                        <div class="mosaic-item" data-gallery="jardin" role="button" tabindex="0" aria-label="Ver galería del jardín" style="cursor:pointer;">
                             <div class="mosaic-fill mf-2" aria-hidden="true">🌺</div>
                             <figcaption class="sr-only">Jardín de despedida</figcaption>
                         </div>
-                        <div class="mosaic-item">
+                        <div class="mosaic-item" data-gallery="urnas" role="button" tabindex="0" aria-label="Ver galería de urnas" style="cursor:pointer;">
                             <div class="mosaic-fill mf-3" aria-hidden="true">🏺</div>
                             <figcaption class="sr-only">Urnas conmemorativas</figcaption>
                         </div>
-                        <div class="mosaic-item">
+                        <div class="mosaic-item" data-gallery="mariposas" role="button" tabindex="0" aria-label="Ver galería de acompañamiento" style="cursor:pointer;">
                             <div class="mosaic-fill mf-4" aria-hidden="true">🦋</div>
                             <figcaption class="sr-only">Acompañamiento emocional</figcaption>
                         </div>
-                        <div class="mosaic-item">
+                        <div class="mosaic-item" data-gallery="despedida" role="button" tabindex="0" aria-label="Ver galería de despedida" style="cursor:pointer;">
                             <div class="mosaic-fill mf-5" aria-hidden="true">🕊️</div>
                             <figcaption class="sr-only">Despedida digna</figcaption>
                         </div>
@@ -1743,10 +1759,7 @@
                     <div class="about-visual reveal">
                         <div class="glass-card about-card-main">
                             <div class="about-gradient-fill" aria-hidden="true">🐾</div>
-                            <div class="about-badge" aria-hidden="true">
-                                <span>7+</span>
-                                <span>años de amor y servicio</span>
-                            </div>
+
                         </div>
                     </div>
                     <div class="about-text">
@@ -1783,7 +1796,7 @@
                 <div class="video-frame reveal">
                     <div class="video-wrapper">
                         <iframe 
-                            src="https://www.youtube.com/embed/yiG-KwCY9V4" 
+                            src="https://www.youtube.com/embed/yoAQ294cFOs" 
                             title="Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina"
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -1932,7 +1945,7 @@
                  sigue siendo rastreable por Google (aria-hidden no afecta SEO) -->
             <div aria-hidden="true" style="
                 position:absolute;inset:0;z-index:10;pointer-events:none;
-                background:url('Assets/cremacion-puerto-montt-petsalcielo.webp') center center / cover no-repeat;
+                background:url('cremacion-puerto-montt-petsalcielo.webp') center center / cover no-repeat;
                 opacity:0.97;
             "></div>
             
@@ -2173,13 +2186,6 @@
                         link.appendChild(img);
                         imgWrap.appendChild(link);
                         slide.appendChild(imgWrap);
-
-                        // Caption a la derecha, formato estrofas
-                        const caption = document.createElement('p');
-                        caption.className = 'ig-caption';
-                        const frases = (post.alt || '').split('. ').map(s => s.trim()).filter(s => s.length > 2);
-                        caption.textContent = frases.join('\n\n');
-                        slide.appendChild(caption);
                         container.appendChild(slide);
 
                         // Dot idéntico al carrusel hero
@@ -2246,6 +2252,142 @@
                 snapNav();
                 window.addEventListener('resize', snapNav);
             })();
+
+        </script>
+
+        <!-- ── GALLERY LIGHTBOX MODAL ── -->
+        <div id="glb-overlay" role="dialog" aria-modal="true" aria-labelledby="glb-title" aria-hidden="true"
+             style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(30,20,40,0.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:center;justify-content:center;opacity:0;transition:opacity 0.32s ease;">
+            <div style="position:relative;width:min(92vw,860px);max-height:90vh;display:flex;flex-direction:column;background:rgba(250,248,249,0.97);border-radius:24px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.35);">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem;border-bottom:1px solid rgba(168,230,214,0.25);">
+                    <h2 id="glb-title" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:#3d4a5c;margin:0;"></h2>
+                    <span id="glb-counter" style="font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:300;color:#8a9aaa;margin-right:0.8rem;"></span>
+                    <button id="glb-close" aria-label="Cerrar galería"
+                            style="background:none;border:none;cursor:pointer;padding:0.4rem;color:#8a9aaa;font-size:1.4rem;line-height:1;transition:color 0.2s;"
+                            onmouseover="this.style.color='#3d4a5c'" onmouseout="this.style.color='#8a9aaa'">&#x2715;</button>
+                </div>
+                <div style="position:relative;flex:1;overflow:hidden;min-height:300px;">
+                    <div id="glb-track" style="width:100%;height:100%;"></div>
+                    <div id="glb-loader" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                        <div style="width:36px;height:36px;border:3px solid rgba(41,167,152,0.2);border-top-color:#29A798;border-radius:50%;animation:glbSpin 0.8s linear infinite;"></div>
+                    </div>
+                    <div id="glb-empty" style="display:none;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.8rem;color:#8a9aaa;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:300;text-align:center;padding:2rem;">
+                        <span style="font-size:2.5rem;">&#x1F5BC;&#xFE0F;</span>
+                        Pr&#xF3;ximamente &#x2014; las fotos de esta galer&#xED;a estar&#xE1;n disponibles aqu&#xED;.
+                    </div>
+                    <button id="glb-prev" aria-label="Foto anterior"
+                            style="display:none;position:absolute;left:0.8rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;align-items:center;justify-content:center;font-size:1.4rem;color:#3d4a5c;box-shadow:0 2px 12px rgba(0,0,0,0.12);transition:background 0.2s;">&#x2039;</button>
+                    <button id="glb-next" aria-label="Foto siguiente"
+                            style="display:none;position:absolute;right:0.8rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;align-items:center;justify-content:center;font-size:1.4rem;color:#3d4a5c;box-shadow:0 2px 12px rgba(0,0,0,0.12);transition:background 0.2s;">&#x203A;</button>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .glb-visible { opacity:1 !important; }
+            .glb-slide { display:none; width:100%; height:100%; align-items:center; justify-content:center; }
+            .glb-slide.glb-active { display:flex; }
+            .glb-slide img { max-width:100%; max-height:72vh; object-fit:contain; display:block; }
+            @keyframes glbSpin { to { transform:rotate(360deg); } }
+        </style>
+        <script>
+            // ── GALLERY LIGHTBOX ──
+            document.addEventListener('DOMContentLoaded', function() {
+            // ── GALLERY LIGHTBOX ──
+                const GALLERY_TITLES = {
+                    instalaciones: 'Nuestras Instalaciones',
+                    jardin:        'Jardín de Despedida',
+                    urnas:         'Urnas Conmemorativas',
+                    mariposas:     'Acompañamiento Emocional',
+                    despedida:     'Despedida Digna'
+                };
+                const cache = {};
+                const overlay  = document.getElementById('glb-overlay');
+                const titleEl  = document.getElementById('glb-title');
+                const track    = document.getElementById('glb-track');
+                const prevBtn  = document.getElementById('glb-prev');
+                const nextBtn  = document.getElementById('glb-next');
+                const closeBtn = document.getElementById('glb-close');
+                const counter  = document.getElementById('glb-counter');
+                const loader   = document.getElementById('glb-loader');
+                const emptyMsg = document.getElementById('glb-empty');
+                let photos = [], current = 0;
+
+                function openModal(key) {
+                    overlay.setAttribute('aria-hidden','false');
+                    overlay.style.display = 'flex';
+                    requestAnimationFrame(() => overlay.classList.add('glb-visible'));
+                    document.body.style.overflow = 'hidden';
+                    titleEl.textContent = GALLERY_TITLES[key] || key;
+                    track.innerHTML = '';
+                    emptyMsg.style.display = 'none';
+                    loader.style.display = 'flex';
+                    counter.textContent = '';
+                    closeBtn.focus();
+                    if (cache[key]) { renderPhotos(cache[key]); return; }
+                    fetch('/gallery/' + key + '.json')
+                        .then(r => { if (!r.ok) throw 0; return r.json(); })
+                        .then(d => { cache[key] = d.fotos || []; renderPhotos(cache[key]); })
+                        .catch(() => { loader.style.display='none'; emptyMsg.style.display='block'; });
+                }
+
+                function renderPhotos(list) {
+                    loader.style.display = 'none';
+                    photos = list;
+                    if (!photos.length) { emptyMsg.style.display='block'; return; }
+                    photos.forEach((p,i) => {
+                        const s = document.createElement('div');
+                        s.className = 'glb-slide' + (i===0?' glb-active':'');
+                        const img = document.createElement('img');
+                        img.src=p.src; img.alt=p.alt||''; img.loading=i===0?'eager':'lazy'; img.decoding='async';
+                        s.appendChild(img); track.appendChild(s);
+                    });
+                    current=0; updateNav();
+                }
+
+                function goTo(n) {
+                    const slides = track.querySelectorAll('.glb-slide');
+                    if (!slides.length) return;
+                    slides[current].classList.remove('glb-active');
+                    current = (n + photos.length) % photos.length;
+                    slides[current].classList.add('glb-active');
+                    updateNav();
+                }
+
+                function updateNav() {
+                    counter.textContent = photos.length ? (current+1)+' / '+photos.length : '';
+                    prevBtn.style.display = photos.length>1?'flex':'none';
+                    nextBtn.style.display = photos.length>1?'flex':'none';
+                }
+
+                function closeModal() {
+                    overlay.classList.remove('glb-visible');
+                    setTimeout(()=>{ overlay.style.display='none'; overlay.setAttribute('aria-hidden','true'); track.innerHTML=''; photos=[]; },320);
+                    document.body.style.overflow='';
+                }
+
+                prevBtn.addEventListener('click',()=>goTo(current-1));
+                nextBtn.addEventListener('click',()=>goTo(current+1));
+                closeBtn.addEventListener('click',closeModal);
+                overlay.addEventListener('click',e=>{ if(e.target===overlay) closeModal(); });
+
+                let tx=0;
+                track.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+                track.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>50) goTo(dx<0?current+1:current-1); });
+
+                document.addEventListener('keydown',e=>{
+                    if(overlay.style.display==='none') return;
+                    if(e.key==='Escape') closeModal();
+                    if(e.key==='ArrowRight') goTo(current+1);
+                    if(e.key==='ArrowLeft')  goTo(current-1);
+                });
+
+                document.querySelectorAll('.mosaic-item[data-gallery]').forEach(item=>{
+                    item.addEventListener('click',()=>openModal(item.dataset.gallery));
+                    item.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal(item.dataset.gallery);} });
+                });
+
+            });
         </script>
     </body>
     </html>
