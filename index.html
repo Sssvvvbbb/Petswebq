@@ -1264,7 +1264,7 @@
             .ig-carousel-wrap {
                 position: relative;
                 /* la altura se ajusta al contenido: usamos min-height fija */
-                min-height: 600px;
+                min-height: 0;
                 overflow: hidden;
                 border-radius: 20px;
             }
@@ -1274,9 +1274,11 @@
                 opacity: 0;
                 transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
                 display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 1.5rem 1rem 3.5rem; /* bottom para los dots */
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: flex-start;
+                padding: 0 0 3rem; /* solo bottom para los dots */
+                overflow: hidden;
             }
             .ig-slide.active { opacity: 1; }
             .ig-slide iframe {
@@ -1904,7 +1906,7 @@
                  sigue siendo rastreable por Google (aria-hidden no afecta SEO) -->
             <div aria-hidden="true" style="
                 position:absolute;inset:0;z-index:10;pointer-events:none;
-                background:url('/Assets/cremacion-mascotas-petsalcielo.jpg') center center / cover no-repeat;
+                background:url('/Assets/cremacion-mascotas-PetsAlCielo.jpg') center center / cover no-repeat;
                 opacity:0.97;
             "></div>
             
@@ -2131,18 +2133,18 @@
                         link.href   = post.permalink;
                         link.target = '_blank';
                         link.rel    = 'noopener';
-                        link.style.cssText = 'display:block;line-height:0;border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(100,140,160,0.13);width:100%;';
+                        link.style.cssText = 'display:block;line-height:0;overflow:hidden;width:100%;flex-shrink:0;';
 
                         const img = document.createElement('img');
                         img.src      = post.src;
                         img.alt      = post.alt;
                         img.loading  = i === 0 ? 'eager' : 'lazy';
                         img.decoding = 'async';
-                        img.style.cssText = 'width:100%;height:auto;display:block;aspect-ratio:1/1;object-fit:cover;border-radius:16px;';
+                        img.style.cssText = 'width:100%;height:auto;display:block;aspect-ratio:1/1;object-fit:cover;';
 
                         // Caption debajo
                         const caption = document.createElement('p');
-                        caption.style.cssText = 'font-family:"DM Sans",sans-serif;font-size:0.82rem;color:var(--text-soft);line-height:1.5;margin-top:0.75rem;width:100%;text-align:left;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;';
+                        caption.style.cssText = 'font-family:"DM Sans",sans-serif;font-size:0.82rem;color:var(--text-soft);line-height:1.5;padding:0.6rem 1rem 0;width:100%;text-align:left;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;box-sizing:border-box;';
                         caption.textContent = post.alt;
 
                         link.appendChild(img);
@@ -2159,6 +2161,18 @@
                         dotsEl.appendChild(dot);
                     });
 
+                    // Ajustar altura del wrap a la imagen real
+                    const firstImg = container.querySelector('.ig-slide img');
+                    if (firstImg) {
+                        const setHeight = () => {
+                            const imgH = firstImg.offsetHeight;
+                            const capH = container.querySelector('.ig-slide p') ? container.querySelector('.ig-slide p').offsetHeight + 12 : 0;
+                            wrapEl.style.height = (imgH + capH + 48) + 'px'; // 48 = dots
+                        };
+                        if (firstImg.complete) setHeight();
+                        else firstImg.addEventListener('load', setHeight);
+                        window.addEventListener('resize', setHeight);
+                    }
                     prevBtn.addEventListener('click', () => { stopAutoplay(); igShowSlide(igCurrent - 1); });
                     nextBtn.addEventListener('click', () => { stopAutoplay(); igShowSlide(igCurrent + 1); });
                     startAutoplay();
