@@ -68,14 +68,17 @@ def main():
     print(f"    → {len(raw_posts)} publicaciones encontradas")
 
     # 2. Incluir IMAGE, CAROUSEL_ALBUM y VIDEO (usando thumbnail como preview)
+    #    Eliminar duplicados: al compartir un Reel en Facebook, la API devuelve
+    #    el mismo contenido dos veces con timestamps < 5 minutos de diferencia.
     posts = []
+    seen_timestamps = []
+
     for p in raw_posts:
         media_type = p.get("media_type", "")
         if media_type not in ("IMAGE", "CAROUSEL_ALBUM", "VIDEO"):
             continue
 
         post_id   = p["id"]
-        # VIDEO → thumbnail_url; IMAGE/CAROUSEL → media_url
         if media_type == "VIDEO":
             image_url = p.get("thumbnail_url") or p.get("media_url", "")
         else:
@@ -87,6 +90,16 @@ def main():
         caption   = p.get("caption", "")[:200]
         timestamp = p.get("timestamp", "")
         permalink = p.get("permalink", "https://www.instagram.com/_petsalcielo/")
+
+        # Filtrar duplicados por timestamp cercano (< 5 minutos)
+        try:
+            ts = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+            if any(abs((ts - t).total_seconds()) < 300 for t in seen_timestamps):
+                print(f"  ⚠  Duplicado omitido: {post_id}")
+                continue
+            seen_timestamps.append(ts)
+        except Exception:
+            pass
 
         # Descargar imagen localmente
         ext       = "jpg"
