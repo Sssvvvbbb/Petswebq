@@ -2154,27 +2154,31 @@
                         slide.setAttribute('role', 'tabpanel');
                         slide.setAttribute('aria-label', 'Publicación ' + (i + 1));
 
-                        // Imagen nativa dentro de enlace a Instagram
+                        // Imagen 9:16 + caption a la derecha
+                        const imgWrap = document.createElement('div');
+                        imgWrap.className = 'ig-img-wrap';
+
                         const link = document.createElement('a');
                         link.href   = post.permalink;
                         link.target = '_blank';
                         link.rel    = 'noopener';
-                        link.style.cssText = 'display:block;line-height:0;border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(100,140,160,0.13);width:100%;';
+                        link.style.cssText = 'display:block;line-height:0;';
 
                         const img = document.createElement('img');
                         img.src      = post.src;
                         img.alt      = post.alt;
                         img.loading  = i === 0 ? 'eager' : 'lazy';
                         img.decoding = 'async';
-                        img.style.cssText = 'width:100%;height:auto;display:block;aspect-ratio:1/1;object-fit:cover;border-radius:16px;';
-
-                        // Caption debajo
-                        const caption = document.createElement('p');
-                        caption.style.cssText = 'font-family:"DM Sans",sans-serif;font-size:0.82rem;color:var(--text-soft);line-height:1.5;margin-top:0.75rem;width:100%;text-align:left;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;';
-                        caption.textContent = post.alt;
 
                         link.appendChild(img);
-                        slide.appendChild(link);
+                        imgWrap.appendChild(link);
+                        slide.appendChild(imgWrap);
+
+                        // Caption a la derecha, formato estrofas
+                        const caption = document.createElement('p');
+                        caption.className = 'ig-caption';
+                        const frases = (post.alt || '').split('. ').map(s => s.trim()).filter(s => s.length > 2);
+                        caption.textContent = frases.join('\n\n');
                         slide.appendChild(caption);
                         container.appendChild(slide);
 
