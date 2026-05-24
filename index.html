@@ -1265,7 +1265,6 @@
                 position: relative;
                 overflow: hidden;
                 border-radius: 20px;
-                /* altura = ancho del contenedor × 9/16 de la imagen + padding */
             }
             .ig-slide {
                 position: absolute;
@@ -1280,7 +1279,6 @@
                 box-sizing: border-box;
             }
             .ig-slide.active { opacity: 1; }
-            /* Imagen: proporción reel 9:16, altura fija en desktop */
             .ig-slide .ig-img-wrap {
                 flex-shrink: 0;
                 width: min(320px, 45%);
@@ -1295,24 +1293,19 @@
                 aspect-ratio: 9/16;
                 object-fit: cover;
             }
-            /* Caption a la derecha */
             .ig-slide .ig-caption {
                 flex: 1;
                 font-family: "DM Sans", sans-serif;
-                font-size: 0.88rem;
-                color: var(--text-soft);
-                line-height: 1.65;
-                padding-top: 0.5rem;
+                font-size: 0.9rem;
+                color: #1a1a1a;
+                line-height: 2;
+                padding-top: 0.4rem;
+                white-space: pre-line;
+                word-break: break-word;
             }
             @media (max-width: 600px) {
-                .ig-slide {
-                    flex-direction: column;
-                    padding: 0 0 3rem;
-                }
-                .ig-slide .ig-img-wrap {
-                    width: 100%;
-                    border-radius: 0;
-                }
+                .ig-slide { flex-direction: column; padding: 0 0 3rem; }
+                .ig-slide .ig-img-wrap { width: 100%; border-radius: 0; }
             }
             .ig-slide iframe {
                 border-radius: 12px;
@@ -1373,7 +1366,7 @@
             }
             @keyframes igSpin { to { transform: rotate(360deg); } }
             @media (max-width: 768px) {
-                /* ig-carousel-wrap altura dinámica en mobile */
+                /* ig-carousel-wrap altura dinámica */
                 .ig-carousel-arrow { display: none; }
             }
 
@@ -2162,29 +2155,26 @@
                         slide.setAttribute('aria-label', 'Publicación ' + (i + 1));
 
                         // Imagen nativa dentro de enlace a Instagram
-                        const imgWrap = document.createElement('div');
-                        imgWrap.className = 'ig-img-wrap';
-
                         const link = document.createElement('a');
                         link.href   = post.permalink;
                         link.target = '_blank';
                         link.rel    = 'noopener';
-                        link.style.cssText = 'display:block;line-height:0;';
+                        link.style.cssText = 'display:block;line-height:0;border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(100,140,160,0.13);width:100%;';
 
                         const img = document.createElement('img');
                         img.src      = post.src;
                         img.alt      = post.alt;
                         img.loading  = i === 0 ? 'eager' : 'lazy';
                         img.decoding = 'async';
+                        img.style.cssText = 'width:100%;height:auto;display:block;aspect-ratio:1/1;object-fit:cover;border-radius:16px;';
 
-                        // Caption a la derecha
+                        // Caption debajo
                         const caption = document.createElement('p');
-                        caption.className = 'ig-caption';
+                        caption.style.cssText = 'font-family:"DM Sans",sans-serif;font-size:0.82rem;color:var(--text-soft);line-height:1.5;margin-top:0.75rem;width:100%;text-align:left;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;';
                         caption.textContent = post.alt;
 
                         link.appendChild(img);
-                        imgWrap.appendChild(link);
-                        slide.appendChild(imgWrap);
+                        slide.appendChild(link);
                         slide.appendChild(caption);
                         container.appendChild(slide);
 
@@ -2197,19 +2187,15 @@
                         dotsEl.appendChild(dot);
                     });
 
-                    // Ajustar altura wrap a la imagen real
-                    const setWrapHeight = () => {
+                    // Altura dinámica según imagen real
+                    const setH = () => {
                         const imgEl = container.querySelector('.ig-img-wrap img');
                         if (!imgEl) return;
-                        const h = imgEl.offsetHeight + 48; // 48 = dots
-                        wrapEl.style.height = Math.max(h, 200) + 'px';
+                        wrapEl.style.height = (imgEl.offsetHeight + 64) + 'px';
                     };
-                    const firstImg = container.querySelector('.ig-img-wrap img');
-                    if (firstImg) {
-                        if (firstImg.complete) setWrapHeight();
-                        else firstImg.addEventListener('load', setWrapHeight);
-                        window.addEventListener('resize', setWrapHeight);
-                    }
+                    const fi = container.querySelector('.ig-img-wrap img');
+                    if (fi) { fi.complete ? setH() : fi.addEventListener('load', setH); }
+                    window.addEventListener('resize', setH);
                     prevBtn.addEventListener('click', () => { stopAutoplay(); igShowSlide(igCurrent - 1); });
                     nextBtn.addEventListener('click', () => { stopAutoplay(); igShowSlide(igCurrent + 1); });
                     startAutoplay();
