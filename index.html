@@ -1907,7 +1907,15 @@
         </section>
 
         <!-- Footer -->
-        <footer role="contentinfo">
+        <footer role="contentinfo" style="position:relative;">
+
+            <!-- Flyer visual: cubre el footer visualmente pero el texto HTML
+                 sigue siendo rastreable por Google (aria-hidden no afecta SEO) -->
+            <div aria-hidden="true" style="
+                position:absolute;inset:0;z-index:10;pointer-events:none;
+                background:url('/Assets/flyer_2025.jpg') center center / cover no-repeat;
+                opacity:0.97;
+            "></div>
             
 <div class="footer-logo">Pets<em>Al</em>Cielo</div>
             <!-- Fila SEO: cremación por especie — visible y rastreable por Google -->
