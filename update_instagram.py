@@ -91,15 +91,10 @@ def main():
         timestamp = p.get("timestamp", "")
         permalink = p.get("permalink", "https://www.instagram.com/_petsalcielo/")
 
-        # Filtrar duplicados por timestamp cercano (< 5 minutos)
-        try:
-            ts = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
-            if any(abs((ts - t).total_seconds()) < 300 for t in seen_timestamps):
-                print(f"  ⚠  Duplicado omitido: {post_id}")
-                continue
-            seen_timestamps.append(ts)
-        except Exception:
-            pass
+        # Solo publicaciones de Instagram (filtrar las duplicadas de Facebook)
+        if "instagram.com" not in permalink:
+            print(f"  ⚠  Omitido (no es Instagram): {post_id}")
+            continue
 
         # Descargar imagen localmente
         ext       = "jpg"
