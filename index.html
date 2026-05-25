@@ -2362,19 +2362,22 @@
                                 slide.className = 'ig-slide' + (i === 0 ? ' active' : '');
                                 slide.setAttribute('role', 'tabpanel');
                                 slide.setAttribute('aria-label', 'Publicación ' + (i + 1));
+                                slide.style.cssText = 'position:absolute;inset:0;bottom:32px;display:flex;';
 
                                 const imgWrap = document.createElement('div');
                                 imgWrap.className = 'ig-img-wrap';
+                                imgWrap.style.cssText = 'width:100%;height:100%;overflow:hidden;';
                                 const link = document.createElement('a');
                                 link.href   = post.permalink;
                                 link.target = '_blank';
                                 link.rel    = 'noopener';
-                                link.style.cssText = 'display:block;line-height:0;';
+                                link.style.cssText = 'display:block;width:100%;height:100%;line-height:0;';
                                 const img = document.createElement('img');
                                 img.src      = post.src;
                                 img.alt      = post.alt;
                                 img.loading  = i === 0 ? 'eager' : 'lazy';
                                 img.decoding = 'async';
+                                img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
                                 link.appendChild(img);
                                 imgWrap.appendChild(link);
                                 slide.appendChild(imgWrap);
