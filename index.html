@@ -1272,39 +1272,42 @@
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
             .ig-card-outer { width: 100%; }
+
+            /* Fila: card imágenes + columna botones — SOLO DESKTOP */
             @media (min-width: 769px) {
-                .ig-card-outer { max-width: 92%; margin: 0 auto; }
-            }
+                .ig-layout-row {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                    gap: 1.2rem;
+                }
 
-            /* Card con altura fija en desktop, sin padding — el carrusel lo llena todo */
-            .ig-glass-card {
-                padding: 0 !important;
-                border-radius: 16px !important;
-                overflow: hidden !important;
-                position: relative;
-            }
-            @media (min-width: 769px) {
-                .ig-glass-card { height: 500px; }
-            }
+                /* Card con las imágenes */
+                .ig-glass-card {
+                    flex: 1;
+                    padding: 0 !important;
+                    border-radius: 16px !important;
+                    overflow: hidden !important;
+                    position: relative;
+                    height: 500px;
+                }
 
-            /* Botones flotantes sobre el carrusel, arriba a la derecha */
-            .ig-btn-bar {
-                position: absolute;
-                top: 0.8rem;
-                right: 0.8rem;
-                display: flex;
-                gap: 0.4rem;
-                flex-wrap: wrap;
-                justify-content: flex-end;
-                z-index: 20;
-            }
+                /* Botones a la derecha, apilados verticalmente */
+                .ig-side-btns {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.6rem;
+                    align-self: center;
+                    flex-shrink: 0;
+                }
 
-            /* El carrusel llena todo el card */
-            .ig-carousel-wrap {
-                position: absolute;
-                inset: 0;
-                overflow: hidden;
-                border-radius: 16px;
+                /* El carrusel llena todo el card */
+                .ig-carousel-wrap {
+                    position: absolute;
+                    inset: 0;
+                    overflow: hidden;
+                    border-radius: 16px;
+                }
             }
 
             /* Slide = toda la superficie del carrusel, excepto zona de dots abajo */
@@ -1397,16 +1400,33 @@
 
             @media (max-width: 768px) {
                 .ig-carousel-arrow { display: none; }
-                .ig-glass-card { height: auto; }
-                .ig-carousel-wrap { position: relative; inset: auto; border-radius: 0; }
-                .ig-slide { position: relative; top: auto; left: auto; right: auto; bottom: auto;
-                    flex-direction: column; padding: 0; opacity: 1; display: none; }
-                .ig-slide.active { display: flex; }
+                .ig-layout-row { flex-direction: column; gap: 0.6rem; }
+                .ig-side-btns { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; gap: 0.4rem; }
+                .ig-glass-card { height: auto; overflow: visible !important; }
+                .ig-carousel-wrap {
+                    position: relative !important;
+                    inset: auto !important;
+                    border-radius: 20px;
+                    overflow: hidden;
+                }
+                .ig-slide {
+                    position: absolute;
+                    inset: 0;
+                    bottom: 44px;
+                    flex-direction: column;
+                    padding: 0;
+                    opacity: 0;
+                    display: flex;
+                }
+                .ig-slide.active { opacity: 1; }
                 .ig-post { border-radius: 0; }
-                .ig-carousel-dots { position: relative; bottom: auto; left: auto;
-                    transform: none; justify-content: center; padding: 0.8rem 0; }
-                .ig-btn-bar { position: relative; top: auto; right: auto;
-                    padding: 0.6rem 0.6rem 0; justify-content: flex-end; }
+                .ig-carousel-dots {
+                    position: absolute;
+                    bottom: 0.5rem;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    padding: 0;
+                }
             }
 
             /* Loading spinner */
@@ -1789,35 +1809,31 @@
                     </h3>
                 </div>
                 <div class="ig-card-outer">
-                <div class="glass-card reveal ig-glass-card">
+                    <div class="ig-layout-row reveal">
 
-                    <!-- Botones en overlay arriba a la derecha -->
-                    <div class="ig-btn-bar">
-                        <button onclick="document.querySelector('.mosaic-item[data-gallery=\'despedida\']').click()"
-                           class="btn" style="font-size:0.72rem;padding:0.35rem 0.9rem;cursor:pointer;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);">
-                            Testimonios
-                        </button>
-                        <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener"
-                           class="btn" style="font-size:0.72rem;padding:0.35rem 0.9rem;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);">
-                            Ver todos los homenajes
-                        </a>
+                        <!-- Card con las imágenes -->
+                        <div class="glass-card ig-glass-card">
+                            <div class="ig-carousel-wrap" id="igCarouselWrap">
+                                <div id="igSlidesContainer"></div>
+                                <button class="ig-carousel-arrow ig-arrow-prev" id="igPrev" aria-label="Publicación anterior">&#8249;</button>
+                                <button class="ig-carousel-arrow ig-arrow-next" id="igNext" aria-label="Publicación siguiente">&#8250;</button>
+                                <div class="ig-carousel-dots" id="igDots" role="tablist" aria-label="Controles del carrusel Instagram"></div>
+                            </div>
+                        </div>
+
+                        <!-- Botones a la derecha del card -->
+                        <div class="ig-side-btns">
+                            <button onclick="document.querySelector('.mosaic-item[data-gallery=\'despedida\']').click()"
+                               class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;cursor:pointer;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);white-space:nowrap;">
+                                Testimonios
+                            </button>
+                            <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener"
+                               class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);text-align:center;">
+                                Ver todos los homenajes
+                            </a>
+                        </div>
+
                     </div>
-
-                    <!-- Carrusel ocupa todo el card -->
-                    <div class="ig-carousel-wrap" id="igCarouselWrap">
-
-                        <!-- Las slides se generan por JS -->
-                        <div id="igSlidesContainer"></div>
-
-                        <!-- Flechas -->
-                        <button class="ig-carousel-arrow ig-arrow-prev" id="igPrev" aria-label="Publicación anterior">&#8249;</button>
-                        <button class="ig-carousel-arrow ig-arrow-next" id="igNext" aria-label="Publicación siguiente">&#8250;</button>
-
-                        <!-- Dots -->
-                        <div class="ig-carousel-dots" id="igDots" role="tablist" aria-label="Controles del carrusel Instagram"></div>
-                    </div>
-
-                </div><!-- /glass-card -->
                 </div><!-- /ig-card-outer -->
             </div>
         </section>
