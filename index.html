@@ -1400,10 +1400,14 @@
 
             @media (max-width: 768px) {
                 .ig-carousel-arrow { display: none; }
-                .ig-layout-row { flex-direction: column; gap: 0.5rem; }
+                .ig-layout-row { flex-direction: column; gap: 0.4rem; }
 
-                /* Botones en fila compacta */
-                .ig-side-btns { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; gap: 0.4rem; }
+                /* Botones en fila compacta y más pequeños */
+                .ig-side-btns { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; gap: 0.3rem; }
+                .ig-top-btns .btn {
+                    font-size: 0.72rem !important;
+                    padding: 0.38rem 0.9rem !important;
+                }
 
                 /* Card ancho completo */
                 .ig-glass-card {
@@ -1421,9 +1425,9 @@
                     border-radius: 16px;
                     overflow: hidden;
                     width: 100%;
-                    height: calc(100vh - 260px);
-                    min-height: 300px;
-                    max-height: 70vh;
+                    height: calc(100vh - 300px);
+                    min-height: 260px;
+                    max-height: 60vh;
                 }
 
                 .ig-slide {
@@ -1438,10 +1442,11 @@
                 }
                 .ig-slide.active { opacity: 1; }
 
-                /* 1 imagen, sin cortes, centrada */
+                /* 1 imagen, completa, sin cortes */
                 .ig-post { border-radius: 0; flex: 1; }
                 .ig-post:nth-child(2) { display: none; }
-                .ig-post .ig-img-wrap img { object-fit: contain; background: #f0f0f0; }
+                .ig-post .ig-img-wrap { display: flex; align-items: center; justify-content: center; }
+                .ig-post .ig-img-wrap img { object-fit: contain; width: 100%; height: 100%; }
 
                 .ig-carousel-dots {
                     position: absolute;
@@ -1834,7 +1839,7 @@
                 <div class="ig-card-outer" style="position:relative;">
 
                     <!-- Botones flotantes arriba a la derecha, fuera de la card -->
-                    <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-bottom:0.6rem;">
+                    <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-bottom:0.6rem;" class="ig-top-btns">
                         <button onclick="document.querySelector('.mosaic-item[data-gallery=\'despedida\']').click()"
                            class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;cursor:pointer;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);white-space:nowrap;">
                             Testimonios
