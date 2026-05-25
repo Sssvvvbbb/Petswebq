@@ -1400,31 +1400,36 @@
 
             @media (max-width: 768px) {
                 .ig-carousel-arrow { display: none; }
-                .ig-layout-row { flex-direction: column; gap: 0.6rem; }
+                .ig-layout-row { flex-direction: column; gap: 0.5rem; }
+
+                /* Botones en fila compacta */
                 .ig-side-btns { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; gap: 0.4rem; }
 
+                /* Card ancho completo */
                 .ig-glass-card {
                     width: 100% !important;
                     margin: 0 !important;
                     height: auto !important;
-                    overflow: visible !important;
-                    border-radius: 20px !important;
+                    overflow: hidden !important;
+                    border-radius: 16px !important;
                 }
 
+                /* Wrap: altura = 100vh menos espacio para nav(~60px) + tag+título(~70px) + botones(~50px) + márgenes(~40px) = ~220px */
                 .ig-carousel-wrap {
                     position: relative !important;
                     inset: auto !important;
-                    border-radius: 20px;
+                    border-radius: 16px;
                     overflow: hidden;
                     width: 100%;
-                    height: calc(100vw * 16 / 9);
-                    max-height: 75vh;
+                    height: calc(100vh - 260px);
+                    min-height: 300px;
+                    max-height: 70vh;
                 }
 
                 .ig-slide {
                     position: absolute;
                     inset: 0;
-                    bottom: 36px;
+                    bottom: 32px;
                     flex-direction: row;
                     padding: 0;
                     opacity: 0;
@@ -1433,13 +1438,14 @@
                 }
                 .ig-slide.active { opacity: 1; }
 
+                /* 1 imagen, sin cortes, centrada */
                 .ig-post { border-radius: 0; flex: 1; }
                 .ig-post:nth-child(2) { display: none; }
-                .ig-post .ig-img-wrap img { object-fit: cover; }
+                .ig-post .ig-img-wrap img { object-fit: contain; background: #f0f0f0; }
 
                 .ig-carousel-dots {
                     position: absolute;
-                    bottom: 0.5rem;
+                    bottom: 0.4rem;
                     left: 50%;
                     transform: translateX(-50%);
                     padding: 0;
