@@ -1275,37 +1275,40 @@
                 overflow: hidden;
                 border-radius: 20px;
             }
-            /* ── Desktop: altura y ancho cómodos para 2 posts ── */
+            /* ── Desktop: altura total incluyendo dots ── */
             @media (min-width: 769px) {
                 .ig-carousel-wrap {
-                    height: 420px;
+                    height: 440px;
                 }
             }
-            /* slide ocupa todo el wrap, children se estiran */
+            /* slide ocupa todo el wrap excepto zona de dots */
             .ig-slide {
                 position: absolute;
-                inset: 0;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 44px; /* reserva solo para los dots */
                 opacity: 0;
                 transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
                 display: flex;
                 flex-direction: row;
                 align-items: stretch;
-                justify-content: center;
+                justify-content: stretch;
                 gap: 1rem;
-                padding: 1rem 1.2rem 3rem;
+                padding: 0.8rem 1.2rem 0.8rem;
                 box-sizing: border-box;
             }
             .ig-slide.active { opacity: 1; }
 
-            /* Cada post ocupa la mitad, se estira hasta el alto del slide */
+            /* Cada post ocupa la mitad, altura = 100% del slide */
             .ig-post {
                 flex: 1;
                 min-width: 0;
-                min-height: 0;
                 display: flex;
                 flex-direction: row;
                 align-items: stretch;
                 gap: 0.8rem;
+                height: 100%;
             }
 
             /* Separador vertical entre los 2 posts */
@@ -1318,7 +1321,7 @@
             /* La imagen llena todo el alto y ancho disponible del post */
             .ig-post .ig-img-wrap {
                 flex: 1;
-                min-height: 0;
+                height: 100%;
                 min-width: 0;
                 border-radius: 14px;
                 overflow: hidden;
@@ -1379,7 +1382,7 @@
                 word-break: break-word;
             }
             @media (max-width: 600px) {
-                .ig-slide { flex-direction: column; padding: 0 0 3rem; }
+                .ig-slide { top: 0; left: 0; right: 0; bottom: 44px; flex-direction: column; padding: 0; }
                 .ig-slide .ig-img-wrap { width: 100%; border-radius: 0; }
             }
             .ig-slide iframe {
