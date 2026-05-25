@@ -834,8 +834,11 @@
             footer {
                 background: linear-gradient(160deg, #2d4a44 0%, #1e3830 100%);
                 color: rgba(255,255,255,0.75);
-                padding: 4rem 2rem 2rem;
+                padding: 4rem 2rem 0;
+                margin-bottom: 0;
             }
+            body { margin-bottom: 0; }
+            html { margin-bottom: 0; }
             .footer-grid {
                 max-width: 1360px;
                 margin: 0 auto;
@@ -881,6 +884,7 @@
                 max-width: 1360px;
                 margin: 0 auto;
                 padding-top: 2rem;
+                padding-bottom: 2rem;
                 border-top: 1px solid rgba(255,255,255,0.1);
                 text-align: center;
                 font-size: 0.82rem;
@@ -1975,7 +1979,7 @@
             <div style="position:relative;">
                 <div aria-hidden="true" style="
                     position:absolute;inset:0;z-index:9999;pointer-events:none;
-                    background:url('/Assets/cremacion-puerto-montt-petsalcielo.webp') center center / 100% auto no-repeat;
+                    background:url('/Assets/cremacion-puerto-montt-petsalcielo.webp') center top / 100% 100% no-repeat;
                     opacity:0.97;
                 "></div>
             <div class="footer-grid">
