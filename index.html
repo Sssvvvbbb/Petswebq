@@ -1409,25 +1409,25 @@
                     padding: 0.38rem 0.9rem !important;
                 }
 
-                /* Card: ancho = alto × (9/16) para imagen vertical exacta */
+                /* Card: ancho fijo basado en 9:16. Usamos 85vw de alto → ancho = 85vw × 9/16 */
                 .ig-glass-card {
-                    width: calc((100vh - 230px) * 9 / 16) !important;
-                    max-width: 90vw !important;
+                    width: min(85vw, calc(65vh * 9 / 16)) !important;
                     margin: 0 auto !important;
                     height: auto !important;
                     overflow: hidden !important;
                     border-radius: 16px !important;
                 }
 
+                /* El wrap tiene el alto proporcional: ancho × 16/9 */
                 .ig-carousel-wrap {
                     position: relative !important;
                     inset: auto !important;
                     border-radius: 16px;
                     overflow: hidden;
                     width: 100%;
-                    height: calc(100vh - 230px);
-                    min-height: 300px;
-                    max-height: 68vh;
+                    /* aspect-ratio hace que el alto sea siempre proporcional al ancho */
+                    aspect-ratio: 9 / 16;
+                    max-height: 65vh;
                 }
 
                 .ig-slide {
@@ -1442,12 +1442,12 @@
                 }
                 .ig-slide.active { opacity: 1; }
 
-                /* 1 imagen, llena el card exacto */
+                /* imagen ocupa exactamente el slide, sin recorte */
                 .ig-post { border-radius: 0; flex: 1; height: 100%; overflow: hidden; }
                 .ig-post:nth-child(2) { display: none; }
-                .ig-post .ig-img-wrap { width: 100%; height: 100%; overflow: hidden; }
+                .ig-post .ig-img-wrap { width: 100%; height: 100%; }
                 .ig-post .ig-img-wrap a { display: block; width: 100%; height: 100%; line-height: 0; }
-                .ig-post .ig-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+                .ig-post .ig-img-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
                 .ig-carousel-dots {
                     position: absolute;
