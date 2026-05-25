@@ -1,7 +1,7 @@
 {
   "fotos": [
-    { "src": "/Assets/logo_para_web.webp", "alt": "Logo PetsAlCielo" },
-    { "src": "/Assets/logo_para_web.webp", "alt": "Logo PetsAlCielo" },
-    { "src": "/Assets/logo_para_web.webp", "alt": "Logo PetsAlCielo" }
+    { "src": "/Assets/Instalaciones_crematorio_puerto_montt_petsalcielo.webp", "alt": "Servicio de cremación en Puerto Montt Petsalcielo, instalaciones" },
+    { "src": "/Assets/Instalaciones_crematorio_puerto_montt_verde_petsalcielo.webp", "alt": "Instalaciones en Puerto Montt de Petsalcielo" },
+    { "src": "/Assets/Instalaciones_cremacion_puerto_montt_pet_sal_cielo.webp", "alt": "Crematorio en Puerto Montt Petsalcielo, trabajo" }
   ]
 }
