@@ -296,7 +296,7 @@
                 max-width: 480px;
                 margin-left: clamp(2rem, 8vw, 8rem);
                 margin-right: auto;
-                padding: 2.5rem 2.8rem;
+                padding: 2.5rem 2.8rem 2.5rem 2.8rem;
                 background: rgba(255,255,255,0.88);
                 backdrop-filter: blur(24px);
                 -webkit-backdrop-filter: blur(24px);
@@ -1010,8 +1010,7 @@
                 .process-steps::before { display: none; }
                 .stats-strip { grid-template-columns: repeat(2, 1fr); }
                 .footer-grid { grid-template-columns: 1fr 1fr; }
-                .gallery-mosaic { grid-template-rows: 160px 160px; }
-            }
+                .gallery-mosaic { grid-template-rows: 160px 160px; }            }
             @media (max-width: 768px) {
                 .top-bar-content { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
                 .carousel-wrap { height: 100svh; }
@@ -1654,9 +1653,18 @@
     }
 
     @media (max-width: 768px) {
+        /* Grid sin altura fija — las celdas crecen con su contenido */
+        .gallery-mosaic {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto;
+        }
+        .mosaic-fill {
+            padding: 1rem 0.5rem;
+            height: auto;
+        }
         /* Ícono más pequeño */
         .mosaic-icon {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
         }
         /* Etiqueta visible */
         .mosaic-label {
@@ -1672,7 +1680,7 @@
         .gallery-mosaic .mosaic-testimonios {
             grid-column: 1 / -1;
         }
-        /* Resetear la expansión vertical del primer ítem (que en desktop ocupa 2 filas) */
+        /* Resetear la expansión vertical del primer ítem */
         .gallery-mosaic .mosaic-item:first-child {
             grid-row: auto;
         }
@@ -1792,13 +1800,6 @@
                 <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo" aria-hidden="true">
                 <div class="slide-overlay"></div>
                 <div class="hero-inner">
-                    <div class="hero-brand">
-                        <img src="/Assets/logo_para_web.webp" alt="PetsAlCielo" class="hero-brand-logo">
-                        <div class="hero-brand-name">
-                            PetsAlCielo
-                            <small>Honramos su vida, cuidamos su recuerdo</small>
-                        </div>
-                    </div>
                     <h1 class="hero-title">
                         Tu compañero<br>de vida, siempre<br>en tu corazón.
                     </h1>
@@ -1817,13 +1818,6 @@
                 <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo" aria-hidden="true">
                 <div class="slide-overlay"></div>
                 <div class="hero-inner">
-                    <div class="hero-brand">
-                        <img src="/Assets/logo_para_web.webp" alt="PetsAlCielo" class="hero-brand-logo">
-                        <div class="hero-brand-name">
-                            PetsAlCielo
-                            <small>Honramos su vida, cuidamos su recuerdo</small>
-                        </div>
-                    </div>
                     <h2 class="hero-title">
                         Cremación ecológica<br>por agua, sin fuego,<br>sin humo.
                     </h2>
@@ -1843,13 +1837,6 @@
                 <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo" aria-hidden="true">
                 <div class="slide-overlay"></div>
                 <div class="hero-inner">
-                    <div class="hero-brand">
-                        <img src="/Assets/logo_para_web.webp" alt="PetsAlCielo" class="hero-brand-logo">
-                        <div class="hero-brand-name">
-                            PetsAlCielo
-                            <small>Honramos su vida, cuidamos su recuerdo</small>
-                        </div>
-                    </div>
                     <h2 class="hero-title">
                         Un adiós digno<br>para quienes<br>amamos.
                     </h2>
