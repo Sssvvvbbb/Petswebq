@@ -835,10 +835,11 @@
                 background: linear-gradient(160deg, #2d4a44 0%, #1e3830 100%);
                 color: rgba(255,255,255,0.75);
                 padding: 4rem 2rem 0;
-                margin-bottom: 0;
+                margin: 0;
+                overflow: hidden;
             }
-            body { margin-bottom: 0; }
-            html { margin-bottom: 0; }
+            body { margin: 0; padding: 0; }
+            html { margin: 0; padding: 0; }
             .footer-grid {
                 max-width: 1360px;
                 margin: 0 auto;
@@ -1976,52 +1977,51 @@
             </div>
 
             <!-- Wrapper con overlay visual — texto intacto para SEO -->
-            <div style="position:relative;">
+            <div style="position:relative; margin:0 -2rem; padding:0; overflow:hidden;">
                 <div aria-hidden="true" style="
                     position:absolute;inset:0;z-index:9999;pointer-events:none;
-                    background:url('/Assets/cremacion-puerto-montt-petsalcielo.webp') center top / 100% 100% no-repeat;
+                    background:url('/Assets/cremacion-puerto-montt-petsalcielo.webp') center center / cover no-repeat;
                     opacity:0.97;
                 "></div>
-            <div class="footer-grid">
-                <div class="footer-col">
+                <!-- contenido SEO oculto visualmente bajo la imagen -->
+                <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1.5rem;padding:1.2rem 1.5rem 0;font-size:0.72rem;line-height:1.6;color:rgba(255,255,255,0.6);">
                     <div>
-                    <p>
-                        Crematorio ecológico para mascotitas en Puerto Montt, Décima región.      <p style="margin-top: 1rem; color: rgba(255,255,255,0.45);">
-                        <strong style="color:rgba(255,255,255,0.6)">Cobertura:</strong> Puerto Montt, Puerto Varas, Osorno, Ancud, Castro, Frutillar, Llanquihue y Región de Los Lagos.
-                    </p>
+                        <p>Crematorio ecológico para mascotitas en Puerto Montt, Décima región.</p>
+                        <p style="margin-top:0.4rem;color:rgba(255,255,255,0.4);"><strong style="color:rgba(255,255,255,0.5);">Cobertura:</strong> Puerto Montt, Puerto Varas, Osorno, Ancud, Castro, Frutillar, Llanquihue y Región de Los Lagos.</p>
+                    </div>
+                    <div>
+                        <p style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);margin-bottom:0.3rem;">Servicios</p>
+                        <ul style="list-style:none;font-size:0.7rem;">
+                            <li><a href="#servicios" style="color:rgba(255,255,255,0.55);text-decoration:none;">Cremación Ecológica e Individual en Puerto Montt</a></li>
+                            <li><a href="#servicios" style="color:rgba(255,255,255,0.55);text-decoration:none;">Cremación de Perros en Puerto Montt</a></li>
+                            <li><a href="#servicios" style="color:rgba(255,255,255,0.55);text-decoration:none;">Cremación de Gatos en Puerto Montt</a></li>
+                            <li><a href="#servicios" style="color:rgba(255,255,255,0.55);text-decoration:none;">Cremación de Conejos y Mascotas Especiales</a></li>
+                            <li><a href="#servicios" style="color:rgba(255,255,255,0.55);text-decoration:none;">Anforas de madera, bronce e impresión 3D</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);margin-bottom:0.3rem;">Puerto Montt, X Región</p>
+                        <ul style="list-style:none;font-size:0.7rem;">
+                            <li><a href="#nosotros" style="color:rgba(255,255,255,0.55);text-decoration:none;">Sobre PetsAlCielo</a></li>
+                            <li><a href="#proceso" style="color:rgba(255,255,255,0.55);text-decoration:none;">Sobre la Cremación Ecológica</a></li>
+                            <li><a href="#Biblioteca" style="color:rgba(255,255,255,0.55);text-decoration:none;">Instalaciones en Puerto Montt</a></li>
+                            <li><a href="preguntas-frecuentes.html" style="color:rgba(255,255,255,0.55);text-decoration:none;">Preguntas Frecuentes</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);margin-bottom:0.3rem;">Redes Sociales</p>
+                        <ul style="list-style:none;font-size:0.7rem;">
+                            <li><a href="https://www.facebook.com/cremaciondemascotasenpuertomontt" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.55);text-decoration:none;">📘 Facebook PetsAlCielo</a></li>
+                            <li><a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.55);text-decoration:none;">📷 Instagram @petsalcielo</a></li>
+                        </ul>
+                        <p style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);margin:0.5rem 0 0.2rem;">Horario</p>
+                        <p style="font-size:0.7rem;">Todos los días del año. Atención inmediata</p>
+                    </div>
                 </div>
-                <div class="footer-col">
-                    <h4>Servicios</h4>
-                    <ul>
-                        <li><a href="#servicios">Cremación Ecológica e Individual en Puerto Montt</a></li>
-                        <li><a href="#servicios">Cremación de Perros en Puerto Montt</a></li>
-                        <li><a href="#servicios">Cremación de Gatos en Puerto Montt</a></li>
-                        <li><a href="#servicios">Cremación de Conejos y Mascotas Especiales</a></li>
-                        <li><a href="#servicios">Anforas especiales de madera, bronce e impresión 3D</a></li>
-                    </ul>
+                <div style="text-align:center;padding:0.6rem 1rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.65rem;color:rgba(255,255,255,0.4);">
+                    <p><strong>© 2026 PetsAlCielo — Crematorio Verde para Mascotitas en la Región de los Lagos</strong></p>
+                    <p style="margin-top:0.2rem;">🌈 Con amor y respeto por quienes fueron y todavía son parte de tu familia 🌈</p>
                 </div>
-                <div class="footer-col">
-                    <h4>Estamos en Puerto Montt, Décima Región</h4>
-                    <ul>
-                        <li><a href="#nosotros">Sobre PetsAlCielo</a></li>
-                        <li><a href="#proceso">Sobre la Cremación Ecológica y Verde</a></li>
-                        <li><a href="#Biblioteca">Instalaciones en Puerto Montt</a></li>
-                        <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Nuestras redes Sociales</h4>
-                    <ul>
-                        <li><a href="https://www.facebook.com/cremaciondemascotasenpuertomontt" target="_blank" rel="noopener">📘 Facebook PetsAlCielo</a></li>
-                        <li><a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener">📷 Instagram @petsalcielo</a></li>
-                    </ul>
-                    <h4 style="margin-top: 1.5rem;">Horario</h4>
-                    <p><strong style="color:rgb(255, 255, 255)"></strong>Todos los días del año. Atención inmediata</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p style="white-space: nowrap; font-size: clamp(0.55rem, 2.2vw, 0.9rem);"><strong>© 2026 PetsAlCielo — Crematorio Verde para Mascotitas en la Región de los Lagos</strong></p>
-                <p style="margin-top: 0.5rem; white-space: nowrap; font-size: clamp(0.55rem, 2.2vw, 0.9rem);">🌈Con amor y respeto por quienes fueron y todavía son parte de tu familia 🌈</p>
-            </div>
             </div><!-- /overlay wrapper -->
         </footer>
 
