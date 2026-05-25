@@ -1268,12 +1268,18 @@
 
             /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             CARRUSEL DE INSTAGRAM - mismas propiedades que el carrusel hero
-            Una publicación visible a la vez, fade con opacity
+            Desktop: 2 publicaciones por slide, mobile: 1 publicación
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
             .ig-carousel-wrap {
                 position: relative;
                 overflow: hidden;
                 border-radius: 20px;
+            }
+            /* ── Desktop: altura y ancho cómodos para 2 posts ── */
+            @media (min-width: 769px) {
+                .ig-carousel-wrap {
+                    height: 420px;
+                }
             }
             .ig-slide {
                 position: absolute;
@@ -1284,11 +1290,65 @@
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
-                gap: 0.8rem;
-                padding: 0.6rem 0.8rem 2.5rem;
+                gap: 2rem;
+                padding: 1.5rem 2rem 3rem;
                 box-sizing: border-box;
             }
             .ig-slide.active { opacity: 1; }
+
+            /* Cada "post" dentro del slide desktop — imagen + caption */
+            .ig-post {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem;
+                flex: 1;
+                min-width: 0;
+                height: 100%;
+            }
+            /* Separador vertical entre los 2 posts */
+            .ig-post-divider {
+                width: 1px;
+                align-self: stretch;
+                background: linear-gradient(to bottom, transparent, rgba(168,230,214,0.35), rgba(203,174,242,0.35), transparent);
+                flex-shrink: 0;
+            }
+
+            /* Imagen 9:16 dentro del post */
+            .ig-post .ig-img-wrap {
+                flex-shrink: 0;
+                width: auto;
+                height: 100%;
+                max-height: 340px;
+                border-radius: 14px;
+                overflow: hidden;
+                box-shadow: 0 8px 32px rgba(100,140,160,0.15);
+            }
+            .ig-post .ig-img-wrap img {
+                width: auto;
+                height: 100%;
+                max-height: 340px;
+                display: block;
+                aspect-ratio: 9/16;
+                object-fit: cover;
+            }
+            /* Caption al lado de cada imagen */
+            .ig-post .ig-caption {
+                flex: 1;
+                font-family: "DM Sans", sans-serif;
+                font-size: 0.82rem;
+                color: #1a1a1a;
+                line-height: 1.75;
+                padding-top: 0.4rem;
+                white-space: pre-line;
+                word-break: break-word;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 10;
+                -webkit-box-orient: vertical;
+            }
+
+            /* Mobile: slide usa ig-img-wrap directo (sin .ig-post wrapper) */
             .ig-slide .ig-img-wrap {
                 flex-shrink: 0;
                 width: min(240px, 35%);
@@ -1385,7 +1445,7 @@
             }
             @media (min-width: 769px) {
                 .ig-card-outer {
-                    max-width: 70%;
+                    max-width: 92%;
                     margin: 0 auto;
                 }
             }
@@ -1647,8 +1707,11 @@
                     <article class="glass-card service-card reveal reveal-delay-1" itemscope itemtype="https://schema.org/Service">
                         <div class="service-card-header">
                             <div class="service-icon-wrap ic-1">
-                                <!-- ÍCONO 1: reemplaza src con tu imagen -->
-                                <img src="" alt="Cremación en Agua" width="40" height="40" style="width:40px;height:40px;object-fit:contain;">
+                                <!-- ÍCONO 1: reemplaza este svg con tu imagen cuando la tengas -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#29A798" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M12 2C6 8 4 12.5 4 15a8 8 0 0 0 16 0c0-2.5-2-7-8-13z"/>
+                                    <path d="M12 19a4 4 0 0 1-4-4" opacity="0.5"/>
+                                </svg>
                             </div>
                             <h3 itemprop="name">Cremación verde: En Agua y no en Fuego</h3>
                         </div>
@@ -1657,8 +1720,12 @@
                     <article class="glass-card service-card reveal reveal-delay-2" itemscope itemtype="https://schema.org/Service">
                         <div class="service-card-header">
                             <div class="service-icon-wrap ic-2">
-                                <!-- ÍCONO 2: reemplaza src con tu imagen -->
-                                <img src="" alt="Anforas y Relicarios" width="40" height="40" style="width:40px;height:40px;object-fit:contain;">
+                                <!-- ÍCONO 2: reemplaza este svg con tu imagen cuando la tengas -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#CBAEF2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M8 3h8l1 5H7L8 3z"/>
+                                    <path d="M7 8c0 0-2 1.5-2 5s2 7 7 7 7-3 7-7-2-5-2-5"/>
+                                    <line x1="12" y1="15" x2="12" y2="17" opacity="0.5"/>
+                                </svg>
                             </div>
                             <h3 itemprop="name">Anforas y Relicarios</h3>
                         </div>
@@ -1667,8 +1734,12 @@
                     <article class="glass-card service-card reveal reveal-delay-3" itemscope itemtype="https://schema.org/Service">
                         <div class="service-card-header">
                             <div class="service-icon-wrap ic-3">
-                                <!-- ÍCONO 3: reemplaza src con tu imagen -->
-                                <img src="" alt="Retiro a Domicilio" width="40" height="40" style="width:40px;height:40px;object-fit:contain;">
+                                <!-- ÍCONO 3: reemplaza este svg con tu imagen cuando la tengas -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F0C982" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M3 12L12 3l9 9"/>
+                                    <path d="M9 21V12h6v9"/>
+                                    <path d="M3 12v9h18v-9" opacity="0.4"/>
+                                </svg>
                             </div>
                             <h3 itemprop="name">Servicio de Retiro a Domicilio dentro de Puerto Montt</h3>
                         </div>
@@ -2182,16 +2253,13 @@
                 function stopAutoplay() { clearInterval(igAutoplay); }
 
                 function buildCarousel(posts) {
-                    igTotal = posts.length;
+                    const isDesktop = () => window.innerWidth >= 769;
 
-                    posts.forEach((post, i) => {
-                        // Slide
-                        const slide = document.createElement('div');
-                        slide.className = 'ig-slide' + (i === 0 ? ' active' : '');
-                        slide.setAttribute('role', 'tabpanel');
-                        slide.setAttribute('aria-label', 'Publicación ' + (i + 1));
+                    // Función para crear el bloque de un post (imagen + caption)
+                    function makePostBlock(post, eager) {
+                        const postEl = document.createElement('div');
+                        postEl.className = 'ig-post';
 
-                        // Imagen 9:16 + caption a la derecha
                         const imgWrap = document.createElement('div');
                         imgWrap.className = 'ig-img-wrap';
 
@@ -2199,37 +2267,130 @@
                         link.href   = post.permalink;
                         link.target = '_blank';
                         link.rel    = 'noopener';
-                        link.style.cssText = 'display:block;line-height:0;';
+                        link.style.cssText = 'display:block;line-height:0;height:100%;';
 
                         const img = document.createElement('img');
                         img.src      = post.src;
                         img.alt      = post.alt;
-                        img.loading  = i === 0 ? 'eager' : 'lazy';
+                        img.loading  = eager ? 'eager' : 'lazy';
                         img.decoding = 'async';
 
                         link.appendChild(img);
                         imgWrap.appendChild(link);
-                        slide.appendChild(imgWrap);
-                        container.appendChild(slide);
+                        postEl.appendChild(imgWrap);
 
-                        // Dot idéntico al carrusel hero
-                        const dot = document.createElement('button');
-                        dot.className = 'dot' + (i === 0 ? ' active' : '');
-                        dot.setAttribute('aria-label', 'Publicación ' + (i + 1));
-                        dot.setAttribute('role', 'tab');
-                        dot.addEventListener('click', () => { stopAutoplay(); igShowSlide(i); });
-                        dotsEl.appendChild(dot);
+                        if (post.caption) {
+                            const cap = document.createElement('div');
+                            cap.className = 'ig-caption';
+                            cap.textContent = post.caption;
+                            postEl.appendChild(cap);
+                        }
+                        return postEl;
+                    }
+
+                    // ── Desktop: slides de 2 posts agrupados ──
+                    // ── Mobile: slides de 1 post ──
+                    // Construimos ambas versiones y las alternamos con JS en resize.
+
+                    function build(desktop) {
+                        container.innerHTML = '';
+                        dotsEl.innerHTML = '';
+
+                        if (desktop) {
+                            // Agrupar de a 2
+                            const pairs = [];
+                            for (let i = 0; i < posts.length; i += 2) {
+                                pairs.push([posts[i], posts[i + 1]].filter(Boolean));
+                            }
+                            igTotal = pairs.length;
+
+                            pairs.forEach((pair, i) => {
+                                const slide = document.createElement('div');
+                                slide.className = 'ig-slide' + (i === 0 ? ' active' : '');
+                                slide.setAttribute('role', 'tabpanel');
+                                slide.setAttribute('aria-label', 'Publicaciones ' + (i * 2 + 1) + '–' + (i * 2 + pair.length));
+
+                                pair.forEach((post, j) => {
+                                    if (j === 1) {
+                                        const div = document.createElement('div');
+                                        div.className = 'ig-post-divider';
+                                        slide.appendChild(div);
+                                    }
+                                    slide.appendChild(makePostBlock(post, i === 0));
+                                });
+
+                                container.appendChild(slide);
+
+                                const dot = document.createElement('button');
+                                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                                dot.setAttribute('aria-label', 'Par de publicaciones ' + (i + 1));
+                                dot.setAttribute('role', 'tab');
+                                dot.addEventListener('click', () => { stopAutoplay(); igShowSlide(i); });
+                                dotsEl.appendChild(dot);
+                            });
+
+                        } else {
+                            // Mobile: 1 post por slide
+                            igTotal = posts.length;
+                            posts.forEach((post, i) => {
+                                const slide = document.createElement('div');
+                                slide.className = 'ig-slide' + (i === 0 ? ' active' : '');
+                                slide.setAttribute('role', 'tabpanel');
+                                slide.setAttribute('aria-label', 'Publicación ' + (i + 1));
+
+                                const imgWrap = document.createElement('div');
+                                imgWrap.className = 'ig-img-wrap';
+                                const link = document.createElement('a');
+                                link.href   = post.permalink;
+                                link.target = '_blank';
+                                link.rel    = 'noopener';
+                                link.style.cssText = 'display:block;line-height:0;';
+                                const img = document.createElement('img');
+                                img.src      = post.src;
+                                img.alt      = post.alt;
+                                img.loading  = i === 0 ? 'eager' : 'lazy';
+                                img.decoding = 'async';
+                                link.appendChild(img);
+                                imgWrap.appendChild(link);
+                                slide.appendChild(imgWrap);
+                                container.appendChild(slide);
+
+                                const dot = document.createElement('button');
+                                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                                dot.setAttribute('aria-label', 'Publicación ' + (i + 1));
+                                dot.setAttribute('role', 'tab');
+                                dot.addEventListener('click', () => { stopAutoplay(); igShowSlide(i); });
+                                dotsEl.appendChild(dot);
+                            });
+
+                            // Mobile: altura dinámica
+                            const setH = () => {
+                                const imgEl = container.querySelector('.ig-img-wrap img');
+                                if (!imgEl) return;
+                                wrapEl.style.height = (imgEl.offsetHeight + 40) + 'px';
+                            };
+                            const fi = container.querySelector('.ig-img-wrap img');
+                            if (fi) { fi.complete ? setH() : fi.addEventListener('load', setH); }
+                        }
+
+                        igCurrent = 0;
+                    }
+
+                    // Construir según tamaño inicial
+                    let lastDesktop = isDesktop();
+                    build(lastDesktop);
+
+                    // Reconstruir si cambia entre mobile y desktop
+                    window.addEventListener('resize', () => {
+                        const d = isDesktop();
+                        if (d !== lastDesktop) {
+                            lastDesktop = d;
+                            stopAutoplay();
+                            build(d);
+                            startAutoplay();
+                        }
                     });
 
-                    // Altura dinámica según imagen real
-                    const setH = () => {
-                        const imgEl = container.querySelector('.ig-img-wrap img');
-                        if (!imgEl) return;
-                        wrapEl.style.height = (imgEl.offsetHeight + 40) + 'px';
-                    };
-                    const fi = container.querySelector('.ig-img-wrap img');
-                    if (fi) { fi.complete ? setH() : fi.addEventListener('load', setH); }
-                    window.addEventListener('resize', setH);
                     prevBtn.addEventListener('click', () => { stopAutoplay(); igShowSlide(igCurrent - 1); });
                     nextBtn.addEventListener('click', () => { stopAutoplay(); igShowSlide(igCurrent + 1); });
                     startAutoplay();
