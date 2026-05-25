@@ -1284,8 +1284,7 @@
 
                 /* Card con las imágenes */
                 .ig-glass-card {
-                    flex: 1 1 75%;
-                    min-width: 0;
+                    width: 100%;
                     padding: 0 !important;
                     border-radius: 16px !important;
                     overflow: hidden !important;
@@ -1809,32 +1808,30 @@
                         Estamos en <em style="font-style:italic;background:linear-gradient(120deg,#F472A0,#E8404A,#C060C8,#F4A030);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Instagram</em>
                     </h3>
                 </div>
-                <div class="ig-card-outer">
-                    <div class="ig-layout-row reveal">
+                <div class="ig-card-outer" style="position:relative;">
 
-                        <!-- Card con las imágenes -->
-                        <div class="glass-card ig-glass-card">
-                            <div class="ig-carousel-wrap" id="igCarouselWrap">
-                                <div id="igSlidesContainer"></div>
-                                <button class="ig-carousel-arrow ig-arrow-prev" id="igPrev" aria-label="Publicación anterior">&#8249;</button>
-                                <button class="ig-carousel-arrow ig-arrow-next" id="igNext" aria-label="Publicación siguiente">&#8250;</button>
-                                <div class="ig-carousel-dots" id="igDots" role="tablist" aria-label="Controles del carrusel Instagram"></div>
-                            </div>
-                        </div>
-
-                        <!-- Botones a la derecha del card -->
-                        <div class="ig-side-btns">
-                            <button onclick="document.querySelector('.mosaic-item[data-gallery=\'despedida\']').click()"
-                               class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;cursor:pointer;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);white-space:nowrap;">
-                                Testimonios
-                            </button>
-                            <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener"
-                               class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);text-align:center;">
-                                Ver todos los homenajes
-                            </a>
-                        </div>
-
+                    <!-- Botones flotantes arriba a la derecha, fuera de la card -->
+                    <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-bottom:0.6rem;">
+                        <button onclick="document.querySelector('.mosaic-item[data-gallery=\'despedida\']').click()"
+                           class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;cursor:pointer;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);white-space:nowrap;">
+                            Testimonios
+                        </button>
+                        <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener"
+                           class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);text-align:center;white-space:nowrap;">
+                            Ver todos los homenajes
+                        </a>
                     </div>
+
+                    <!-- Card con las imágenes — ocupa todo el ancho -->
+                    <div class="glass-card ig-glass-card reveal" style="width:100%;">
+                        <div class="ig-carousel-wrap" id="igCarouselWrap">
+                            <div id="igSlidesContainer"></div>
+                            <button class="ig-carousel-arrow ig-arrow-prev" id="igPrev" aria-label="Publicación anterior">&#8249;</button>
+                            <button class="ig-carousel-arrow ig-arrow-next" id="igNext" aria-label="Publicación siguiente">&#8250;</button>
+                            <div class="ig-carousel-dots" id="igDots" role="tablist" aria-label="Controles del carrusel Instagram"></div>
+                        </div>
+                    </div>
+
                 </div><!-- /ig-card-outer -->
             </div>
         </section>
