@@ -3,11 +3,6 @@
 update_instagram.py
 Obtiene las últimas publicaciones de @_petsalcielo via Graph API,
 descarga las imágenes a /Assets/instagram/ y actualiza instagram.json.
-
-Ejecutar manualmente:
-    python update_instagram.py
-
-En GitHub Actions se ejecuta automáticamente cada 24h.
 """
 
 import os
@@ -18,8 +13,8 @@ from datetime import datetime, timezone
 
 # ── Configuración ──────────────────────────────────────────────────────────────
 IG_USER_ID   = "17841429339022812"
-ACCESS_TOKEN = os.environ.get("IG_TOKEN", "")   # siempre desde variable de entorno
-POSTS_LIMIT  = 10                                 # cuántas publicaciones mostrar
+ACCESS_TOKEN = os.environ.get("IG_TOKEN", "")
+POSTS_LIMIT  = 10
 OUTPUT_JSON  = "instagram.json"
 ASSETS_DIR   = os.path.join("Assets", "instagram")
 API_VERSION  = "v25.0"
@@ -30,9 +25,7 @@ def fetch(url):
         return json.loads(r.read().decode())
 
 def download_image(url, path):
-    """Descarga una imagen solo si no existe ya."""
-    if os.path.exists(path):
-        return True
+    """Descarga una imagen siempre (sobreescribe para mantener frescas)."""
     try:
         urllib.request.urlretrieve(url, path)
         return True
@@ -44,16 +37,15 @@ def main():
     if not ACCESS_TOKEN:
         raise SystemExit("❌  Variable de entorno IG_TOKEN no definida.")
 
-    # Si existe como archivo (no directorio), eliminarlo primero
     if os.path.isfile(ASSETS_DIR):
         os.remove(ASSETS_DIR)
     os.makedirs(ASSETS_DIR, exist_ok=True)
 
-    # 1. Obtener lista de publicaciones (solo imágenes y carruseles, sin Reels)
+    # Pedir 50 para tener suficientes después de filtrar duplicados
     fields = "id,caption,media_type,media_url,thumbnail_url,timestamp,permalink"
     params = urllib.parse.urlencode({
         "fields":       fields,
-        "limit":        POSTS_LIMIT * 2,   # pedimos el doble por si hay Reels
+        "limit":        50,
         "access_token": ACCESS_TOKEN,
     })
     url = f"https://graph.facebook.com/{API_VERSION}/{IG_USER_ID}/media?{params}"
@@ -65,13 +57,10 @@ def main():
         raise SystemExit(f"❌  Error API: {data['error']['message']}")
 
     raw_posts = data.get("data", [])
-    print(f"    → {len(raw_posts)} publicaciones encontradas")
+    print(f"    → {len(raw_posts)} publicaciones encontradas en bruto")
 
-    # 2. Incluir IMAGE, CAROUSEL_ALBUM y VIDEO (usando thumbnail como preview)
-    #    Eliminar duplicados: al compartir un Reel en Facebook, la API devuelve
-    #    el mismo contenido dos veces con timestamps < 5 minutos de diferencia.
     posts = []
-    seen_timestamps = []
+    seen_captions = set()  # usar set para comparación exacta
 
     for p in raw_posts:
         media_type = p.get("media_type", "")
@@ -87,18 +76,23 @@ def main():
         if not image_url:
             continue
 
-        caption   = p.get("caption", "")[:200]
+        caption   = p.get("caption", "")
         timestamp = p.get("timestamp", "")
-        permalink = p.get("permalink", "https://www.instagram.com/_petsalcielo/")
+        permalink = p.get("permalink", "")
 
-        # Solo publicaciones de Instagram (filtrar las duplicadas de Facebook)
+        # Solo Instagram
         if "instagram.com" not in permalink:
-            print(f"  ⚠  Omitido (no es Instagram): {post_id}")
+            print(f"  ⚠  No es Instagram, omitido: {post_id}")
             continue
 
-        # Descargar imagen localmente
-        ext       = "jpg"
-        filename  = f"{post_id}.{ext}"
+        # Deduplicar por caption completo (los duplicados tienen caption idéntico)
+        caption_key = caption.strip()
+        if caption_key in seen_captions:
+            print(f"  ⚠  Duplicado omitido: {post_id}")
+            continue
+        seen_captions.add(caption_key)
+
+        filename   = f"{post_id}.jpg"
         local_path = os.path.join(ASSETS_DIR, filename)
         web_path   = f"/Assets/instagram/{filename}"
 
@@ -108,7 +102,7 @@ def main():
         posts.append({
             "id":        post_id,
             "src":       web_path if ok else image_url,
-            "alt":       caption.replace("\n", " ").strip() or "Publicación de PetsAlCielo",
+            "alt":       caption.replace("\n", " ").strip()[:200] or "Publicación de PetsAlCielo",
             "timestamp": timestamp,
             "permalink": permalink,
         })
@@ -116,7 +110,6 @@ def main():
         if len(posts) >= POSTS_LIMIT:
             break
 
-    # 3. Guardar JSON
     output = {
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "posts":   posts,
@@ -124,7 +117,7 @@ def main():
     with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
-    print(f"\n✅  {len(posts)} publicaciones guardadas en {OUTPUT_JSON}")
+    print(f"\n✅  {len(posts)} publicaciones únicas guardadas en {OUTPUT_JSON}")
 
 if __name__ == "__main__":
     main()
