@@ -1402,24 +1402,41 @@
                 .ig-carousel-arrow { display: none; }
                 .ig-layout-row { flex-direction: column; gap: 0.6rem; }
                 .ig-side-btns { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; gap: 0.4rem; }
-                .ig-glass-card { height: auto; overflow: visible !important; }
+
+                .ig-glass-card {
+                    width: 100% !important;
+                    margin: 0 !important;
+                    height: auto !important;
+                    overflow: visible !important;
+                    border-radius: 20px !important;
+                }
+
                 .ig-carousel-wrap {
                     position: relative !important;
                     inset: auto !important;
                     border-radius: 20px;
                     overflow: hidden;
+                    width: 100%;
+                    height: calc(100vw * 16 / 9);
+                    max-height: 75vh;
                 }
+
                 .ig-slide {
                     position: absolute;
                     inset: 0;
-                    bottom: 44px;
-                    flex-direction: column;
+                    bottom: 36px;
+                    flex-direction: row;
                     padding: 0;
                     opacity: 0;
                     display: flex;
+                    gap: 0;
                 }
                 .ig-slide.active { opacity: 1; }
-                .ig-post { border-radius: 0; }
+
+                .ig-post { border-radius: 0; flex: 1; }
+                .ig-post:nth-child(2) { display: none; }
+                .ig-post .ig-img-wrap img { object-fit: cover; }
+
                 .ig-carousel-dots {
                     position: absolute;
                     bottom: 0.5rem;
