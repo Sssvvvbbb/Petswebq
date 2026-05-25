@@ -355,11 +355,17 @@
                 font-weight: 300;
                 line-height: 1.7;
                 margin-bottom: 1.8rem;
+                min-height: calc(0.95rem * 1.7 * 2);
             }
             .hero-actions {
                 display: flex;
                 gap: 0.8rem;
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
+            }
+            .hero-btn {
+                font-size: 0.8rem !important;
+                padding: 0.65rem 1.2rem !important;
+                white-space: nowrap;
             }
             .btn-primary {
                 background: linear-gradient(135deg, #b39ddb, #9575cd) !important;
@@ -1009,25 +1015,59 @@
             @media (max-width: 768px) {
                 .top-bar-content { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
                 .carousel-wrap { height: 100svh; }
-                /* Idéntico al desktop: position absolute + fade opacity */
                 .carousel-slide {
                     position: absolute;
                     inset: 0;
                     opacity: 0;
                     transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
                     display: flex;
-                    align-items: center;
+                    align-items: flex-start;
                     justify-content: center;
-                    padding-top: 68px;
+                    padding-top: 90px;
                     padding-bottom: 60px;
+                    padding-left: 1rem;
+                    padding-right: 1rem;
                 }
                 .carousel-slide.active { opacity: 1; }
+
+                /* Nav mobile: todos los items visibles, comprimidos */
+                .nav-menu {
+                    display: flex !important;
+                    gap: 0;
+                    flex-wrap: nowrap;
+                    overflow: hidden;
+                    flex: 1;
+                    justify-content: flex-end;
+                    align-items: center;
+                }
+                .nav-menu li a {
+                    font-size: 0.58rem;
+                    white-space: nowrap;
+                    padding: 0 0.2rem;
+                    letter-spacing: 0;
+                }
+                .nav-menu .nav-cta {
+                    padding: 0.4rem 0.8rem !important;
+                    font-size: 0.65rem !important;
+                    white-space: nowrap;
+                    flex-shrink: 0;
+                    margin-left: 0.2rem;
+                }
+
+                .hero-inner {
+                    padding: 1.4rem 1.2rem;
+                    width: 88%;
+                    max-width: 360px;
+                    box-sizing: border-box;
+                    margin: 0 auto;
+                }
+                .hero-title { font-size: clamp(1.6rem, 6.5vw, 2.4rem); }
+                .hero-sub { font-size: 0.9rem; line-height: 1.6; min-height: 0; }
+                .hero-actions { flex-wrap: wrap; gap: 0.5rem; }
+                .hero-btn { font-size: 0.72rem !important; padding: 0.5rem 1.1rem !important; white-space: nowrap; flex: 0 0 auto; }
+                .carousel-slide { overflow: hidden; }
                 .services-bento { grid-template-columns: 1fr; }
                 .hero-eyebrow { white-space: normal; font-size: clamp(0.6rem, 2.8vw, 0.72rem); letter-spacing: 0.15em; }
-                .hero-inner { padding: 1.5rem 1.2rem; width: 100%; box-sizing: border-box; }
-                .hero-title { font-size: clamp(1.6rem, 6.5vw, 2.4rem); }
-                .hero-sub { font-size: 0.9rem; line-height: 1.6; }
-                .carousel-slide { overflow: hidden; }
                 .process-steps { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
                 .process-steps::before { display: none; }
                 .step-bubble { width: 40px; height: 40px; font-size: 1rem; margin-bottom: 0.6rem; }
@@ -1767,7 +1807,7 @@
                         Cremación digna y respetuosa<br>para honrar su vida.
                     </p>
                     <div class="hero-actions">
-                        <a href="#servicios" class="btn btn-primary">Conoce nuestros servicios ›</a>
+                        <a href="#servicios" class="btn btn-primary hero-btn">Conoce nuestros servicios ›</a>
                     </div>
                 </div>
             </div>
@@ -1789,11 +1829,11 @@
                     </h2>
                     <div class="hero-divider"></div>
                     <p class="hero-sub">
-                        El proceso más respetuoso<br>con el medio ambiente.
+                        El proceso más respetuoso con el medio ambiente.
                     </p>
                     <div class="hero-actions">
-                        <a href="#video" class="btn btn-primary">Conocer el Proceso ›</a>
-                        <a href="#nosotros" class="btn btn-ghost">Sobre Nosotros</a>
+                        <a href="#video" class="btn btn-primary hero-btn">Conocer el Proceso ›</a>
+                        <a href="#nosotros" class="btn btn-ghost hero-btn">Sobre Nosotros</a>
                     </div>
                 </div>
             </div>
@@ -1818,8 +1858,8 @@
                         Cremación individual SIEMPRE.<br>Respeto y dignidad en cada paso.
                     </p>
                     <div class="hero-actions">
-                        <a href="https://petsalcielo.cl/preguntas-frecuentes" class="btn btn-primary">Preguntas frecuentes ›</a>
-                        <a href="#" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios','_blank','noopener');" class="btn btn-ghost">Hablar con nosotros</a>
+                        <a href="https://petsalcielo.cl/preguntas-frecuentes" class="btn btn-primary hero-btn">Preguntas frecuentes ›</a>
+                        <a href="#" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios','_blank','noopener');" class="btn btn-ghost hero-btn">Hablar con nosotros</a>
                     </div>
                 </div>
             </div>
@@ -2018,14 +2058,32 @@
             <div class="container">
                 <div class="about-split">
                     <div class="about-visual reveal">
-                        <div class="glass-card about-card-main">
-                            <div class="about-gradient-fill" aria-hidden="true">
-                                <img src="/Assets/foto-mulán-nuestra-mascota-llanquihue-la-insipiracion-de-nosotros-preguntas-frecuentes.webp"
-                                     alt="Mulancita, la mascota que inspiró PetsAlCielo"
-                                     style="width:100%;height:100%;object-fit:cover;object-position:center;border-radius:18px;padding:1rem;box-sizing:border-box;">
-                            </div>
-
-                        </div>
+                        <svg width="100%" viewBox="0 0 500 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mulancita, la mascota que inspiró PetsAlCielo">
+                            <defs>
+                                <linearGradient id="marco-mulan" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#e8a0d0"/>
+                                    <stop offset="40%" stop-color="#f0b8d8"/>
+                                    <stop offset="70%" stop-color="#f5c0e0"/>
+                                    <stop offset="100%" stop-color="#f8d0e8"/>
+                                </linearGradient>
+                                <linearGradient id="brillo-mulan" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#fff0fa" stop-opacity="0.7"/>
+                                    <stop offset="50%" stop-color="#fff0fa" stop-opacity="0.2"/>
+                                    <stop offset="100%" stop-color="#ffd8f0" stop-opacity="0.5"/>
+                                </linearGradient>
+                                <clipPath id="mulan-clip">
+                                    <rect x="28" y="28" width="444" height="464" rx="26"/>
+                                </clipPath>
+                            </defs>
+                            <rect x="0" y="0" width="500" height="520" rx="40" fill="url(#marco-mulan)"/>
+                            <rect x="0" y="0" width="500" height="520" rx="40" fill="url(#brillo-mulan)"/>
+                            <image
+                                href="/Assets/foto-mulán-nuestra-mascota-llanquihue-la-insipiracion-de-nosotros-preguntas-frecuentes.webp"
+                                x="28" y="28" width="444" height="464"
+                                preserveAspectRatio="xMidYMid slice"
+                                clip-path="url(#mulan-clip)"/>
+                            <rect x="28" y="28" width="444" height="464" rx="26" fill="none" stroke="#fff0f8" stroke-width="4" opacity="1"/>
+                        </svg>
                     </div>
                     <div class="about-text">
                         <span class="section-tag reveal">Sobre Nosotros</span>
