@@ -1409,16 +1409,16 @@
                     padding: 0.38rem 0.9rem !important;
                 }
 
-                /* Card ancho completo */
+                /* Card: ancho = alto × (9/16) para imagen vertical exacta */
                 .ig-glass-card {
-                    width: 100% !important;
-                    margin: 0 !important;
+                    width: calc((100vh - 230px) * 9 / 16) !important;
+                    max-width: 90vw !important;
+                    margin: 0 auto !important;
                     height: auto !important;
                     overflow: hidden !important;
                     border-radius: 16px !important;
                 }
 
-                /* Wrap: altura = 100vh menos espacio para nav(~60px) + tag+título(~70px) + botones(~50px) + márgenes(~40px) = ~220px */
                 .ig-carousel-wrap {
                     position: relative !important;
                     inset: auto !important;
@@ -1442,12 +1442,12 @@
                 }
                 .ig-slide.active { opacity: 1; }
 
-                /* 1 imagen, llena el card sin recortarse */
-                .ig-post { border-radius: 0; flex: 1; min-height: 0; height: 100%; }
+                /* 1 imagen, proporción exacta */
+                .ig-post { border-radius: 0; flex: 1; height: 100%; }
                 .ig-post:nth-child(2) { display: none; }
-                .ig-post .ig-img-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-                .ig-post .ig-img-wrap a { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-                .ig-post .ig-img-wrap img { object-fit: contain; width: auto; height: 100%; max-width: 100%; }
+                .ig-post .ig-img-wrap { width: 100%; height: 100%; }
+                .ig-post .ig-img-wrap a { display: block; width: 100%; height: 100%; }
+                .ig-post .ig-img-wrap img { object-fit: cover; width: 100%; height: 100%; }
 
                 .ig-carousel-dots {
                     position: absolute;
