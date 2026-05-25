@@ -422,14 +422,19 @@
 
         /* ── FAQ ACCORDION ── */
         .faq-group {
-            margin-bottom: 3rem;
+            margin-bottom: 0;
+            padding-bottom: 3rem;
+        }
+        .faq-group + .faq-group {
+            padding-top: 3rem;
+            border-top: 1px solid rgba(168,230,214,0.2);
         }
         .faq-group-title {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.6rem;
             font-weight: 500;
             color: var(--text-dark);
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.6rem;
@@ -915,8 +920,7 @@
                 <button class="cat-btn" data-cat="garantias"><span class="cat-emoji">✅</span> Garantías</button>
                 <button class="cat-btn" data-cat="servicio"><span class="cat-emoji">🚐</span> Servicio</button>
                 <button class="cat-btn" data-cat="urnas"><span class="cat-emoji">🏺</span> Urnas</button>
-                <button class="cat-btn" data-cat="precios"><span class="cat-emoji">💬</span> Precios</button>
-                <button class="cat-btn" data-cat="mascotas"><span class="cat-emoji">🐾</span> Mascotas</button>
+
             </div>
 
             <!-- GROUP 1: El Proceso -->
@@ -949,8 +953,8 @@
                         </button>
                         <div class="faq-answer" role="region">
                             <div class="faq-answer-inner">
-                                <p>La Cremación con Fuego se efectúa Mediante Hornos Crematorios que utilizan combustibles fósiles como Gas y Petróleo, generando altos niveles de Energía para llegar a temperaturas superiores a los 1.000°C para quemar a la mascotita. Además, emiten gases a la atmosfera, a través de chimeneas por más filtros que tengan, que contribuyen al Efecto Invernadero. 
-                                    <p>La Cremación con Agua (Hidrólisis Alcalina) o Cremación Ecológica, se realiza en equipos que utilizan agua alcalina a temperaturas que oscilan entre los 90 a 100°C, con un uso de energía de apenas un 15 % de la que utiliza un Horno Crematorio y sin emitir gases a la atmosfera que contribuyan al efecto invernadero.</p>
+                                <p>La Cremación con Fuego se efectúa Mediante Hornos Crematorios que utilizan combustibles fósiles como Gas y Petróleo, generando altos niveles de Energía para llegar a temperaturas superiores a los 1.000°C para quemar a la mascotita. Además, emiten gases a la atmosfera, a través de chimeneas por más filtros que tengan, que contribuyen al Efecto Invernadero.</p>
+                                    <p style="margin-top:0.8rem;">La Cremación con Agua (Hidrólisis Alcalina) o Cremación Ecológica, se realiza en equipos que utilizan agua alcalina a temperaturas que oscilan entre los 90 a 100°C, con un uso de energía de apenas un 15 % de la que utiliza un Horno Crematorio y sin emitir gases a la atmosfera que contribuyan al efecto invernadero.</p>
                                 <p>Más aún, este proceso NO destruye prótesis e implantes metálicos, los que al ser recuperados y entregados contribuyen a dar mayor certeza a los dueños o tutores de la mascotita.</p>
 <p>Además, en un 95% de los casos, al finalizar el procedimiento el Chips identificatorio se recupera y se puede entregar y escanear para obtener el número que está en su carnet y/o Registro de Mascotitas.</p>
                             </div>
@@ -1090,9 +1094,9 @@ recuperados y entregados contribuyen a dar mayor certeza a los dueños o tutores
                         </div>
                     </div>
                     
-                    <div class="faq-item" data-cat="servicio" data-question="¿¿Valores del servicio y formas de Pago?">
+                    <div class="faq-item" data-cat="servicio" data-question="¿¿Valores del Servicio y Formas de Pago?">
                         <button class="faq-question" aria-expanded="false">
-                            ¿Valores del servicio y formas de pago?
+                            ¿Valores del Servicio y Formas de Pago??
                             <span class="faq-chevron" aria-hidden="true">
                                 <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
                             </span>
