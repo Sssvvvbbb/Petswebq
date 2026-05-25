@@ -242,7 +242,7 @@
                 100% { opacity: 0; transform: translateY(100vh) rotate(360deg) scale(0.8) translateX(60px); }
             }
 
-            /* Carousel wrap — ahora es el hero con foto */
+            /* Carousel wrap — hero con foto de fondo */
             .carousel-wrap {
                 position: relative;
                 height: 100vh;
@@ -255,26 +255,37 @@
                 transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
                 display: flex;
                 align-items: center;
-                padding-top: 0;
-                padding-bottom: 0;
+                justify-content: flex-start;
+                padding-top: 96px;
+                padding-bottom: 70px;
             }
             .carousel-slide.active { opacity: 1; }
 
-            /* Fondos: foto con overlay degradado */
-            .slide-bg-1 {
-                background:
-                    linear-gradient(105deg, rgba(255,220,230,0.72) 0%, rgba(220,200,255,0.45) 45%, rgba(180,230,255,0.3) 100%),
-                    none center/cover no-repeat;
+            /* Foto de fondo que cubre toda la slide */
+            .slide-photo {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+                z-index: 0;
             }
-            .slide-bg-2 {
-                background:
-                    linear-gradient(105deg, rgba(255,210,235,0.72) 0%, rgba(210,195,255,0.45) 45%, rgba(195,235,255,0.3) 100%),
-                    none center/cover no-repeat;
+
+            /* Overlay degradado encima de la foto */
+            .slide-overlay {
+                position: absolute;
+                inset: 0;
+                z-index: 1;
             }
-            .slide-bg-3 {
-                background:
-                    linear-gradient(105deg, rgba(240,215,255,0.72) 0%, rgba(255,210,230,0.45) 45%, rgba(200,240,255,0.3) 100%),
-                    none center/cover no-repeat;
+            .slide-bg-1 .slide-overlay {
+                background: linear-gradient(105deg, rgba(255,220,230,0.72) 0%, rgba(220,200,255,0.45) 45%, rgba(180,230,255,0.18) 100%);
+            }
+            .slide-bg-2 .slide-overlay {
+                background: linear-gradient(105deg, rgba(255,210,235,0.72) 0%, rgba(210,195,255,0.45) 45%, rgba(195,235,255,0.18) 100%);
+            }
+            .slide-bg-3 .slide-overlay {
+                background: linear-gradient(105deg, rgba(240,215,255,0.72) 0%, rgba(255,210,230,0.45) 45%, rgba(200,240,255,0.18) 100%);
             }
 
             /* Card blanca a la izquierda */
@@ -431,50 +442,8 @@
             }
 
             /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            CARRUSEL DE SLIDES - transicion suave con fade
-            En celular: transicion extra lenta para mayor suavidad
+            CARRUSEL DE SLIDES - estilos de dots
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-            .carousel-wrap {
-                position: relative;
-                height: 100vh;
-                overflow: hidden;
-            }
-            .carousel-slide {
-                position: absolute;
-                inset: 0;
-                opacity: 0;
-                transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                /* top: top-bar(~36px) + nav(~60px); bottom: dots area (~70px) */
-                padding-top: 96px;
-                padding-bottom: 70px;
-            }
-            .carousel-slide.active { opacity: 1; }
-
-            .slide-bg-1 { background: linear-gradient(145deg, #d0f0e8 0%, #e8d0f0 50%, #d0e8f0 100%); }
-            .slide-bg-2 { background: linear-gradient(155deg, #f0d0e8 0%, #d0e8f0 50%, #e8f0d0 100%); }
-            .slide-bg-3 { background: linear-gradient(135deg, #ead0f0 0%, #f0e8d0 50%, #d0f0ee 100%); }
-
-            .carousel-dots {
-                position: absolute;
-                bottom: 2.5rem;
-                left: 50%;
-                transform: translateX(-50%);
-                display: flex;
-                gap: 0.7rem;
-                z-index: 10;
-            }
-            .dot {
-                width: 8px; height: 8px;
-                border-radius: 50%;
-                background: rgba(41,167,152,0.3);
-                border: none;
-                cursor: pointer;
-                transition: all 0.3s;
-            }
-            .dot.active { background: var(--teal); width: 28px; border-radius: 4px; }
 
             /* ── FOG REVEAL - efecto niebla para el bloque CTA ── */
             .reveal-fog {
@@ -1779,8 +1748,11 @@
             <div class="petals" aria-hidden="true" id="petalContainer"></div>
 
             <!-- Slide 1 -->
-            <div class="carousel-slide slide-bg-1 active" role="tabpanel" aria-label="Slide 1"><img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" />
-                    <div class="slide-overlay"></div><div class="hero-brand">
+            <div class="carousel-slide slide-bg-1 active" role="tabpanel" aria-label="Slide 1">
+                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo" aria-hidden="true">
+                <div class="slide-overlay"></div>
+                <div class="hero-inner">
+                    <div class="hero-brand">
                         <img src="/Assets/logo_para_web.webp" alt="PetsAlCielo" class="hero-brand-logo">
                         <div class="hero-brand-name">
                             PetsAlCielo
@@ -1801,7 +1773,11 @@
             </div>
 
             <!-- Slide 2 -->
-            <div class="carousel-slide slide-bg-2" role="tabpanel" aria-label="Slide 2"><img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" />
+            <div class="carousel-slide slide-bg-2" role="tabpanel" aria-label="Slide 2">
+                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo" aria-hidden="true">
+                <div class="slide-overlay"></div>
+                <div class="hero-inner">
+                    <div class="hero-brand">
                         <img src="/Assets/logo_para_web.webp" alt="PetsAlCielo" class="hero-brand-logo">
                         <div class="hero-brand-name">
                             PetsAlCielo
@@ -1823,7 +1799,12 @@
             </div>
 
             <!-- Slide 3 -->
-            <div class="carousel-slide slide-bg-3" role="tabpanel" aria-label="Slide 3"><img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" />
+            <div class="carousel-slide slide-bg-3" role="tabpanel" aria-label="Slide 3">
+                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo" aria-hidden="true">
+                <div class="slide-overlay"></div>
+                <div class="hero-inner">
+                    <div class="hero-brand">
+                        <img src="/Assets/logo_para_web.webp" alt="PetsAlCielo" class="hero-brand-logo">
                         <div class="hero-brand-name">
                             PetsAlCielo
                             <small>Honramos su vida, cuidamos su recuerdo</small>
