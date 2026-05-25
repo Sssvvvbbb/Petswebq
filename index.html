@@ -1376,6 +1376,16 @@
                 .ig-carousel-arrow { display: none; }
             }
 
+            .ig-card-outer {
+                width: 100%;
+            }
+            @media (min-width: 769px) {
+                .ig-card-outer {
+                    max-width: 70%;
+                    margin: 0 auto;
+                }
+            }
+
             /* ── INSTAGRAM BUTTON - contact bar ── */
             .ig-btn {
                 display: inline-flex;
@@ -1713,21 +1723,14 @@
             </div>
 
             <!-- Instagram Feed -->
-            <div class="container" style="margin-top: 1.5rem;">
+            <div class="container" style="margin-top: 3rem;">
                 <div class="section-header" style="margin-bottom: 1rem;">
                     <span class="section-tag reveal">Homenajes</span>
                     <h3 class="section-title reveal reveal-delay-1" style="font-size:clamp(1rem,2vw,1.4rem);">
-                        Estamos en <em>Instagram</em>
+                        Estamos en <em style="font-style:italic;background:linear-gradient(120deg,#F472A0,#E8404A,#C060C8,#F4A030);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Instagram</em>
                     </h3>
                 </div>
-                <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                    CARRUSEL INSTAGRAM
-                    Usa la API pública de oEmbed de Instagram para mostrar
-                    publicaciones de @_petsalcielo una a la vez.
-                    Las URLs de posts se pasan en igPosts[]. Orden: primera
-                    publicación no anclada primero (como indica la instrucción).
-                    El JS carga cada embed de forma lazy al hacerse activo.
-                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+                <div class="ig-card-outer">
                 <div class="glass-card reveal" style="padding: 0.7rem 0.8rem 0; border-radius: 16px; overflow: hidden;">
 
                     <!-- Botones superiores -->
@@ -1756,7 +1759,8 @@
                         <div class="ig-carousel-dots" id="igDots" role="tablist" aria-label="Controles del carrusel Instagram"></div>
                     </div>
 
-                </div>
+                </div><!-- /glass-card -->
+                </div><!-- /ig-card-outer -->
             </div>
         </section>
 
