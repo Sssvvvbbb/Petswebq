@@ -1281,6 +1281,7 @@
                     height: 420px;
                 }
             }
+            /* slide ocupa todo el wrap, children se estiran */
             .ig-slide {
                 position: absolute;
                 inset: 0;
@@ -1291,28 +1292,41 @@
                 align-items: stretch;
                 justify-content: center;
                 gap: 1rem;
-                padding: 1.2rem 1.5rem 3rem;
+                padding: 1rem 1.2rem 3rem;
                 box-sizing: border-box;
             }
             .ig-slide.active { opacity: 1; }
 
+            /* Cada post ocupa la mitad, se estira hasta el alto del slide */
+            .ig-post {
+                flex: 1;
+                min-width: 0;
+                min-height: 0;
+                display: flex;
+                flex-direction: row;
+                align-items: stretch;
+                gap: 0.8rem;
+            }
+
             /* Separador vertical entre los 2 posts */
             .ig-post-divider {
                 width: 1px;
-                align-self: stretch;
-                background: linear-gradient(to bottom, transparent, rgba(168,230,214,0.35), rgba(203,174,242,0.35), transparent);
                 flex-shrink: 0;
+                background: linear-gradient(to bottom, transparent, rgba(168,230,214,0.4), rgba(203,174,242,0.4), transparent);
             }
 
-            /* Imagen 9:16 dentro del post */
+            /* La imagen llena todo el alto y ancho disponible del post */
             .ig-post .ig-img-wrap {
                 flex: 1;
+                min-height: 0;
+                min-width: 0;
                 border-radius: 14px;
                 overflow: hidden;
                 box-shadow: 0 8px 32px rgba(100,140,160,0.15);
             }
             .ig-post .ig-img-wrap a {
                 display: block;
+                width: 100%;
                 height: 100%;
                 line-height: 0;
             }
@@ -1322,20 +1336,10 @@
                 display: block;
                 object-fit: cover;
             }
-            /* Cada "post" dentro del slide desktop — imagen grande + caption pequeño */
-            .ig-post {
-                display: flex;
-                flex-direction: row;
-                align-items: stretch;
-                gap: 0.8rem;
-                flex: 1;
-                min-width: 0;
-                height: 100%;
-                max-height: 100%;
-            }
-            /* Caption al lado de cada imagen */
+            /* Caption compacto al lado */
             .ig-post .ig-caption {
-                flex: 0 0 140px;
+                flex: 0 0 130px;
+                align-self: flex-start;
                 font-family: "DM Sans", sans-serif;
                 font-size: 0.78rem;
                 color: #1a1a1a;
@@ -1345,9 +1349,8 @@
                 word-break: break-word;
                 overflow: hidden;
                 display: -webkit-box;
-                -webkit-line-clamp: 12;
+                -webkit-line-clamp: 14;
                 -webkit-box-orient: vertical;
-                align-self: flex-start;
             }
 
             /* Mobile: slide usa ig-img-wrap directo (sin .ig-post wrapper) */
