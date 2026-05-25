@@ -1442,12 +1442,12 @@
                 }
                 .ig-slide.active { opacity: 1; }
 
-                /* 1 imagen, proporción exacta */
-                .ig-post { border-radius: 0; flex: 1; height: 100%; }
+                /* 1 imagen, llena el card exacto */
+                .ig-post { border-radius: 0; flex: 1; height: 100%; overflow: hidden; }
                 .ig-post:nth-child(2) { display: none; }
-                .ig-post .ig-img-wrap { width: 100%; height: 100%; }
-                .ig-post .ig-img-wrap a { display: block; width: 100%; height: 100%; }
-                .ig-post .ig-img-wrap img { object-fit: cover; width: 100%; height: 100%; }
+                .ig-post .ig-img-wrap { width: 100%; height: 100%; overflow: hidden; }
+                .ig-post .ig-img-wrap a { display: block; width: 100%; height: 100%; line-height: 0; }
+                .ig-post .ig-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
                 .ig-carousel-dots {
                     position: absolute;
@@ -1840,7 +1840,7 @@
                 <div class="ig-card-outer" style="position:relative;">
 
                     <!-- Botones flotantes arriba a la derecha, fuera de la card -->
-                    <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-bottom:0.6rem;" class="ig-top-btns">
+                    <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-bottom:1.2rem;" class="ig-top-btns">
                         <button onclick="document.querySelector('.mosaic-item[data-gallery=\'despedida\']').click()"
                            class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;cursor:pointer;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);white-space:nowrap;">
                             Testimonios
@@ -2388,14 +2388,8 @@
                                 dotsEl.appendChild(dot);
                             });
 
-                            // Mobile: altura dinámica
-                            const setH = () => {
-                                const imgEl = container.querySelector('.ig-img-wrap img');
-                                if (!imgEl) return;
-                                wrapEl.style.height = (imgEl.offsetHeight + 40) + 'px';
-                            };
-                            const fi = container.querySelector('.ig-img-wrap img');
-                            if (fi) { fi.complete ? setH() : fi.addEventListener('load', setH); }
+                            // Mobile: altura fija basada en CSS (no sobreescribir con altura natural de imagen)
+                            // No hacemos nada: el CSS ya controla la altura del wrap.
                         }
 
                         igCurrent = 0;
