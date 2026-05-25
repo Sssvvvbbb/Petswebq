@@ -1679,7 +1679,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#F1A7F1" style="width:1rem;height:1rem;flex-shrink:0;display:block;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                             </span>
                         </div>
-                        <style>@media(max-width:768px){.gallery-hint{display:block!important;margin-top:0.8rem;}}</style>
+                        <style>@media(max-width:768px){.gallery-hint{display:flex!important;align-items:center;flex-wrap:nowrap;margin-top:0.8rem;font-size:0.78rem!important;gap:0.3em!important;white-space:nowrap;}.gallery-hint svg{width:0.72rem!important;height:0.72rem!important;}}</style>
                     </div>
                     <div class="gallery-mosaic reveal" aria-label="Galería de instalaciones">
                         <div class="mosaic-item" data-gallery="instalaciones" role="button" tabindex="0" aria-label="Ver galería de instalaciones" style="cursor:pointer;">
@@ -1724,11 +1724,15 @@
                 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
                 <div class="glass-card reveal" style="padding: 1rem 1rem 0; border-radius: 20px; overflow: hidden;">
 
-                    <!-- Botón Ver homenajes con estética del sitio -->
-                    <div style="display:flex;justify-content:flex-end;margin-bottom:1rem;">
+                    <!-- Botones superiores -->
+                    <div style="display:flex;justify-content:flex-end;gap:0.6rem;margin-bottom:1rem;flex-wrap:wrap;">
+                        <button onclick="document.querySelector('.mosaic-item[data-gallery=\'despedida\']').click()"
+                           class="btn" style="font-size:0.82rem;padding:0.5rem 1.2rem;cursor:pointer;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);">
+                            Testimonios
+                        </button>
                         <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener"
-                           class="btn btn-primary" style="font-size:0.82rem;padding:0.5rem 1.2rem;">
-                            Ver homenajes
+                           class="btn" style="font-size:0.82rem;padding:0.5rem 1.2rem;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);">
+                            Ver todos los homenajes
                         </a>
                     </div>
 
