@@ -254,7 +254,7 @@
                 position: absolute;
                 inset: 0;
                 opacity: 0;
-                transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: opacity 3.0s cubic-bezier(0.25, 0.0, 0.15, 1.0);
                 display: flex;
                 align-items: center;
                 justify-content: flex-start;
@@ -1007,7 +1007,7 @@
                     position: absolute;
                     inset: 0;
                     opacity: 0;
-                    transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+                    transition: opacity 3.0s cubic-bezier(0.25, 0.0, 0.15, 1.0);
                     display: flex;
                     align-items: flex-start;
                     justify-content: center;
@@ -1434,7 +1434,7 @@
                 right: 0;
                 bottom: 36px;
                 opacity: 0;
-                transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: opacity 3.0s cubic-bezier(0.25, 0.0, 0.15, 1.0);
                 display: flex;
                 flex-direction: row;
                 gap: 0.5rem;
@@ -2385,7 +2385,7 @@
                 dots[currentSlide].classList.add('active');
             }
             function nextSlide() { showSlide(currentSlide + 1); }
-            const autoplay = setInterval(nextSlide, 6500);
+            const autoplay = setInterval(nextSlide, 7500);
             dots.forEach((dot, i) => dot.addEventListener('click', () => { clearInterval(autoplay); showSlide(i); }));
 
             // ── PETALS — reducidos a 8 (antes 22) para ahorrar compositing layers ──
@@ -2405,8 +2405,8 @@
                     const size = 8 + Math.random() * 14;
                     p.style.cssText = `
                         --ps: ${size}px;
-                        --pd: ${7 + Math.random() * 6}s;
-                        --delay: ${(i / 8) * 14 + Math.random() * 1.5}s;
+                        --pd: ${4 + Math.random() * 4}s;
+                        --delay: -${Math.random() * 6}s;
                         left: ${Math.random() * 100}%;
                         background: ${petalColors[Math.floor(Math.random() * petalColors.length)]};
                         border-radius: ${Math.random() > 0.5 ? '50% 50% 50% 0' : '50% 0 50% 50%'};
