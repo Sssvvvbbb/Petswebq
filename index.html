@@ -262,7 +262,19 @@
                 padding-bottom: 70px;
                 /* will-change gestionado dinámicamente por JS: solo activo durante transición */
             }
-            .carousel-slide.active { opacity: 1; }
+            /* Slide entrante: aparece con delay mínimo */
+            .carousel-slide.active {
+                opacity: 1;
+                transition: opacity 3.0s cubic-bezier(0.25, 0.0, 0.15, 1.0) 0.14s;
+                z-index: 1;
+            }
+            /* Slide saliente: se queda encima mientras se desvanece,
+               evitando el flash blanco entre slides */
+            .carousel-slide.leaving {
+                opacity: 0;
+                transition: opacity 3.0s cubic-bezier(0.25, 0.0, 0.15, 1.0);
+                z-index: 2;
+            }
 
             /* Foto de fondo que cubre toda la slide */
             .slide-photo {
@@ -1016,7 +1028,16 @@
                     padding-left: 1rem;
                     padding-right: 1rem;
                 }
-                .carousel-slide.active { opacity: 1; }
+                .carousel-slide.active {
+                    opacity: 1;
+                    transition: opacity 3.0s cubic-bezier(0.25, 0.0, 0.15, 1.0) 0.14s;
+                    z-index: 1;
+                }
+                .carousel-slide.leaving {
+                    opacity: 0;
+                    transition: opacity 3.0s cubic-bezier(0.25, 0.0, 0.15, 1.0);
+                    z-index: 2;
+                }
 
                 /* Nav mobile: todos los items visibles, comprimidos */
                 .nav-menu {
@@ -2372,21 +2393,61 @@
         </footer>
 
         <script>
-            // ── CAROUSEL ──
-            let currentSlide = 0;
-            const slides = document.querySelectorAll('.carousel-slide');
-            const dots   = document.querySelectorAll('.dot');
+            // ── CAROUSEL HERO ──
+            (function () {
+                let currentSlide = 0;
+                let autoplay     = null;
+                const slides     = document.querySelectorAll('.carousel-slide');
+                const dots       = document.querySelectorAll('.carousel-dots .dot');
+                const INTERVAL   = 7500;
 
-            function showSlide(n) {
-                slides.forEach(s => s.classList.remove('active'));
-                dots.forEach(d => d.classList.remove('active'));
-                currentSlide = (n + slides.length) % slides.length;
-                slides[currentSlide].classList.add('active');
-                dots[currentSlide].classList.add('active');
-            }
-            function nextSlide() { showSlide(currentSlide + 1); }
-            const autoplay = setInterval(nextSlide, 7500);
-            dots.forEach((dot, i) => dot.addEventListener('click', () => { clearInterval(autoplay); showSlide(i); }));
+                function showSlide(n) {
+                    const prev = slides[currentSlide];
+                    currentSlide = (n + slides.length) % slides.length;
+
+                    // Marcar la saliente como "leaving" — se queda encima (z-index:2) mientras se desvanece
+                    prev.classList.remove('active');
+                    prev.classList.add('leaving');
+                    // Quitar "leaving" cuando termine su transición
+                    prev.addEventListener('transitionend', function cleanup() {
+                        prev.classList.remove('leaving');
+                        prev.removeEventListener('transitionend', cleanup);
+                    });
+
+                    dots.forEach(d => d.classList.remove('active'));
+                    slides[currentSlide].classList.add('active');
+                    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+                }
+
+                function startAutoplay() {
+                    stopAutoplay();
+                    autoplay = setInterval(() => showSlide(currentSlide + 1), INTERVAL);
+                }
+
+                function stopAutoplay() {
+                    if (autoplay) { clearInterval(autoplay); autoplay = null; }
+                }
+
+                dots.forEach((dot, i) => {
+                    dot.addEventListener('click', () => {
+                        stopAutoplay();
+                        showSlide(i);
+                        // Reanudar autoplay tras interacción manual
+                        startAutoplay();
+                    });
+                });
+
+                // Pausar cuando la pestaña no es visible
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) stopAutoplay();
+                    else startAutoplay();
+                });
+
+                startAutoplay();
+
+                // Exponer para que el handler de visibilitychange global no rompa nada
+                window._heroCarousel = { stop: stopAutoplay, start: startAutoplay };
+            })();
 
             // ── PETALS — reducidos a 8 (antes 22) para ahorrar compositing layers ──
             if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -2708,16 +2769,7 @@
                 window.addEventListener('resize', snapNav);
             })();
 
-            // ── PAUSAR CARRUSELES CUANDO LA PESTAÑA NO ES VISIBLE ──
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) {
-                    clearInterval(autoplay);
-                } else {
-                    // Reanudar solo si el autoplay del hero estaba activo
-                    // (el de Instagram se maneja internamente con igAutoplay)
-                    setInterval(nextSlide, 6500);
-                }
-            });
+            // visibilitychange del hero: gestionado dentro del IIFE de CAROUSEL HERO
 
             // ── WILL-CHANGE DINÁMICO EN HERO CAROUSEL ──
             // Solo activar durante la transición, no permanentemente
