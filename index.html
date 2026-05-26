@@ -44,7 +44,18 @@
         </script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <!-- Solo los pesos realmente usados: Cormorant 400/500/600 + itálica 400/500, DM Sans 300/400/500 -->
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+        <!-- Preload imagen hero (LCP) -->
+        <link rel="preload" as="image" href="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" media="(min-width:769px)">
+        <link rel="preload" as="image" href="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" media="(max-width:768px)">
+        <!-- Preconnect YouTube para thumbnail lazy -->
+        <link rel="preconnect" href="https://i.ytimg.com">
+        <!-- DNS prefetch para dominios de acción del usuario -->
+        <link rel="dns-prefetch" href="https://wa.me">
+        <link rel="dns-prefetch" href="https://api.whatsapp.com">
+        <link rel="dns-prefetch" href="https://www.google.com">
+        <link rel="dns-prefetch" href="https://www.instagram.com">
 
         <style>
             /* ── DESIGN TOKENS ── */
@@ -101,11 +112,7 @@
                     radial-gradient(ellipse 70% 60% at 50% 85%, rgba(238,165,233,0.12) 0%, transparent 55%),
                     radial-gradient(ellipse 55% 45% at 90% 80%, rgba(183,240,245,0.16) 0%, transparent 50%),
                     #faf8f9;
-                animation: meshDrift 18s ease-in-out infinite alternate;
-            }
-            @keyframes meshDrift {
-                0%   { filter: hue-rotate(0deg); }
-                100% { filter: hue-rotate(8deg); }
+                /* meshDrift eliminado: filter:hue-rotate en fixed es muy costoso en GPU */
             }
 
             /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -141,9 +148,8 @@
             NAVEGACION PRINCIPAL
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
             nav {
-                background: rgba(250,248,249,0.92);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
+                background: rgba(250,248,249,0.97);
+                /* backdrop-filter eliminado: repaints costosos en fixed + scroll */
                 border-bottom: 1px solid rgba(168,230,214,0.25);
                 position: fixed;
                 top: 0;
@@ -254,6 +260,7 @@
                 justify-content: flex-start;
                 padding-top: 96px;
                 padding-bottom: 70px;
+                /* will-change gestionado dinámicamente por JS: solo activo durante transición */
             }
             .carousel-slide.active { opacity: 1; }
 
@@ -293,9 +300,8 @@
                 margin-left: clamp(2rem, 8vw, 8rem);
                 margin-right: auto;
                 padding: 2.5rem 2.8rem 2.5rem 2.8rem;
-                background: rgba(255,255,255,0.88);
-                backdrop-filter: blur(24px);
-                -webkit-backdrop-filter: blur(24px);
+                background: rgba(255,255,255,0.92);
+                /* backdrop-filter removido del hero-inner: sobre imagen de fondo = muy costoso */
                 border-radius: 28px;
                 box-shadow: 0 12px 60px rgba(120,80,160,0.12);
             }
@@ -431,10 +437,9 @@
                 box-shadow: 0 12px 36px rgba(41,167,152,0.35);
             }
             .btn-ghost {
-                background: rgba(255,255,255,0.6);
+                background: rgba(255,255,255,0.9);
                 color: var(--text-mid);
                 border: 1px solid rgba(168,230,214,0.4);
-                backdrop-filter: blur(8px);
             }
             .btn-ghost:hover {
                 background: rgba(255,255,255,0.9);
@@ -461,6 +466,7 @@
             /* ── SECTION BASE ── */
             .section {
                 padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+                contain: layout style;
             }
             .container {
                 max-width: 1180px;
@@ -508,13 +514,13 @@
             TARJETA VIDRIO - componente base reutilizable
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
             .glass-card {
-                background: rgba(255,255,255,0.65);
-                backdrop-filter: blur(18px);
-                -webkit-backdrop-filter: blur(18px);
-                border: 1px solid rgba(255,255,255,0.8);
+                background: rgba(255,255,255,0.88);
+                /* backdrop-filter removido: costoso en GPU, especialmente con muchas cards */
+                border: 1px solid rgba(255,255,255,0.9);
                 border-radius: 24px;
                 box-shadow: 0 8px 40px rgba(100,140,160,0.10), 0 2px 8px rgba(100,140,160,0.06);
                 transition: transform 0.4s ease, box-shadow 0.4s ease;
+                will-change: transform;
             }
             .glass-card:hover {
                 transform: translateY(-8px);
@@ -769,10 +775,9 @@
                 margin: 1.8rem 0;
             }
             .stat-item {
-                background: rgba(255,255,255,0.7);
+                background: rgba(255,255,255,0.92);
                 padding: 1.6rem 1.5rem;
                 text-align: center;
-                backdrop-filter: blur(10px);
             }
             .stat-num {
                 font-family: 'DM Sans', sans-serif;
@@ -812,21 +817,8 @@
                     rgba(183,240,245,0.3) 100%);
                 z-index: 0;
             }
-            .cta-orb-1 {
-                position: absolute;
-                width: 500px; height: 500px;
-                border-radius: 50%;
-                background: radial-gradient(circle, rgba(41,167,152,0.15), transparent);
-                filter: blur(60px);
-                top: -150px; left: -150px;
-            }
-            .cta-orb-2 {
-                position: absolute;
-                width: 400px; height: 400px;
-                border-radius: 50%;
-                background: radial-gradient(circle, rgba(238,165,233,0.2), transparent);
-                filter: blur(60px);
-                bottom: -100px; right: -100px;
+            .cta-orb-1, .cta-orb-2 {
+                display: none; /* filter:blur en elementos grandes consume mucha GPU */
             }
             .cta-inner {
                 position: relative;
@@ -847,10 +839,9 @@
             BARRA DE CONTACTO - telefono, whatsapp y direccion
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
             .contact-bar {
-                background: rgba(255,255,255,0.7);
+                background: rgba(255,255,255,0.95);
                 border-top: 1px solid rgba(168,230,214,0.3);
                 padding: 2rem 0;
-                backdrop-filter: blur(10px);
             }
             .contact-grid {
                 display: flex;
@@ -1112,10 +1103,17 @@
                     letter-spacing: 0.01em;
                     background: linear-gradient(90deg, #2fa898 0%, #33b0a2 40%, #38b8aa 70%, #3dbfb1 100%);
                 }
-                .top-bar-content { padding: 0.4rem 0.75rem; gap: 0; flex-wrap: nowrap; grid-template-columns: 1fr auto auto 1fr; }
+                .top-bar-content {
+                    padding: 0.4rem 0.75rem;
+                    gap: 0;
+                    flex-wrap: nowrap;
+                    grid-template-columns: 1fr auto auto 1fr;
+                }
+                .top-bar-separator { display: flex; align-items: center; justify-content: center; opacity: 0.5; padding: 0 0.3rem; }
+                .top-bar-content > span.top-bar-item span { font-size: 0.52rem; }
+                .top-bar-content > div { grid-column: 4; justify-content: flex-end; }
                 .top-bar-left { gap: 0.6rem; flex-wrap: nowrap; }
                 .top-bar-item { gap: 0.2rem; }
-                .top-bar-separator { display: flex; align-items: center; justify-content: center; opacity: 0.5; padding: 0 0.3rem; }
 
                 /* Nav siempre visible en mobile — sin hide-on-scroll */
                 nav {
@@ -1217,8 +1215,8 @@
                 display: none;
                 position: fixed;
                 inset: 0;
-                background: rgba(60,50,70,0.18);
-                backdrop-filter: blur(2px);
+                background: rgba(60,50,70,0.25);
+                /* backdrop-filter removido del overlay: innecesario y costoso */
                 z-index: 9100;
                 opacity: 0;
                 transition: opacity 0.35s ease;
@@ -1238,9 +1236,8 @@
                 right: 0;
                 width: min(72vw, 300px);
                 height: 100dvh;
-                background: rgba(255,255,255,0.97);
-                backdrop-filter: blur(24px);
-                -webkit-backdrop-filter: blur(24px);
+                background: #ffffff;
+                /* backdrop-filter removido: el drawer ya tiene fondo sólido */
                 z-index: 9200;
                 padding: 2.5rem 2rem 2rem;
                 display: flex;
@@ -1495,8 +1492,7 @@
                 position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
-                background: rgba(255,255,255,0.75);
-                backdrop-filter: blur(8px);
+                background: rgba(255,255,255,0.95);
                 border: 1px solid rgba(168,230,214,0.4);
                 border-radius: 50%;
                 width: 38px;
@@ -1746,6 +1742,23 @@
     </head>
     <body>
 
+        <!-- SVG defs compartidos: gradientes reutilizables (evita duplicados en el DOM) -->
+        <svg width="0" height="0" style="position:absolute;overflow:hidden;" aria-hidden="true">
+            <defs>
+                <linearGradient id="g-roof" x1="6" y1="8" x2="58" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f9c8e0"/><stop offset="100%" stop-color="#cbaef2"/></linearGradient>
+                <linearGradient id="g-wall" x1="12" y1="29" x2="52" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff4cc"/><stop offset="100%" stop-color="#fde8f5"/></linearGradient>
+                <linearGradient id="g-door" x1="26" y1="38" x2="38" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#cbaef2"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
+                <linearGradient id="g-win" x1="15" y1="35" x2="24" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
+                <symbol id="icon-house" viewBox="0 0 64 64" fill="none">
+                    <polygon points="32,8 6,30 58,30" fill="url(#g-roof)"/>
+                    <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#g-wall)"/>
+                    <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#g-door)"/>
+                    <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                    <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                </symbol>
+            </defs>
+        </svg>
+
         <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             BOTON CORAZON FLOTANTE - solo en celular
             Abre el menu lateral al pulsarlo
@@ -1790,27 +1803,20 @@
         <aside class="top-bar">
             <div class="top-bar-content">
                 <a href="https://www.google.com/maps/place/Pets+Al+Cielo/@-41.4417349,-72.9405311,13.07z/data=!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="top-bar-item" aria-label="Ver ubicación en Google Maps" style="gap:0.25rem;justify-content:flex-start;">
-                    <svg width="18" height="18" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <polygon points="32,8 6,30 58,30" fill="url(#tb-roof)"/>
-                                        <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#tb-wall)"/>
-                                        <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#tb-door)"/>
-                                        <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#tb-winL)"/>
-                                        <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#tb-winR)"/>
-                                        <defs>
-                                            <linearGradient id="tb-roof" x1="6" y1="8" x2="58" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f9c8e0"/><stop offset="100%" stop-color="#cbaef2"/></linearGradient>
-                                            <linearGradient id="tb-wall" x1="12" y1="29" x2="52" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff4cc"/><stop offset="100%" stop-color="#fde8f5"/></linearGradient>
-                                            <linearGradient id="tb-door" x1="26" y1="38" x2="38" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#cbaef2"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
-                                            <linearGradient id="tb-winL" x1="15" y1="35" x2="24" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
-                                            <linearGradient id="tb-winR" x1="40" y1="35" x2="49" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
-                                        </defs>
-                                    </svg>
+                    <svg width="18" height="18" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <polygon points="32,8 6,30 58,30" fill="url(#g-roof)"/>
+                        <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#g-wall)"/>
+                        <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#g-door)"/>
+                        <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                        <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                    </svg>
                     <span itemscope itemtype="https://schema.org/PostalAddress" itemprop="addressLocality">Puerto Montt, X Región</span>
                 </a>
                 <span class="top-bar-separator" aria-hidden="true" style="text-align:center;">|</span>
                 <span class="top-bar-item" style="justify-content:flex-start;">
                     <span>Atención presencial con previo agendamiento</span>
                 </span>
-                <div style="display:flex;align-items:center;gap:0.5rem;padding-right:3px;justify-content:flex-end;">
+                <div style="display:flex;align-items:center;gap:0.5rem;padding-right:3px;justify-content:flex-end;grid-column:4;">
                     <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#F5D0E8 0%,#E3B0D8 35%,#D4A4CC 65%,#CDBAF0 100%);text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
                         <svg width="8" height="8" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     </a>
@@ -1852,8 +1858,8 @@
 
             <!-- Slide 1 -->
             <div class="carousel-slide slide-bg-1 active" role="tabpanel" aria-label="Slide 1">
-                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="Crematorio de mascotas Pets Al Cielo en Puerto Montt" class="slide-photo slide-photo-desktop">
-                <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" alt="Cremación de mascotas en Puerto Montt y Llanquihue - Pets Al Cielo" class="slide-photo slide-photo-mobile">
+                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo slide-photo-desktop" aria-hidden="true" loading="eager" fetchpriority="high">
+                <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" alt="" class="slide-photo slide-photo-mobile" aria-hidden="true" loading="eager" fetchpriority="high">
                 <div class="slide-overlay"></div>
                 <div class="hero-inner">
                     <h1 class="hero-title">
@@ -1871,8 +1877,8 @@
 
             <!-- Slide 2 -->
             <div class="carousel-slide slide-bg-2" role="tabpanel" aria-label="Slide 2">
-                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="Crematorio de mascotas Pets Al Cielo en Puerto Montt" class="slide-photo slide-photo-desktop">
-                <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" alt="Cremación de mascotas en Puerto Montt y Llanquihue - Pets Al Cielo" class="slide-photo slide-photo-mobile">
+                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo slide-photo-desktop" aria-hidden="true" loading="lazy">
+                <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" alt="" class="slide-photo slide-photo-mobile" aria-hidden="true" loading="lazy">
                 <div class="slide-overlay"></div>
                 <div class="hero-inner">
                     <h2 class="hero-title">
@@ -1891,8 +1897,8 @@
 
             <!-- Slide 3 -->
             <div class="carousel-slide slide-bg-3" role="tabpanel" aria-label="Slide 3">
-                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="Crematorio de mascotas Pets Al Cielo en Puerto Montt" class="slide-photo slide-photo-desktop">
-                <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" alt="Cremación de mascotas en Puerto Montt y Llanquihue - Pets Al Cielo" class="slide-photo slide-photo-mobile">
+                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo slide-photo-desktop" aria-hidden="true" loading="lazy">
+                <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" alt="" class="slide-photo slide-photo-mobile" aria-hidden="true" loading="lazy">
                 <div class="slide-overlay"></div>
                 <div class="hero-inner">
                     <h2 class="hero-title">
@@ -2165,14 +2171,15 @@
                 </div>
                 <div class="video-frame reveal">
                     <div class="video-wrapper">
-                        <iframe 
-                            src="https://www.youtube.com/embed/yiG-KwCY9V4"
-                            title="Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina"
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen
-                            loading="lazy">
-                        </iframe>
+                        <!-- Facade de YouTube: carga thumbnail en vez del iframe pesado -->
+                        <div id="ytFacade" style="position:absolute;top:0;left:0;width:100%;height:100%;cursor:pointer;background:#000;border-radius:8px;overflow:hidden;" onclick="document.getElementById('ytFacade').innerHTML='<iframe src=\'https://www.youtube.com/embed/yiG-KwCY9V4?autoplay=1\' title=\'Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina\' frameborder=\'0\' allow=\'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen style=\'position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;\'></iframe>'" aria-label="Ver video de cremación ecológica">
+                            <img src="https://i.ytimg.com/vi/yiG-KwCY9V4/hqdefault.jpg" alt="Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina" loading="lazy" style="width:100%;height:100%;object-fit:cover;opacity:0.85;">
+                            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                                <div style="width:68px;height:48px;background:#ff0000;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.4);">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2204,35 +2211,13 @@
                 <div class="contact-grid">
                     <div class="contact-item" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
                         <div class="contact-icon" style="background: linear-gradient(135deg, rgba(255,220,130,0.45), rgba(238,165,233,0.4), rgba(203,174,242,0.35), rgba(168,230,214,0.35));">
-                            <svg width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <polygon points="32,8 6,30 58,30" fill="url(#h-roof)"/>
-                                <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#h-wall)"/>
-                                <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#h-door)"/>
-                                <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#h-winL)"/>
-                                <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#h-winR)"/>
-                                <defs>
-                                    <linearGradient id="h-roof" x1="6" y1="8" x2="58" y2="30" gradientUnits="userSpaceOnUse">
-                                        <stop offset="0%" stop-color="#f9c8e0"/>
-                                        <stop offset="100%" stop-color="#cbaef2"/>
-                                    </linearGradient>
-                                    <linearGradient id="h-wall" x1="12" y1="29" x2="52" y2="55" gradientUnits="userSpaceOnUse">
-                                        <stop offset="0%" stop-color="#fff4cc"/>
-                                        <stop offset="100%" stop-color="#fde8f5"/>
-                                    </linearGradient>
-                                    <linearGradient id="h-door" x1="26" y1="38" x2="38" y2="55" gradientUnits="userSpaceOnUse">
-                                        <stop offset="0%" stop-color="#cbaef2"/>
-                                        <stop offset="100%" stop-color="#a8e6d6"/>
-                                    </linearGradient>
-                                    <linearGradient id="h-winL" x1="15" y1="35" x2="24" y2="43" gradientUnits="userSpaceOnUse">
-                                        <stop offset="0%" stop-color="#b8e8ff"/>
-                                        <stop offset="100%" stop-color="#a8e6d6"/>
-                                    </linearGradient>
-                                    <linearGradient id="h-winR" x1="40" y1="35" x2="49" y2="43" gradientUnits="userSpaceOnUse">
-                                        <stop offset="0%" stop-color="#b8e8ff"/>
-                                        <stop offset="100%" stop-color="#a8e6d6"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
+                            <svg width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <polygon points="32,8 6,30 58,30" fill="url(#g-roof)"/>
+                            <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#g-wall)"/>
+                            <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#g-door)"/>
+                            <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                            <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                        </svg>
                         </div>
                         <div class="contact-label">Crematorio en</div>
                         <div class="contact-value">
@@ -2403,30 +2388,32 @@
             const autoplay = setInterval(nextSlide, 6500);
             dots.forEach((dot, i) => dot.addEventListener('click', () => { clearInterval(autoplay); showSlide(i); }));
 
-            // ── PETALS ──
-            const petalContainer = document.getElementById('petalContainer');
-            const petalColors = [
-                'rgba(238,165,233,0.55)',
-                'rgba(168,230,214,0.5)',
-                'rgba(203,174,242,0.55)',
-                'rgba(183,240,245,0.5)',
-                'rgba(240,201,130,0.45)',
-                'rgba(244,145,143,0.45)',
-            ];
-            for (let i = 0; i < 22; i++) {
-                const p = document.createElement('div');
-                p.className = 'petal';
-                const size = 8 + Math.random() * 14;
-                p.style.cssText = `
-                    --ps: ${size}px;
-                    --pd: ${6 + Math.random() * 10}s;
-                    --delay: ${Math.random() * 12}s;
-                    left: ${Math.random() * 100}%;
-                    background: ${petalColors[Math.floor(Math.random() * petalColors.length)]};
-                    border-radius: ${Math.random() > 0.5 ? '50% 50% 50% 0' : '50% 0 50% 50%'};
-                    transform: rotate(${Math.random() * 360}deg);
-                `;
-                petalContainer.appendChild(p);
+            // ── PETALS — reducidos a 8 (antes 22) para ahorrar compositing layers ──
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const petalContainer = document.getElementById('petalContainer');
+                const petalColors = [
+                    'rgba(238,165,233,0.55)',
+                    'rgba(168,230,214,0.5)',
+                    'rgba(203,174,242,0.55)',
+                    'rgba(183,240,245,0.5)',
+                    'rgba(240,201,130,0.45)',
+                    'rgba(244,145,143,0.45)',
+                ];
+                for (let i = 0; i < 8; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'petal';
+                    const size = 8 + Math.random() * 14;
+                    p.style.cssText = `
+                        --ps: ${size}px;
+                        --pd: ${7 + Math.random() * 6}s;
+                        --delay: ${(i / 8) * 14 + Math.random() * 1.5}s;
+                        left: ${Math.random() * 100}%;
+                        background: ${petalColors[Math.floor(Math.random() * petalColors.length)]};
+                        border-radius: ${Math.random() > 0.5 ? '50% 50% 50% 0' : '50% 0 50% 50%'};
+                        transform: rotate(${Math.random() * 360}deg);
+                    `;
+                    petalContainer.appendChild(p);
+                }
             }
 
             // ── FOG REVEAL ──
@@ -2680,15 +2667,23 @@
                         </div>`;
                 }
 
-                // Cargar instagram.json
-                fetch('/instagram.json')
-                    .then(r => r.json())
-                    .then(data => {
-                        const posts = data.posts || [];
-                        if (posts.length === 0) { showFallback(); return; }
-                        buildCarousel(posts);
-                    })
-                    .catch(() => showFallback());
+                // Cargar instagram.json solo cuando la sección sea visible
+                const igSection = document.getElementById('Biblioteca');
+                const igObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        igObserver.disconnect();
+                        fetch('/instagram.json')
+                            .then(r => r.json())
+                            .then(data => {
+                                const posts = data.posts || [];
+                                if (posts.length === 0) { showFallback(); return; }
+                                buildCarousel(posts);
+                            })
+                            .catch(() => showFallback());
+                    }
+                }, { rootMargin: '200px' });
+                if (igSection) igObserver.observe(igSection);
+                else fetch('/instagram.json').then(r=>r.json()).then(d=>{ const p=d.posts||[]; if(!p.length){showFallback();return;} buildCarousel(p); }).catch(()=>showFallback());
 
             })();
 
@@ -2713,11 +2708,32 @@
                 window.addEventListener('resize', snapNav);
             })();
 
+            // ── PAUSAR CARRUSELES CUANDO LA PESTAÑA NO ES VISIBLE ──
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    clearInterval(autoplay);
+                } else {
+                    // Reanudar solo si el autoplay del hero estaba activo
+                    // (el de Instagram se maneja internamente con igAutoplay)
+                    setInterval(nextSlide, 6500);
+                }
+            });
+
+            // ── WILL-CHANGE DINÁMICO EN HERO CAROUSEL ──
+            // Solo activar durante la transición, no permanentemente
+            (function() {
+                const heroSlides = document.querySelectorAll('.carousel-slide');
+                heroSlides.forEach(s => {
+                    s.addEventListener('transitionstart', () => s.style.willChange = 'opacity');
+                    s.addEventListener('transitionend',   () => s.style.willChange = 'auto');
+                });
+            })();
+
         </script>
 
         <!-- ── GALLERY LIGHTBOX MODAL ── -->
         <div id="glb-overlay" role="dialog" aria-modal="true" aria-labelledby="glb-title" aria-hidden="true"
-             style="display:none;position:fixed;inset:0;z-index:9000;background:transparent;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:center;justify-content:center;opacity:0;transition:opacity 0.32s ease;">
+             style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(40,30,50,0.6);align-items:center;justify-content:center;opacity:0;transition:opacity 0.32s ease;">
             <div id="glb-modal-inner" style="position:relative;width:min(92vw,860px);max-height:90vh;display:flex;flex-direction:column;background:rgba(250,248,249,0.97);border-radius:24px;overflow:hidden;box-shadow:none;">
                 <div style="display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem;border-bottom:1px solid rgba(168,230,214,0.25);">
                     <h2 id="glb-title" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:#3d4a5c;margin:0;"></h2>
