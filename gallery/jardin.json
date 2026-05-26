@@ -1,7 +1,10 @@
 {
   "fotos": [
     { "src": "/Assets/Nuestro_equipo_fundadodora_2_mascotas_petsalcielo.webp", "alt": "Logo PetsAlCielo" },
-    { "src": "/Assets/logo_para_web.webp", "alt": "Logo PetsAlCielo" },
-    { "src": "/Assets/logo_para_web.webp", "alt": "Logo PetsAlCielo" }
+    { "src": "/Assets/Instalaciones_crematorio_puerto_montt_verde_petsalcielo.webp", "alt": "Instalaciones crematorio Puerto Montt verde Petsalcielo" },
+    { "src": "/Assets/Instalaciones_crematorio_puerto_montt_petsalcielo.webp", "alt": "Instalaciones crematorio Puerto Montt Petsalcielo" },
+    { "src": "/Assets/Instalaciones_oficinas_del_crematorio_petsalcielo.webp", "alt": "Instalaciones oficinas del crematorio Petsalcielo" },
+    { "src": "/Assets/Instalaciones_salita_de_despedida_crematorio_en_puertomontt.webp", "alt": "Instalaciones salita de despedida crematorio en Puerto Montt" },
+    { "src": "/Assets/Instalaciones_cremacion_puerto_montt_pet_sal_cielo.webp", "alt": "Instalaciones cremación Puerto Montt Pet Al Cielo" }
   ]
 }
