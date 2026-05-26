@@ -369,7 +369,7 @@
         }
         .page-title em {
             font-style: italic;
-            background: linear-gradient(135deg, var(--teal) 0%, var(--lavender) 60%, var(--rose-a) 100%);
+            background: linear-gradient(135deg, var(--lavender) 0%, var(--lilac) 60%, var(--mauve) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -640,11 +640,11 @@
             border: none;
         }
         .btn-primary {
-            background: linear-gradient(135deg, var(--teal) 0%, #3ab8a8 100%);
+            background: linear-gradient(135deg, var(--lavender) 0%, var(--lilac) 100%);
             color: var(--white);
-            box-shadow: 0 4px 20px rgba(41,167,152,0.25);
+            box-shadow: 0 4px 20px rgba(169,140,235,0.35);
         }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(41,167,152,0.35); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(169,140,235,0.5); }
 
         /* ── REVEAL ANIMATIONS ── */
         .reveal {
@@ -708,9 +708,11 @@
 
         /* ── FOOTER ── */
         footer {
-            background: linear-gradient(160deg, #2d4a44 0%, #1e3830 100%);
+            background: #9c8dc6;
             color: rgba(255,255,255,0.75);
-            padding: 4rem 2rem 2rem;
+            padding: 2.5rem 2rem 0;
+            margin: 0;
+            overflow: hidden;
             font-size: 0.88rem;
             line-height: 1.7;
         }
@@ -734,12 +736,12 @@
             color: var(--mint);
         }
         .footer-col h4 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1.2rem;
             font-weight: 500;
-            color: rgba(255,255,255,0.85);
-            margin-bottom: 1rem;
-            letter-spacing: 0.05em;
         }
         .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
         .footer-col ul li a {
@@ -753,9 +755,12 @@
             max-width: 1360px;
             margin: 0 auto;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
             text-align: center;
-            color: rgba(255,255,255,0.35);
+            font-size: 0.82rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.45);
         }
 
         /* ── RESPONSIVE ── */
