@@ -1653,7 +1653,14 @@
         line-height: 1;
     }
     .mosaic-label {
-        display: none; /* oculto en desktop */
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        text-align: center;
+        line-height: 1.25;
+        padding: 0 0.4rem;
+        margin-top: 2px;
     }
 
     @media (max-width: 768px) {
@@ -2011,21 +2018,21 @@
                         </div>
                         <div class="mosaic-item" data-gallery="jardin" role="button" tabindex="0" aria-label="Ver galería del jardín" style="cursor:pointer;">
                             <div class="mosaic-fill mf-2" aria-hidden="true">
-                                <span class="mosaic-icon">🌺</span>
+                                <span class="mosaic-icon">🌸</span>
                                 <span class="mosaic-label">Nuestro Equipo</span>
                             </div>
                             <figcaption class="sr-only">🏠🐶🐱</figcaption>
                         </div>
                         <div class="mosaic-item" data-gallery="urnas" role="button" tabindex="0" aria-label="Ver galería de urnas" style="cursor:pointer;">
                             <div class="mosaic-fill mf-3" aria-hidden="true">
-                                <span class="mosaic-icon">🏺</span>
+                                <span class="mosaic-icon">⚱️</span>
                                 <span class="mosaic-label">Ánforas y Relicarios</span>
                             </div>
                             <figcaption class="sr-only">Madera, Bronce e Impresión 3D ecológica</figcaption>
                         </div>
                         <div class="mosaic-item" data-gallery="mariposas" role="button" tabindex="0" aria-label="Ver video educativo" style="cursor:pointer;">
                             <div class="mosaic-fill mf-4" aria-hidden="true">
-                                <span class="mosaic-icon">🦋</span>
+                                <span class="mosaic-icon">🎓</span>
                                 <span class="mosaic-label">Video Educativo</span>
                             </div>
                             <figcaption class="sr-only">Video Educativo</figcaption>
@@ -2069,7 +2076,7 @@
                     </div>
 
                     <!-- Card con las imágenes — ocupa todo el ancho -->
-                    <div class="glass-card ig-glass-card reveal" style="width:706px;margin:0 auto;">
+                    <div class="glass-card ig-glass-card reveal" style="width:min(706px, 100%);margin:0 auto;">
                         <div class="ig-carousel-wrap" id="igCarouselWrap">
                             <div id="igSlidesContainer"></div>
                             <button class="ig-carousel-arrow ig-arrow-prev" id="igPrev" aria-label="Publicación anterior">&#8249;</button>
@@ -2736,11 +2743,12 @@
 
             /* Marco completo — 4 lados — según galería abierta */
             #glb-modal-inner { border: 3.5px solid transparent; transition: border-color 0.28s ease; }
+            #glb-modal-inner.accent-despedida { width: min(92vw, 420px) !important; }
             #glb-modal-inner.accent-instalaciones { border-color: #F9B8C8; } /* rosa chicle suave   */
             #glb-modal-inner.accent-jardin        { border-color: #90D8F0; } /* celeste cielo       */
             #glb-modal-inner.accent-urnas         { border-color: #C9A8F0; } /* lavanda brillante   */
             #glb-modal-inner.accent-mariposas     { border-color: #8FE0A4; } /* verde menta vivo    */
-            #glb-modal-inner.accent-despedida     { border-color: #FFE07A; } /* amarillo sol pastel */
+            #glb-modal-inner.accent-despedida     { border-color: #FFC4A0; } /* naranja pastel suave */
         </style>
         <script>
             // ── GALLERY LIGHTBOX ──
