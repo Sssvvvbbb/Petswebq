@@ -2911,28 +2911,40 @@
                     // Galería especial: mariposas muestra el video de YouTube
                     if (key === 'mariposas') {
                         const videoId = 'yiG-KwCY9V4';
-                        track.innerHTML = `
-                            <div class="glb-slide glb-active" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">
-                                <div id="yt-facade" style="position:relative;padding-bottom:56.25%;height:0;width:100%;max-width:820px;margin:0 auto;cursor:pointer;border-radius:8px;overflow:hidden;background:#000;">
-                                    <img id="yt-thumb"
-                                         src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg"
-                                         alt="Vista previa del video de Cremación Ecológica"
-                                         style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;"
-                                         onerror="this.src='https://i.ytimg.com/vi/${videoId}/mqdefault.jpg'">
-                                    <div id="yt-play" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:48px;background:rgba(255,0,0,0.88);border-radius:12px;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.2s;pointer-events:none;">
-                                        <svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="transparent"/><path d="M45 24 27 14v20" fill="white"/></svg>
-                                    </div>
-                                </div>
-                            </div>`;
+
+                        // Construir con JS para que videoId se interpole correctamente
+                        const slide = document.createElement('div');
+                        slide.className = 'glb-slide glb-active';
+                        slide.style.cssText = 'display:flex;align-items:center;justify-content:center;width:100%;height:100%;';
+
+                        const facade = document.createElement('div');
+                        facade.id = 'yt-facade';
+                        facade.style.cssText = 'position:relative;padding-bottom:56.25%;height:0;width:100%;max-width:820px;margin:0 auto;cursor:pointer;border-radius:8px;overflow:hidden;background:#000;';
+
+                        const thumb = document.createElement('img');
+                        thumb.id = 'yt-thumb';
+                        thumb.src = 'https://i.ytimg.com/vi/' + videoId + '/hqdefault.jpg';
+                        thumb.alt = 'Vista previa del video de Cremación Ecológica';
+                        thumb.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;';
+                        thumb.onerror = function() { this.src = 'https://i.ytimg.com/vi/' + videoId + '/mqdefault.jpg'; };
+
+                        const playBtn2 = document.createElement('div');
+                        playBtn2.id = 'yt-play';
+                        playBtn2.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:48px;background:rgba(255,0,0,0.88);border-radius:12px;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.2s;pointer-events:none;';
+                        playBtn2.innerHTML = '<svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="transparent"/><path d="M45 24 27 14v20" fill="white"/></svg>';
+
+                        facade.appendChild(thumb);
+                        facade.appendChild(playBtn2);
+                        slide.appendChild(facade);
+                        track.appendChild(slide);
+
                         // Al hacer click en la facade, reemplazar con el iframe real
-                        document.getElementById('yt-facade').addEventListener('click', function() {
-                            this.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" title="Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;"></iframe>`;
+                        facade.addEventListener('click', function() {
+                            this.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId + '?autoplay=1" title="Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;"></iframe>';
                         });
                         // Hover en el botón play
-                        const playBtn = document.getElementById('yt-play');
-                        const facade  = document.getElementById('yt-facade');
-                        facade.addEventListener('mouseenter', () => { playBtn.style.background = 'rgba(255,0,0,1)'; playBtn.style.transform = 'translate(-50%,-50%) scale(1.08)'; });
-                        facade.addEventListener('mouseleave', () => { playBtn.style.background = 'rgba(255,0,0,0.88)'; playBtn.style.transform = 'translate(-50%,-50%) scale(1)'; });
+                        facade.addEventListener('mouseenter', () => { playBtn2.style.background = 'rgba(255,0,0,1)'; playBtn2.style.transform = 'translate(-50%,-50%) scale(1.08)'; });
+                        facade.addEventListener('mouseleave', () => { playBtn2.style.background = 'rgba(255,0,0,0.88)'; playBtn2.style.transform = 'translate(-50%,-50%) scale(1)'; });
                         prevBtn.style.display = 'none';
                         nextBtn.style.display = 'none';
                         return;
