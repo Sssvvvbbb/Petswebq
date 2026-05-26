@@ -1,6 +1,14 @@
 <!DOCTYPE html>
     <html lang="es">
     <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMK6NF1B3Z"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-GMK6NF1B3Z');
+        </script>
         <meta charset="UTF-8">
 <link rel="icon" type="image/x-icon" href="/Assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/Assets/favicon-32x32.png">
@@ -2643,7 +2651,7 @@
 
                         const img = document.createElement('img');
                         img.src      = post.src;
-                        img.alt      = post.alt;
+                        img.alt      = post.alt || 'Homenaje en Instagram de PetsAlCielo — crematorio de mascotas en Puerto Montt';
                         img.loading  = eager ? 'eager' : 'lazy';
                         img.decoding = 'async';
 
@@ -2721,7 +2729,7 @@
                                 link.style.cssText = 'display:block;width:100%;height:100%;line-height:0;';
                                 const img = document.createElement('img');
                                 img.src      = post.src;
-                                img.alt      = post.alt;
+                                img.alt      = post.alt || 'Homenaje en Instagram de PetsAlCielo — crematorio de mascotas en Puerto Montt';
                                 img.loading  = i === 0 ? 'eager' : 'lazy';
                                 img.decoding = 'async';
                                 img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
@@ -2947,7 +2955,7 @@
                         const s = document.createElement('div');
                         s.className = 'glb-slide' + (i === 0 ? ' glb-active' : '');
                         const img = document.createElement('img');
-                        img.alt     = p.alt || '';
+                        img.alt     = p.alt || 'Foto de PetsAlCielo — crematorio ecológico de mascotas en Puerto Montt';
                         img.decoding = 'async';
                         if (i === 0) {
                             // Primera foto: carga inmediata eager
