@@ -271,19 +271,20 @@
                 justify-content: flex-start;
                 padding-top: 96px;
                 padding-bottom: 70px;
+                z-index: 0;
                 /* will-change gestionado dinámicamente por JS: solo activo durante transición */
             }
-            /* Slide entrante: aparece con delay mínimo */
+            /* Slide activa: sin delay — empieza a aparecer inmediatamente */
             .carousel-slide.active {
                 opacity: 1;
-                transition: opacity 2.2s cubic-bezier(0.25, 0.0, 0.15, 1.0) 0.14s;
+                transition: opacity 2.2s cubic-bezier(0.25, 0.0, 0.15, 1.0);
                 z-index: 1;
             }
             /* Slide saliente: se queda encima mientras se desvanece,
-               evitando el flash blanco entre slides */
+               evitando el flash entre slides */
             .carousel-slide.leaving {
                 opacity: 0;
-                transition: opacity 2.2s cubic-bezier(0.25, 0.0, 0.15, 1.0);
+                transition: opacity 2.0s cubic-bezier(0.25, 0.0, 0.15, 1.0);
                 z-index: 2;
             }
 
@@ -2444,7 +2445,8 @@
                     prev.classList.remove('active');
                     prev.classList.add('leaving');
                     // Quitar "leaving" y liberar will-change cuando termine su transición
-                    prev.addEventListener('transitionend', function cleanup() {
+                    prev.addEventListener('transitionend', function cleanup(e) {
+                        if (e.propertyName !== 'opacity') return;
                         prev.classList.remove('leaving');
                         prev.style.willChange = 'auto';
                         next.style.willChange = 'auto';
