@@ -279,6 +279,11 @@
                 inset: 0;
                 z-index: 1;
             }
+            @media (max-width: 768px) {
+                .slide-overlay {
+                    bottom: 35% !important;
+                }
+            }
             .slide-bg-1 .slide-overlay {
                 background: linear-gradient(105deg, rgba(255,220,230,0.72) 0%, rgba(220,200,255,0.45) 45%, rgba(180,230,255,0.18) 100%);
             }
@@ -1062,6 +1067,8 @@
                     max-width: 360px;
                     box-sizing: border-box;
                     margin: 0 auto;
+                    z-index: 3;
+                    position: relative;
                 }
                 .hero-title { font-size: clamp(1.6rem, 6.5vw, 2.4rem); }
                 .hero-sub { font-size: 0.9rem; line-height: 1.6; min-height: 0; }
@@ -1724,16 +1731,18 @@
 
     @media (max-width: 768px) {
         .slide-photo-mobile {
-            display: block;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 35%;
-            width: 100%;
-            object-fit: cover;
-            object-position: center bottom;
-            z-index: 0;
+            display: block !important;
+            position: absolute !important;
+            inset: auto !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            top: auto !important;
+            height: 35% !important;
+            width: 100% !important;
+            object-fit: cover !important;
+            object-position: center center !important;
+            z-index: 2 !important;
         }
         .slide-photo-desktop { display: none; }
     }
