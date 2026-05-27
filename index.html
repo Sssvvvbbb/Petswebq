@@ -83,6 +83,8 @@
         <link rel="preload" as="image" href="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" media="(max-width:768px)">
         <!-- Preconnect YouTube para thumbnail lazy -->
         <link rel="preconnect" href="https://i.ytimg.com">
+        <link rel="preconnect" href="https://www.youtube-nocookie.com">
+        <link rel="preconnect" href="https://www.googletagmanager.com">
         <!-- DNS prefetch para dominios de acción del usuario -->
         <link rel="dns-prefetch" href="https://wa.me">
         <link rel="dns-prefetch" href="https://api.whatsapp.com">
@@ -95,7 +97,6 @@
                 --mint:        #A8E6D6;
                 --lavender:    #CBAEF2;
                 --teal:        #29A798;
-                --sky-bright:  #6CD2F5;
                 --rose-a:      #EEA5E9;
                 --ice:         #B7F0F5;
 
@@ -108,7 +109,7 @@
 
             * { margin: 0; padding: 0; box-sizing: border-box; }
 
-            html { scroll-behavior: smooth; overflow-x: hidden; }
+            html { scroll-behavior: smooth; overflow-x: hidden; scrollbar-gutter: stable; }
 
             body {
                 font-family: 'DM Sans', sans-serif;
@@ -243,13 +244,6 @@
                 overflow: hidden;
             }
 
-            /* Floating orbs — mantenidos para compatibilidad pero ocultos */
-            .orb { display: none; }
-            @keyframes orbFloat {
-                0%   { transform: translate(0, 0) scale(1); }
-                100% { transform: translate(30px, -30px) scale(1.08); }
-            }
-
             /* Petals — mantenidos */
             .petals { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
             .petal {
@@ -380,7 +374,6 @@
                 color: #8a8aaa;
                 font-weight: 300;
             }
-            .hero-eyebrow { display: none; }
             .hero-title {
                 font-family: 'Cormorant Garamond', serif;
                 font-size: clamp(2rem, 3.5vw, 3rem);
@@ -420,29 +413,6 @@
                 padding: 0.65rem 1.2rem !important;
                 white-space: nowrap;
             }
-            .btn-primary {
-                background: linear-gradient(135deg, #b39ddb, #9575cd) !important;
-                color: #fff !important;
-                box-shadow: 0 4px 20px rgba(149,117,205,0.35) !important;
-                display: inline-flex;
-                align-items: center;
-                gap: 0.4rem;
-            }
-            .btn-primary:hover {
-                transform: translateY(-3px) !important;
-                box-shadow: 0 10px 30px rgba(149,117,205,0.45) !important;
-            }
-            .btn-ghost {
-                background: rgba(255,255,255,0.6);
-                color: #5a5a7a;
-                border: 1px solid rgba(180,160,220,0.3);
-            }
-            .btn-ghost:hover {
-                background: rgba(255,255,255,0.95);
-                border-color: #9575cd;
-                color: #9575cd;
-            }
-
             .carousel-dots {
                 position: absolute;
                 bottom: 2.5rem;
@@ -458,7 +428,7 @@
                 background: rgba(149,117,205,0.3);
                 border: none;
                 cursor: pointer;
-                transition: all 0.3s;
+                transition: background 0.3s, width 0.3s;
             }
             .dot.active { background: #9575cd; width: 28px; border-radius: 4px; }
 
@@ -474,7 +444,7 @@
                 letter-spacing: 0.04em;
                 border-radius: 50px;
                 padding: 0.72rem 1.8rem;
-                transition: all 0.35s ease;
+                transition: transform 0.35s ease, box-shadow 0.35s ease;
                 cursor: pointer;
                 border: none;
             }
@@ -642,6 +612,29 @@
             }
             .about-visual {
                 position: relative;
+            }
+            .mulan-frame {
+                position: relative;
+                border-radius: 40px;
+                padding: 6px;
+                background: linear-gradient(135deg, #e8a0d0, #f0b8d8, #f5c0e0, #f8d0e8);
+                box-shadow: 0 8px 40px rgba(220,140,190,0.25);
+            }
+            .mulan-frame::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: 40px;
+                background: linear-gradient(135deg, rgba(255,240,250,0.7) 0%, rgba(255,240,250,0.2) 50%, rgba(255,216,240,0.5) 100%);
+                pointer-events: none;
+            }
+            .mulan-img {
+                display: block;
+                width: 100%;
+                height: auto;
+                border-radius: 26px;
+                border: 3px solid #fff0f8;
+                object-fit: cover;
             }
             .about-card-main {
                 aspect-ratio: 4/4.2;
@@ -866,9 +859,6 @@
                     rgba(238,165,233,0.25) 65%,
                     rgba(183,240,245,0.3) 100%);
                 z-index: 0;
-            }
-            .cta-orb-1, .cta-orb-2 {
-                display: none; /* filter:blur en elementos grandes consume mucha GPU */
             }
             .cta-inner {
                 position: relative;
@@ -1120,7 +1110,6 @@
                 }
                 .carousel-slide { overflow: hidden; }
                 .services-bento { grid-template-columns: 1fr; }
-                .hero-eyebrow { white-space: normal; font-size: clamp(0.6rem, 2.8vw, 0.72rem); letter-spacing: 0.15em; }
                 .process-steps { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
                 .process-steps::before { display: none; }
                 .step-bubble { width: 40px; height: 40px; font-size: 1rem; margin-bottom: 0.6rem; }
@@ -1131,6 +1120,7 @@
                     grid-template-columns: 1fr 1fr;
                     grid-template-rows: auto;
                 }
+                .mosaic-fill { height: 100px; }
                 .mosaic-item:first-child { grid-row: auto; }
                 .stats-strip { grid-template-columns: 1fr 1fr; }
                 .contact-grid { gap: 20px; flex-wrap: nowrap; padding: 0; justify-content: center; width: 100%; box-sizing: border-box; }
@@ -1736,7 +1726,7 @@
         }
         .mosaic-fill {
             padding: 1rem 0.5rem;
-            height: auto;
+            height: 100px;
         }
         /* Ícono más pequeño */
         .mosaic-icon {
@@ -1870,7 +1860,7 @@
                 <a href="#" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20sus%20servicios','_blank','noopener');">Contactar ahora</a>
             </div>
             <div class="drawer-logo-img">
-                <img src="/Assets/logo_para_web.webp" alt="Logo de Pets Al Cielo crematorio en Puerto Montt" />
+                <img src="/Assets/logo_para_web.webp" alt="Logo de Pets Al Cielo crematorio en Puerto Montt" width="160" height="60" />
             </div>
             <div class="drawer-deco">
                 <span></span><br>
@@ -1927,18 +1917,15 @@
         <!-- Hero Carousel -->
         <header class="carousel-wrap" id="inicio" aria-label="Bienvenida PetsAlCielo">
 
-            <div class="orb orb-1"></div>
-            <div class="orb orb-2"></div>
-            <div class="orb orb-3"></div>
-            <div class="orb orb-4"></div>
-
             <!-- FONDO ESTÁTICO: imagen y gradiente aquí, nunca hacen fade -->
             <div class="carousel-bg-static" aria-hidden="true">
                 <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp"
                      alt="" class="slide-photo slide-photo-desktop"
+                     width="1920" height="1080"
                      loading="eager" fetchpriority="high">
                 <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp"
                      alt="" class="slide-photo slide-photo-mobile"
+                     width="768" height="1080"
                      loading="eager">
             </div>
 
@@ -2074,7 +2061,7 @@
                             </div>
                             <h3 itemprop="name">Servicio de Retiro a Domicilio dentro de Puerto Montt</h3>
                         </div>
-                        <p itemprop="description">Recogemos a su mascotita con máximo respeto desde su hogar y es bienvenido a visitarnos. En nuetras instalaciones contamos con una espacio especial donde pueden estar las mascotitas con sus tutores.</p>
+                        <p itemprop="description">Recogemos a su mascotita con máximo respeto desde su hogar y es bienvenido a visitarnos. En nuestras instalaciones contamos con una espacio especial donde pueden estar las mascotitas con sus tutores.</p>
                     </article>
                 </div>
             </div>
@@ -2191,32 +2178,13 @@
             <div class="container">
                 <div class="about-split">
                     <div class="about-visual reveal">
-                        <svg width="100%" viewBox="0 0 500 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mulancita, la mascota que inspiró PetsAlCielo">
-                            <defs>
-                                <linearGradient id="marco-mulan" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#e8a0d0"/>
-                                    <stop offset="40%" stop-color="#f0b8d8"/>
-                                    <stop offset="70%" stop-color="#f5c0e0"/>
-                                    <stop offset="100%" stop-color="#f8d0e8"/>
-                                </linearGradient>
-                                <linearGradient id="brillo-mulan" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#fff0fa" stop-opacity="0.7"/>
-                                    <stop offset="50%" stop-color="#fff0fa" stop-opacity="0.2"/>
-                                    <stop offset="100%" stop-color="#ffd8f0" stop-opacity="0.5"/>
-                                </linearGradient>
-                                <clipPath id="mulan-clip">
-                                    <rect x="28" y="28" width="444" height="464" rx="26"/>
-                                </clipPath>
-                            </defs>
-                            <rect x="0" y="0" width="500" height="520" rx="40" fill="url(#marco-mulan)"/>
-                            <rect x="0" y="0" width="500" height="520" rx="40" fill="url(#brillo-mulan)"/>
-                            <image
-                                href="/Assets/foto-mulan-nuestra-mascota-llanquihue-la-inspiracion-de-nosotros-preguntas-frecuentes.webp"
-                                x="28" y="28" width="444" height="464"
-                                preserveAspectRatio="xMidYMid slice"
-                                clip-path="url(#mulan-clip)"/>
-                            <rect x="28" y="28" width="444" height="464" rx="26" fill="none" stroke="#fff0f8" stroke-width="4" opacity="1"/>
-                        </svg>
+                        <div class="mulan-frame">
+                            <img src="/Assets/foto-mulan-nuestra-mascota-llanquihue-la-inspiracion-de-nosotros-preguntas-frecuentes.webp"
+                                 alt="Mulán, la perrita que inspiró la creación de Pets Al Cielo"
+                                 width="444" height="464"
+                                 loading="lazy" decoding="async"
+                                 class="mulan-img">
+                        </div>
                     </div>
                     <div class="about-text">
                         <span class="section-tag reveal">Sobre Nosotros</span>
@@ -2251,11 +2219,14 @@
                 </div>
                 <div class="video-frame reveal">
                     <div class="video-wrapper">
-                        <!-- Facade de YouTube: iframe con parámetros para mostrar thumbnail sin autoplay -->
-                        <div id="ytFacade" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;overflow:hidden;" aria-label="Ver video de cremación ecológica">
-                            <iframe src="https://www.youtube-nocookie.com/embed/yiG-KwCY9V4?autoplay=0&rel=0&modestbranding=1" title="Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="eager" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;"></iframe>
-                            <div style="display:none;">
-                                <div style="width:68px;height:48px;background:#ff0000;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.4);">
+                        <div id="ytFacade" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;overflow:hidden;cursor:pointer;background:#000;" aria-label="Ver video de cremación ecológica" role="button" tabindex="0" onclick="loadYT()" onkeydown="if(event.key==='Enter'||event.key===' ')loadYT()">
+                            <img src="https://i.ytimg.com/vi/yiG-KwCY9V4/maxresdefault.jpg"
+                                 alt="Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina"
+                                 width="1280" height="720"
+                                 loading="lazy" decoding="async"
+                                 style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;">
+                            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+                                <div style="width:68px;height:48px;background:#ff0000;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.4);transition:transform 0.2s;">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
                                 </div>
                             </div>
@@ -2267,8 +2238,6 @@
 
         <!-- CTA -->
         <section class="cta-section" id="testimonios">
-            <div class="cta-orb-1" aria-hidden="true"></div>
-            <div class="cta-orb-2" aria-hidden="true"></div>
             <div class="cta-inner reveal-fog">
                 <span class="section-tag">Con amor y respeto</span>
                 <h2 class="section-title">
@@ -2392,7 +2361,7 @@
                     </div>
                     <div>
                         <h3 style="font-size:0.82rem;color:var(--mint);margin-bottom:0.4rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Servicio especial: Reencuentro</h3>
-                        <p style="font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.65;">Posibilidad de cremación para mascotas amadas que fallecieron en el pasado. Perros, Gatos, coonejos, hámsteres, aves y todas las especies</p>
+                        <p style="font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.65;">Posibilidad de cremación para mascotas amadas que fallecieron en el pasado. Perros, Gatos, conejos, hámsteres, aves y todas las especies</p>
                     </div>
                     <div>
                         <h3 style="font-size:0.82rem;color:var(--mint);margin-bottom:0.4rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Servicio en la Décima Región</h3>
@@ -2526,23 +2495,28 @@
                 window._heroCarousel = { stop: stopAutoplay, start: startAutoplay };
             })();
 
-            // ── PRELOAD THUMBNAIL YOUTUBE (mariposas) — 2s tras carga ──
-            setTimeout(() => {
-                const img = new Image();
-                img.src = 'https://i.ytimg.com/vi/yiG-KwCY9V4/maxresdefault.jpg';
-
-                // Precargar primera foto de cada galería para apertura instantánea
-                ['instalaciones', 'jardin', 'urnas', 'despedida'].forEach(key => {
-                    fetch('/gallery/' + key + '.json')
-                        .then(r => r.ok ? r.json() : null)
-                        .then(d => {
-                            if (!d || !d.fotos || !d.fotos.length) return;
-                            const pre = new Image();
-                            pre.src = d.fotos[0].src;
-                        })
-                        .catch(() => {});
-                });
-            }, 2000);
+            // ── PRELOAD galerías y thumbnail YT — solo cuando la sección sea visible ──
+            (function () {
+                const gallerySection = document.getElementById('Biblioteca');
+                const target = gallerySection || document.body;
+                const preloadIO = new IntersectionObserver((entries) => {
+                    if (!entries[0].isIntersecting) return;
+                    preloadIO.disconnect();
+                    const img = new Image();
+                    img.src = 'https://i.ytimg.com/vi/yiG-KwCY9V4/maxresdefault.jpg';
+                    ['instalaciones', 'jardin', 'urnas', 'despedida'].forEach(key => {
+                        fetch('/gallery/' + key + '.json')
+                            .then(r => r.ok ? r.json() : null)
+                            .then(d => {
+                                if (!d || !d.fotos || !d.fotos.length) return;
+                                const pre = new Image();
+                                pre.src = d.fotos[0].src;
+                            })
+                            .catch(() => {});
+                    });
+                }, { rootMargin: '400px' });
+                preloadIO.observe(target);
+            })();
 
             // ── PETALS — reducidos a 8 (antes 22) para ahorrar compositing layers ──
             if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -2852,6 +2826,21 @@
 
             // will-change: gestionado directamente en showSlide() del carrusel hero
 
+            // ── YOUTUBE FACADE — carga el iframe solo al hacer clic ──
+            function loadYT() {
+                const facade = document.getElementById('ytFacade');
+                if (!facade) return;
+                const iframe = document.createElement('iframe');
+                iframe.src = 'https://www.youtube-nocookie.com/embed/yiG-KwCY9V4?autoplay=1&rel=0&modestbranding=1';
+                iframe.title = 'Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina';
+                iframe.frameBorder = '0';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                iframe.allowFullscreen = true;
+                iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;';
+                facade.innerHTML = '';
+                facade.appendChild(iframe);
+            }
+
         </script>
 
         <!-- ── GALLERY LIGHTBOX MODAL ── -->
@@ -3072,5 +3061,7 @@
             gtag('js', new Date());
             gtag('config', 'G-GMK6NF1B3Z');
         </script>
+
+
     </body>
     </html>
