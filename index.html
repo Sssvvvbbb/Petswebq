@@ -1,14 +1,6 @@
 <!DOCTYPE html>
     <html lang="es">
     <head>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMK6NF1B3Z"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-GMK6NF1B3Z');
-        </script>
         <meta charset="UTF-8">
 <link rel="icon" type="image/x-icon" href="/Assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/Assets/favicon-32x32.png">
@@ -53,10 +45,39 @@
         <script type="application/ld+json">
         {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Hay un crematorio en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"Sí. PetsAlCielo es el crematorio de mascotas en Puerto Montt, ubicado en La Vara. Somos el único servicio de cremación ecológica individual en la X Región de Los Lagos, disponibles las 24 horas del día los 365 días del año. Llámanos al +569 9846 1172."}},{"@type":"Question","name":"¿Hay cremación de mascotas en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"Sí. PetsAlCielo ofrece cremación de mascotas en Puerto Montt desde 2019. Somos el primer y único crematorio de mascotas en la X Región. Realizamos cremación individual y ecológica mediante agua (hidrólisis alcalina) para perros, gatos, conejos y toda mascota."}},{"@type":"Question","name":"¿Dónde creman mascotas en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"PetsAlCielo es el crematorio de mascotas en Puerto Montt, ubicado en La Vara. Ofrecemos retiro a domicilio dentro de Puerto Montt y atención inmediata. Por favor contáctenos al +569 9846 1172."}},{"@type":"Question","name":"¿Dónde puedo cremar a mi perro en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"En PetsAlCielo cremamos perros en Puerto Montt con un proceso individual y ecológico mediante agua. Realizamos retiro del domicilio del tutor, cremación 100% individual y entregamos las cenizas en urna personalizada. Atención 24/7 al +569 9846 1172."}},{"@type":"Question","name":"¿Dónde puedo cremar a mi gato en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"PetsAlCielo ofrece cremación de gatos en Puerto Montt. El proceso es individual, ecológico y sin fuego. Buscamos a su mascota en tu hogar y entregamos su polvito de calcio en urna especial. Llámanos al +569 9846 1172."}},{"@type":"Question","name":"¿Dónde puedo cremar a mi conejo en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"En PetsAlCielo también cremamos conejos y mascotas pequeñas en Puerto Montt. El proceso es respetuoso, individual y ecológico. Contáctenos al +569 9846 1172."}},{"@type":"Question","name":"¿Cuánto cuesta cremar una mascota en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"El precio varía según el tamaño y especie de la mascota. Contáctanos por WhatsApp al +569 9846 1172 para obtener información de precios actualizada y atención inmediata."}},{"@type":"Question","name":"¿Qué es la cremación ecológica mediante agua para mascotas?","acceptedAnswer":{"@type":"Answer","text":"Es un proceso llamado hidrólisis alcalina: cremación sin fuego que utiliza agua alcalina a alta presión y temperatura. Es 100% ecológico, no produce emisiones contaminantes, es más respetuoso con el medio ambiente y garantiza que el proceso sea completamente individual."}}]}
         </script>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <!-- Solo los pesos realmente usados: Cormorant 400/500/600 + itálica 400/500, DM Sans 300/400/500 -->
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+        <!-- Fuentes locales — sin dependencia de Google, sin roundtrips externos -->
+        <link rel="preload" href="/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+        <style>
+            @font-face {
+                font-family: 'DM Sans';
+                font-style: normal;
+                font-weight: 100 900;
+                font-display: swap;
+                src: url('/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2') format('woff2');
+            }
+            @font-face {
+                font-family: 'DM Sans';
+                font-style: italic;
+                font-weight: 100 900;
+                font-display: swap;
+                src: url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght.woff2') format('woff2');
+            }
+            @font-face {
+                font-family: 'Cormorant Garamond';
+                font-style: normal;
+                font-weight: 300 700;
+                font-display: swap;
+                src: url('/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2') format('woff2');
+            }
+            @font-face {
+                font-family: 'Cormorant Garamond';
+                font-style: italic;
+                font-weight: 300 700;
+                font-display: swap;
+                src: url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght.woff2') format('woff2');
+            }
+        </style>
         <!-- Preload imagen hero (LCP) -->
         <link rel="preload" as="image" href="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" media="(min-width:769px)">
         <link rel="preload" as="image" href="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" media="(max-width:768px)">
@@ -544,9 +565,9 @@
                 border-radius: 24px;
                 box-shadow: 0 8px 40px rgba(100,140,160,0.10), 0 2px 8px rgba(100,140,160,0.06);
                 transition: transform 0.4s ease, box-shadow 0.4s ease;
-                will-change: transform;
             }
             .glass-card:hover {
+                will-change: transform;
                 transform: translateY(-8px);
                 box-shadow: 0 20px 60px rgba(100,140,160,0.16);
             }
@@ -3034,6 +3055,14 @@
                 });
 
             });
+        </script>
+        <!-- Google tag (gtag.js) — movido al final del body para no bloquear render -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMK6NF1B3Z"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-GMK6NF1B3Z');
         </script>
     </body>
     </html>
