@@ -2908,54 +2908,30 @@
                     inner.className = inner.className.replace(/\baccent-\S+/g, '').trim();
                     inner.classList.add('accent-' + key);
 
-                    // Galería especial: mariposas muestra el video de YouTube
+                    // Galería especial: mariposas muestra el video de YouTube (igual que #video)
                     if (key === 'mariposas') {
                         const videoId = 'yiG-KwCY9V4';
 
-                        // Construir con JS para que videoId se interpole correctamente
                         const slide = document.createElement('div');
                         slide.className = 'glb-slide glb-active';
                         slide.style.cssText = 'display:flex;align-items:center;justify-content:center;width:100%;height:100%;';
 
-                        const facade = document.createElement('div');
-                        facade.id = 'yt-facade';
-                        facade.style.cssText = 'position:relative;padding-bottom:56.25%;height:0;width:100%;max-width:820px;margin:0 auto;cursor:pointer;border-radius:8px;overflow:hidden;background:#000;';
+                        const wrapper = document.createElement('div');
+                        wrapper.style.cssText = 'position:relative;padding-bottom:56.25%;height:0;width:100%;max-width:820px;margin:0 auto;border-radius:8px;overflow:hidden;';
 
-                        const thumb = document.createElement('img');
-                        thumb.id = 'yt-thumb';
-                        thumb.alt = 'Vista previa del video de Cremación Ecológica';
-                        thumb.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;';
-                        // Cascade de calidades: hqdefault → mqdefault → sddefault
-                        const thumbQualities = ['hqdefault','mqdefault','sddefault'];
-                        let thumbQIdx = 0;
-                        thumb.onerror = function() {
-                            thumbQIdx++;
-                            if (thumbQIdx < thumbQualities.length) {
-                                this.src = 'https://i.ytimg.com/vi/' + videoId + '/' + thumbQualities[thumbQIdx] + '.jpg';
-                            }
-                        };
-                        // Diferir 200ms para que el modal esté montado y el preconnect a i.ytimg.com esté listo
-                        setTimeout(function() {
-                            thumb.src = 'https://i.ytimg.com/vi/' + videoId + '/' + thumbQualities[0] + '.jpg';
-                        }, 200);
+                        const iframe = document.createElement('iframe');
+                        iframe.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?autoplay=0&rel=0&modestbranding=1';
+                        iframe.title = 'Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina';
+                        iframe.frameBorder = '0';
+                        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                        iframe.allowFullscreen = true;
+                        iframe.loading = 'eager';
+                        iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;';
 
-                        const playBtn2 = document.createElement('div');
-                        playBtn2.id = 'yt-play';
-                        playBtn2.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:48px;background:rgba(255,0,0,0.88);border-radius:12px;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.2s;pointer-events:none;';
-                        playBtn2.innerHTML = '<svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="transparent"/><path d="M45 24 27 14v20" fill="white"/></svg>';
-
-                        facade.appendChild(thumb);
-                        facade.appendChild(playBtn2);
-                        slide.appendChild(facade);
+                        wrapper.appendChild(iframe);
+                        slide.appendChild(wrapper);
                         track.appendChild(slide);
 
-                        // Al hacer click en la facade, reemplazar con el iframe real
-                        facade.addEventListener('click', function() {
-                            this.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId + '?autoplay=1" title="Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;"></iframe>';
-                        });
-                        // Hover en el botón play
-                        facade.addEventListener('mouseenter', () => { playBtn2.style.background = 'rgba(255,0,0,1)'; playBtn2.style.transform = 'translate(-50%,-50%) scale(1.08)'; });
-                        facade.addEventListener('mouseleave', () => { playBtn2.style.background = 'rgba(255,0,0,0.88)'; playBtn2.style.transform = 'translate(-50%,-50%) scale(1)'; });
                         prevBtn.style.display = 'none';
                         nextBtn.style.display = 'none';
                         return;
