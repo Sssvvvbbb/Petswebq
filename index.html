@@ -181,10 +181,9 @@
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
             nav {
                 background: rgba(250,248,249,0.97);
-                /* backdrop-filter eliminado: repaints costosos en fixed + scroll */
                 border-bottom: 1px solid rgba(168,230,214,0.25);
                 position: fixed;
-                top: 0;
+                top: 28px;
                 left: 0;
                 right: 0;
                 z-index: 1000;
@@ -1182,6 +1181,7 @@
                 .top-bar-content > span.top-bar-item {
                     justify-content: center !important;
                     text-align: center;
+                    transform: translateX(-10%);
                 }
                 .top-bar-content > span.top-bar-item span { font-size: 0.59rem; }
                 .top-bar-content > div { justify-content: flex-end; }
@@ -2858,16 +2858,7 @@
 
             // smooth scroll: gestionado por CSS html { scroll-behavior: smooth }
 
-            // ── PEGAR NAV BAJO TOP-BAR ──
-            (function() {
-                var topBar = document.querySelector('.top-bar');
-                var navEl  = document.querySelector('nav');
-                function snapNav() {
-                    navEl.style.top = topBar.getBoundingClientRect().height + 'px';
-                }
-                snapNav();
-                window.addEventListener('resize', snapNav);
-            })();
+            // Nav top gestionado por CSS directamente (top: 28px)
 
             // visibilitychange del hero: gestionado dentro del IIFE de CAROUSEL HERO
 
