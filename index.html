@@ -1175,11 +1175,16 @@
                     padding: 0.4rem 0.75rem;
                     gap: 0;
                     flex-wrap: nowrap;
-                    grid-template-columns: 1fr auto auto 1fr;
+                    grid-template-columns: auto auto 1fr auto;
                 }
                 .top-bar-separator { display: flex; align-items: center; justify-content: center; opacity: 0.5; padding: 0 0.3rem; }
-                .top-bar-content > span.top-bar-item span { font-size: 0.52rem; }
-                .top-bar-content > div { grid-column: 4; justify-content: flex-end; }
+                /* El texto ocupa la columna 1fr y se centra dentro de ella */
+                .top-bar-content > span.top-bar-item {
+                    justify-content: center !important;
+                    text-align: center;
+                }
+                .top-bar-content > span.top-bar-item span { font-size: 0.59rem; }
+                .top-bar-content > div { justify-content: flex-end; }
                 .top-bar-left { gap: 0.6rem; flex-wrap: nowrap; }
                 .top-bar-item { gap: 0.2rem; }
 
