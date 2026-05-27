@@ -275,65 +275,65 @@
                 100% { opacity: 0; transform: translateY(100vh) rotate(360deg) scale(0.8) translateX(60px); }
             }
 
-            /* Carousel wrap — hero con foto de fondo */
+            /* Carousel wrap */
             .carousel-wrap {
                 position: relative;
                 height: 100vh;
                 overflow: hidden;
                 border-bottom: 1.5px solid #ffe9ff;
             }
-            .carousel-slide {
+
+            /* FONDO ESTÁTICO: imagen + gradiente nunca hacen fade */
+            .carousel-bg-static {
                 position: absolute;
                 inset: 0;
-                opacity: 0;
-                transition: opacity 2.2s cubic-bezier(0.25, 0.0, 0.15, 1.0);
-                display: flex;
-                align-items: center;
-                justify-content: flex-start;
-                padding-top: 96px;
-                padding-bottom: 70px;
                 z-index: 0;
-                /* will-change gestionado dinámicamente por JS: solo activo durante transición */
+                pointer-events: none;
             }
-            /* Slide activa: sin delay — empieza a aparecer inmediatamente */
-            .carousel-slide.active {
-                opacity: 1;
-                transition: opacity 2.2s cubic-bezier(0.25, 0.0, 0.15, 1.0);
-                z-index: 1;
-            }
-            /* Slide saliente: se queda encima mientras se desvanece,
-               evitando el flash entre slides */
-            .carousel-slide.leaving {
-                opacity: 0;
-                transition: opacity 2.0s cubic-bezier(0.25, 0.0, 0.15, 1.0);
-                z-index: 2;
-            }
-
-            /* Foto de fondo que cubre toda la slide */
-            .slide-photo {
+            .carousel-bg-static .slide-photo {
                 position: absolute;
                 inset: 0;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
                 object-position: center;
-                z-index: 0;
             }
-
-            /* Overlay degradado encima de la foto */
-            .slide-overlay {
+            .carousel-bg-static::after {
+                content: '';
                 position: absolute;
                 inset: 0;
-                z-index: 1;
-            }
-            .slide-bg-1 .slide-overlay {
                 background: linear-gradient(105deg, rgba(255,220,230,0.72) 0%, rgba(220,200,255,0.45) 45%, rgba(180,230,255,0.18) 100%);
             }
-            .slide-bg-2 .slide-overlay {
-                background: linear-gradient(105deg, rgba(255,210,235,0.72) 0%, rgba(210,195,255,0.45) 45%, rgba(195,235,255,0.18) 100%);
+
+            /* Slides: solo contenedores, sin opacity propia */
+            .carousel-slide {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 96px;
+                padding-bottom: 70px;
+                z-index: 1;
+                pointer-events: none;
             }
-            .slide-bg-3 .slide-overlay {
-                background: linear-gradient(105deg, rgba(240,215,255,0.72) 0%, rgba(255,210,230,0.45) 45%, rgba(200,240,255,0.18) 100%);
+            .carousel-slide.active {
+                z-index: 2;
+                pointer-events: auto;
+            }
+
+            /* FADE SOLO EN LA CARD — transición gestionada por JS */
+            .carousel-slide .hero-inner {
+                opacity: 0;
+            }
+            .carousel-slide.active .hero-inner {
+                opacity: 1;
+            }
+
+            /* Las fotos y overlays dentro de slides se ocultan (viven en bg-static) */
+            .carousel-slide .slide-photo,
+            .carousel-slide .slide-overlay {
+                display: none;
             }
 
             /* Card blanca a la izquierda */
@@ -1801,7 +1801,7 @@
             width: 100% !important;
             object-fit: cover !important;
             object-position: center center !important;
-            z-index: 2 !important;
+            z-index: 1 !important;
         }
         .slide-photo-desktop { display: none; }
     }
@@ -1921,20 +1921,21 @@
             <div class="orb orb-3"></div>
             <div class="orb orb-4"></div>
 
+            <!-- FONDO ESTÁTICO: imagen y gradiente aquí, nunca hacen fade -->
+            <div class="carousel-bg-static" aria-hidden="true">
+                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp"
+                     alt="" class="slide-photo slide-photo-desktop"
+                     loading="eager" fetchpriority="high">
+                <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp"
+                     alt="" class="slide-photo slide-photo-mobile"
+                     loading="eager">
+            </div>
+
             <!-- Petals -->
             <div class="petals" aria-hidden="true" id="petalContainer"></div>
 
             <!-- Slide 1 -->
             <div class="carousel-slide slide-bg-1 active" role="tabpanel" aria-label="Slide 1">
-                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo slide-photo-desktop" aria-hidden="true" loading="eager" id="hero-img-desktop">
-                <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" alt="" class="slide-photo slide-photo-mobile" aria-hidden="true" loading="eager" id="hero-img-mobile">
-                <script>
-                    (function(){
-                        var isMobile = window.innerWidth <= 768;
-                        document.getElementById(isMobile ? 'hero-img-mobile' : 'hero-img-desktop').fetchPriority = 'high';
-                    })();
-                </script>
-                <div class="slide-overlay"></div>
                 <div class="hero-inner">
                     <h1 class="hero-title">
                         Su compañero<br>de vida, siempre<br> en tu corazón.
@@ -2449,33 +2450,44 @@
             (function () {
                 let currentSlide = 0;
                 let autoplay     = null;
+                let fadeTimer    = null;
                 const slides     = document.querySelectorAll('.carousel-slide');
                 const dots       = document.querySelectorAll('.carousel-dots .dot');
                 const INTERVAL   = 7400;
+                const FADE       = 1100; // ms total del crossfade
 
                 function showSlide(n) {
-                    const prev = slides[currentSlide];
+                    const prevSlide = slides[currentSlide];
                     currentSlide = (n + slides.length) % slides.length;
-                    const next = slides[currentSlide];
+                    const nextSlide = slides[currentSlide];
+                    if (prevSlide === nextSlide) return;
 
-                    // Activar will-change solo en las dos slides que van a animar
-                    prev.style.willChange = 'opacity';
-                    next.style.willChange = 'opacity';
+                    const prevCard = prevSlide.querySelector('.hero-inner');
+                    const nextCard = nextSlide.querySelector('.hero-inner');
 
-                    // Marcar la saliente como "leaving" — se queda encima (z-index:2) mientras se desvanece
-                    prev.classList.remove('active');
-                    prev.classList.add('leaving');
-                    // Quitar "leaving" y liberar will-change cuando termine su transición
-                    prev.addEventListener('transitionend', function cleanup(e) {
-                        if (e.propertyName !== 'opacity') return;
-                        prev.classList.remove('leaving');
-                        prev.style.willChange = 'auto';
-                        next.style.willChange = 'auto';
-                        prev.removeEventListener('transitionend', cleanup);
-                    });
+                    // Cancelar timer anterior si lo hay
+                    if (fadeTimer) clearTimeout(fadeTimer);
+
+                    // Fade OUT la card saliente
+                    if (prevCard) {
+                        prevCard.style.transition = 'opacity ' + FADE + 'ms ease';
+                        prevCard.style.opacity = '0';
+                    }
+
+                    // Fade IN la nueva card con un pequeño delay (mitad del fade out)
+                    fadeTimer = setTimeout(() => {
+                        prevSlide.classList.remove('active');
+                        nextSlide.classList.add('active');
+                        if (nextCard) {
+                            nextCard.style.transition = 'none';
+                            nextCard.style.opacity = '0';
+                            nextCard.getBoundingClientRect(); // reflow
+                            nextCard.style.transition = 'opacity ' + FADE + 'ms ease';
+                            nextCard.style.opacity = '1';
+                        }
+                    }, FADE / 2);
 
                     dots.forEach(d => d.classList.remove('active'));
-                    next.classList.add('active');
                     if (dots[currentSlide]) dots[currentSlide].classList.add('active');
                 }
 
@@ -2492,20 +2504,20 @@
                     dot.addEventListener('click', () => {
                         stopAutoplay();
                         showSlide(i);
-                        // Reanudar autoplay tras interacción manual
                         startAutoplay();
                     });
                 });
 
-                // Pausar cuando la pestaña no es visible
                 document.addEventListener('visibilitychange', () => {
                     if (document.hidden) stopAutoplay();
                     else startAutoplay();
                 });
 
-                startAutoplay();
+                // Card inicial visible sin animación
+                const firstCard = slides[0] && slides[0].querySelector('.hero-inner');
+                if (firstCard) { firstCard.style.transition = 'none'; firstCard.style.opacity = '1'; }
 
-                // Exponer para que el handler de visibilitychange global no rompa nada
+                startAutoplay();
                 window._heroCarousel = { stop: stopAutoplay, start: startAutoplay };
             })();
 
