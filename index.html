@@ -93,26 +93,11 @@
             /* ── DESIGN TOKENS ── */
             :root {
                 --mint:        #A8E6D6;
-                --mint-light:  #ECBBB8;
                 --lavender:    #CBAEF2;
                 --teal:        #29A798;
-                --sky:         #A2E9D7;
                 --sky-bright:  #6CD2F5;
-                --peach:       #EADDB7;
-                --coral:       #F4918F;
-                --blush:       #E08890;
-                --lilac:       #A98CEB;
                 --rose-a:      #EEA5E9;
                 --ice:         #B7F0F5;
-                --crimson:     #D34D73;
-                --amber:       #F0C982;
-                --pastel-pink: #D99EC9;
-                --pastel-lav:  #F1A7F1;
-                --pastel-peach:#FEB9A3;
-                --steel-blue:  #80CED7;
-                --deep-blue:   #007EA7;
-                --soft-purple: #A8BBEB;
-                --mauve:       #D387AB;
 
                 --text-dark:   #3d4a5c;
                 --text-mid:    #5a6878;
@@ -145,6 +130,14 @@
                     radial-gradient(ellipse 55% 45% at 90% 80%, rgba(183,240,245,0.16) 0%, transparent 50%),
                     #faf8f9;
                 /* meshDrift eliminado: filter:hue-rotate en fixed es muy costoso en GPU */
+            }
+            @media (max-width: 768px) {
+                body::before {
+                    background:
+                        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(168,230,214,0.18) 0%, transparent 60%),
+                        radial-gradient(ellipse 60% 50% at 85% 10%, rgba(203,174,242,0.15) 0%, transparent 55%),
+                        #faf8f9;
+                }
             }
 
             /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -580,7 +573,6 @@
                 transition: transform 0.4s ease, box-shadow 0.4s ease;
             }
             .glass-card:hover {
-                will-change: transform;
                 transform: translateY(-8px);
                 box-shadow: 0 20px 60px rgba(100,140,160,0.16);
             }
@@ -1972,8 +1964,6 @@
 
             <!-- Slide 2 -->
             <div class="carousel-slide slide-bg-2" role="tabpanel" aria-label="Slide 2">
-                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo slide-photo-desktop" aria-hidden="true" loading="lazy">
-                <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" alt="" class="slide-photo slide-photo-mobile" aria-hidden="true" loading="lazy">
                 <div class="slide-overlay"></div>
                 <div class="hero-inner">
                     <h2 class="hero-title">
@@ -1992,8 +1982,6 @@
 
             <!-- Slide 3 -->
             <div class="carousel-slide slide-bg-3" role="tabpanel" aria-label="Slide 3">
-                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" class="slide-photo slide-photo-desktop" aria-hidden="true" loading="lazy">
-                <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" alt="" class="slide-photo slide-photo-mobile" aria-hidden="true" loading="lazy">
                 <div class="slide-overlay"></div>
                 <div class="hero-inner">
                     <h2 class="hero-title">
@@ -2606,7 +2594,7 @@
                         io.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.12 });
+            }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
             revealEls.forEach(el => io.observe(el));
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
