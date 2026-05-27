@@ -50,7 +50,7 @@
         <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
         <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght.woff2') format('woff2')}</style>
         <!-- Preload imagen hero (LCP) -->
-        <link rel="preload" as="image" href="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" media="(min-width:769px)">
+        <link rel="preload" as="image" href="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" media="(min-width:769px)">
         <link rel="preload" as="image" href="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" media="(max-width:768px)">
         <!-- Preconnect YouTube para thumbnail lazy -->
         <link rel="preconnect" href="https://i.ytimg.com">
@@ -174,14 +174,14 @@
 
             <!-- FONDO ESTÁTICO: imagen y gradiente aquí, nunca hacen fade -->
             <div class="carousel-bg-static" aria-hidden="true">
-                <img src="Assets/cremacion_en_puerto_montt_petsalcielo_header.webp"
+                <img src="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp"
                      alt="" class="slide-photo slide-photo-desktop"
                      width="1920" height="1080"
                      loading="eager" fetchpriority="high">
                 <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp"
                      alt="" class="slide-photo slide-photo-mobile"
                      width="768" height="1080"
-                     loading="eager">
+                     loading="eager" fetchpriority="high">
             </div>
 
             <!-- Petals -->
