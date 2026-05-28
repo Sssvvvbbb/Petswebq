@@ -1,7 +1,7 @@
 {
   "fotos": [
-    { "src": "/Assets/servicio_crematorio_puerto_montt_servicios3", "alt": "Servicio crematorio puerto montt pets al cielo" },
-    { "src": "/Assets/servicio_crematorio_puerto_montt_servicios2", "alt": "Servicio de cremacion puerto montt pets al cielo" },
-    { "src": "/Assets/servicio_crematorio_puerto_montt_servicios1", "alt": "servicio de cremacion mascotas puerto montt" }
+    { "src": "/Assets/servicio_crematorio_puerto_montt_servicios1.webp", "alt": "Servicio crematorio puerto montt pets al cielo" },
+    { "src": "/Assets/servicio_crematorio_puerto_montt_servicios2.webp", "alt": "Servicio de cremacion puerto montt pets al cielo" },
+    { "src": "/Assets/servicio_crematorio_puerto_montt_servicios1.webp", "alt": "servicio de cremacion mascotas puerto montt" }
   ]
 }
