@@ -1,7 +1,14 @@
 {
   "fotos": [
-    { "src": "/Assets/logo_para_web.webp", "alt": "Logo PetsAlCielo" },
-    { "src": "/Assets/logo_para_web.webp", "alt": "Logo PetsAlCielo" },
-    { "src": "/Assets/logo_para_web.webp", "alt": "Logo PetsAlCielo" }
+    { "src": "/Assets/testimonio cremacion petsalcielo.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
+    { "src": "/Assets/testimonio cremacion petsalcielo1.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
+    { "src": "/Assets/testimonio cremacion petsalcielo2.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
+    { "src": "/Assets/testimonio cremacion petsalcielo3.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
+    { "src": "/Assets/testimonio cremacion petsalcielo4.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
+    { "src": "/Assets/testimonio cremacion petsalcielo5.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
+    { "src": "/Assets/testimonio cremacion petsalcielo6.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
+    { "src": "/Assets/testimonio cremacion petsalcielo7.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
+    { "src": "/Assets/testimonio cremacion petsalcielo8.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
+    { "src": "/Assets/testimonio cremacion petsalcielo9.webp", "alt": "muchas gracias por su testimonio, puerto montt" }
   ]
 }
