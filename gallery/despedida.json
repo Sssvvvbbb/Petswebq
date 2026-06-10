@@ -1,5 +1,6 @@
 {
   "fotos": [
+    { "src": "/Assets/testimonio12_crematorio_petsalcielo.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
     { "src": "/Assets/testimonio-cremacion-petsalcielo.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
     { "src": "/Assets/testimonio-cremacion-petsalcielo1.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
     { "src": "/Assets/testimonio-cremacion-petsalcielo2.webp", "alt": "muchas gracias por su testimonio, puerto montt" },
@@ -12,3 +13,6 @@
     { "src": "/Assets/testimonio-cremacion-petsalcielo9.webp", "alt": "muchas gracias por su testimonio, puerto montt" }
   ]
 }
+
+
+testimonio12_crematorio_petsalcielo
