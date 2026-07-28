@@ -1,123 +1,1277 @@
-#!/usr/bin/env python3
-"""
-update_instagram.py
-Obtiene las últimas publicaciones de @_petsalcielo via Graph API,
-descarga las imágenes a /Assets/instagram/ y actualiza instagram.json.
-"""
+<!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="/Assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/Assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/Assets/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/Assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/Assets/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/Assets/android-chrome-512x512.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Cremación de Mascotas en Puerto Montt | Crematorio Pets Al Cielo</title> 
+        <meta name="description" content="Único crematorio ecológico y 100% individual SIEMPRE, mediante agua y sin fuego, para perros, gatos y otras mascotas amadas. Aseguramos recuperación de chip de identificación. Cremación ecológica basada en el respeto y la dignidad.">
+        <meta name="keywords" content="crematorio de mascotas en Puerto Montt, cremación de mascotas, funeraria para mascotas, Cremación en Puerto Montt, crematorio de perros, urnas para mascotas, crematorio de gatos, funeraria perros, funeraria gatos, crematorio">
+        <meta name="robots" content="index, follow">
+        <meta name="geo.region" content="CL-LL">
+        <meta name="geo.placename" content="Puerto Montt, Los Lagos, Chile">
+        <meta name="geo.position" content="-41.4129877;-72.8823701">
+        <meta name="ICBM" content="-41.4129877, -72.8823701">
+        <link rel="canonical" href="https://petsalcielo.cl/">
+        
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://petsalcielo.cl/">
+        <meta property="og:title" content="Pets Al Cielo | Crematorio de Mascotas en Puerto Montt">
+        <meta property="og:description" content="Único crematorio ecológico y 100% individual SIEMPRE, mediante agua y sin fuego, para perros, gatos y otras mascotas amadas. Aseguramos recuperación de chip de identificación. Cremación ecológica basada en el respeto y la dignidad.">
+        <meta property="og:image" content="https://petsalcielo.cl/Assets/PetsAlCielo_Crematorio_Puerto_Montt.webp">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:type" content="image/webp">
+        <meta property="og:locale" content="es_CL">
+        <meta property="og:site_name" content="PetsAlCielo">
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://petsalcielo.cl/">
+        <meta property="twitter:title" content="Pets Al Cielo | Crematorio de Mascotas en Puerto Montt">
+        <meta property="twitter:description" content="Único crematorio ecológico y 100% individual SIEMPRE, mediante agua y sin fuego, para perros, gatos y otras mascotas amadas. Aseguramos recuperación de chip de identificación. Cremación ecológica basada en el respeto y la dignidad.">
+        <meta property="twitter:image" content="https://petsalcielo.cl/Assets/PetsAlCielo_Crematorio_Puerto_Montt.webp">
 
-import os
-import json
-import urllib.request
-import urllib.parse
-from datetime import datetime, timezone
+        <script type="application/ld+json">
+        {"@context": "https://schema.org", "@type": ["LocalBusiness", "CremationService"], "name": "PetsAlCielo — Crematorio de Mascotas en Puerto Montt", "alternateName": ["Crematorio PetsAlCielo", "Crematorio de Mascotas Puerto Montt", "Crematorio Puerto Montt", "Cremación Mascotas Puerto Montt", "Cremacion de Perros Puerto Montt", "Cremacion de Gatos Puerto Montt", "Cremacion de Conejos Puerto Montt"], "description": "Crematorio de mascotas en Puerto Montt. Servicio de cremación ecológica 100% individual mediante agua, sin fuego. Cremamos perros, gatos, conejos, hámsteres y toda mascota. Retiro a domicilio en Puerto Montt. Atención inmediata. Único crematorio en la X Región de Los Lagos desde 2019.", "@id": "https://petsalcielo.cl", "url": "https://petsalcielo.cl", "telephone": "+56998461172", "priceRange": "$$", "image": "https://petsalcielo.cl/Assets/PetsAlCielo_Crematorio_Puerto_Montt.webp", "address": {"@type": "PostalAddress", "streetAddress": "La Vara", "addressLocality": "Puerto Montt", "addressRegion": "Los Lagos", "postalCode": "5480000", "addressCountry": "CL"}, "geo": {"@type": "GeoCoordinates", "latitude": -41.4129877, "longitude": -72.8823701}, "areaServed": [{"@type": "City", "name": "Puerto Montt"}, {"@type": "City", "name": "Puerto Varas"}, {"@type": "City", "name": "Osorno"}, {"@type": "City", "name": "Frutillar"}, {"@type": "AdministrativeArea", "name": "Región de Los Lagos"}, {"@type": "AdministrativeArea", "name": "X Región"}], "openingHoursSpecification": {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "00:00", "closes": "00:00"}, "sameAs": ["https://www.facebook.com/cremaciondemascotasenpuertomontt", "https://www.instagram.com/_petsalcielo/"], "keywords": "cremacion de mascotas en Puerto Montt, crematorio en Puerto Montt, cremacion en Puerto Montt, cremacion mascota, cremacion perro, cremacion gato, cremacion conejo, crematorio mascotas puerto montt, cremacion ecologica mascotas, funeraria mascotas puerto montt", "hasMap": "https://www.google.com/maps/place/Pets+Al+Cielo/@-41.4129877,-72.8823701"}
+        </script>
+        <script type="application/ld+json">
+        {"@context":"https://schema.org","@type":"Service","name":"Cremación Ecológica de Mascotas en Puerto Montt","serviceType":"Crematorio de Mascotas","description":"Servicio de cremación individual ecológica mediante agua para mascotas en Puerto Montt y toda la X Región. Sin fuego, 100% ecológico. El único crematorio de mascotas en Puerto Montt.","provider":{"@type":"LocalBusiness","name":"PetsAlCielo","url":"https://petsalcielo.cl"},"areaServed":[{"@type":"City","name":"Puerto Montt"},{"@type":"AdministrativeArea","name":"Región de Los Lagos"}],"availableChannel":{"@type":"ServiceChannel","servicePhone":"+56998461172","availableLanguage":"Spanish"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Servicios de Crematorio para Mascotas","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Cremación Ecológica Individual de Mascotas mediante Agua"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Urnas Conmemorativas de Madera, Bronce e Impresión 3D"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Retiro de Mascota a Domicilio 24/7"}}]}}
+        </script>
+        <script type="application/ld+json">
+        {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Hay un crematorio en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"Sí. PetsAlCielo es el crematorio de mascotas en Puerto Montt, ubicado en La Vara. Somos el único servicio de cremación ecológica individual en la X Región de Los Lagos, disponibles las 24 horas del día los 365 días del año. Llámanos al +569 9846 1172."}},{"@type":"Question","name":"¿Hay cremación de mascotas en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"Sí. PetsAlCielo ofrece cremación de mascotas en Puerto Montt desde 2019. Somos el primer y único crematorio de mascotas en la X Región. Realizamos cremación individual y ecológica mediante agua (hidrólisis alcalina) para perros, gatos, conejos y toda mascota."}},{"@type":"Question","name":"¿Dónde creman mascotas en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"PetsAlCielo es el crematorio de mascotas en Puerto Montt, ubicado en La Vara. Ofrecemos retiro a domicilio dentro de Puerto Montt y atención inmediata. Por favor contáctenos al +569 9846 1172."}},{"@type":"Question","name":"¿Dónde puedo cremar a mi perro en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"En PetsAlCielo cremamos perros en Puerto Montt con un proceso individual y ecológico mediante agua. Realizamos retiro del domicilio del tutor, cremación 100% individual y entregamos las cenizas en urna personalizada. Atención previo agendamiento al +569 9846 1172."}},{"@type":"Question","name":"¿Dónde puedo cremar a mi gato en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"PetsAlCielo ofrece cremación de gatos en Puerto Montt. El proceso es individual, ecológico y sin fuego. Buscamos a su mascota en tu hogar y entregamos su polvito de calcio en urna especial. Llámanos al +569 9846 1172."}},{"@type":"Question","name":"¿Dónde puedo cremar a mi conejo en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"En PetsAlCielo también cremamos conejos y mascotas pequeñas en Puerto Montt. El proceso es respetuoso, individual y ecológico. Contáctenos al +569 9846 1172."}},{"@type":"Question","name":"¿Cuánto cuesta cremar una mascota en Puerto Montt?","acceptedAnswer":{"@type":"Answer","text":"El precio varía según el tamaño y especie de la mascota. Contáctanos por WhatsApp al +569 9846 1172 para obtener información de precios actualizada y atención inmediata."}},{"@type":"Question","name":"¿Qué es la cremación ecológica mediante agua para mascotas?","acceptedAnswer":{"@type":"Answer","text":"Es un proceso llamado hidrólisis alcalina: cremación sin fuego que utiliza agua alcalina a alta presión y temperatura. Es 100% ecológico, no produce emisiones contaminantes, es más respetuoso con el medio ambiente y garantiza que el proceso sea completamente individual."}}]}
+        </script>
+        <!-- Fuentes locales — sin dependencia de Google, sin roundtrips externos -->
+        <link rel="preload" href="/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+        <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght.woff2') format('woff2')}</style>
+        <!-- Preload imagen hero (LCP) -->
+        <link rel="preload" as="image" href="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" media="(min-width:769px)">
+        <link rel="preload" as="image" href="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" media="(max-width:768px)">
+        <!-- Preconnect YouTube para thumbnail lazy -->
+        <link rel="preconnect" href="https://i.ytimg.com">
+        <link rel="preconnect" href="https://www.youtube-nocookie.com">
+        <link rel="preconnect" href="https://www.googletagmanager.com">
+        <!-- DNS prefetch para dominios de acción del usuario -->
+        <link rel="dns-prefetch" href="https://wa.me">
+        <link rel="dns-prefetch" href="https://api.whatsapp.com">
+        <link rel="dns-prefetch" href="https://www.google.com">
+        <link rel="dns-prefetch" href="https://www.instagram.com">
 
-# ── Configuración ──────────────────────────────────────────────────────────────
-IG_USER_ID   = "17841429339022812"
-ACCESS_TOKEN = os.environ.get("IG_TOKEN", "")
-POSTS_LIMIT  = 10
-OUTPUT_JSON  = "instagram.json"
-ASSETS_DIR   = os.path.join("Assets", "instagram")
-API_VERSION  = "v25.0"
-# ──────────────────────────────────────────────────────────────────────────────
+        <style>:root{--mint:#A8E6D6;--lavender:#CBAEF2;--teal:#29A798;--rose-a:#EEA5E9;--ice:#B7F0F5;--text-dark:#3d4a5c;--text-mid:#5a6878;--text-soft:#8a9aaa;--white:#ffffff;--bg:#faf8f9}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;overflow-x:hidden;scrollbar-gutter:stable}body{font-family:'DM Sans',sans-serif;color:var(--text-dark);background:var(--bg);overflow-x:hidden}body::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 80% 60% at 10% 20%,rgba(168,230,214,0.18) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 10%,rgba(203,174,242,0.15) 0%,transparent 55%),radial-gradient(ellipse 70% 60% at 50% 85%,rgba(238,165,233,0.12) 0%,transparent 55%),radial-gradient(ellipse 55% 45% at 90% 80%,rgba(183,240,245,0.16) 0%,transparent 50%),#faf8f9}@media (max-width:768px){body::before{background:radial-gradient(ellipse 80% 60% at 10% 20%,rgba(168,230,214,0.18) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 10%,rgba(203,174,242,0.15) 0%,transparent 55%),#faf8f9}}.top-bar{background:linear-gradient(90deg,#2aa696 0%,#2fa89a 40%,#34b0a2 70%,#3ab8aa 100%);color:rgba(255,255,255,0.95);font-size:0.8rem;font-weight:500;letter-spacing:0.03em;position:fixed;top:0;left:0;right:0;z-index:1001}.top-bar-content{max-width:1360px;margin:0 auto;padding:0.35rem 2rem;display:grid;grid-template-columns:1fr auto auto 1fr;align-items:center;width:100%}.top-bar-separator{display:none}.top-bar-item{display:flex;align-items:center;gap:0.4rem;white-space:nowrap}.top-bar a{color:rgba(255,255,255,0.9);text-decoration:none;transition:opacity 0.2s}.top-bar a:hover{opacity:0.7}nav{background:rgba(250,248,249,0.97);border-bottom:1px solid rgba(168,230,214,0.25);position:fixed;top:28px;left:0;right:0;z-index:1000}.nav-offset{height:72px}.nav-container{max-width:1360px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}.logo{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:500;color:var(--text-dark);text-decoration:none;letter-spacing:0.02em}.logo em{font-style:italic;background:linear-gradient(120deg,var(--teal),var(--lavender));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.nav-menu{display:flex;gap:2rem;list-style:none;align-items:center}.nav-menu a{color:var(--text-mid);text-decoration:none;font-size:0.88rem;font-weight:400;letter-spacing:0.03em;transition:color 0.25s}.nav-menu a:hover{color:var(--teal)}.nav-cta{background:linear-gradient(135deg,#b39ddb,#9575cd) !important;color:#fff !important;padding:0.6rem 1.6rem !important;border-radius:50px !important;font-weight:500 !important;font-size:0.88rem !important;transition:transform 0.25s,box-shadow 0.25s !important;box-shadow:0 4px 18px rgba(149,117,205,0.35) !important}.nav-cta:hover{transform:translateY(-2px) !important;box-shadow:0 8px 28px rgba(149,117,205,0.5) !important}.hero{position:relative;min-height:clamp(500px,78vh,820px);display:grid;place-items:center;overflow:hidden}.petals{position:absolute;inset:0;pointer-events:none;overflow:hidden}.petal{position:absolute;width:var(--ps,12px);height:var(--ps,12px);border-radius:50% 50% 50% 0;opacity:0;animation:petalFall var(--pd,8s) linear var(--delay,0s) infinite}@keyframes petalFall{0%{opacity:0;transform:translateY(-20px) rotate(0deg) scale(0.5)}15%{opacity:0.6}85%{opacity:0.4}100%{opacity:0;transform:translateY(100vh) rotate(360deg) scale(0.8) translateX(60px)}}.carousel-wrap{position:relative;height:100vh;overflow:hidden;border-bottom:1.5px solid #ffe9ff}.carousel-bg-static{position:absolute;inset:0;z-index:0;pointer-events:none}.carousel-bg-static .slide-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}.carousel-bg-static::after{display:none}.carousel-slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-start;padding-top:96px;padding-bottom:70px;z-index:1;pointer-events:none}.carousel-slide.active{z-index:2;pointer-events:auto}.carousel-slide .hero-inner{opacity:0}.carousel-slide.active .hero-inner{opacity:1}.carousel-slide .slide-photo{display:none}.carousel-slide .slide-overlay{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity 1100ms ease}.carousel-slide.active .slide-overlay{opacity:1}.slide-bg-1 .slide-overlay{background:linear-gradient(105deg,rgba(255,220,230,0.72) 0%,rgba(220,200,255,0.45) 45%,rgba(180,230,255,0.18) 100%)}.slide-bg-2 .slide-overlay{background:linear-gradient(105deg,rgba(255,210,235,0.72) 0%,rgba(210,195,255,0.45) 45%,rgba(195,235,255,0.18) 100%)}.slide-bg-3 .slide-overlay{background:linear-gradient(105deg,rgba(240,215,255,0.72) 0%,rgba(255,210,230,0.34) 45%,rgba(200,240,255,0.18) 100%)}.hero-inner{position:relative;z-index:2;text-align:left;max-width:480px;margin-left:clamp(2rem,8vw,8rem);margin-right:auto;padding:2.5rem 2.8rem 2.5rem 2.8rem;background:rgba(255,255,255,0.92);border-radius:28px;box-shadow:0 12px 60px rgba(120,80,160,0.12)}.hero-brand{display:flex;align-items:center;gap:0.6rem;margin-bottom:1.8rem}.hero-brand-logo{width:36px;height:36px}.hero-brand-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;color:#2d2d4e;line-height:1.1}.hero-brand-name small{display:block;font-family:'DM Sans',sans-serif;font-size:0.7rem;color:#8a8aaa;font-weight:300}.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:400;line-height:1.15;color:#2d2d4e;margin-bottom:0.8rem}.hero-title em{font-style:italic;color:#2d2d4e;-webkit-text-fill-color:#2d2d4e;background:none}.hero-divider{width:36px;height:3px;background:linear-gradient(90deg,#b39ddb,#9575cd);border-radius:2px;margin:1rem 0}.hero-sub{font-size:0.95rem;color:#5a5a7a;font-weight:300;line-height:1.7;margin-bottom:1.8rem;min-height:calc(0.95rem * 1.7 * 2)}.hero-actions{display:flex;gap:0.8rem;flex-wrap:nowrap}.hero-btn{font-size:0.8rem !important;padding:0.65rem 1.2rem !important;white-space:nowrap}.carousel-dots{position:absolute;bottom:2.5rem;left:clamp(2rem,8vw,8rem);transform:none;display:flex;gap:0.7rem;z-index:10}.dot{width:8px;height:8px;border-radius:50%;background:rgba(149,117,205,0.3);border:none;cursor:pointer;transition:background 0.3s,width 0.3s}.dot.active{background:#9575cd;width:28px;border-radius:4px}.btn{display:inline-block;text-decoration:none;font-family:'DM Sans',sans-serif;font-weight:500;font-size:0.85rem;letter-spacing:0.04em;border-radius:50px;padding:0.72rem 1.8rem;transition:transform 0.35s ease,box-shadow 0.35s ease;cursor:pointer;border:none}.btn-primary{background:linear-gradient(135deg,#b39ddb,#9575cd);color:var(--white);box-shadow:0 4px 20px rgba(149,117,205,0.35)}.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(149,117,205,0.5)}.btn-ghost{background:rgba(255,255,255,0.9);color:var(--text-mid);border:1px solid rgba(168,230,214,0.4)}.btn-ghost:hover{background:rgba(255,255,255,0.9);border-color:var(--teal);color:var(--teal);transform:translateY(-2px)}.reveal-fog{opacity:0;filter:blur(12px);transition:opacity 1.4s ease,filter 1.4s ease}.reveal-fog.visible{opacity:1;filter:blur(0px)}.section{padding:clamp(2.5rem,5vw,4.5rem) 0;contain:layout style paint}.container{max-width:1180px;margin:0 auto;padding:0 2rem}.section-tag{display:inline-block;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.7rem;font-weight:500}.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,2.8vw,2.4rem);font-weight:400;line-height:1.22;color:var(--text-dark);margin-bottom:0.9rem}.section-title em{font-style:italic;color:var(--teal)}.section-lead{font-size:clamp(0.88rem,1.4vw,0.98rem);line-height:1.8;color:var(--text-mid);font-weight:300;max-width:620px}.section-header{max-width:680px;margin:0 auto 2.5rem;text-align:center}.section-header .section-lead{margin:0 auto}.glass-card{background:rgba(255,255,255,0.88);border:1px solid rgba(255,255,255,0.9);border-radius:24px;box-shadow:0 8px 40px rgba(100,140,160,0.10),0 2px 8px rgba(100,140,160,0.06);transition:transform 0.4s ease,box-shadow 0.4s ease}.glass-card:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(100,140,160,0.16)}.services-bento{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.service-card{padding:1.6rem}.service-card-header{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem}.service-icon-wrap{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;transition:transform 0.2s}button:hover .service-icon-wrap{transform:scale(1.1)}.ic-1{background:linear-gradient(135deg,rgba(168,230,214,0.5),rgba(108,210,245,0.3))}.ic-2{background:linear-gradient(135deg,rgba(238,165,233,0.5),rgba(203,174,242,0.3))}.ic-3{background:linear-gradient(135deg,rgba(240,201,130,0.5),rgba(244,145,143,0.3))}.service-card-header h3{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:500;color:var(--text-dark);margin-bottom:0;line-height:1.2}.service-card h3{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:500;color:var(--text-dark);margin-bottom:0.6rem}.service-card p{font-size:0.875rem;line-height:1.75;color:var(--text-mid);font-weight:300}.about-split{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}.about-visual{position:relative}.mulan-frame{position:relative;border-radius:40px;padding:6px;background:linear-gradient(135deg,#e8a0d0,#f0b8d8,#f5c0e0,#f8d0e8);box-shadow:0 8px 40px rgba(220,140,190,0.25)}.mulan-frame::after{content:'';position:absolute;inset:0;border-radius:40px;background:linear-gradient(135deg,rgba(255,240,250,0.7) 0%,rgba(255,240,250,0.2) 50%,rgba(255,216,240,0.5) 100%);pointer-events:none}.mulan-img{display:block;width:100%;height:auto;border-radius:26px;border:3px solid #fff0f8;object-fit:cover}.about-card-main{aspect-ratio:4/4.2;border-radius:24px;overflow:visible;position:relative}.about-gradient-fill{width:100%;height:100%;background:linear-gradient(160deg,rgba(168,230,214,0.5) 0%,rgba(203,174,242,0.4) 40%,rgba(238,165,233,0.4) 80%,rgba(183,240,245,0.5) 100%);display:flex;align-items:center;justify-content:center;font-size:4rem}.about-badge{position:absolute;bottom:-1rem;right:-1rem;width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--mint) 0%,var(--lavender) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 8px 30px rgba(100,140,200,0.2);border:3px solid white}.about-badge span:first-child{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--text-dark);line-height:1}.about-badge span:last-child{font-size:0.6rem;color:var(--text-mid);font-weight:400;max-width:72px;text-align:center;line-height:1.3}.about-text p{font-size:0.92rem;line-height:1.85;color:var(--text-mid);font-weight:300;margin-bottom:0.9rem}.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;position:relative}.process-steps::before{content:'';position:absolute;top:28px;left:12%;right:12%;height:1px;background:linear-gradient(90deg,var(--mint),var(--lavender),var(--rose-a),var(--ice))}.process-step{text-align:center;position:relative}.step-bubble{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 1rem;position:relative;z-index:1;border:3px solid white;box-shadow:0 6px 24px rgba(100,140,160,0.15)}.sb-1{background:linear-gradient(135deg,rgba(168,230,214,0.7),rgba(108,210,245,0.5))}.sb-2{background:linear-gradient(135deg,rgba(203,174,242,0.7),rgba(162,233,215,0.5))}.sb-3{background:linear-gradient(135deg,rgba(238,165,233,0.7),rgba(203,174,242,0.5))}.sb-4{background:linear-gradient(135deg,rgba(240,201,130,0.7),rgba(244,145,143,0.5))}.process-step h4{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:500;color:var(--text-dark);margin-bottom:0.4rem}.process-step p{font-size:0.82rem;color:var(--text-soft);line-height:1.65;font-weight:300}.gallery-mosaic{display:grid;grid-template-columns:1.5fr 1fr 1fr;grid-template-rows:190px 190px;gap:0.75rem;border-radius:20px;overflow:hidden}.mosaic-item{overflow:hidden;position:relative}.mosaic-item:first-child{grid-row:1 / 3}.mosaic-fill{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;transition:transform 0.5s ease}.mosaic-item:hover .mosaic-fill{transform:scale(1.05)}.mf-1{background:linear-gradient(145deg,rgba(168,230,214,0.6),rgba(108,210,245,0.4))}.mf-2{background:linear-gradient(145deg,rgba(238,165,233,0.6),rgba(203,174,242,0.4))}.mf-3{background:linear-gradient(145deg,rgba(240,201,130,0.5),rgba(244,145,143,0.4))}.mf-4{background:linear-gradient(145deg,rgba(203,174,242,0.6),rgba(183,240,245,0.4))}.mf-5{background:linear-gradient(145deg,rgba(168,230,214,0.5),rgba(238,165,233,0.4))}.video-section{background:linear-gradient(160deg,rgba(41,167,152,0.06) 0%,rgba(203,174,242,0.08) 50%,rgba(238,165,233,0.06) 100%);min-height:100vh;display:flex;align-items:center}.video-frame{max-width:820px;margin:1.8rem auto 0;border-radius:16px;overflow:hidden;box-shadow:0 16px 60px rgba(41,167,152,0.18),0 0 0 1px rgba(255,255,255,0.6)}.video-wrapper{position:relative;padding-bottom:56.25%;height:0}.video-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%}.stats-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;background:transparent;border-radius:16px;overflow:hidden;margin:1.8rem 0}.stat-item{background:rgba(255,255,255,0.92);padding:1.6rem 1.5rem;text-align:center}.stat-num{font-family:'DM Sans',sans-serif;font-size:2.2rem;font-weight:400;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:0.35rem}.stat-label{font-size:0.75rem;color:var(--text-soft);letter-spacing:0.08em;text-transform:uppercase}.cta-section{position:relative;overflow:hidden;text-align:center;padding:clamp(2.5rem,5vw,4.5rem) 2rem}.cta-section::before{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(168,230,214,0.35) 0%,rgba(203,174,242,0.3) 35%,rgba(238,165,233,0.25) 65%,rgba(183,240,245,0.3) 100%);z-index:0}.cta-inner{position:relative;z-index:1;max-width:720px;margin:0 auto}.cta-inner .section-title{margin-bottom:0.75rem}.cta-inner p{font-size:clamp(0.88rem,1.4vw,1rem);color:var(--text-mid);line-height:1.75;margin-bottom:1.6rem;font-weight:300}.contact-bar{background:rgba(255,255,255,0.95);border-top:1px solid rgba(168,230,214,0.3);padding:2rem 0}.contact-grid{display:flex;justify-content:center;align-items:flex-start;gap:3rem;flex-wrap:wrap}.contact-item{text-align:center;display:flex;flex-direction:column;align-items:center}.contact-icon{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,rgba(168,230,214,0.4),rgba(108,210,245,0.3));display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin:0 auto 0.8rem}.contact-label{font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-soft);margin-bottom:0.3rem}.contact-value{font-family:'DM Sans',sans-serif;font-size:1.05rem;font-weight:300;color:var(--text-dark)}.contact-value a{color:inherit;text-decoration:none;transition:color 0.2s;font-family:'DM Sans',sans-serif;font-size:inherit;font-weight:inherit}.contact-value a:hover{color:var(--teal)}footer{background:#9c8dc6;color:rgba(255,255,255,0.75);padding:2.5rem 2rem 0;margin:0;overflow:hidden}body{margin:0;padding:0}html{margin:0;padding:0}.footer-grid{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}.footer-logo{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;color:white;margin-bottom:1rem}.footer-logo em{font-style:italic;color:var(--mint)}.footer-col p,.footer-col ul{font-size:0.88rem;line-height:1.9;font-weight:300}.footer-col h4{font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:1.2rem;font-weight:500}.footer-col ul{list-style:none}.footer-col ul li{margin-bottom:0.6rem}.footer-col a{color:rgba(255,255,255,0.65);text-decoration:none;transition:color 0.2s;font-size:0.88rem}.footer-col a:hover{color:var(--mint)}.footer-bottom{max-width:1360px;margin:0 auto;padding-top:2rem;padding-bottom:2rem;border-top:1px solid rgba(255,255,255,0.1);text-align:center;font-size:0.82rem;line-height:1.8;color:rgba(255,255,255,0.45)}.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(168,230,214,0.4),rgba(203,174,242,0.4),transparent);margin:0 2rem}.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}.reveal.visible{opacity:1;transform:translateY(0)}.reveal-delay-1{transition-delay:0.1s}.reveal-delay-2{transition-delay:0.2s}.reveal-delay-3{transition-delay:0.3s}.reveal-delay-4{transition-delay:0.4s}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}@media (max-width:1024px){.services-bento{grid-template-columns:repeat(2,1fr)}.about-split{grid-template-columns:1fr;gap:2rem}.about-visual{max-width:400px;margin:0 auto}.process-steps{grid-template-columns:repeat(2,1fr)}.process-steps::before{display:none}.stats-strip{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}.gallery-mosaic{grid-template-rows:160px 160px}}@media (max-width:768px){.top-bar-content{padding-left:0.75rem !important;padding-right:0.75rem !important}.carousel-wrap{height:100svh}.carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity 2.2s cubic-bezier(0.25,0.0,0.15,1.0);display:flex;align-items:flex-start;justify-content:center;padding-top:calc(90px+3svh);padding-bottom:60px;padding-left:1rem;padding-right:1rem}.carousel-slide.active{opacity:1;transition:opacity 2.2s cubic-bezier(0.25,0.0,0.15,1.0) 0.14s;z-index:1}.carousel-slide.leaving{opacity:0;transition:opacity 2.2s cubic-bezier(0.25,0.0,0.15,1.0);z-index:2}.nav-menu{display:flex !important;gap:0;flex-wrap:nowrap;overflow:hidden;flex:1;justify-content:flex-end;align-items:center}.nav-menu li a{font-size:0.58rem;white-space:nowrap;padding:0 0.2rem;letter-spacing:0}.nav-menu .nav-cta{padding:0.4rem 0.8rem !important;font-size:0.65rem !important;white-space:nowrap;flex-shrink:0;margin-left:0.2rem}.hero-inner{padding:1.4rem 1.2rem;width:88%;max-width:360px;box-sizing:border-box;margin:0 auto;z-index:3;position:relative}.hero-title{font-size:clamp(1.6rem,6.5vw,2.4rem)}.hero-sub{font-size:0.9rem;line-height:1.6;min-height:0}.hero-actions{flex-wrap:wrap;gap:0.5rem}.hero-btn{font-size:0.72rem !important;padding:0.5rem 1.1rem !important;white-space:nowrap;flex:0 0 auto}.slide-photo-desktop{object-fit:cover;object-position:center center}.carousel-slide{overflow:hidden}.services-bento{grid-template-columns:1fr}.process-steps{grid-template-columns:repeat(2,1fr);gap:0.75rem}.process-steps::before{display:none}.step-bubble{width:40px;height:40px;font-size:1rem;margin-bottom:0.6rem}.process-step{padding:1rem 0.6rem !important}.process-step h4{font-size:0.85rem;margin-bottom:0.3rem}.process-step p{font-size:0.7rem;line-height:1.5}.gallery-mosaic{grid-template-columns:1fr 1fr;grid-template-rows:auto}.mosaic-fill{height:100px}.mosaic-item:first-child{grid-row:auto}.stats-strip{grid-template-columns:1fr 1fr}.contact-grid{gap:20px;flex-wrap:nowrap;padding:0;justify-content:center;width:100%;box-sizing:border-box}.contact-grid .contact-item{flex:1 1 0;min-width:0}.contact-grid .contact-item:first-child{margin-left:0}.contact-grid .contact-item:last-child{margin-right:0}.contact-label{font-size:0.5rem;white-space:normal;word-break:break-word}.contact-value{font-size:0.62rem;white-space:normal;word-break:break-word}.ig-btn{font-size:0.6rem;padding:0.3rem 0.55rem;gap:0.25rem}.ig-btn svg{width:12px;height:12px}.contact-icon{width:30px;height:30px;font-size:0.85rem;border-radius:8px}.contact-label{font-size:0.5rem;white-space:nowrap}.contact-value{font-size:0.65rem;white-space:nowrap}.footer-grid{grid-template-columns:1fr;gap:2rem}.about-card-main{min-height:220px;overflow:hidden}.about-badge{width:55px;height:55px;right:0.7rem;bottom:0.7rem;border-width:2px}.about-badge span:first-child{font-size:1.1rem}.about-badge span:last-child{font-size:0.38rem;max-width:48px}.top-bar{font-size:0.58rem;letter-spacing:0.01em;background:linear-gradient(90deg,#2fa898 0%,#33b0a2 40%,#38b8aa 70%,#3dbfb1 100%)}.top-bar-content{padding:0.4rem 0.75rem;gap:0;flex-wrap:nowrap;grid-template-columns:auto auto 1fr auto}.top-bar-separator{display:flex;align-items:center;justify-content:center;opacity:0.5;padding:0 0.3rem}.top-bar-content>span.top-bar-item{justify-content:center !important;text-align:center;transform:translateX(-1.5%)}.top-bar-content>span.top-bar-item span{font-size:0.59rem}.top-bar-content>div{justify-content:flex-end}.top-bar-left{gap:0.6rem;flex-wrap:nowrap}.top-bar-item{gap:0.2rem}nav{top:28px}.nav-container{padding:0.5rem 0.6rem;gap:0.4rem;overflow:hidden}.logo{font-size:1rem;flex-shrink:0}.nav-menu{display:flex !important;gap:0;flex-wrap:nowrap;overflow:hidden;flex:1;justify-content:flex-end;align-items:center}.nav-menu li a{font-size:0.6rem;white-space:nowrap;padding:0 0.25rem;letter-spacing:0}.nav-menu li:nth-child(2),.nav-menu li:nth-child(3),.nav-menu li:nth-child(4){opacity:1;transition:opacity 0.5s ease}.nav-menu li:nth-child(4){margin-left:-2px}.nav-menu li:nth-child(2).nav-hidden,.nav-menu li:nth-child(3).nav-hidden,.nav-menu li:nth-child(4).nav-hidden{opacity:0;pointer-events:none}.nav-menu .nav-cta{padding:0.28rem 0.65rem;font-size:0.6rem;white-space:nowrap;margin-left:0.25rem;flex-shrink:0}}.heart-btn{display:none}@media (max-width:768px){.heart-btn{display:flex;align-items:center;justify-content:center;position:fixed;bottom:2rem;right:1.2rem;width:48px;height:48px;border-radius:50%;background:linear-gradient(145deg,#f9c6d8,#e8a0c0);border:none;cursor:pointer;z-index:9000;box-shadow:0 4px 18px rgba(220,130,170,0.35);transition:transform 0.2s ease}.heart-btn:active{transform:scale(0.92)}.heart-btn svg{width:22px;height:22px;fill:rgba(255,255,255,0.92)}}.drawer-overlay{display:none;position:fixed;inset:0;background:rgba(60,50,70,0.25);z-index:9100;opacity:0;transition:opacity 0.35s ease}.drawer-overlay.open{display:block;opacity:1}.drawer{position:fixed;top:0;right:0;width:min(72vw,300px);height:100dvh;background:#ffffff;z-index:9200;padding:2.5rem 2rem 2rem;display:flex;flex-direction:column;gap:0;transform:translateX(110%);transition:transform 0.38s cubic-bezier(0.4,0,0.2,1);box-shadow:-8px 0 40px rgba(180,140,190,0.14);border-left:1px solid rgba(240,200,220,0.4);border-radius:20px 0 0 20px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}.drawer.open{transform:translateX(0)}.drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem}.drawer-logo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:500;color:var(--text-dark);letter-spacing:0.02em}.drawer-logo em{font-style:italic;background:linear-gradient(120deg,var(--teal),var(--lavender));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.drawer-close{width:32px;height:32px;border-radius:50%;background:rgba(240,200,220,0.3);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-mid);font-size:1rem;transition:background 0.2s}.drawer-close:hover{background:rgba(240,200,220,0.6)}.drawer-nav{list-style:none;display:flex;flex-direction:column;gap:0}.drawer-nav li a{display:block;padding:0.65rem 0;font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:400;color:var(--text-dark);text-decoration:none;border-bottom:1px solid rgba(200,220,215,0.4);transition:color 0.2s,padding-left 0.2s;letter-spacing:0.01em}.drawer-nav li:last-child a{border-bottom:none}.drawer-nav li a:hover{color:var(--teal);padding-left:0.5rem}.drawer-cta{margin-top:1.2rem;text-align:center}.drawer-cta a{display:block;background:linear-gradient(135deg,var(--teal),#3ab8a8);color:white !important;text-decoration:none;padding:0.85rem 1.5rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;box-shadow:0 4px 18px rgba(41,167,152,0.25);transition:transform 0.2s,box-shadow 0.2s}.drawer-cta a:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(41,167,152,0.32)}.drawer-logo-img{margin-top:auto;padding-top:0.6rem;padding-bottom:0;text-align:center}.drawer-logo-img img{width:70%;max-width:180px;height:auto;display:block;margin:0 auto;object-fit:contain}.drawer-deco{padding-top:0.5rem;text-align:center;font-size:0.72rem;color:var(--text-soft);letter-spacing:0.08em}.drawer-deco span{display:inline-block;width:40px;height:2px;background:linear-gradient(90deg,#f9c6d8,var(--lavender));border-radius:2px;margin-bottom:0.6rem}.ig-card-outer{width:100%}.ig-glass-card{background:transparent !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;border:none !important;box-shadow:none !important}.ig-glass-card:hover{transform:none !important;box-shadow:none !important}@media (min-width:769px){.ig-layout-row{display:flex;flex-direction:row;align-items:flex-start;gap:1.2rem}.ig-glass-card{width:100%;padding:0 !important;border-radius:16px !important;overflow:hidden !important;position:relative;height:500px}.ig-side-btns{display:flex;flex-direction:column;gap:0.6rem;align-self:center;flex-shrink:0}.ig-carousel-wrap{position:absolute;inset:0;overflow:hidden;border-radius:16px}}.ig-slide{position:absolute;top:0;left:0;right:0;bottom:36px;opacity:0;transition:opacity 2.2s cubic-bezier(0.25,0.0,0.15,1.0);display:flex;flex-direction:row;gap:0.5rem;padding:0.6rem 4rem 0;box-sizing:border-box}.ig-slide.active{opacity:1}.ig-post{flex:1;min-width:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(100,140,160,0.15)}.ig-post .ig-img-wrap{width:100%;height:100%}.ig-post .ig-img-wrap a{display:block;width:100%;height:100%;line-height:0}.ig-post .ig-img-wrap img{width:100%;height:100%;display:block;object-fit:contain}.ig-post .ig-caption{display:none}.ig-post-divider{width:0.5rem;flex-shrink:0}.ig-carousel-dots{position:absolute;bottom:0.5rem;left:50%;transform:translateX(-50%);display:flex;gap:0.7rem;z-index:10}.ig-carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.95);border:1px solid rgba(168,230,214,0.4);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;transition:background 0.2s,transform 0.2s;color:var(--text-mid);font-size:1rem}.ig-carousel-arrow:hover{background:rgba(255,255,255,0.95);transform:translateY(-50%) scale(1.08)}.ig-arrow-prev{left:1rem}.ig-arrow-next{right:1rem}@media (max-width:768px){.ig-carousel-arrow{display:none}.ig-layout-row{flex-direction:column;gap:0.4rem}.ig-side-btns{flex-direction:row;flex-wrap:wrap;justify-content:flex-end;gap:0.3rem}.ig-top-btns .btn{font-size:0.72rem !important;padding:0.38rem 0.9rem !important}.ig-glass-card{width:min(85vw,calc(80vh * 9 / 16)) !important;margin:0 auto !important;height:auto !important;overflow:hidden !important;border-radius:16px !important}.ig-carousel-wrap{position:relative !important;inset:auto !important;border-radius:16px;overflow:hidden;width:100%;aspect-ratio:9 / 16;max-height:80vh}.ig-slide{position:absolute;inset:0;bottom:32px;flex-direction:row;padding:0;opacity:0;display:flex;gap:0}.ig-slide.active{opacity:1}.ig-post{border-radius:0;flex:1;height:100%;overflow:hidden}.ig-post:nth-child(2){display:none}.ig-post .ig-img-wrap{width:100%;height:100%}.ig-post .ig-img-wrap a{display:block;width:100%;height:100%;line-height:0}.ig-post .ig-img-wrap img{width:100%;height:100%;object-fit:contain;display:block}.ig-carousel-dots{position:absolute;bottom:0.4rem;left:50%;transform:translateX(-50%);padding:0}}.ig-loading{display:flex;flex-direction:column;align-items:center;gap:1rem;color:var(--text-soft);font-size:0.85rem}.ig-spinner{width:32px;height:32px;border:3px solid rgba(41,167,152,0.15);border-top-color:var(--teal);border-radius:50%;animation:igSpin 0.8s linear infinite}@keyframes igSpin{to{transform:rotate(360deg)}}.ig-btn{display:inline-flex;align-items:center;gap:0.45rem;background:linear-gradient(135deg,#f9c8a0,#e06090,#9060d0);color:white;text-decoration:none;font-size:0.82rem;font-weight:500;padding:0.42rem 0.9rem;border-radius:50px;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 3px 14px rgba(180,80,140,0.25);white-space:nowrap}.ig-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(180,80,140,0.35)}.ig-btn svg{width:18px;height:18px;fill:white;flex-shrink:0}.contact-item-inner{display:flex;align-items:center;justify-content:center;gap:0.7rem;flex-wrap:wrap}@media (prefers-reduced-motion:reduce){.orb,.petal{animation:none}body::before{animation:none}.carousel-slide{transition:opacity 0.3s ease}.reveal,.reveal-fog{transition:opacity 0.3s ease}.glass-card{transition:none}}.icon-heart{width:8px;height:8px;fill:#ff4d8d}.mosaic-fill{flex-direction:column;gap:0.35rem}.mosaic-icon{font-size:2.5rem;line-height:1}.mosaic-label{display:block;font-size:0.72rem;font-weight:500;color:var(--text-dark);text-align:center;line-height:1.25;padding:0 0.4rem;margin-top:2px}@media (max-width:768px){.gallery-mosaic{grid-template-columns:1fr 1fr;grid-template-rows:auto}.mosaic-fill{padding:1rem 0.5rem;height:100px}.mosaic-icon{font-size:1.4rem}.mosaic-label{display:block;font-size:0.62rem;font-weight:500;color:var(--text-dark);text-align:center;line-height:1.25;padding:0 0.4rem}.gallery-mosaic .mosaic-testimonios{grid-column:1 / -1}.gallery-mosaic .mosaic-item:first-child{grid-row:auto}}@media (max-width:768px){.seo-footer-grid{grid-template-columns:1fr 1fr !important;gap:0.8rem !important;padding:0.8rem 1rem 0 !important;font-size:0.65rem !important}}#homenajes.section{padding-top:1.5rem;padding-bottom:1.5rem}#homenajes .section-header{margin-bottom:0.4rem !important}@media (max-width:768px){.gallery-hint{display:flex !important;align-items:center;flex-wrap:nowrap;margin-top:0.8rem;font-size:0.78rem !important;gap:0.3em !important;white-space:nowrap}.gallery-hint svg{width:0.72rem !important;height:0.72rem !important}}.slide-photo-mobile{display:none}.slide-photo-desktop{display:block}@media (max-width:768px){.slide-photo-mobile{display:block !important;position:absolute !important;inset:auto !important;bottom:0 !important;left:0 !important;right:0 !important;top:auto !important;height:30% !important;width:100% !important;object-fit:cover !important;object-position:center center !important;z-index:1 !important}.slide-photo-desktop{display:none}}</style>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMK6NF1B3Z"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-GMK6NF1B3Z');
+        </script>
+    </head>
+    <body>
 
-def fetch(url):
-    with urllib.request.urlopen(url, timeout=15) as r:
-        return json.loads(r.read().decode())
+        <!-- SVG defs compartidos: gradientes reutilizables (evita duplicados en el DOM) -->
+        <svg width="0" height="0" style="position:absolute;overflow:hidden;" aria-hidden="true">
+            <defs>
+                <linearGradient id="g-roof" x1="6" y1="8" x2="58" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f9c8e0"/><stop offset="100%" stop-color="#cbaef2"/></linearGradient>
+                <linearGradient id="g-wall" x1="12" y1="29" x2="52" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff4cc"/><stop offset="100%" stop-color="#fde8f5"/></linearGradient>
+                <linearGradient id="g-door" x1="26" y1="38" x2="38" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#cbaef2"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
+                <linearGradient id="g-win" x1="15" y1="35" x2="24" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
+                <symbol id="icon-house" viewBox="0 0 64 64" fill="none">
+                    <polygon points="32,8 6,30 58,30" fill="url(#g-roof)"/>
+                    <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#g-wall)"/>
+                    <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#g-door)"/>
+                    <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                    <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                </symbol>
+            </defs>
+        </svg>
 
-def download_image(url, path):
-    """Descarga una imagen siempre (sobreescribe para mantener frescas)."""
-    try:
-        urllib.request.urlretrieve(url, path)
-        return True
-    except Exception as e:
-        print(f"  ✗ Error descargando imagen: {e}")
-        return False
+        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            BOTON CORAZON FLOTANTE - solo en celular
+            Abre el menu lateral al pulsarlo
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+        <button class="heart-btn" id="heartBtn" aria-label="Abrir menu de navegacion" aria-expanded="false">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+        </button>
 
-def main():
-    if not ACCESS_TOKEN:
-        raise SystemExit("❌  Variable de entorno IG_TOKEN no definida.")
+        <!-- Overlay oscuro detras del drawer -->
+        <div class="drawer-overlay" id="drawerOverlay"></div>
 
-    if os.path.isfile(ASSETS_DIR):
-        os.remove(ASSETS_DIR)
-    os.makedirs(ASSETS_DIR, exist_ok=True)
+        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            MENU LATERAL (DRAWER) - aesthetic blanco
+            Se desliza desde la derecha
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+        <div class="drawer" id="drawer" role="dialog" aria-label="Menu de navegacion" aria-modal="true">
+            <div class="drawer-head">
+                <span class="drawer-logo">Pets<em>Al</em>Cielo</span>
+                <button class="drawer-close" id="drawerClose" aria-label="Cerrar menu">✕</button>
+            </div>
+            <ul class="drawer-nav">
+                <li><a href="preguntas-frecuentes.html"    class="drawer-link">Preguntas Frecuentes</a></li>
+                <li><a href="#Biblioteca"   class="drawer-link">Biblioteca</a></li>
+                <li><a href="#video"   class="drawer-link">Proceso Ecológico</a></li>
+                <li><a href="#nosotros"  class="drawer-link">Nosotros</a></li>
+            </ul>
+            <div class="drawer-cta">
+                <a href="#" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20sus%20servicios','_blank','noopener');">Contactar ahora</a>
+            </div>
+            <div class="drawer-logo-img">
+                <img src="/Assets/logo_petsalcielo.webp" alt="Logo de Pets Al Cielo crematorio en Puerto Montt" width="160" height="60" />
+            </div>
+            <div class="drawer-deco">
+                <span></span><br>
+                Los Lagos · Puerto Montt
+            </div>
+        </div>
 
-    # Pedir 50 para tener suficientes después de filtrar duplicados
-    fields = "id,caption,media_type,media_url,thumbnail_url,timestamp,permalink"
-    params = urllib.parse.urlencode({
-        "fields":       fields,
-        "limit":        50,
-        "access_token": ACCESS_TOKEN,
-    })
-    url = f"https://graph.facebook.com/{API_VERSION}/{IG_USER_ID}/media?{params}"
+        <!-- Top Bar -->
+        <aside class="top-bar">
+            <div class="top-bar-content">
+                <a href="https://www.google.com/maps/place/Pets+Al+Cielo/@-41.4417349,-72.9405311,13.07z/data=!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="top-bar-item" aria-label="Ver ubicación en Google Maps" style="gap:0.25rem;justify-content:flex-start;">
+                    <svg width="18" height="18" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <polygon points="32,8 6,30 58,30" fill="url(#g-roof)"/>
+                        <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#g-wall)"/>
+                        <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#g-door)"/>
+                        <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                        <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                    </svg>
+                    <span itemscope itemtype="https://schema.org/PostalAddress" itemprop="addressLocality">Puerto Montt, X Región</span>
+                </a>
+                <span class="top-bar-separator" aria-hidden="true" style="text-align:center;">|</span>
+                <span class="top-bar-item" style="justify-content:flex-start;">
+                    <span>Consultas y agendamiento vía WhatsApp</span>
+                </span>
+                <div style="display:flex;align-items:center;gap:0.5rem;padding-right:3px;justify-content:flex-end;grid-column:4;">
+                    <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#F5D0E8 0%,#E3B0D8 35%,#D4A4CC 65%,#CDBAF0 100%);text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
 
-    print("📡  Consultando Graph API...")
-    data = fetch(url)
+                </div>
+            </div>
+        </aside>
 
-    if "error" in data:
-        raise SystemExit(f"❌  Error API: {data['error']['message']}")
+        <!-- Navigation -->
+        <nav role="navigation" aria-label="Navegación principal">
+            <div class="nav-container">
+                <a href="#" class="logo" aria-label="PetsAlCielo - Inicio">Pets<em>Al</em>Cielo</a>
+                <ul class="nav-menu">
+                  <li>
+  <a href="#servicios" aria-label="Ir a servicios">
+    <svg class="icon-heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
+  </a>
+</li>
+                    <li><a href="#Biblioteca">Biblioteca</a></li>
+                    <li><a href="#video">Proceso Ecológico</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n','_blank','noopener');" class="nav-cta btn">Contactar</a></li>
+                </ul>
+            </div>
+        </nav>
 
-    raw_posts = data.get("data", [])
-    print(f"    → {len(raw_posts)} publicaciones encontradas en bruto")
+        <!-- Hero Carousel -->
+        <header class="carousel-wrap" id="inicio" aria-label="Bienvenida PetsAlCielo">
 
-    posts = []
-    seen_captions = set()  # usar set para comparación exacta
+            <!-- FONDO ESTÁTICO: imagen y gradiente aquí, nunca hacen fade -->
+            <div class="carousel-bg-static" aria-hidden="true">
+                <img src="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp"
+                     alt="" class="slide-photo slide-photo-desktop"
+                     width="1920" height="1080"
+                     loading="eager" fetchpriority="high">
+                <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp"
+                     alt="" class="slide-photo slide-photo-mobile"
+                     width="768" height="1080"
+                     loading="eager" fetchpriority="high">
+            </div>
 
-    for p in raw_posts:
-        media_type = p.get("media_type", "")
-        if media_type not in ("IMAGE", "CAROUSEL_ALBUM", "VIDEO"):
-            continue
+            <!-- Petals -->
+            <div class="petals" aria-hidden="true" id="petalContainer"></div>
 
-        post_id   = p["id"]
-        if media_type == "VIDEO":
-            image_url = p.get("thumbnail_url") or p.get("media_url", "")
-        else:
-            image_url = p.get("media_url") or p.get("thumbnail_url", "")
+            <!-- Slide 1 -->
+            <div class="carousel-slide slide-bg-1 active" role="tabpanel" aria-label="Slide 1">
+                <div class="slide-overlay"></div>
+                <div class="hero-inner">
+                    <h1 class="hero-title">
+                        Su compañero<br>de vida, siempre<br> en su corazón.
+                    </h1>
+                    <div class="hero-divider"></div>
+                    <p class="hero-sub">
+                        Cremación digna y respetuosa<br>para honrar su vida.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#servicios" class="btn btn-primary hero-btn">Conocer nuestros servicios ›</a>
+                    </div>
+                </div>
+            </div>
 
-        if not image_url:
-            continue
+            <!-- Slide 2 -->
+            <div class="carousel-slide slide-bg-2" role="tabpanel" aria-label="Slide 2">
+                <div class="slide-overlay"></div>
+                <div class="hero-inner">
+                    <h2 class="hero-title">
+                        Cremación ecológica<br>por agua, sin fuego,<br>sin humo.
+                    </h2>
+                    <div class="hero-divider"></div>
+                    <p class="hero-sub">
+                        El proceso más respetuoso con el medio ambiente.
+                    </p>
+                    <div class="hero-actions">
+                        <button onclick="document.querySelector('.mosaic-item[data-gallery=\'mariposas\']').click()" class="btn btn-primary hero-btn">Conocer el Proceso ›</button>
+                        <a href="#nosotros" class="btn btn-ghost hero-btn">Sobre Nosotros</a>
+                    </div>
+                </div>
+            </div>
 
-        caption   = p.get("caption", "")
-        timestamp = p.get("timestamp", "")
-        permalink = p.get("permalink", "")
+            <!-- Slide 3 -->
+            <div class="carousel-slide slide-bg-3" role="tabpanel" aria-label="Slide 3">
+                <div class="slide-overlay"></div>
+                <div class="hero-inner">
+                    <h2 class="hero-title">
+                        Un adiós digno<br>para quienes<br>amamos.
+                    </h2>
+                    <div class="hero-divider"></div>
+                    <p class="hero-sub">
+                        Cremación individual SIEMPRE.<br>Respeto y dignidad en cada paso.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="https://petsalcielo.cl/preguntas-frecuentes" class="btn btn-primary hero-btn">Preguntas frecuentes ›</a>
+                        <a href="#" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios','_blank','noopener');" class="btn btn-ghost hero-btn">Hablar con nosotros</a>
+                    </div>
+                </div>
+            </div>
 
-        # Solo Instagram
-        if "instagram.com" not in permalink:
-            print(f"  ⚠  No es Instagram, omitido: {post_id}")
-            continue
+            <div class="carousel-dots" role="tablist" aria-label="Controles del carrusel">
+                <button class="dot active" data-slide="0" aria-label="Slide 1" role="tab"></button>
+                <button class="dot" data-slide="1" aria-label="Slide 2" role="tab"></button>
+                <button class="dot" data-slide="2" aria-label="Slide 3" role="tab"></button>
+            </div>
+        </header>
 
-        # Deduplicar por caption completo (los duplicados tienen caption idéntico)
-        caption_key = caption.strip()
-        if caption_key in seen_captions:
-            print(f"  ⚠  Duplicado omitido: {post_id}")
-            continue
-        seen_captions.add(caption_key)
+        <!-- Stats Strip -->
+        <div class="container" style="margin-top: 5rem;">
+            <div class="stats-strip reveal">
+                
+                <div class="stat-item">
+                    <div class="stat-num">100%</div>
+                    <div class="stat-label">Cremación Individual</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">90%</div>
+                    <div class="stat-label">Menos emisiones de CO₂</div>
+                </div>
+            </div>
+        </div>
 
-        filename   = f"{post_id}.jpg"
-        local_path = os.path.join(ASSETS_DIR, filename)
-        web_path   = f"/Assets/instagram/{filename}"
+        <!-- Services -->
+        <section class="section" id="servicios" aria-labelledby="services-heading">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag reveal">Proceso Ecológico: Sin fuego y con Amor</span>
+                    <h2 id="services-heading" class="section-title reveal reveal-delay-1">
+                        Cremación Verde<br>para <em>Mascotas</em> en Puerto Montt
+                    </h2>
+                    <p class="section-lead reveal reveal-delay-2">
+                        Primer crematorio de mascotitas en la región desde 2019.<br>
+                        Nuestro servicio de cremación es SIEMPRE individual sin excepciones. <br>
+                        Atendemos Puerto Montt, Puerto Varas y toda la Región de Los Lagos.
+                    </p>
+                </div>
 
-        print(f"  ↓  Descargando {filename}...")
-        ok = download_image(image_url, local_path)
+                <div class="services-bento" aria-label="Lista de servicios">
+                    <article class="glass-card service-card reveal reveal-delay-1" itemscope itemtype="https://schema.org/Service">
+                        <div class="service-card-header">
+                            <div class="service-icon-wrap ic-1">
+                                <!-- ÍCONO 1: reemplaza este svg con tu imagen cuando la tengas -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#29A798" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M12 2C6 8 4 12.5 4 15a8 8 0 0 0 16 0c0-2.5-2-7-8-13z"/>
+                                    <path d="M12 19a4 4 0 0 1-4-4" opacity="0.5"/>
+                                </svg>
+                            </div>
+                            <h3 itemprop="name">Cremación verde: En Agua y no en Fuego</h3>
+                        </div>
+                        <p itemprop="description">Llamado científicamente como Hidrólisis Alcalina, es el proceso natural que ocurre en algunos lagos del mundo. Es respetuoso con el medio ambiente y con la mascotita, ya que nos asegura un proceso individual y no termina en cenizas: es el Polvito de Calcio lo entregado en su urna especial junto a su chip de identificación operativo.</p>
+                    </article>
+                    <article class="glass-card service-card reveal reveal-delay-2" itemscope itemtype="https://schema.org/Service" onclick="document.querySelector('.mosaic-item[data-gallery=\'urnas\']').click()" role="button" tabindex="0" aria-label="Ver galería de ánforas y relicarios" style="cursor:pointer;" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.querySelector('.mosaic-item[data-gallery=\'urnas\']').click();}">
+                        <div class="service-card-header">
+                            <div class="service-icon-wrap ic-2" style="transition:transform 0.2s;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#CBAEF2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M8 3h8l1 5H7L8 3z"/>
+                                    <path d="M7 8c0 0-2 1.5-2 5s2 7 7 7 7-3 7-7-2-5-2-5"/>
+                                    <line x1="12" y1="15" x2="12" y2="17" opacity="0.5"/>
+                                </svg>
+                            </div>
+                            <h3 itemprop="name">Ánforas y Relicarios</h3>
+                        </div>
+                        <p itemprop="description">Contamos con ánforas especiales para preservar el polvito de calcio de su mascota. Usamos madera de Raulí, bronce y ánforas de impresión 3D a base de maíz como compromiso por nuestra misión ecológica.</p>
+                    </article>
+                    <article class="glass-card service-card reveal reveal-delay-3" itemscope itemtype="https://schema.org/Service">
+                        <div class="service-card-header">
+                            <div class="service-icon-wrap ic-3">
+                                <!-- ÍCONO 3: reemplaza este svg con tu imagen cuando la tengas -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F5A05A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M3 12L12 3l9 9"/>
+                                    <path d="M9 21V12h6v9"/>
+                                    <path d="M3 12v9h18v-9"/>
+                                </svg>
+                            </div>
+                            <h3 itemprop="name">Coordinación de recepción de Mascotitas y traslado</h3>
+                        </div>
+                        <p itemprop="description">El 95% de las familias vienen a dejar a sus pequeños(as) a nuestras instalaciones, por seguridad y transparencia, donde primero pasan a la salita  de despedida, preparada especialmente para el pequeño(a) y su familia; y luego pasan a la oficina para completar la ficha de ingreso y realizar todas las consultas. Igualmente tenemos la modalidad traslado de la mascotita ya sea desde hogar o clínica, previa coordinación y agendamiento.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-        posts.append({
-            "id":        post_id,
-            "src":       web_path if ok else image_url,
-            "alt":       caption.replace("\n", " ").strip()[:200] or "Publicación de PetsAlCielo",
-            "timestamp": timestamp,
-            "permalink": permalink,
-        })
+        <div class="divider"></div>
 
-        if len(posts) >= POSTS_LIMIT:
-            break
+        <!-- Gallery -->
+        <section class="section" id="Biblioteca" aria-labelledby="gallery-heading">
+            <div class="container">
+                <div class="about-split" style="align-items: start;">
+                    <div>
+                        <span class="section-tag reveal">Biblioteca</span>
+                        <h2 id="gallery-heading" class="section-title reveal reveal-delay-1">
+                            Un Espacio de<br><em>Paz y Serenidad</em>
+                        </h2>
+                        <p class="section-lead reveal reveal-delay-2" style="margin-bottom: 2rem;">
+                            Nuestras instalaciones en La Vara, Puerto Montt, fueron diseñadas para que tanto usted como su mascota se sientan con dignidad, calma y amor durante todo el proceso.
+                        </p>
+                        <div style="display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;">
+                            <a href="https://petsalcielo.cl/preguntas-frecuentes" target="_blank" rel="noopener" class="btn btn-primary reveal reveal-delay-3" aria-label="Ver preguntas frecuentes">Preguntas Frecuentes</a>
+                            <span class="gallery-hint reveal reveal-delay-3" style="display:flex;align-items:center;gap:0.4em;font-size:1.1rem;line-height:1;color:var(--text-mid);font-family:'DM Sans',sans-serif;font-weight:300;">
+                                Presione la imagen para entrar a la galería
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#F1A7F1" style="width:1rem;height:1rem;flex-shrink:0;display:block;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="gallery-mosaic reveal" aria-label="Galería de instalaciones">
+                        <div class="mosaic-item" data-gallery="instalaciones" role="button" tabindex="0" aria-label="Ver galería de instalaciones" style="cursor:pointer;">
+                            <div class="mosaic-fill mf-1" aria-hidden="true">
+                                <span class="mosaic-icon">🏡</span>
+                                <span class="mosaic-label">Servicios</span>
+                            </div>
+                            <figcaption class="sr-only">Servicios e Instalaciones PetsAlCielo</figcaption>
+                        </div>
+                        <div class="mosaic-item" data-gallery="jardin" role="button" tabindex="0" aria-label="Ver galería del jardín" style="cursor:pointer;">
+                            <div class="mosaic-fill mf-2" aria-hidden="true">
+                                <span class="mosaic-icon">🌸</span>
+                                <span class="mosaic-label">Nuestro Equipo Pets e Instalaciones</span>
+                            </div>
+                            <figcaption class="sr-only">🏠🐶🐱</figcaption>
+                        </div>
+                        <div class="mosaic-item" data-gallery="urnas" role="button" tabindex="0" aria-label="Ver galería de urnas" style="cursor:pointer;">
+                            <div class="mosaic-fill mf-3" aria-hidden="true">
+                                <span class="mosaic-icon">⚱️</span>
+                                <span class="mosaic-label">Ánforas y Relicarios</span>
+                            </div>
+                            <figcaption class="sr-only">Madera, Bronce e Impresión 3D ecológica</figcaption>
+                        </div>
+                        <div class="mosaic-item" data-gallery="mariposas" role="button" tabindex="0" aria-label="Ver video educativo" style="cursor:pointer;">
+                            <div class="mosaic-fill mf-4" aria-hidden="true">
+                                <span class="mosaic-icon">🎓</span>
+                                <span class="mosaic-label">Video Educativo</span>
+                            </div>
+                            <figcaption class="sr-only">Video Educativo</figcaption>
+                        </div>
+                        <div class="mosaic-item mosaic-testimonios" data-gallery="despedida" role="button" tabindex="0" aria-label="Ver testimonios" style="cursor:pointer;">
+                            <div class="mosaic-fill mf-5" aria-hidden="true">
+                                <span class="mosaic-icon">🕊️</span>
+                                <span class="mosaic-label">Testimonios</span>
+                            </div>
+                            <figcaption class="sr-only">Gracias ❤️</figcaption>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    output = {
-        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "posts":   posts,
-    }
-    with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
-        json.dump(output, f, ensure_ascii=False, indent=2)
+        <div class="divider"></div>
 
-    print(f"\n✅  {len(posts)} publicaciones únicas guardadas en {OUTPUT_JSON}")
+        <!-- Instagram Homenajes -->
+        <section class="section" id="homenajes" aria-label="Homenajes Instagram">
+            <!-- Instagram Feed -->
+            <div class="container" style="margin-top: 0; max-width: 1500px;">
+                <div class="section-header" style="margin-bottom: 0.4rem;">
+                    <span class="section-tag reveal">Homenajes</span>
+                    <h3 class="section-title reveal reveal-delay-1" style="font-size:clamp(1rem,2vw,1.4rem);margin-bottom:0;">
+                        Estamos en <em style="font-style:italic;background:linear-gradient(120deg,#F472A0,#E8404A,#C060C8,#F4A030);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Instagram</em>
+                    </h3>
+                </div>
+                <div class="ig-card-outer" style="position:relative;">
 
-if __name__ == "__main__":
-    main()
+                    <!-- Botones flotantes arriba a la derecha, fuera de la card -->
+                    <div style="display:flex;gap:0.5rem;justify-content:center;margin-bottom:0.5rem;" class="ig-top-btns">
+                        <button onclick="document.querySelector('.mosaic-item[data-gallery=\'despedida\']').click()"
+                           class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;cursor:pointer;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);white-space:nowrap;">
+                            Testimonios
+                        </button>
+                        <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener"
+                           class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);text-align:center;white-space:nowrap;">
+                            Ver todos los homenajes
+                        </a>
+                    </div>
+
+                    <!-- Card con las imágenes — ocupa todo el ancho -->
+                    <div class="glass-card ig-glass-card reveal" style="width:min(706px, 100%);margin:0 auto;">
+                        <div class="ig-carousel-wrap" id="igCarouselWrap">
+                            <div id="igSlidesContainer"></div>
+                            <button class="ig-carousel-arrow ig-arrow-prev" id="igPrev" aria-label="Publicación anterior">&#8249;</button>
+                            <button class="ig-carousel-arrow ig-arrow-next" id="igNext" aria-label="Publicación siguiente">&#8250;</button>
+                            <div class="ig-carousel-dots" id="igDots" role="tablist" aria-label="Controles del carrusel Instagram"></div>
+                        </div>
+                    </div>
+
+                </div><!-- /ig-card-outer -->
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- About -->
+        <section class="section" id="nosotros" itemscope itemtype="https://schema.org/AboutPage">
+            <div class="container">
+                <div class="about-split">
+                    <div class="about-visual reveal">
+                        <div class="mulan-frame">
+                            <img src="/Assets/foto-mulan-nuestra-mascota-llanquihue-la-inspiracion-de-nosotros-preguntas-frecuentes.webp"
+                                 alt="Mulán, la perrita que inspiró la creación de Pets Al Cielo"
+                                 width="444" height="464"
+                                 loading="lazy" decoding="async"
+                                 class="mulan-img">
+                        </div>
+                    </div>
+                    <div class="about-text">
+                        <span class="section-tag reveal">Sobre Nosotros</span>
+                        <h2 class="section-title reveal reveal-delay-1">Crematorio para Mascotas en<br><em>La Vara, Senda Central</em></h2>
+                        <p class="reveal reveal-delay-2">
+                            “Pets Al Cielo es un servicio familiar que comenzó el año 2019, después de la triste partida de nuestra perrita <em>Mulán</em>, quien nos acompañó por 13 años y que era una integrante más de nuestra familia. A pesar de tener en nuestra parcela un lugar especial para sepultarla, NO quisimos esa opción porque la queríamos con nosotros, no afuera y lejos en el frío de la tierra, y descubrimos con tristeza que NO existían crematorios de mascotitas en Puerto Montt o sus alrededores en esos años. Así nace <em>Pets Al Cielo</em> una Cremación Verde e Individual, que se lleva a cabo mediante el procedimiento de Hidrólisis Alcalina (Agua y No Fuego), lo que nos permite entregar toda la parte ósea de la mascotita en forma de Polvito de Calcio, en un ánfora o en una plantita como Nutriente para retornar al ciclo de la vida a su Pequeño(a)".
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- Video -->
+        <section class="section video-section" id="video">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag reveal">Video Educativo</span>
+                    <h2 class="section-title reveal reveal-delay-1">
+                        Cómo Funciona la <em>Cremación Ecológica</em>
+                    </h2>
+                    <p class="section-lead reveal reveal-delay-2">
+                        Conozca en detalle el proceso de cremación verde mediante hidrólisis alcalina. 
+                        <br>Video educativo avalado por la Facultad de Medicina Veterinaria de la Universidad de Concepción.
+                    </p>
+                </div>
+                <div class="video-frame reveal">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube-nocookie.com/embed/yiG-KwCY9V4?rel=0&modestbranding=1" title="Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;border:none;"></iframe>
+                        </div>
+                    </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section" id="testimonios">
+            <div class="cta-inner reveal-fog">
+                <span class="section-tag">Con amor y respeto</span>
+                <h2 class="section-title">
+                    Crematorio de Confianza<br>para <em>Familias de Puerto Montt</em>
+                </h2>
+                <p>
+                    Más de 7 años acompañando familias en la despedida de sus mascotitas. <br>
+                    Servicio profesional, cremación individual garantizada y atención personalizada.
+                </p>
+                <p>Usamos Agua, no Fuego.</p>
+                <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+                    <a href="#" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20cremaci%C3%B3n','_blank','noopener');" class="btn" style="background:linear-gradient(135deg,#29A798,#3ab8a8);color:#fff;box-shadow:0 4px 20px rgba(41,167,152,0.35);" aria-label="Solicitar información por WhatsApp">Solicitar información vía WhatsApp</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Bar -->
+        <section class="contact-bar" id="contacto" itemscope itemtype="https://schema.org/ContactPage">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-item" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                        <div class="contact-icon" style="background: linear-gradient(135deg, rgba(255,220,130,0.45), rgba(238,165,233,0.4), rgba(203,174,242,0.35), rgba(168,230,214,0.35));">
+                            <svg width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <polygon points="32,8 6,30 58,30" fill="url(#g-roof)"/>
+                            <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#g-wall)"/>
+                            <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#g-door)"/>
+                            <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                            <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                        </svg>
+                        </div>
+                        <div class="contact-label">Crematorio en</div>
+                        <div class="contact-value">
+                            <a href="https://www.google.com/maps/place/Pets+Al+Cielo/@-41.4417349,-72.9405311,13.07z/data=!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" aria-label="Ver en Google Maps"><span itemprop="addressLocality">Puerto Montt</span>, <span itemprop="addressRegion">X Región</span></a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon" style="background: linear-gradient(135deg, rgba(238,165,233,0.4), rgba(203,174,242,0.3));">
+                            <svg width="24" height="24" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="18" y="6" width="28" height="52" rx="6" fill="url(#ph-body)"/>
+                                <rect x="22" y="12" width="20" height="34" rx="2" fill="url(#ph-screen)"/>
+                                <circle cx="32" cy="52" r="3" fill="url(#ph-btn)"/>
+                                <defs>
+                                    <linearGradient id="ph-body" x1="18" y1="6" x2="46" y2="58" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#eea5e9"/><stop offset="100%" stop-color="#cbaef2"/></linearGradient>
+                                    <linearGradient id="ph-screen" x1="22" y1="12" x2="42" y2="46" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
+                                    <linearGradient id="ph-btn" x1="29" y1="49" x2="35" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff4cc"/><stop offset="100%" stop-color="#f9c8e0"/></linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="contact-label">WhatsApp 24/7</div>
+                        <div class="contact-value">
+                            <a href="https://wa.me/56998461172" itemprop="telephone" aria-label="WhatsApp">+569 9846 1172</a>
+                        </div>
+                        <div style="margin-top:1.2rem;">
+                            <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" class="ig-btn" aria-label="Instagram PetsAlCielo">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                Visítanos en Instagram
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon" style="background: linear-gradient(135deg, rgba(238,165,233,0.35), rgba(203,174,242,0.35));">
+                            <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="tel-body" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
+                                    <linearGradient id="tel-handset" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop offset="0%" stop-color="#eea5e9"/><stop offset="100%" stop-color="#cbaef2"/></linearGradient>
+                                    <linearGradient id="tel-dial" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop offset="0%" stop-color="#fde8f5"/><stop offset="100%" stop-color="#e8d5f5"/></linearGradient>
+                                </defs>
+                                <!-- Base del teléfono -->
+                                <rect x="8" y="50" width="72" height="40" rx="8" fill="url(#tel-body)"/>
+                                <!-- Panel frontal inclinado -->
+                                <rect x="16" y="54" width="56" height="30" rx="5" fill="white" fill-opacity="0.3"/>
+                                <!-- Disco marcador circular -->
+                                <circle cx="44" cy="68" r="16" fill="url(#tel-dial)"/>
+                                <circle cx="44" cy="68" r="11" fill="white" fill-opacity="0.4"/>
+                                <circle cx="44" cy="68" r="4" fill="white" fill-opacity="0.7"/>
+                                <!-- Botones en el disco -->
+                                <circle cx="44" cy="56" r="2.2" fill="#cbaef2"/>
+                                <circle cx="53" cy="61" r="2.2" fill="#cbaef2"/>
+                                <circle cx="56" cy="71" r="2.2" fill="#a8e6d6"/>
+                                <circle cx="51" cy="79" r="2.2" fill="#eea5e9"/>
+                                <circle cx="37" cy="79" r="2.2" fill="#eea5e9"/>
+                                <circle cx="32" cy="71" r="2.2" fill="#a8e6d6"/>
+                                <circle cx="35" cy="61" r="2.2" fill="#cbaef2"/>
+                                <!-- Auricular encima (forma banana/handset) -->
+                                <!-- cuerpo auricular -->
+                                <path d="M14 44 Q14 22 30 18 Q44 15 58 18 Q74 22 74 44" stroke="url(#tel-handset)" stroke-width="10" stroke-linecap="round" fill="none"/>
+                                <!-- orejeras -->
+                                <ellipse cx="14" cy="44" rx="7" ry="9" fill="url(#tel-handset)"/>
+                                <ellipse cx="74" cy="44" rx="7" ry="9" fill="url(#tel-handset)"/>
+                                <!-- brillo auricular -->
+                                <path d="M20 40 Q20 26 34 22 Q44 19 54 22" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
+                                <!-- Cable -->
+                                <path d="M80 62 Q88 58 90 64 Q92 70 88 72 Q84 74 86 80" stroke="#cbaef2" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="contact-label">Atención Inmediata</div>
+                        <div class="contact-value">
+                            <a href="https://wa.me/56940082594?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" itemprop="telephone" aria-label="WhatsApp">+569 4008 2594</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer role="contentinfo" style="position:relative;">
+            <div style="max-width:1360px;margin:0 auto;padding:2.5rem 2rem 0;">
+                <div class="footer-logo">Pets<em>Al</em>Cielo</div>
+            </div>
+            <!-- Fila SEO: cremación por especie — visible y rastreable por Google -->
+            <div style="border-bottom:1px solid rgba(255,255,255,0.08);padding:2.5rem 2rem 2rem;max-width:1360px;margin:0 auto;">
+                <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2.5vw,1.6rem);color:rgba(255,255,255,0.9);margin-bottom:1.4rem;font-weight:500;">Consultas e Información Adicional</h2>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;">
+                    <div>
+                        <h3 style="font-size:0.82rem;color:var(--mint);margin-bottom:0.4rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Crematorio en Puerto Montt</h3>
+                        <p style="font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.65;">Cremación 100% individual de perritos, gatitos y otras mascotitas con retiro a domicilio. Nuestros pequeños merecen dignidad y respeto del agua y no la violencia del fuego..</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:0.82rem;color:var(--mint);margin-bottom:0.4rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;"> Ecológia y consciencia</h3>
+                        <p style="font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.65;">Único crematorio en Puerto Montt con recuperación de chip.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:0.82rem;color:var(--mint);margin-bottom:0.4rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Servicio especial: Reencuentro</h3>
+                        <p style="font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.65;">Posibilidad de cremación para mascotas amadas que fallecieron en el pasado. Perros, Gatos, conejos, hámsteres, aves y todas las especies</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:0.82rem;color:var(--mint);margin-bottom:0.4rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Servicio en la Décima Región</h3>
+                        <p style="font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.65;">En nuestros 7 años de funcionamiento hemos acompañado a familias de toda la región.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wrapper con overlay visual — texto intacto para SEO -->
+            <div style="position:relative; margin:0 -2rem; padding:0; overflow:hidden;">
+                <div aria-hidden="true" style="
+                    position:absolute;inset:0;z-index:9999;pointer-events:none;
+                    background:url('/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp') center center / cover no-repeat;
+                    opacity:0.97;
+                "></div>
+                <!-- contenido SEO oculto visualmente bajo la imagen -->
+                <div class="seo-footer-grid" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1.5rem;padding:1.2rem 1.5rem 0;font-size:0.72rem;line-height:1.6;color:rgba(255,255,255,0.6);">
+                    <div>
+                        <p>Crematorio ecológico para mascotitas en Puerto Montt, Décima región.</p>
+                        <p style="margin-top:0.4rem;color:rgba(255,255,255,0.4);"><strong style="color:rgba(255,255,255,0.5);">Cobertura:</strong> Puerto Montt, Puerto Varas, Osorno, Ancud, Castro, Frutillar, Llanquihue y Región de Los Lagos.</p>
+                    </div>
+                    <div>
+                        <p style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);margin-bottom:0.3rem;">Servicios</p>
+                        <ul style="list-style:none;font-size:0.7rem;">
+                            <li><a href="#servicios" style="color:rgba(255,255,255,0.55);text-decoration:none;">Cremación Ecológica e Individual en Puerto Montt</a></li>
+                            <li><a href="#servicios" style="color:rgba(255,255,255,0.55);text-decoration:none;">Cremación de Perros en Puerto Montt</a></li>
+                            <li><a href="#servicios" style="color:rgba(255,255,255,0.55);text-decoration:none;">Cremación de Gatos en Puerto Montt</a></li>
+                            <li><a href="#servicios" style="color:rgba(255,255,255,0.55);text-decoration:none;">Cremación de Conejos y Mascotas Especiales</a></li>
+                            <li><a href="#servicios" style="color:rgba(255,255,255,0.55);text-decoration:none;">Ánforas de madera, bronce e impresión 3D</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);margin-bottom:0.3rem;">Puerto Montt, X Región</p>
+                        <ul style="list-style:none;font-size:0.7rem;">
+                            <li><a href="#nosotros" style="color:rgba(255,255,255,0.55);text-decoration:none;">Sobre PetsAlCielo</a></li>
+                            <li><a href="#proceso" style="color:rgba(255,255,255,0.55);text-decoration:none;">Sobre la Cremación Ecológica</a></li>
+                            <li><a href="#Biblioteca" style="color:rgba(255,255,255,0.55);text-decoration:none;">Instalaciones en Puerto Montt</a></li>
+                            <li><a href="preguntas-frecuentes.html" style="color:rgba(255,255,255,0.55);text-decoration:none;">Preguntas Frecuentes</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);margin-bottom:0.3rem;">Redes Sociales</p>
+                        <ul style="list-style:none;font-size:0.7rem;">
+                            <li><a href="https://www.facebook.com/cremaciondemascotasenpuertomontt" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.55);text-decoration:none;">📘 Facebook PetsAlCielo</a></li>
+                            <li><a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.55);text-decoration:none;">📷 Instagram @petsalcielo</a></li>
+                        </ul>
+                        <p style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);margin:0.5rem 0 0.2rem;">Horario</p>
+                        <p style="font-size:0.7rem;">Todos los días del año. Atención inmediata</p>
+                    </div>
+                </div>
+                <div style="text-align:center;padding:0.6rem 1rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.65rem;color:rgba(255,255,255,0.4);">
+                    <p><strong>© 2026 PetsAlCielo — Crematorio Verde para Mascotitas en la Región de los Lagos</strong></p>
+                    <p style="margin-top:0.2rem;">🌈 Con amor y respeto por quienes fueron y todavía son parte de su familia 🌈</p>
+                </div>
+            </div><!-- /overlay wrapper -->
+        </footer>
+
+        <script>
+            // ── CAROUSEL HERO ──
+            (function () {
+                let currentSlide = 0;
+                let autoplay     = null;
+                let fadeTimer    = null;
+                const slides     = document.querySelectorAll('.carousel-slide');
+                const dots       = document.querySelectorAll('.carousel-dots .dot');
+                const INTERVAL   = 7400;
+                const FADE       = 1100; // ms total del crossfade
+
+                function showSlide(n) {
+                    const prevSlide = slides[currentSlide];
+                    currentSlide = (n + slides.length) % slides.length;
+                    const nextSlide = slides[currentSlide];
+                    if (prevSlide === nextSlide) return;
+
+                    const prevCard = prevSlide.querySelector('.hero-inner');
+                    const nextCard = nextSlide.querySelector('.hero-inner');
+
+                    // Cancelar timer anterior si lo hay
+                    if (fadeTimer) clearTimeout(fadeTimer);
+
+                    // Fade OUT la card saliente
+                    if (prevCard) {
+                        prevCard.style.transition = 'opacity ' + FADE + 'ms ease';
+                        prevCard.style.opacity = '0';
+                    }
+
+                    // Fade IN la nueva card con un pequeño delay (mitad del fade out)
+                    fadeTimer = setTimeout(() => {
+                        prevSlide.classList.remove('active');
+                        nextSlide.classList.add('active');
+                        if (nextCard) {
+                            nextCard.style.transition = 'none';
+                            nextCard.style.opacity = '0';
+                            nextCard.getBoundingClientRect(); // reflow
+                            nextCard.style.transition = 'opacity ' + FADE + 'ms ease';
+                            nextCard.style.opacity = '1';
+                        }
+                    }, FADE / 2);
+
+                    dots.forEach(d => d.classList.remove('active'));
+                    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+                }
+
+                function startAutoplay() {
+                    stopAutoplay();
+                    autoplay = setInterval(() => showSlide(currentSlide + 1), INTERVAL);
+                }
+
+                function stopAutoplay() {
+                    if (autoplay) { clearInterval(autoplay); autoplay = null; }
+                }
+
+                dots.forEach((dot, i) => {
+                    dot.addEventListener('click', () => {
+                        stopAutoplay();
+                        showSlide(i);
+                        startAutoplay();
+                    });
+                });
+
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) stopAutoplay();
+                    else startAutoplay();
+                });
+
+                // Card inicial visible sin animación
+                const firstCard = slides[0] && slides[0].querySelector('.hero-inner');
+                if (firstCard) { firstCard.style.transition = 'none'; firstCard.style.opacity = '1'; }
+
+                startAutoplay();
+                window._heroCarousel = { stop: stopAutoplay, start: startAutoplay };
+            })();
+
+            // ── PRELOAD galerías y thumbnail YT — solo cuando la sección sea visible ──
+            (function () {
+                const gallerySection = document.getElementById('Biblioteca');
+                const target = gallerySection || document.body;
+                const preloadIO = new IntersectionObserver((entries) => {
+                    if (!entries[0].isIntersecting) return;
+                    preloadIO.disconnect();
+                    const img = new Image();
+                    img.src = 'https://i.ytimg.com/vi/yiG-KwCY9V4/hqdefault.jpg';
+                    ['instalaciones', 'jardin', 'urnas', 'despedida'].forEach(key => {
+                        fetch('/gallery/' + key + '.json')
+                            .then(r => r.ok ? r.json() : null)
+                            .then(d => {
+                                if (!d || !d.fotos || !d.fotos.length) return;
+                                const pre = new Image();
+                                pre.src = d.fotos[0].src;
+                            })
+                            .catch(() => {});
+                    });
+                }, { rootMargin: '400px' });
+                preloadIO.observe(target);
+            })();
+
+            // ── PETALS — reducidos a 8 (antes 22) para ahorrar compositing layers ──
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const petalContainer = document.getElementById('petalContainer');
+                const petalColors = [
+                    'rgba(238,165,233,0.55)',  /* --rose-a    */
+                    'rgba(203,174,242,0.55)',  /* --lavender  */
+                    'rgba(169,140,235,0.5)',   /* --lilac     */
+                    'rgba(217,158,201,0.55)',  /* --pastel-pink */
+                    'rgba(241,167,241,0.5)',   /* --pastel-lav */
+                    'rgba(211,135,171,0.5)',   /* --mauve     */
+                    'rgba(224,136,144,0.45)',  /* --blush     */
+                ];
+                for (let i = 0; i < 8; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'petal';
+                    const size = (8 + Math.random() * 14) * 1.1;
+                    p.style.cssText = `
+                        --ps: ${size}px;
+                        --pd: ${8.4 + Math.random() * 1.6}s;
+                        --delay: -${Math.random() * 8}s;
+                        left: ${Math.random() * 100}%;
+                        background: ${petalColors[Math.floor(Math.random() * petalColors.length)]};
+                        border-radius: ${Math.random() > 0.5 ? '50% 50% 50% 0' : '50% 0 50% 50%'};
+                        transform: rotate(${Math.random() * 360}deg);
+                    `;
+                    petalContainer.appendChild(p);
+                }
+            }
+
+            // ── FOG REVEAL ──
+            const fogEls = document.querySelectorAll('.reveal-fog');
+            const fogIO = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fogIO.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            fogEls.forEach(el => fogIO.observe(el));
+
+            // ── SCROLL REVEAL ──
+            const revealEls = document.querySelectorAll('.reveal');
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+            revealEls.forEach(el => io.observe(el));
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            // LOGICA DEL MENU LATERAL (DRAWER)
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            const heartBtn      = document.getElementById('heartBtn');
+            const drawer        = document.getElementById('drawer');
+            const drawerOverlay = document.getElementById('drawerOverlay');
+            const drawerClose   = document.getElementById('drawerClose');
+
+            function openDrawer() {
+                drawer.classList.add('open');
+                drawerOverlay.classList.add('open');
+                heartBtn.setAttribute('aria-expanded', 'true');
+                // No bloqueamos body scroll — overscroll-behavior:contain en el drawer lo maneja
+            }
+            function closeDrawer() {
+                drawer.classList.remove('open');
+                drawerOverlay.classList.remove('open');
+                heartBtn.setAttribute('aria-expanded', 'false');
+            }
+
+            heartBtn.addEventListener('click', openDrawer);
+            drawerClose.addEventListener('click', closeDrawer);
+            drawerOverlay.addEventListener('click', closeDrawer);
+            document.querySelectorAll('.drawer-link').forEach(l => l.addEventListener('click', closeDrawer));
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+            // ── MOBILE NAV SCROLL HIDE ──
+            (function() {
+                const mobileNavItems = document.querySelectorAll('.nav-menu li:nth-child(2), .nav-menu li:nth-child(3), .nav-menu li:nth-child(4)');
+                let scrolled = false;
+                window.addEventListener('scroll', function() {
+                    if (window.innerWidth > 768) return;
+                    if (window.scrollY > 10 && !scrolled) {
+                        scrolled = true;
+                        mobileNavItems.forEach(li => li.classList.add('nav-hidden'));
+                    } else if (window.scrollY <= 10 && scrolled) {
+                        scrolled = false;
+                        mobileNavItems.forEach(li => li.classList.remove('nav-hidden'));
+                    }
+                }, { passive: true });
+            })();
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            // CARRUSEL DE INSTAGRAM
+            // Lee /instagram.json (generado cada 24h por GitHub Actions).
+            // Muestra imágenes como <img> nativo — SEO real, sin iframes,
+            // sin SDK externo, carga instantánea.
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            (function () {
+                const container = document.getElementById('igSlidesContainer');
+                const dotsEl    = document.getElementById('igDots');
+                const prevBtn   = document.getElementById('igPrev');
+                const nextBtn   = document.getElementById('igNext');
+                const wrapEl    = document.getElementById('igCarouselWrap');
+                if (!container) return;
+
+                let igCurrent = 0;
+                let igTotal   = 0;
+                let igAutoplay;
+
+                function igShowSlide(n) {
+                    const slides = container.querySelectorAll('.ig-slide');
+                    const dots   = dotsEl.querySelectorAll('.dot');
+                    if (!slides.length) return;
+                    slides.forEach(s => s.classList.remove('active'));
+                    dots.forEach(d => d.classList.remove('active'));
+                    igCurrent = (n + igTotal) % igTotal;
+                    slides[igCurrent].classList.add('active');
+                    dots[igCurrent].classList.add('active');
+                }
+                function startAutoplay() {
+                    igAutoplay = setInterval(() => igShowSlide(igCurrent + 1), 6500);
+                }
+                function stopAutoplay() { clearInterval(igAutoplay); }
+
+                function buildCarousel(posts) {
+                    const isDesktop = () => window.innerWidth >= 769;
+
+                    // Función para crear el bloque de un post (imagen + caption)
+                    function makePostBlock(post, eager) {
+                        const postEl = document.createElement('div');
+                        postEl.className = 'ig-post';
+
+                        const imgWrap = document.createElement('div');
+                        imgWrap.className = 'ig-img-wrap';
+
+                        const link = document.createElement('a');
+                        link.href   = post.permalink;
+                        link.target = '_blank';
+                        link.rel    = 'noopener';
+                        link.style.cssText = 'display:block;line-height:0;height:100%;';
+
+                        const img = document.createElement('img');
+                        img.src      = post.src;
+                        img.alt      = post.alt || 'Homenaje en Instagram de PetsAlCielo — crematorio de mascotas en Puerto Montt';
+                        img.loading  = eager ? 'eager' : 'lazy';
+                        img.decoding = 'async';
+
+                        link.appendChild(img);
+                        imgWrap.appendChild(link);
+                        postEl.appendChild(imgWrap);
+
+                        if (post.caption) {
+                            const cap = document.createElement('div');
+                            cap.className = 'ig-caption';
+                            cap.textContent = post.caption;
+                            postEl.appendChild(cap);
+                        }
+                        return postEl;
+                    }
+
+                    // ── Desktop: slides de 2 posts agrupados ──
+                    // ── Mobile: slides de 1 post ──
+                    // Construimos ambas versiones y las alternamos con JS en resize.
+
+                    function build(desktop) {
+                        container.innerHTML = '';
+                        dotsEl.innerHTML = '';
+
+                        if (desktop) {
+                            // Agrupar de a 2
+                            const pairs = [];
+                            for (let i = 0; i < posts.length; i += 2) {
+                                pairs.push([posts[i], posts[i + 1]].filter(Boolean));
+                            }
+                            igTotal = pairs.length;
+
+                            pairs.forEach((pair, i) => {
+                                const slide = document.createElement('div');
+                                slide.className = 'ig-slide' + (i === 0 ? ' active' : '');
+                                slide.setAttribute('role', 'tabpanel');
+                                slide.setAttribute('aria-label', 'Publicaciones ' + (i * 2 + 1) + '–' + (i * 2 + pair.length));
+
+                                pair.forEach((post, j) => {
+                                    if (j === 1) {
+                                        const div = document.createElement('div');
+                                        div.className = 'ig-post-divider';
+                                        slide.appendChild(div);
+                                    }
+                                    slide.appendChild(makePostBlock(post, i === 0));
+                                });
+
+                                container.appendChild(slide);
+
+                                const dot = document.createElement('button');
+                                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                                dot.setAttribute('aria-label', 'Par de publicaciones ' + (i + 1));
+                                dot.setAttribute('role', 'tab');
+                                dot.addEventListener('click', () => { stopAutoplay(); igShowSlide(i); });
+                                dotsEl.appendChild(dot);
+                            });
+
+                        } else {
+                            // Mobile: 1 post por slide
+                            igTotal = posts.length;
+                            posts.forEach((post, i) => {
+                                const slide = document.createElement('div');
+                                slide.className = 'ig-slide' + (i === 0 ? ' active' : '');
+                                slide.setAttribute('role', 'tabpanel');
+                                slide.setAttribute('aria-label', 'Publicación ' + (i + 1));
+                                slide.style.cssText = 'position:absolute;inset:0;bottom:32px;display:flex;';
+
+                                const imgWrap = document.createElement('div');
+                                imgWrap.className = 'ig-img-wrap';
+                                imgWrap.style.cssText = 'width:100%;height:100%;overflow:hidden;';
+                                const link = document.createElement('a');
+                                link.href   = post.permalink;
+                                link.target = '_blank';
+                                link.rel    = 'noopener';
+                                link.style.cssText = 'display:block;width:100%;height:100%;line-height:0;';
+                                const img = document.createElement('img');
+                                img.src      = post.src;
+                                img.alt      = post.alt || 'Homenaje en Instagram de PetsAlCielo — crematorio de mascotas en Puerto Montt';
+                                img.loading  = i === 0 ? 'eager' : 'lazy';
+                                img.decoding = 'async';
+                                img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
+                                link.appendChild(img);
+                                imgWrap.appendChild(link);
+                                slide.appendChild(imgWrap);
+                                container.appendChild(slide);
+
+                                const dot = document.createElement('button');
+                                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                                dot.setAttribute('aria-label', 'Publicación ' + (i + 1));
+                                dot.setAttribute('role', 'tab');
+                                dot.addEventListener('click', () => { stopAutoplay(); igShowSlide(i); });
+                                dotsEl.appendChild(dot);
+                            });
+
+                            // Mobile: altura fija basada en CSS (no sobreescribir con altura natural de imagen)
+                            // No hacemos nada: el CSS ya controla la altura del wrap.
+                        }
+
+                        igCurrent = 0;
+                    }
+
+                    // Construir según tamaño inicial
+                    let lastDesktop = isDesktop();
+                    build(lastDesktop);
+
+                    // Reconstruir si cambia entre mobile y desktop
+                    window.addEventListener('resize', () => {
+                        const d = isDesktop();
+                        if (d !== lastDesktop) {
+                            lastDesktop = d;
+                            stopAutoplay();
+                            build(d);
+                            startAutoplay();
+                        }
+                    });
+
+                    prevBtn.addEventListener('click', () => { stopAutoplay(); igShowSlide(igCurrent - 1); });
+                    nextBtn.addEventListener('click', () => { stopAutoplay(); igShowSlide(igCurrent + 1); });
+                    startAutoplay();
+                }
+
+                function showFallback() {
+                    wrapEl.style.minHeight = '180px';
+                    container.innerHTML = `
+                        <div class="ig-slide active" style="flex-direction:column;gap:1rem;">
+                            <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener"
+                               style="display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,#f9c8a0,#e06090,#9060d0);color:white;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;padding:0.55rem 1.4rem;border-radius:50px;">
+                                Ver @_petsalcielo en Instagram ↗
+                            </a>
+                        </div>`;
+                }
+
+                // Cargar instagram.json solo cuando la sección sea visible
+                const igSection = document.getElementById('Biblioteca');
+                const igObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        igObserver.disconnect();
+                        fetch('/instagram.json')
+                            .then(r => r.json())
+                            .then(data => {
+                                const posts = data.posts || [];
+                                if (posts.length === 0) { showFallback(); return; }
+                                buildCarousel(posts);
+                            })
+                            .catch(() => showFallback());
+                    }
+                }, { rootMargin: '200px' });
+                if (igSection) igObserver.observe(igSection);
+                else fetch('/instagram.json').then(r=>r.json()).then(d=>{ const p=d.posts||[]; if(!p.length){showFallback();return;} buildCarousel(p); }).catch(()=>showFallback());
+
+            })();
+
+            // smooth scroll: gestionado por CSS html { scroll-behavior: smooth }
+
+            // Nav top gestionado por CSS directamente (top: 28px)
+
+            // visibilitychange del hero: gestionado dentro del IIFE de CAROUSEL HERO
+
+            // will-change: gestionado directamente en showSlide() del carrusel hero
+
+
+        </script>
+
+        <!-- ── GALLERY LIGHTBOX MODAL ── -->
+        <div id="glb-overlay" role="dialog" aria-modal="true" aria-labelledby="glb-title" aria-hidden="true"
+             style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(40,30,50,0.6);align-items:center;justify-content:center;opacity:0;transition:opacity 0.32s ease;">
+            <div id="glb-modal-inner" style="position:relative;width:min(92vw,860px);max-height:90vh;display:flex;flex-direction:column;background:rgba(250,248,249,0.97);border-radius:24px;overflow:hidden;box-shadow:none;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem;border-bottom:1px solid rgba(168,230,214,0.25);">
+                    <h2 id="glb-title" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:#3d4a5c;margin:0;"></h2>
+                    <span id="glb-counter" style="font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:300;color:#8a9aaa;margin-right:0.8rem;"></span>
+                    <button id="glb-close" aria-label="Cerrar galería"
+                            style="background:none;border:none;cursor:pointer;padding:0.4rem;color:#8a9aaa;font-size:1.4rem;line-height:1;transition:color 0.2s;"
+                            onmouseover="this.style.color='#3d4a5c'" onmouseout="this.style.color='#8a9aaa'">&#x2715;</button>
+                </div>
+                <div style="position:relative;flex:1;overflow:hidden;min-height:300px;">
+                    <div id="glb-track" style="width:100%;height:100%;"></div>
+                    <div id="glb-loader" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                        <div style="width:36px;height:36px;border:3px solid rgba(41,167,152,0.2);border-top-color:#29A798;border-radius:50%;animation:glbSpin 0.8s linear infinite;"></div>
+                    </div>
+                    <div id="glb-empty" style="display:none;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.8rem;color:#8a9aaa;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:300;text-align:center;padding:2rem;">
+                        <span style="font-size:2.5rem;">&#x1F5BC;&#xFE0F;</span>
+                        Pr&#xF3;ximamente &#x2014; las fotos de esta galer&#xED;a estar&#xE1;n disponibles aqu&#xED;.
+                    </div>
+                    <button id="glb-prev" aria-label="Foto anterior"
+                            style="display:none;position:absolute;left:0.8rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;align-items:center;justify-content:center;font-size:1.4rem;color:#3d4a5c;box-shadow:0 2px 12px rgba(0,0,0,0.12);transition:background 0.2s;">&#x2039;</button>
+                    <button id="glb-next" aria-label="Foto siguiente"
+                            style="display:none;position:absolute;right:0.8rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;align-items:center;justify-content:center;font-size:1.4rem;color:#3d4a5c;box-shadow:0 2px 12px rgba(0,0,0,0.12);transition:background 0.2s;">&#x203A;</button>
+                </div>
+            </div>
+        </div>
+
+        <style>.glb-visible{opacity:1 !important}.glb-slide{display:none;width:100%;height:100%;align-items:center;justify-content:center}.glb-slide.glb-active{display:flex}.glb-slide img{max-width:100%;max-height:72vh;object-fit:contain;display:block}@keyframes glbSpin{to{transform:rotate(360deg)}}#glb-modal-inner{border:3.5px solid transparent;transition:border-color 0.28s ease}#glb-modal-inner.accent-despedida{width:min(92vw,420px) !important}#glb-modal-inner.accent-instalaciones{border-color:#F9B8C8}#glb-modal-inner.accent-jardin{border-color:#90D8F0}#glb-modal-inner.accent-urnas{border-color:#C9A8F0}#glb-modal-inner.accent-mariposas{border-color:#8FE0A4}#glb-modal-inner.accent-despedida{border-color:#FFC4A0}</style>
+        <script>
+            // ── GALLERY LIGHTBOX ──
+            document.addEventListener('DOMContentLoaded', function() {
+            // ── GALLERY LIGHTBOX ──
+                const GALLERY_TITLES = {
+                    instalaciones: 'Nuestros servicios',
+                    jardin:        'Nuestro Equipo',
+                    urnas:         'Anforas y Relicarios',
+                    mariposas:     'Sobre la hidrólisis alcalina',
+                    despedida:     'Gracias ❤️'
+                };
+                const cache = {};
+                const overlay  = document.getElementById('glb-overlay');
+                const titleEl  = document.getElementById('glb-title');
+                const track    = document.getElementById('glb-track');
+                const prevBtn  = document.getElementById('glb-prev');
+                const nextBtn  = document.getElementById('glb-next');
+                const closeBtn = document.getElementById('glb-close');
+                const counter  = document.getElementById('glb-counter');
+                const loader   = document.getElementById('glb-loader');
+                const emptyMsg = document.getElementById('glb-empty');
+                let photos = [], current = 0;
+
+                function openModal(key) {
+                    overlay.setAttribute('aria-hidden','false');
+                    overlay.style.display = 'flex';
+                    requestAnimationFrame(() => overlay.classList.add('glb-visible'));
+                    document.body.style.overflow = 'hidden';
+                    titleEl.textContent = GALLERY_TITLES[key] || key;
+                    track.innerHTML = '';
+                    emptyMsg.style.display = 'none';
+                    loader.style.display = 'none';
+                    counter.textContent = '';
+                    closeBtn.focus();
+                    // Marco de color según galería
+                    const inner = document.getElementById('glb-modal-inner');
+                    inner.className = inner.className.replace(/\baccent-\S+/g, '').trim();
+                    inner.classList.add('accent-' + key);
+
+                    // Galería especial: mariposas muestra el video de YouTube (igual que #video)
+                    if (key === 'mariposas') {
+                        const videoId = 'yiG-KwCY9V4';
+
+                        const slide = document.createElement('div');
+                        slide.className = 'glb-slide glb-active';
+                        slide.style.cssText = 'display:flex;align-items:center;justify-content:center;width:100%;height:100%;';
+
+                        const wrapper = document.createElement('div');
+                        wrapper.style.cssText = 'position:relative;padding-bottom:56.25%;height:0;width:100%;max-width:820px;margin:0 auto;border-radius:8px;overflow:hidden;';
+
+                        const iframe = document.createElement('iframe');
+                        iframe.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?autoplay=0&rel=0&modestbranding=1';
+                        iframe.title = 'Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina';
+                        iframe.frameBorder = '0';
+                        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                        iframe.allowFullscreen = true;
+                        iframe.loading = 'eager';
+                        iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;';
+
+                        wrapper.appendChild(iframe);
+                        slide.appendChild(wrapper);
+                        track.appendChild(slide);
+
+                        prevBtn.style.display = 'none';
+                        nextBtn.style.display = 'none';
+                        return;
+                    }
+
+                    loader.style.display = 'flex';
+                    if (cache[key]) { renderPhotos(cache[key]); return; }
+                    fetch('/gallery/' + key + '.json')
+                        .then(r => { if (!r.ok) throw 0; return r.json(); })
+                        .then(d => { cache[key] = d.fotos || []; renderPhotos(cache[key]); })
+                        .catch(() => { loader.style.display='none'; emptyMsg.style.display='block'; });
+                }
+
+                function renderPhotos(list) {
+                    loader.style.display = 'none';
+                    photos = list;
+                    if (!photos.length) { emptyMsg.style.display='block'; return; }
+
+                    // Crear todos los slides primero sin src en las fotos no-primeras
+                    const slides = [];
+                    photos.forEach((p, i) => {
+                        const s = document.createElement('div');
+                        s.className = 'glb-slide' + (i === 0 ? ' glb-active' : '');
+                        const img = document.createElement('img');
+                        img.alt     = p.alt || 'Foto de PetsAlCielo — crematorio ecológico de mascotas en Puerto Montt';
+                        img.decoding = 'async';
+                        if (i === 0) {
+                            // Primera foto: carga inmediata eager
+                            img.src     = p.src;
+                            img.loading = 'eager';
+                        } else {
+                            // Resto: sin src por ahora, se carga al abrir la galería
+                            img.dataset.src = p.src;
+                            img.loading     = 'lazy';
+                        }
+                        s.appendChild(img);
+                        track.appendChild(s);
+                        slides.push({ el: s, img, src: p.src, i });
+                    });
+
+                    current = 0;
+                    updateNav();
+
+                    // En cuanto la primera foto cargue (o ya esté en caché),
+                    // asignar src al resto para que carguen en paralelo
+                    const firstImg = slides[0].img;
+                    function loadRest() {
+                        slides.forEach(({ img, src, i }) => {
+                            if (i > 0 && !img.src) img.src = src;
+                        });
+                    }
+                    if (firstImg.complete) {
+                        loadRest();
+                    } else {
+                        firstImg.addEventListener('load',  loadRest, { once: true });
+                        firstImg.addEventListener('error', loadRest, { once: true });
+                    }
+                }
+
+                function goTo(n) {
+                    const slides = track.querySelectorAll('.glb-slide');
+                    if (!slides.length) return;
+                    slides[current].classList.remove('glb-active');
+                    current = (n + photos.length) % photos.length;
+                    slides[current].classList.add('glb-active');
+                    updateNav();
+                }
+
+                function updateNav() {
+                    counter.textContent = photos.length ? (current+1)+' / '+photos.length : '';
+                    prevBtn.style.display = photos.length>1?'flex':'none';
+                    nextBtn.style.display = photos.length>1?'flex':'none';
+                }
+
+                function closeModal() {
+                    overlay.classList.remove('glb-visible');
+                    setTimeout(()=>{ overlay.style.display='none'; overlay.setAttribute('aria-hidden','true'); track.innerHTML=''; photos=[]; },320);
+                    document.body.style.overflow='';
+                }
+
+                prevBtn.addEventListener('click',()=>goTo(current-1));
+                nextBtn.addEventListener('click',()=>goTo(current+1));
+                closeBtn.addEventListener('click',closeModal);
+                overlay.addEventListener('click',e=>{ if(e.target===overlay) closeModal(); });
+
+                let tx=0;
+                track.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+                track.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>50) goTo(dx<0?current+1:current-1); });
+
+                document.addEventListener('keydown',e=>{
+                    if(overlay.style.display==='none') return;
+                    if(e.key==='Escape') closeModal();
+                    if(e.key==='ArrowRight') goTo(current+1);
+                    if(e.key==='ArrowLeft')  goTo(current-1);
+                });
+
+                document.querySelectorAll('.mosaic-item[data-gallery]').forEach(item=>{
+                    item.addEventListener('click',()=>openModal(item.dataset.gallery));
+                    item.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal(item.dataset.gallery);} });
+                });
+
+            });
+        </script>
+
+
+
+    </body>
+    </html>
