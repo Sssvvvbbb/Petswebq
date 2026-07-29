@@ -14,6 +14,7 @@ import os
 import json
 import urllib.request
 import urllib.parse
+import urllib.error
 from datetime import datetime, timezone
 
 # ── Configuración ──────────────────────────────────────────────────────────────
@@ -26,8 +27,13 @@ API_VERSION  = "v25.0"
 # ──────────────────────────────────────────────────────────────────────────────
 
 def fetch(url):
-    with urllib.request.urlopen(url, timeout=15) as r:
-        return json.loads(r.read().decode())
+    try:
+        with urllib.request.urlopen(url, timeout=15) as r:
+            return json.loads(r.read().decode())
+    except urllib.error.HTTPError as e:
+        body = e.read().decode()
+        print(f"❌  HTTP {e.code} — respuesta de Graph API:\n{body}")
+        raise SystemExit(1)
 
 def download_image(url, path):
     """Descarga una imagen solo si no existe ya."""
