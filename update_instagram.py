@@ -75,7 +75,8 @@ def main():
 
     # 2. Filtrar: IMAGE, CAROUSEL_ALBUM y VIDEO (Reels se muestran con su portada)
     posts = []
-    seen_ids = set()  # evita publicaciones duplicadas si la Graph API repite un ID
+    seen_ids = set()       # evita publicaciones duplicadas si la Graph API repite un ID
+    seen_captions = set()  # evita publicaciones repetidas (mismo texto, subidas 2 veces)
     for p in raw_posts:
         media_type = p.get("media_type")
         if media_type not in ("IMAGE", "CAROUSEL_ALBUM", "VIDEO"):
@@ -87,6 +88,13 @@ def main():
             continue
         seen_ids.add(post_id)
 
+        caption_full = p.get("caption", "").strip()
+        if caption_full and caption_full in seen_captions:
+            print(f"  ⚠️  Publicación repetida (mismo caption) detectada y omitida: {post_id}")
+            continue
+        if caption_full:
+            seen_captions.add(caption_full)
+
         # Para VIDEO (incluye Reels), media_url apunta al archivo .mp4 —
         # siempre usamos thumbnail_url para mostrar la portada como imagen.
         if media_type == "VIDEO":
@@ -94,7 +102,7 @@ def main():
         else:
             image_url = p.get("media_url") or p.get("thumbnail_url", "")
 
-        caption   = p.get("caption", "")[:200]   # máx 200 chars para el alt
+        caption   = caption_full[:200]   # máx 200 chars para el alt
         timestamp = p.get("timestamp", "")
         permalink = p.get("permalink", "https://www.instagram.com/_petsalcielo/")
 
