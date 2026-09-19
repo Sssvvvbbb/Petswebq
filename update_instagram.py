@@ -12,19 +12,43 @@ En GitHub Actions se ejecuta automáticamente cada 24h.
 
 import os
 import json
+import difflib
 import urllib.request
 import urllib.parse
 import urllib.error
 from datetime import datetime, timezone
 
 # ── Configuración ──────────────────────────────────────────────────────────────
-IG_USER_ID   = "17841429339022812"
-ACCESS_TOKEN = os.environ.get("IG_TOKEN", "")   # siempre desde variable de entorno
-POSTS_LIMIT  = 10                                 # cuántas publicaciones mostrar
-OUTPUT_JSON  = "instagram.json"
-ASSETS_DIR   = os.path.join("Assets", "instagram")
-API_VERSION  = "v25.0"
+IG_USER_ID        = "17841429339022812"
+ACCESS_TOKEN      = os.environ.get("IG_TOKEN", "")   # siempre desde variable de entorno
+POSTS_LIMIT       = 10                                 # cuántas publicaciones mostrar
+OUTPUT_JSON       = "instagram.json"
+ASSETS_DIR        = os.path.join("Assets", "instagram")
+API_VERSION       = "v25.0"
+DUP_SIMILARITY    = 0.90   # 0–1: qué tan parecido debe ser el caption para considerarlo repetido
+DUP_MAX_MINUTES   = 30     # solo se compara contra publicaciones subidas dentro de esta ventana
 # ──────────────────────────────────────────────────────────────────────────────
+
+def parse_timestamp(ts):
+    try:
+        return datetime.strptime(ts, "%Y-%m-%dT%H:%M:%S%z")
+    except Exception:
+        return None
+
+def is_near_duplicate(caption, dt, kept_posts):
+    """Compara contra publicaciones ya guardadas: mismo texto (aprox.) y poca diferencia de tiempo."""
+    if not caption or dt is None:
+        return False
+    for other_caption, other_dt in kept_posts:
+        if not other_caption or other_dt is None:
+            continue
+        minutes_apart = abs((dt - other_dt).total_seconds()) / 60
+        if minutes_apart > DUP_MAX_MINUTES:
+            continue
+        similarity = difflib.SequenceMatcher(None, caption, other_caption).ratio()
+        if similarity >= DUP_SIMILARITY:
+            return True
+    return False
 
 def fetch(url):
     try:
@@ -75,8 +99,8 @@ def main():
 
     # 2. Filtrar: IMAGE, CAROUSEL_ALBUM y VIDEO (Reels se muestran con su portada)
     posts = []
-    seen_ids = set()       # evita publicaciones duplicadas si la Graph API repite un ID
-    seen_captions = set()  # evita publicaciones repetidas (mismo texto, subidas 2 veces)
+    seen_ids = set()     # evita publicaciones duplicadas si la Graph API repite un ID
+    kept_meta = []       # (caption_full, datetime) de las publicaciones ya guardadas, para detectar cuasi-duplicados
     for p in raw_posts:
         media_type = p.get("media_type")
         if media_type not in ("IMAGE", "CAROUSEL_ALBUM", "VIDEO"):
@@ -89,11 +113,13 @@ def main():
         seen_ids.add(post_id)
 
         caption_full = p.get("caption", "").strip()
-        if caption_full and caption_full in seen_captions:
-            print(f"  ⚠️  Publicación repetida (mismo caption) detectada y omitida: {post_id}")
+        timestamp    = p.get("timestamp", "")
+        post_dt      = parse_timestamp(timestamp)
+
+        if is_near_duplicate(caption_full, post_dt, kept_meta):
+            print(f"  ⚠️  Publicación repetida (caption muy similar, subida minutos después) detectada y omitida: {post_id}")
             continue
-        if caption_full:
-            seen_captions.add(caption_full)
+        kept_meta.append((caption_full, post_dt))
 
         # Para VIDEO (incluye Reels), media_url apunta al archivo .mp4 —
         # siempre usamos thumbnail_url para mostrar la portada como imagen.
@@ -103,7 +129,6 @@ def main():
             image_url = p.get("media_url") or p.get("thumbnail_url", "")
 
         caption   = caption_full[:200]   # máx 200 chars para el alt
-        timestamp = p.get("timestamp", "")
         permalink = p.get("permalink", "https://www.instagram.com/_petsalcielo/")
 
         # Descargar imagen localmente
