@@ -55,7 +55,7 @@ def main():
         os.remove(ASSETS_DIR)
     os.makedirs(ASSETS_DIR, exist_ok=True)
 
-    # 1. Obtener lista de publicaciones (solo imágenes y carruseles, sin Reels)
+    # 1. Obtener lista de publicaciones (imágenes, carruseles y Reels)
     fields = "id,caption,media_type,media_url,thumbnail_url,timestamp,permalink"
     params = urllib.parse.urlencode({
         "fields":       fields,
@@ -73,14 +73,27 @@ def main():
     raw_posts = data.get("data", [])
     print(f"    → {len(raw_posts)} publicaciones encontradas")
 
-    # 2. Filtrar: solo IMAGE y CAROUSEL_ALBUM (no VIDEO ni REELS)
+    # 2. Filtrar: IMAGE, CAROUSEL_ALBUM y VIDEO (Reels se muestran con su portada)
     posts = []
+    seen_ids = set()  # evita publicaciones duplicadas si la Graph API repite un ID
     for p in raw_posts:
-        if p.get("media_type") not in ("IMAGE", "CAROUSEL_ALBUM"):
+        media_type = p.get("media_type")
+        if media_type not in ("IMAGE", "CAROUSEL_ALBUM", "VIDEO"):
             continue
 
-        post_id   = p["id"]
-        image_url = p.get("media_url") or p.get("thumbnail_url", "")
+        post_id = p["id"]
+        if post_id in seen_ids:
+            print(f"  ⚠️  ID duplicado detectado y omitido: {post_id}")
+            continue
+        seen_ids.add(post_id)
+
+        # Para VIDEO (incluye Reels), media_url apunta al archivo .mp4 —
+        # siempre usamos thumbnail_url para mostrar la portada como imagen.
+        if media_type == "VIDEO":
+            image_url = p.get("thumbnail_url", "")
+        else:
+            image_url = p.get("media_url") or p.get("thumbnail_url", "")
+
         caption   = p.get("caption", "")[:200]   # máx 200 chars para el alt
         timestamp = p.get("timestamp", "")
         permalink = p.get("permalink", "https://www.instagram.com/_petsalcielo/")
