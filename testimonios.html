@@ -126,7 +126,7 @@
             BARRA SUPERIOR
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
             .top-bar {
-                background: linear-gradient(90deg, var(--teal) 0%, #3ab8a8 60%, var(--sky-bright) 100%);
+                background: linear-gradient(90deg, #2aa696 0%, #2fa89a 40%, #34b0a2 70%, #3ab8aa 100%);
                 color: rgba(255,255,255,0.95);
                 font-size: 0.8rem;
                 font-weight: 500;
@@ -140,14 +140,13 @@
             .top-bar-content {
                 max-width: 1360px;
                 margin: 0 auto;
-                padding: 0.75rem 2rem;
-                display: flex;
-                justify-content: space-between;
+                padding: 0.35rem 2rem;
+                display: grid;
+                grid-template-columns: 1fr auto auto 1fr;
                 align-items: center;
-                flex-wrap: nowrap;
-                gap: 0.5rem;
+                width: 100%;
             }
-            .top-bar-left { display: flex; gap: 2rem; flex-wrap: nowrap; }
+            .top-bar-separator { display: none; }
             .top-bar-item { display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
             .top-bar a { color: rgba(255,255,255,0.9); text-decoration: none; transition: opacity 0.2s; }
             .top-bar a:hover { opacity: 0.7; }
@@ -161,7 +160,7 @@
                 -webkit-backdrop-filter: blur(20px);
                 border-bottom: 1px solid rgba(168,230,214,0.25);
                 position: fixed;
-                top: 0;
+                top: 28px;
                 left: 0;
                 right: 0;
                 z-index: 1000;
@@ -1120,8 +1119,12 @@
                 .about-badge span:last-child { font-size: 0.38rem; max-width: 48px; }
 
                 /* Top bar más pequeña en mobile */
-                .top-bar { font-size: 0.58rem; letter-spacing: 0.01em; }
-                .top-bar-content { padding: 0.4rem 0.75rem; gap: 0.2rem; flex-wrap: nowrap; }
+                .top-bar { font-size: 0.58rem; letter-spacing: 0.01em; background: linear-gradient(90deg, #2fa898 0%, #33b0a2 40%, #38b8aa 70%, #3dbfb1 100%); }
+                .top-bar-content { padding: 0.4rem 0.75rem; gap: 0; flex-wrap: nowrap; grid-template-columns: auto auto 1fr auto; }
+                .top-bar-separator { display: flex; align-items: center; justify-content: center; opacity: 0.5; padding: 0 0.3rem; }
+                .top-bar-content > span.top-bar-item { justify-content: center !important; text-align: center; transform: translateX(-1.5%); }
+                .top-bar-content > span.top-bar-item span { font-size: 0.59rem; }
+                .top-bar-content > div { justify-content: flex-end; }
                 .top-bar-left { gap: 0.6rem; flex-wrap: nowrap; }
                 .top-bar-item { gap: 0.2rem; }
 
@@ -1796,8 +1799,8 @@
         align-items: center;
         text-align: center;
         justify-content: center;
-        padding: 2rem 1.6rem;
-        overflow-y: auto;
+        padding: 0;
+        overflow: hidden;
     }
     .testi-slide.active {
         opacity: 1;
@@ -1808,6 +1811,26 @@
         .testi-carousel-outer { max-width: 300px; }
     }
     .testi-slide.prev { transform: translateX(-24px); }
+    /* Imagen o video 9:16: llena todo el marco del carrusel */
+    .testi-media {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    /* Espacio en espera (se reemplaza por un .testi-media) */
+    .testi-placeholder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem 1.6rem;
+    }
     .testi-avatar {
         width: 84px;
         height: 84px;
@@ -1887,7 +1910,6 @@
     @media (max-width: 600px) {
         .testi-arrow-prev { left: -2px; }
         .testi-arrow-next { right: -2px; }
-        .testi-slide { padding: 2.2rem 1.2rem; }
     }
     .testi-progress-wrap {
         display: flex;
@@ -1951,6 +1973,18 @@
         gap: 0.85rem;
         margin-bottom: 1rem;
     }
+    /* Fondo de la foto de perfil según género (data-gender="m" | "f"):
+       masculino = verde pastel derivado del verde del menú (--teal);
+       femenino  = rosa del botón corazón (mismo degradado de .heart-btn). */
+    .greview-avatar {
+        --avatar-bg-m: #9FD7D1;
+        --avatar-bg-f: linear-gradient(145deg, #f9c6d8, #e8a0c0);
+    }
+    @supports (background: color-mix(in srgb, red 50%, white)) {
+        .greview-avatar { --avatar-bg-m: color-mix(in srgb, var(--teal) 45%, white); }
+    }
+    .greview-avatar[data-gender="m"] { background: var(--avatar-bg-m); }
+    .greview-avatar[data-gender="f"] { background: var(--avatar-bg-f); }
     .greview-avatar {
         position: relative;
         flex: 0 0 52px;
@@ -2015,13 +2049,15 @@
         overflow: hidden;
         box-shadow: 0 6px 22px rgba(100,140,160,0.14);
     }
-    .greview-photos img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .greview-photos img { width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: cover; display: block; }
     .greview-photos[data-count="0"] { display: none; }
-    .greview-photos[data-count="1"] { grid-template-columns: 1fr; aspect-ratio: 16 / 10; }
-    .greview-photos[data-count="2"] { grid-template-columns: 1fr 1fr; aspect-ratio: 16 / 9; }
+    /* minmax(0, …): sin esto, una pista 1fr no puede ser más chica que el
+       ancho intrínseco del .webp (1200px) y en desktop la foto se desborda. */
+    .greview-photos[data-count="1"] { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); aspect-ratio: 16 / 10; }
+    .greview-photos[data-count="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); aspect-ratio: 16 / 9; }
     .greview-photos[data-count="3"] {
-        grid-template-columns: 1.5fr 1fr;
-        grid-template-rows: 1fr 1fr;
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+        grid-template-rows: repeat(2, minmax(0, 1fr));
         aspect-ratio: 16 / 10;
     }
     .greview-photos[data-count="3"] img:first-child { grid-row: 1 / 3; }
@@ -2161,22 +2197,28 @@
     }
 
     /* Mensaje de gratitud final */
+    /* Espacios al 85% de los originales (-15%): originales clamp(2.5rem,5vw,4.5rem)
+       por sección y clamp(3rem,7vw,5rem) en el bloque. La distancia superior suma
+       tres tramos: padding-bottom de "En memoria de" + padding-top de esta
+       sección + padding-top del bloque; los tres se reducen igual. */
+    #en-memoria-de.section { padding-bottom: clamp(2.125rem, 4.25vw, 3.825rem); }
+    .gratitude-section.section { padding: clamp(2.125rem, 4.25vw, 3.825rem) 0; }
     .gratitude-block {
         text-align: center;
-        padding: clamp(3rem, 7vw, 5rem) 2rem;
+        padding: clamp(2.55rem, 5.95vw, 4.25rem) 2rem;
         max-width: 640px;
         margin: 0 auto;
     }
     .gratitude-block p:first-child {
         font-family: 'Cormorant Garamond', serif;
         font-style: italic;
-        font-size: clamp(1.3rem, 3vw, 1.8rem);
+        font-size: clamp(1.56rem, 3.6vw, 2.16rem); /* original ×1.2 */
         color: var(--text-dark);
         line-height: 1.5;
         margin-bottom: 0.9rem;
     }
     .gratitude-block p:last-child {
-        font-size: 0.85rem;
+        font-size: 1.02rem; /* original 0.85rem ×1.2 */
         color: var(--teal);
         letter-spacing: 0.06em;
         text-transform: uppercase;
@@ -2228,35 +2270,38 @@
             </div>
         </div>
 
+        <!-- SVG defs compartidos (mismos gradientes que index): icono de casa de la top bar -->
+        <svg width="0" height="0" style="position:absolute;overflow:hidden;" aria-hidden="true">
+            <defs>
+                <linearGradient id="g-roof" x1="6" y1="8" x2="58" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f9c8e0"/><stop offset="100%" stop-color="#cbaef2"/></linearGradient>
+                <linearGradient id="g-wall" x1="12" y1="29" x2="52" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff4cc"/><stop offset="100%" stop-color="#fde8f5"/></linearGradient>
+                <linearGradient id="g-door" x1="26" y1="38" x2="38" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#cbaef2"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
+                <linearGradient id="g-win" x1="15" y1="35" x2="24" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
+            </defs>
+        </svg>
+
         <!-- Top Bar -->
         <aside class="top-bar">
-            <div class="top-bar-content" style="padding-top:0.25rem;padding-bottom:0.25rem;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:100%;height:100%;">
-                <a href="https://www.google.com/maps/place/Pets+Al+Cielo/@-41.4417349,-72.9405311,13.07z/data=!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="top-bar-item" aria-label="Ver ubicación en Google Maps" style="padding-left:3px;gap:0.25rem;justify-content:flex-start;">
-                    <svg width="18" height="18" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="32,8 6,30 58,30" fill="url(#tb-roof)"/>
-                        <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#tb-wall)"/>
-                        <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#tb-door)"/>
-                        <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#tb-winL)"/>
-                        <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#tb-winR)"/>
-                        <defs>
-                            <linearGradient id="tb-roof" x1="6" y1="8" x2="58" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f9c8e0"/><stop offset="100%" stop-color="#cbaef2"/></linearGradient>
-                            <linearGradient id="tb-wall" x1="12" y1="29" x2="52" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff4cc"/><stop offset="100%" stop-color="#fde8f5"/></linearGradient>
-                            <linearGradient id="tb-door" x1="26" y1="38" x2="38" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#cbaef2"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
-                            <linearGradient id="tb-winL" x1="15" y1="35" x2="24" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
-                            <linearGradient id="tb-winR" x1="40" y1="35" x2="49" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
-                        </defs>
+            <div class="top-bar-content">
+                <a href="https://www.google.com/maps/place/Pets+Al+Cielo/@-41.4417349,-72.9405311,13.07z/data=!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="top-bar-item" aria-label="Ver ubicación en Google Maps" style="gap:0.25rem;justify-content:flex-start;">
+                    <svg width="18" height="18" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <polygon points="32,8 6,30 58,30" fill="url(#g-roof)"/>
+                        <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#g-wall)"/>
+                        <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#g-door)"/>
+                        <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+                        <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
                     </svg>
                     <span itemscope itemtype="https://schema.org/PostalAddress" itemprop="addressLocality">Puerto Montt, X Región</span>
                 </a>
-                <div style="display:flex;align-items:center;justify-content:center;margin-left:6px;">
-                    <span class="top-bar-item">
-                        <span>Atención presencial con previo agendamiento</span>
-                    </span>
-                </div>
-                <div style="display:flex;align-items:center;gap:0.5rem;padding-right:3px;justify-content:flex-end;">
-                    <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#A8E6D6 0%,#6CD2F5 40%,#EEA5E9 75%,#CBAEF2 100%);text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+                <span class="top-bar-separator" aria-hidden="true" style="text-align:center;">|</span>
+                <span class="top-bar-item" style="justify-content:flex-start;">
+                    <span>Consultas y agendamiento vía WhatsApp</span>
+                </span>
+                <div style="display:flex;align-items:center;gap:0.5rem;padding-right:3px;justify-content:flex-end;grid-column:4;">
+                    <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#F5D0E8 0%,#E3B0D8 35%,#D4A4CC 65%,#CDBAF0 100%);text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
                         <svg width="8" height="8" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     </a>
+
                 </div>
             </div>
         </aside>
@@ -2299,7 +2344,7 @@
         </section>
 
         <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            CARRUSEL DE TESTIMONIOS (20 espacios, carga progresiva)
+            CARRUSEL DE TESTIMONIOS (10 espacios, imagen o video 9:16)
         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
         <section class="section" id="carrusel-testimonios" aria-label="Carrusel de testimonios">
             <div class="container">
@@ -2307,35 +2352,87 @@
                     <div class="glass-card testi-carousel-wrap reveal" id="testiCarouselWrap">
                         <div id="testiSlidesContainer">
                             <!-- ══════════════════════════════════════════════
-                                 Testimonios estáticos de respaldo (SEO + fallback).
-                                 Se muestran de inmediato y quedan visibles para
-                                 crawlers/lectores sin JS. Si /testimonios.json
-                                 carga bien, el script los reemplaza por la lista
-                                 completa (hasta 20). Si falla, estos se quedan.
-                                 REEMPLAZA el texto de ejemplo por testimonios reales. -->
-                            <div class="testi-slide active" role="tabpanel" aria-label="Testimonio 1 de 3">
-                                <div class="testi-photo-holder"><div class="testi-avatar-fallback">♥</div></div>
-                                <p class="testi-quote">"Testimonio 1 en espera"</p>
-                                <span class="testi-pet">❤︎</span>
+                                 10 ESPACIOS para testimonios en imagen o video (formato 9:16).
+                                 Para cargar uno: en el espacio que quieras, borra el bloque
+                                 <div class="testi-placeholder"> y pega UNA de estas dos opciones.
+
+                                 IMAGEN (.webp 1080×1920 recomendado):
+                                 <img class="testi-media" src="/Assets/testimonios/testimonio-01.webp" alt="Descripción del testimonio" loading="lazy" decoding="async">
+
+                                 VIDEO (.mp4 vertical 1080×1920 recomendado, portada opcional):
+                                 <video class="testi-media" src="/Assets/testimonios/testimonio-01.mp4" poster="/Assets/testimonios/testimonio-01-poster.webp" controls playsinline preload="metadata"></video>
+
+                                 Si el archivo no es 9:16 se recorta para llenar el marco.
+                                 Un video en reproducción pausa el avance automático y, al
+                                 terminar, el carrusel pasa solo al siguiente. -->
+                            <div class="testi-slide active" role="tabpanel" aria-label="Testimonio 1 de 10">
+                                <div class="testi-placeholder">
+                                    <div class="testi-avatar-fallback">♥</div>
+                                    <p class="testi-quote">Testimonio 1 en espera</p>
+                                </div>
                             </div>
-                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 2 de 3">
-                                <div class="testi-photo-holder"><div class="testi-avatar-fallback">♥</div></div>
-                                <p class="testi-quote">"Testimonio 2 en espera."</p>
-                                <span class="testi-pet">❤︎</span>
+                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 2 de 10">
+                                <div class="testi-placeholder">
+                                    <div class="testi-avatar-fallback">♥</div>
+                                    <p class="testi-quote">Testimonio 2 en espera</p>
+                                </div>
                             </div>
-                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 3 de 3">
-                                <div class="testi-photo-holder"><div class="testi-avatar-fallback">♥</div></div>
-                                <p class="testi-quote">"Testimonio 3 en espera."</p>
-                                <span class="testi-pet">❤︎</span>
+                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 3 de 10">
+                                <div class="testi-placeholder">
+                                    <div class="testi-avatar-fallback">♥</div>
+                                    <p class="testi-quote">Testimonio 3 en espera</p>
+                                </div>
+                            </div>
+                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 4 de 10">
+                                <div class="testi-placeholder">
+                                    <div class="testi-avatar-fallback">♥</div>
+                                    <p class="testi-quote">Testimonio 4 en espera</p>
+                                </div>
+                            </div>
+                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 5 de 10">
+                                <div class="testi-placeholder">
+                                    <div class="testi-avatar-fallback">♥</div>
+                                    <p class="testi-quote">Testimonio 5 en espera</p>
+                                </div>
+                            </div>
+                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 6 de 10">
+                                <div class="testi-placeholder">
+                                    <div class="testi-avatar-fallback">♥</div>
+                                    <p class="testi-quote">Testimonio 6 en espera</p>
+                                </div>
+                            </div>
+                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 7 de 10">
+                                <div class="testi-placeholder">
+                                    <div class="testi-avatar-fallback">♥</div>
+                                    <p class="testi-quote">Testimonio 7 en espera</p>
+                                </div>
+                            </div>
+                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 8 de 10">
+                                <div class="testi-placeholder">
+                                    <div class="testi-avatar-fallback">♥</div>
+                                    <p class="testi-quote">Testimonio 8 en espera</p>
+                                </div>
+                            </div>
+                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 9 de 10">
+                                <div class="testi-placeholder">
+                                    <div class="testi-avatar-fallback">♥</div>
+                                    <p class="testi-quote">Testimonio 9 en espera</p>
+                                </div>
+                            </div>
+                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 10 de 10">
+                                <div class="testi-placeholder">
+                                    <div class="testi-avatar-fallback">♥</div>
+                                    <p class="testi-quote">Testimonio 10 en espera</p>
+                                </div>
                             </div>
                         </div>
                         <button class="testi-carousel-arrow testi-arrow-prev" id="testiPrev" aria-label="Testimonio anterior">&#8249;</button>
                         <button class="testi-carousel-arrow testi-arrow-next" id="testiNext" aria-label="Testimonio siguiente">&#8250;</button>
                     </div>
                     <div class="testi-progress-wrap">
-                        <span class="testi-counter" id="testiCounter">1 / 3</span>
+                        <span class="testi-counter" id="testiCounter">1 / 10</span>
                         <div class="testi-progress-track">
-                            <div class="testi-progress-fill" id="testiProgressFill" style="width:5%;"></div>
+                            <div class="testi-progress-fill" id="testiProgressFill" style="width:10%;"></div>
                         </div>
                     </div>
                 </div>
@@ -2363,6 +2460,7 @@
                         pégalo dentro de .greview-track y edita:
                           · data-initial="X"  → inicial que se ve si no hay foto de perfil
                           · foto de perfil    → /Assets/reviews/nombre-perfil.webp
+                          · data-gender       → "f" (fondo rosa) o "m" (fondo verde pastel) en .greview-avatar
                                                 (si el archivo no existe, se muestra la inicial)
                           · .greview-name     → nombre de la persona
                           · .greview-text     → texto de la reseña (usa <br> para salto de línea)
@@ -2376,7 +2474,7 @@
 
                         <article class="greview-slide" role="group" aria-roledescription="reseña">
                             <header class="greview-head">
-                                <div class="greview-avatar" data-initial="A">
+                                <div class="greview-avatar" data-initial="A" data-gender="f">
                                     <img src="/Assets/reviews/nombre-apellido-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
                                 </div>
                                 <div class="greview-who">
@@ -2397,7 +2495,7 @@
 
                         <article class="greview-slide active" role="group" aria-roledescription="reseña" aria-label="Reseña 1 de 5">
                             <header class="greview-head">
-                                <div class="greview-avatar" data-initial="D">
+                                <div class="greview-avatar" data-initial="D" data-gender="f">
                                     <img src="/Assets/reviews/dafne-retamal-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
                                 </div>
                                 <div class="greview-who">
@@ -2415,7 +2513,7 @@
                         </article>
                         <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 2 de 5">
                             <header class="greview-head">
-                                <div class="greview-avatar" data-initial="D">
+                                <div class="greview-avatar" data-initial="D" data-gender="f">
                                     <img src="/Assets/reviews/daniela-risco-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
                                 </div>
                                 <div class="greview-who">
@@ -2429,7 +2527,7 @@
                         </article>
                         <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 3 de 5">
                             <header class="greview-head">
-                                <div class="greview-avatar" data-initial="C">
+                                <div class="greview-avatar" data-initial="C" data-gender="f">
                                     <img src="/Assets/reviews/constanza-villagran-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
                                 </div>
                                 <div class="greview-who">
@@ -2442,7 +2540,7 @@
                         </article>
                         <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 4 de 5">
                             <header class="greview-head">
-                                <div class="greview-avatar" data-initial="R">
+                                <div class="greview-avatar" data-initial="R" data-gender="m">
                                     <img src="/Assets/reviews/rodrigo-latorre-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
                                 </div>
                                 <div class="greview-who">
@@ -2458,7 +2556,7 @@
                         </article>
                         <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 5 de 5">
                             <header class="greview-head">
-                                <div class="greview-avatar" data-initial="C">
+                                <div class="greview-avatar" data-initial="C" data-gender="f">
                                     <img src="/Assets/reviews/carmen-gloria-diaz-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
                                 </div>
                                 <div class="greview-who">
@@ -2512,7 +2610,7 @@
                     <!-- Kissita -->
                     <div class="glass-card memoriam-card reveal">
                         <div class="memoriam-photo-frame">
-                    <img src="/Assets/foto-kissita.webp" alt="Kissita">>
+                    <img src="/Assets/foto-kissita.webp" alt="Kissita">
                         </div>
                         <h3 class="memoriam-pet-name">Kissita</h3>
                         <p class="memoriam-dedication">
@@ -2537,10 +2635,7 @@
                 <!-- Tarjeta para incrustar un webp adicional -->
                 <div class="glass-card memoriam-embed-card reveal reveal-delay-2">
                     <div class="memoriam-embed-frame" id="memoriamEmbedFrame">
-                        <!-- Pendiente: incrustar aquí el .webp que Marco defina.
-                             Reemplazar este div por:
-                             <img src="/Assets/tu-imagen.webp" alt="descripción"> -->
-                        ❤︎
+                        <img src="/Assets/patitagatoydueño.webp" alt="Patita de gato junto a la mano de su dueño" loading="lazy" decoding="async">
                     </div>
                 </div>
             </div>
@@ -2549,7 +2644,7 @@
         <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             MENSAJE DE GRATITUD
         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-        <section class="section">
+        <section class="section gratitude-section">
             <div class="gratitude-block reveal-fog">
                 <p>Gracias por confiar en nosotros</p>
                 <p>Con mucho amor, Equipo Pets Al Cielo</p>
@@ -2750,8 +2845,10 @@
                         syncPhotos(box);
                         box.querySelectorAll('img').forEach(im => {
                             const drop = () => { im.remove(); syncPhotos(box); };
+                            // Solo el evento 'error' (fallo real). No se usa
+                            // complete/naturalWidth: con loading="lazy" una imagen que
+                            // aún no empezó a cargar cumple esa condición y se borraba.
                             im.addEventListener('error', drop);
-                            if (im.complete && im.naturalWidth === 0 && im.currentSrc) drop();
                         });
                     }
                     // Foto de perfil que no carga: se quita y queda la inicial
@@ -2759,7 +2856,6 @@
                     if (av) {
                         const drop = () => av.remove();
                         av.addEventListener('error', drop);
-                        if (av.complete && av.naturalWidth === 0 && av.currentSrc) drop();
                     }
                 });
 
@@ -2813,139 +2909,64 @@
             })();
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // CARRUSEL DE TESTIMONIOS (20 espacios)
-            // Carga /testimonios.json. Las fotos se asignan solo cuando
-            // el slide está activo o es adyacente ("carga progresiva").
-            // Si un testimonio no tiene foto, se muestra un avatar con inicial.
+            // CARRUSEL DE TESTIMONIOS (10 espacios, imagen o video 9:16)
+            // Los espacios están escritos directo en el HTML (sin JSON).
+            // Un video en reproducción detiene el avance automático; al
+            // terminar pasa solo al siguiente. Al cambiar de slide, se
+            // pausa cualquier video que quede atrás.
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             (function () {
-                const container   = document.getElementById('testiSlidesContainer');
-                const prevBtn     = document.getElementById('testiPrev');
-                const nextBtn     = document.getElementById('testiNext');
-                const counterEl   = document.getElementById('testiCounter');
-                const progressEl  = document.getElementById('testiProgressFill');
+                const container  = document.getElementById('testiSlidesContainer');
+                const prevBtn    = document.getElementById('testiPrev');
+                const nextBtn    = document.getElementById('testiNext');
+                const counterEl  = document.getElementById('testiCounter');
+                const progressEl = document.getElementById('testiProgressFill');
                 if (!container) return;
 
-                let current = 0;
-                let total = 0;
-                let autoplay;
-                let items = [];
+                const slides = Array.from(container.querySelectorAll('.testi-slide'));
+                const total  = slides.length;
+                if (!total) return;
 
-                function initials(name) {
-                    if (!name) return '♥';
-                    return name.trim().charAt(0).toUpperCase();
+                const DELAY  = 5500;
+                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                let current = 0, timer = null;
+
+                slides.forEach((sl, i) => sl.setAttribute('aria-label', 'Testimonio ' + (i + 1) + ' de ' + total));
+                if (total < 2) { prevBtn.hidden = true; nextBtn.hidden = true; }
+
+                function activeVideo() { return slides[current].querySelector('video'); }
+                function stop() { clearTimeout(timer); timer = null; }
+                function schedule() {
+                    stop();
+                    if (reduce || total < 2) return;
+                    const v = activeVideo();
+                    if (v && !v.paused && !v.ended) return; // reproduciendo: no avanzar
+                    timer = setTimeout(() => show(current + 1), DELAY);
                 }
 
-                function loadPhoto(slideEl, item) {
-                    if (slideEl.dataset.photoLoaded === '1') return;
-                    slideEl.dataset.photoLoaded = '1';
-                    const holder = slideEl.querySelector('.testi-photo-holder');
-                    if (!holder) return;
-                    if (item.photo) {
-                        const img = document.createElement('img');
-                        img.className = 'testi-avatar';
-                        img.alt = item.name || '';
-                        img.loading = 'lazy';
-                        img.decoding = 'async';
-                        img.src = item.photo;
-                        holder.innerHTML = '';
-                        holder.appendChild(img);
-                    } else {
-                        holder.innerHTML = '';
-                        const fallback = document.createElement('div');
-                        fallback.className = 'testi-avatar-fallback';
-                        fallback.textContent = initials(item.name);
-                        holder.appendChild(fallback);
-                    }
-                }
-
-                function buildSlides() {
-                    container.innerHTML = '';
-                    total = items.length;
-                    items.forEach((item, i) => {
-                        const slide = document.createElement('div');
-                        slide.className = 'testi-slide' + (i === 0 ? ' active' : '');
-                        slide.setAttribute('role', 'tabpanel');
-                        slide.setAttribute('aria-label', 'Testimonio ' + (i + 1) + ' de ' + total);
-
-                        const holder = document.createElement('div');
-                        holder.className = 'testi-photo-holder';
-                        const skeleton = document.createElement('div');
-                        skeleton.className = 'testi-avatar testi-skeleton';
-                        holder.appendChild(skeleton);
-                        slide.appendChild(holder);
-
-                        const quote = document.createElement('p');
-                        quote.className = 'testi-quote';
-                        quote.textContent = '“' + item.text + '”';
-                        slide.appendChild(quote);
-
-                        const name = document.createElement('span');
-                        name.className = 'testi-name';
-                        name.textContent = item.name || '';
-                        slide.appendChild(name);
-
-                        if (item.mascota) {
-                            const pet = document.createElement('span');
-                            pet.className = 'testi-pet';
-                            pet.textContent = 'Mascotita: ' + item.mascota;
-                            slide.appendChild(pet);
-                        }
-
-                        container.appendChild(slide);
-                    });
-                }
-
-                function showSlide(n) {
-                    const slides = container.querySelectorAll('.testi-slide');
-                    if (!slides.length) return;
-                    slides.forEach(s => s.classList.remove('active', 'prev'));
+                function show(n) {
                     current = (n + total) % total;
-                    slides[current].classList.add('active');
-
-                    // Carga progresiva: solo el actual y sus vecinos inmediatos
-                    // (si items[] está vacío —contenido estático de respaldo—
-                    // no hay foto que cargar, se deja el avatar tal cual)
-                    [current - 1, current, current + 1].forEach(idx => {
-                        const i = (idx + total) % total;
-                        if (items[i]) loadPhoto(slides[i], items[i]);
+                    slides.forEach((s, i) => {
+                        const on = i === current;
+                        s.classList.toggle('active', on);
+                        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+                        if (!on) s.querySelectorAll('video').forEach(v => { if (!v.paused) v.pause(); });
                     });
-
                     counterEl.textContent = (current + 1) + ' / ' + total;
                     progressEl.style.width = (((current + 1) / total) * 100) + '%';
+                    schedule();
                 }
 
-                function startAutoplay() {
-                    stopAutoplay();
-                    autoplay = setInterval(() => showSlide(current + 1), 5500);
-                }
-                function stopAutoplay() { clearInterval(autoplay); }
+                slides.forEach(sl => sl.querySelectorAll('video').forEach(v => {
+                    v.addEventListener('play', stop);
+                    v.addEventListener('pause', () => { if (!v.ended && slides[current].contains(v)) schedule(); });
+                    v.addEventListener('ended', () => { if (slides[current].contains(v)) show(current + 1); });
+                }));
 
-                prevBtn.addEventListener('click', () => { stopAutoplay(); showSlide(current - 1); startAutoplay(); });
-                nextBtn.addEventListener('click', () => { stopAutoplay(); showSlide(current + 1); startAutoplay(); });
+                prevBtn.addEventListener('click', () => show(current - 1));
+                nextBtn.addEventListener('click', () => show(current + 1));
 
-                // Arranca de inmediato con los testimonios estáticos ya
-                // presentes en el HTML (respaldo SEO / sin-JS), sin esperar
-                // el fetch — así el carrusel nunca queda vacío ni en blanco.
-                total = container.querySelectorAll('.testi-slide').length;
-                if (total > 0) {
-                    showSlide(0);
-                    startAutoplay();
-                }
-
-                fetch('/testimonios.json')
-                    .then(r => r.json())
-                    .then(data => {
-                        items = (data.testimonios || []).slice(0, 20);
-                        if (!items.length) return; // sin datos reales: se mantiene el respaldo estático
-                        buildSlides();
-                        showSlide(0);
-                        startAutoplay();
-                    })
-                    .catch(() => {
-                        // Fetch falló: se mantiene el respaldo estático tal cual,
-                        // en vez de borrarlo con un mensaje de "próximamente".
-                    });
+                show(0);
             })();
         </script>
     </body>
