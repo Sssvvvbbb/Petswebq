@@ -2352,42 +2352,25 @@
                     <div class="glass-card testi-carousel-wrap reveal" id="testiCarouselWrap">
                         <div id="testiSlidesContainer">
                             <!-- ══════════════════════════════════════════════
-                                 10 ESPACIOS para testimonios en imagen o video (formato 9:16).
-                                 Para cargar uno: en el espacio que quieras, borra el bloque
-                                 <div class="testi-placeholder"> y pega UNA de estas dos opciones.
+                                 CARRUSEL 9:16 (imagen o video). Hoy: slides 1-4 = videos
+                                 /Assets/testimonios/testimonio-01.webm … 04.webm; 5-10 en espera.
 
-                                 IMAGEN (.webp 1080×1920 recomendado):
-                                 <img class="testi-media" src="/Assets/testimonios/testimonio-01.webp" alt="Descripción del testimonio" loading="lazy" decoding="async">
-
-                                 VIDEO (.mp4 vertical 1080×1920 recomendado, portada opcional):
-                                 <video class="testi-media" src="/Assets/testimonios/testimonio-01.mp4" poster="/Assets/testimonios/testimonio-01-poster.webp" controls playsinline preload="metadata"></video>
-
-                                 Si el archivo no es 9:16 se recorta para llenar el marco.
-                                 Un video en reproducción pausa el avance automático y, al
-                                 terminar, el carrusel pasa solo al siguiente. -->
-                            <div class="testi-slide active" role="tabpanel" aria-label="Testimonio 1 de 10">
-                                <div class="testi-placeholder">
-                                    <div class="testi-avatar-fallback">♥</div>
-                                    <p class="testi-quote">Testimonio 1 en espera</p>
-                                </div>
+                                 CRECER SIN TOCAR EL HTML (admin): subir el archivo a /Assets/testimonios/ y
+                                 agregar una línea a /Assets/testimonios/testimonios.json. Si ese JSON existe
+                                 y tiene elementos, reemplaza estos slides (estos quedan de respaldo).
+                                 Campos: type "video"|"image", src, mp4 (opcional, respaldo para iPhone
+                                 antiguos), poster (opcional), alt (descripción). ══════════════════════════════════════════════ -->
+                            <div class="testi-slide active" role="group" aria-roledescription="testimonio" aria-label="Testimonio 1 de 10">
+                                <video class="testi-media" controls playsinline preload="metadata" data-i="1"><source src="/Assets/testimonios/testimonio-01.webm" type="video/webm"></video>
                             </div>
-                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 2 de 10">
-                                <div class="testi-placeholder">
-                                    <div class="testi-avatar-fallback">♥</div>
-                                    <p class="testi-quote">Testimonio 2 en espera</p>
-                                </div>
+                            <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 2 de 10">
+                                <video class="testi-media" controls playsinline preload="none" data-i="2"><source src="/Assets/testimonios/testimonio-02.webm" type="video/webm"></video>
                             </div>
-                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 3 de 10">
-                                <div class="testi-placeholder">
-                                    <div class="testi-avatar-fallback">♥</div>
-                                    <p class="testi-quote">Testimonio 3 en espera</p>
-                                </div>
+                            <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 3 de 10">
+                                <video class="testi-media" controls playsinline preload="none" data-i="3"><source src="/Assets/testimonios/testimonio-03.webm" type="video/webm"></video>
                             </div>
-                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 4 de 10">
-                                <div class="testi-placeholder">
-                                    <div class="testi-avatar-fallback">♥</div>
-                                    <p class="testi-quote">Testimonio 4 en espera</p>
-                                </div>
+                            <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 4 de 10">
+                                <video class="testi-media" controls playsinline preload="none" data-i="4"><source src="/Assets/testimonios/testimonio-04.webm" type="video/webm"></video>
                             </div>
                             <div class="testi-slide" role="tabpanel" aria-label="Testimonio 5 de 10">
                                 <div class="testi-placeholder">
@@ -2442,7 +2425,7 @@
         <div class="divider"></div>
 
         <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            RESEÑAS DE GOOGLE (carrusel escrito a mano, 5 reseñas de 5 estrellas)
+            RESEÑAS DE GOOGLE (carrusel escrito a mano, 6 reseñas de 5 estrellas)
         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
         <section class="section" id="resenas-google" aria-labelledby="google-reviews-heading">
             <div class="container">
@@ -2493,7 +2476,7 @@
                     <div class="greview-carousel" id="greviewCarousel" aria-roledescription="carrusel" aria-label="Reseñas de Google">
                         <div class="greview-track">
 
-                        <article class="greview-slide active" role="group" aria-roledescription="reseña" aria-label="Reseña 1 de 5">
+                        <article class="greview-slide active" role="group" aria-roledescription="reseña" aria-label="Reseña 1 de 6">
                             <header class="greview-head">
                                 <div class="greview-avatar" data-initial="D" data-gender="f">
                                     <img src="/Assets/reviews/dafne-retamal-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
@@ -2511,7 +2494,7 @@
                                 <img src="/Assets/reviews/dafne-retamal-3.webp" alt="Teo, foto compartida por Dafne Retamal" loading="lazy" decoding="async">
                             </div>
                         </article>
-                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 2 de 5">
+                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 2 de 6">
                             <header class="greview-head">
                                 <div class="greview-avatar" data-initial="D" data-gender="f">
                                     <img src="/Assets/reviews/daniela-risco-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
@@ -2525,7 +2508,7 @@
                             <blockquote class="greview-text">Agradecida de la hermosa labor que realizan, lleve a mi perrita Emma que me acompañó durante 14 años, apenas ingrese sentí un ambiente cálido, de mucho amor y entendimiento hacia la pérdida que estaba cursando.<br>
                             Felicidades por esta hermosa labor en la que nos ayudan a mantener a nuestros compañeros de vida, siempre junto a nosotros.</blockquote>
                         </article>
-                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 3 de 5">
+                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 3 de 6">
                             <header class="greview-head">
                                 <div class="greview-avatar" data-initial="C" data-gender="f">
                                     <img src="/Assets/reviews/constanza-villagran-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
@@ -2538,7 +2521,7 @@
                             </header>
                             <blockquote class="greview-text">He tenido que acudir a Pets al Cielo en dos ocasiones por mi Fanny y Pequita y no tengo palabras suficientes para agradecer el servicio que brindan. En los momentos más dolorosos, han demostrado una empatía, respeto y calidad humana, te acompañan con un amor y una delicadeza. Los recomiendo a ojos cerrados, de verdad hacen honor a su nombre y tratan a nuestras mascotas con el mayor de los respetos 🌸</blockquote>
                         </article>
-                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 4 de 5">
+                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 4 de 6">
                             <header class="greview-head">
                                 <div class="greview-avatar" data-initial="R" data-gender="m">
                                     <img src="/Assets/reviews/rodrigo-latorre-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
@@ -2554,7 +2537,7 @@
                                 <img src="/Assets/reviews/rodrigo-latorre-1.webp" alt="Ánfora, cuadros con la huella y el retrato de Tomás y certificado de eco-incineración, foto compartida por Rodrigo Latorre" loading="lazy" decoding="async">
                             </div>
                         </article>
-                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 5 de 5">
+                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 5 de 6">
                             <header class="greview-head">
                                 <div class="greview-avatar" data-initial="C" data-gender="f">
                                     <img src="/Assets/reviews/carmen-gloria-diaz-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
@@ -2570,6 +2553,22 @@
                                 <img src="/Assets/reviews/carmen-gloria-diaz-1.webp" alt="Ánforas y retratos de Zeus, Negrita y Aquiles, foto compartida por Carmen Gloria Diaz Bunster" loading="lazy" decoding="async">
                             </div>
                         </article>
+                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 6 de 6">
+                            <header class="greview-head">
+                                <div class="greview-avatar" data-initial="A" data-gender="m">
+                                    <img src="/Assets/reviews/arturo-rivero-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
+                                </div>
+                                <div class="greview-who">
+                                    <span class="greview-name">Arturo Rivero</span>
+                                    <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+                                </div>
+                                <span class="greview-badge">en Google</span>
+                            </header>
+                            <blockquote class="greview-text">Excelente servicio y atención, personas que te acompañan en todo momento y saben lo significativo que es perder a un ser querido, con una atención personalizada excepcional. 100% recomendados, mis mascotas siempre con ellos.</blockquote>
+                            <div class="greview-photos">
+                                <img src="/Assets/reviews/arturo-rivero-1.webp" alt="Ánforas y recuerdos de sus mascotas en un estante, foto compartida por Arturo Rivero" loading="lazy" decoding="async">
+                            </div>
+                        </article>
                         </div>
                     </div>
 
@@ -2581,6 +2580,7 @@
                         <button class="greview-dot" data-i="2" aria-label="Ir a la reseña 3"></button>
                         <button class="greview-dot" data-i="3" aria-label="Ir a la reseña 4"></button>
                         <button class="greview-dot" data-i="4" aria-label="Ir a la reseña 5"></button>
+                        <button class="greview-dot" data-i="5" aria-label="Ir a la reseña 6"></button>
                         </div>
                         <button class="greview-arrow" id="greviewNext" aria-label="Reseña siguiente">&#8250;</button>
                     </div>
@@ -2909,40 +2909,33 @@
             })();
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // CARRUSEL DE TESTIMONIOS (10 espacios, imagen o video 9:16)
-            // Los espacios están escritos directo en el HTML (sin JSON).
-            // Un video en reproducción detiene el avance automático; al
-            // terminar pasa solo al siguiente. Al cambiar de slide, se
-            // pausa cualquier video que quede atrás.
+            // CARRUSEL DE TESTIMONIOS 9:16 (imagen o video, cantidad variable)
+            // Slides del HTML = respaldo. Si existe MANIFEST con elementos, se
+            // construyen los slides desde él (así el admin puede ir agregando).
+            // Un video en reproducción pausa el avance; al terminar pasa al siguiente.
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             (function () {
+                const MANIFEST = '/Assets/testimonios/testimonios.json';
                 const container  = document.getElementById('testiSlidesContainer');
                 const prevBtn    = document.getElementById('testiPrev');
                 const nextBtn    = document.getElementById('testiNext');
                 const counterEl  = document.getElementById('testiCounter');
                 const progressEl = document.getElementById('testiProgressFill');
                 if (!container) return;
-
-                const slides = Array.from(container.querySelectorAll('.testi-slide'));
-                const total  = slides.length;
-                if (!total) return;
-
                 const DELAY  = 5500;
                 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                let current = 0, timer = null;
+                let slides = [], total = 0, current = 0, timer = null;
 
-                slides.forEach((sl, i) => sl.setAttribute('aria-label', 'Testimonio ' + (i + 1) + ' de ' + total));
-                if (total < 2) { prevBtn.hidden = true; nextBtn.hidden = true; }
-
-                function activeVideo() { return slides[current].querySelector('video'); }
-                function stop() { clearTimeout(timer); timer = null; }
+                const vid = i => slides[i] && slides[i].querySelector('video');
+                const stop = () => { clearTimeout(timer); timer = null; };
                 function schedule() {
                     stop();
                     if (reduce || total < 2) return;
-                    const v = activeVideo();
-                    if (v && !v.paused && !v.ended) return; // reproduciendo: no avanzar
+                    const v = vid(current);
+                    if (v && !v.paused && !v.ended) return;
                     timer = setTimeout(() => show(current + 1), DELAY);
                 }
+                function warm(i) { const v = vid((i + total) % total); if (v && v.preload === 'none') v.preload = 'metadata'; }
 
                 function show(n) {
                     current = (n + total) % total;
@@ -2952,21 +2945,68 @@
                         s.setAttribute('aria-hidden', on ? 'false' : 'true');
                         if (!on) s.querySelectorAll('video').forEach(v => { if (!v.paused) v.pause(); });
                     });
+                    warm(current); warm(current + 1);
                     counterEl.textContent = (current + 1) + ' / ' + total;
                     progressEl.style.width = (((current + 1) / total) * 100) + '%';
                     schedule();
                 }
 
-                slides.forEach(sl => sl.querySelectorAll('video').forEach(v => {
-                    v.addEventListener('play', stop);
-                    v.addEventListener('pause', () => { if (!v.ended && slides[current].contains(v)) schedule(); });
-                    v.addEventListener('ended', () => { if (slides[current].contains(v)) show(current + 1); });
-                }));
+                function init() {
+                    stop();
+                    slides = Array.from(container.querySelectorAll('.testi-slide'));
+                    total = slides.length;
+                    if (!total) return;
+                    prevBtn.hidden = nextBtn.hidden = total < 2;
+                    slides.forEach((sl, i) => {
+                        sl.setAttribute('aria-label', 'Testimonio ' + (i + 1) + ' de ' + total);
+                        const v = sl.querySelector('video');
+                        if (!v) return;
+                        v.addEventListener('play', stop);
+                        v.addEventListener('pause', () => { if (!v.ended && slides[current] === sl) schedule(); });
+                        v.addEventListener('ended', () => { if (slides[current] === sl) show(current + 1); });
+                    });
+                    show(0);
+                }
+
+                function build(it, i) {
+                    const sl = document.createElement('div');
+                    sl.className = 'testi-slide';
+                    sl.setAttribute('role', 'group');
+                    sl.setAttribute('aria-roledescription', 'testimonio');
+                    let m;
+                    if (it.type === 'video') {
+                        m = document.createElement('video');
+                        m.controls = true; m.playsInline = true; m.preload = i === 0 ? 'metadata' : 'none';
+                        if (it.poster) m.poster = it.poster;
+                        if (it.alt) m.setAttribute('aria-label', it.alt);
+                        [[it.src, 'video/webm'], [it.mp4, 'video/mp4']].forEach(([src, type]) => {
+                            if (!src) return;
+                            const so = document.createElement('source'); so.src = src; so.type = type; m.appendChild(so);
+                        });
+                    } else {
+                        m = document.createElement('img');
+                        m.src = it.src; m.alt = it.alt || ''; m.loading = 'lazy'; m.decoding = 'async';
+                    }
+                    m.className = 'testi-media';
+                    sl.appendChild(m);
+                    return sl;
+                }
 
                 prevBtn.addEventListener('click', () => show(current - 1));
                 nextBtn.addEventListener('click', () => show(current + 1));
+                init();
 
-                show(0);
+                fetch(MANIFEST, { cache: 'no-cache' })
+                    .then(r => r.ok ? r.json() : null)
+                    .then(list => {
+                        if (!Array.isArray(list)) return;
+                        const items = list.filter(it => it && it.src && (it.type === 'video' || it.type === 'image'));
+                        if (!items.length) return;
+                        container.textContent = '';
+                        items.forEach((it, i) => container.appendChild(build(it, i)));
+                        init();
+                    })
+                    .catch(() => {});
             })();
         </script>
     </body>
