@@ -17,12 +17,12 @@
     { "src": "/Assets/anfora-gris.webp", "alt": "Ánfora de bronce pintada en gris con bordes dorados" },
     { "src": "/Assets/anfora-vela.webp", "alt": "Ánfora de bronce pintada café claro con bordes dorados, en el centro espacio para poner una vela cilíndrica" },
     { "src": "/Assets/anfora-gato-blanco.webp", "alt": "Ánfora de bronce, blanca, con forma de gato" },
-    { "src": "/anfora-gato3d-blanco.webp", "alt": "Ánfora de impresión 3D de color blanco, forma de gato acostado" },
-    { "src": "/anfora-gato3d-gris.webp", "alt": "Ánfora de impresión 3D de color gris, forma de gato acostado" },
-    { "src": "/anfora-gato3d-negro.webp", "alt": "Ánfora de impresión 3D de color negro, forma de gato acostado" },
-    { "src": "/anfora-cafe.webp", "alt": "Ánfora de bronce pintada café" },
-    { "src": "/anfora-gota.webp", "alt": "Ánfora de bronce con forma de gota pintada en blanco con huellas plateadas" },
-    { "src": "/anfora-gorda3d-huella.webp", "alt": "Ánfora de impresión 3D con forma círcular, en el centro una huellita de mascota en grande" },
-    { "src": "/anfora-gorda3d-infinito.webp", "alt": "Ánfora de impresión 3D con forma círcular, en el centro el simbolo del infinito conectado con corazones pequeños" }
+    { "src": "/Assets/anfora-gato3d-blanco.webp", "alt": "Ánfora de impresión 3D de color blanco, forma de gato acostado" },
+    { "src": "/Assets/anfora-gato3d-gris.webp", "alt": "Ánfora de impresión 3D de color gris, forma de gato acostado" },
+    { "src": "/Assets/anfora-gato3d-negro.webp", "alt": "Ánfora de impresión 3D de color negro, forma de gato acostado" },
+    { "src": "/Assets/anfora-cafe.webp", "alt": "Ánfora de bronce pintada café" },
+    { "src": "/Assets/anfora-gota.webp", "alt": "Ánfora de bronce con forma de gota pintada en blanco con huellas plateadas" },
+    { "src": "/Assets/anfora-gorda3d-huella.webp", "alt": "Ánfora de impresión 3D con forma círcular, en el centro una huellita de mascota en grande" },
+    { "src": "/Assets/anfora-gorda3d-infinito.webp", "alt": "Ánfora de impresión 3D con forma círcular, en el centro el simbolo del infinito conectado con corazones pequeños" }
   ]
 }
