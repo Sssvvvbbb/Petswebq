@@ -1,0 +1,30 @@
+[
+  {
+    "type": "video",
+    "src": "/Assets/testimonios/testimonio-01.webm",
+    "mp4": "",
+    "poster": "",
+    "alt": "Testimonio 1"
+  },
+  {
+    "type": "video",
+    "src": "/Assets/testimonios/testimonio-02.webm",
+    "mp4": "",
+    "poster": "",
+    "alt": "Testimonio 2"
+  },
+  {
+    "type": "video",
+    "src": "/Assets/testimonios/testimonio-03.webm",
+    "mp4": "",
+    "poster": "",
+    "alt": "Testimonio 3"
+  },
+  {
+    "type": "video",
+    "src": "/Assets/testimonios/testimonio-04.webm",
+    "mp4": "",
+    "poster": "",
+    "alt": "Testimonio 4"
+  }
+]
