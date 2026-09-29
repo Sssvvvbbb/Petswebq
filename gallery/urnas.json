@@ -1,12 +1,28 @@
 {
   "fotos": [
-    { "src": "/Assets/anfora_madera_crematorio_petsalcielo.webp", "alt": "Anfora de Madera en Crematorio Petsalcielo" },
-    { "src": "/Assets/anfora_bronce_crematorio_petsalcielo.webp", "alt": "Anfora de Bronce en crematorio PetsAlCielo" },
-    { "src": "/Assets/anfora_3d_ecologico_crematorio_pestacielo.webp", "alt": "Anfora 3D ecológica en crematorio PetsAlCielo" },
-    { "src": "/Assets/anfora_de_luz_crematorio_puerto_montt_pets_al_cielo.webp", "alt": "Anfora de luz de nuestro crematorio" },
-    { "src": "/Assets/logo_para_web.webp", "alt": "PetsAlCielo — próximamente más fotos" },
-    { "src": "/Assets/logo_para_web.webp", "alt": "PetsAlCielo — próximamente más fotos" },
-    { "src": "/Assets/logo_para_web.webp", "alt": "PetsAlCielo — próximamente más fotos" },
-    { "src": "/Assets/logo_para_web.webp", "alt": "PetsAlCielo — próximamente más fotos" }
+    { "src": "/Assets/anfora_madera_crematorio_petsalcielo.webp", "alt": "Ánfora de Madera en Crematorio Petsalcielo" },
+    { "src": "/Assets/anfora_bronce_crematorio_petsalcielo.webp", "alt": "Ánfora de Bronce, huellitas y chip de identificación PetsAlCielo" },
+    { "src": "/Assets/anfora_3d_ecologico_crematorio_pestacielo.webp", "alt": "Ánfora 3D ecológica en crematorio PetsAlCielo" },
+    { "src": "/Assets/anfora_de_luz_crematorio_puerto_montt_pets_al_cielo.webp", "alt": "Ánfora de luz" },
+    { "src": "/Assets/anfora-arcoiris.webp", "alt": "Anfora con forma y colores del arcoíris" },
+    { "src": "/Assets/anfora-corazon-rosado.webp", "alt": "Ánfora de bronce con forma de corazón pintada color rosado" },
+    { "src": "/Assets/anfora-corazon-blanco.webp", "alt": "Ánfora de bronce con forma de corazón pintada color blanco" },
+    { "src": "/Assets/anfora-3d-placas.webpp", "alt": "Ánfora de impresión 3D, muestra de plaquitas con nombre impreso de la mascotita" },
+    { "src": "/Assets/anforas-blancas.webp", "alt": "Ánforas de bronce pintadas en blanco, tamaños pequeño, mediano y grande" },
+    { "src": "/Assets/anfora-muydorada.webp", "alt": "Ánfora de bronce pintada en dorado  tipo 1" },
+    { "src": "/Assets/anfora-dorada.webp", "alt": "Ánfora de bronce pintada en dorado  tipo 2, más oscura" },
+    { "src": "/Assets/anfora-madera2.webp", "alt": "Ánforas de madera con impresión de la mascotita" },
+    { "src": "/Assets/anfora-luna-kissie.webp", "alt": "Ánfora de impresión 3D, tipo luna, con diseño de la mascotita y con bombilla a batería. Luna que ilumina" },
+    { "src": "/Assets/anfora-morada.webp", "alt": "Ánfora de bronce pintada en morado" },
+    { "src": "/Assets/anfora-gris.webp", "alt": "Ánfora de bronce pintada en gris con bordes dorados" },
+    { "src": "/Assets/anfora-vela.webp", "alt": "Ánfora de bronce pintada café claro con bordes dorados, en el centro espacio para poner una vela cilíndrica" },
+    { "src": "/Assets/anfora-gato-blanco1.webp", "alt": "Ánfora de bronce, blanca, con forma de gato" },
+    { "src": "/anfora-gato3d-blanco.webp", "alt": "Ánfora de impresión 3D de color blanco, forma de gato acostado" },
+    { "src": "/anfora-gato3d-gris.webp", "alt": "Ánfora de impresión 3D de color gris, forma de gato acostado" },
+    { "src": "/anfora-gato3d-negro.webp", "alt": "Ánfora de impresión 3D de color negro, forma de gato acostado" },
+    { "src": "/anfora-cafe.webp", "alt": "Ánfora de bronce pintada café" },
+    { "src": "/anfora-gota.webp", "alt": "Ánfora de bronce con forma de gota pintada en blanco con huellas plateadas" },
+    { "src": "/anfora-gorda3d-huella.webp", "alt": "Ánfora de impresión 3D con forma círcular, en el centro una huellita de mascota en grande" },
+    { "src": "/anfora-gorda3d-infinito.webp", "alt": "Ánfora de impresión 3D con forma círcular, en el centro el simbolo del infinito conectado con corazones pequeños" }
   ]
 }
