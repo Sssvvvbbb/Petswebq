@@ -1,30 +1,30 @@
 [
   {
-    "type": "video",
-    "src": "/Assets/testimonios/testimonio-01.webm",
+    "type": "image",
+    "src": "/Assets/testimonios/testimonio-01.webp",
     "mp4": "",
     "poster": "",
-    "alt": "Testimonio 1"
+    "alt": "Testimonio de Blacky"
   },
   {
     "type": "video",
     "src": "/Assets/testimonios/testimonio-02.webm",
     "mp4": "",
     "poster": "",
-    "alt": "Testimonio 2"
+    "alt": "Testimonio de Luna"
   },
   {
     "type": "video",
     "src": "/Assets/testimonios/testimonio-03.webm",
     "mp4": "",
     "poster": "",
-    "alt": "Testimonio 3"
+    "alt": "Testimonio Vicho"
   },
   {
     "type": "video",
     "src": "/Assets/testimonios/testimonio-04.webm",
     "mp4": "",
     "poster": "",
-    "alt": "Testimonio 4"
+    "alt": "Testimonio de Luffy"
   }
 ]
