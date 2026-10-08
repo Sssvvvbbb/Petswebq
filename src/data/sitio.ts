@@ -17,3 +17,6 @@ export const waAleatorio = (mensaje: string) =>
 
 // Enlace directo de WhatsApp al número principal.
 export const waFijo = (mensaje: string) => `https://wa.me/${WHATSAPP_PRINCIPAL}?text=${mensaje}`;
+
+// Google Analytics 4.
+export const GA_ID = 'G-GMK6NF1B3Z';

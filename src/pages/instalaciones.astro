@@ -6,25 +6,16 @@ import GalleryModal from '../components/GalleryModal.astro';
 import TopBar from '../components/TopBar.astro';
 import Footer from '../components/Footer.astro';
 import HeroCarousel from '../components/HeroCarousel.astro';
+import GoogleTag from '../components/GoogleTag.astro';
+import Favicons from '../components/Favicons.astro';
 ---
 <!DOCTYPE html>
-    <html lang="es">
-    <head>
+<html lang="es">
+<head>
         <!-- Google tag (gtag.js) -->
-        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-GMK6NF1B3Z"></script>
-        <script is:inline>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag("js", new Date());
-            gtag("config", "G-GMK6NF1B3Z");
-        </script>
+        <GoogleTag comillas="dobles" />
         <meta charset="UTF-8">
-<link rel="icon" type="image/x-icon" href="/Assets/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/Assets/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/Assets/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/Assets/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/Assets/android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/Assets/android-chrome-512x512.png">
+<Favicons />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         
         <!-- SEO Meta Tags -->
@@ -1761,7 +1752,7 @@ import HeroCarousel from '../components/HeroCarousel.astro';
 
         </style>
     </head>
-    <body>
+<body>
 
         <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             BOTON CORAZON FLOTANTE - solo en celular
@@ -2663,4 +2654,4 @@ import HeroCarousel from '../components/HeroCarousel.astro';
             });
         </script>
     </body>
-    </html>
+</html>

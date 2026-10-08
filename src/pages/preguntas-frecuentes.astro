@@ -5,29 +5,20 @@ import NavPrincipal from '../components/NavPrincipal.astro';
 import TopBar from '../components/TopBar.astro';
 import Footer from '../components/Footer.astro';
 import PageHero from '../components/PageHero.astro';
+import GoogleTag from '../components/GoogleTag.astro';
+import Favicons from '../components/Favicons.astro';
 ---
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-<link rel="icon" type="image/x-icon" href="/Assets/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/Assets/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/Assets/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/Assets/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/Assets/android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/Assets/android-chrome-512x512.png">
+<Favicons />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="color-scheme" content="only light">
 
         <!-- Google tag (gtag.js) -->
         <link rel="preconnect" href="https://www.googletagmanager.com">
-        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-GMK6NF1B3Z"></script>
-        <script is:inline>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-GMK6NF1B3Z');
-        </script>
+        <GoogleTag />
 
     <!-- SEO Meta Tags -->
     <title>Preguntas Frecuentes | Pets Al Cielo — Crematorio de Mascotas Puerto Montt</title>
