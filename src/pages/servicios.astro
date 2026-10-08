@@ -1,8 +1,6 @@
 ---
 import SvgDefs from '../components/SvgDefs.astro';
-import HeartButton from '../components/HeartButton.astro';
-import Drawer from '../components/Drawer.astro';
-import NavPrincipal from '../components/NavPrincipal.astro';
+import Menu from '../components/Menu.astro';
 import GalleryModal from '../components/GalleryModal.astro';
 import TopBar from '../components/TopBar.astro';
 import Footer from '../components/Footer.astro';
@@ -77,45 +75,11 @@ import Favicons from '../components/Favicons.astro';
         <!-- SVG defs compartidos: gradientes reutilizables (evita duplicados en el DOM) -->
         <SvgDefs />
 
-        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            BOTON CORAZON FLOTANTE - solo en celular
-            Abre el menu lateral al pulsarlo
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-        <HeartButton />
-
-        <!-- Overlay oscuro detras del drawer -->
-        <div class="drawer-overlay" id="drawerOverlay"></div>
-
-        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            MENU LATERAL (DRAWER) - aesthetic blanco
-            Se desliza desde la derecha
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-        <Drawer
-            links={[
-                { href: "preguntas-frecuentes.html", label: "Preguntas Frecuentes" },
-                { href: "#Biblioteca", label: "Biblioteca" },
-                { href: "#video", label: "Proceso Ecológico" },
-                { href: "#nosotros", label: "Nosotros" },
-            ]}
-            cta="aleatorio"
-            logo={{ src: "/Assets/logo_petsalcielo.webp", alt: "Logo de Pets Al Cielo crematorio en Puerto Montt", width: "160", height: "60" }}
-            deco="Disponibles 24/7 · Puerto Montt"
-        />
-
         <!-- Top Bar -->
         <TopBar variant="home" />
 
         <!-- Navigation -->
-        <NavPrincipal
-            logoHref="#"
-            corazon={{ href: "#servicios", ariaLabel: "Ir a servicios" }}
-            links={[
-                { href: "#Biblioteca", label: "Biblioteca" },
-                { href: "#video", label: "Proceso Ecológico" },
-                { href: "#nosotros", label: "Nosotros" },
-            ]}
-            cta="aleatorio"
-        />
+        <Menu />
 
         <!-- Hero Carousel -->
         <HeroCarousel variant="home" />
@@ -641,9 +605,19 @@ import Favicons from '../components/Favicons.astro';
             document.querySelectorAll('.drawer-link').forEach(l => l.addEventListener('click', closeDrawer));
             document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 
+            // ── PEGAR NAV BAJO TOP-BAR ──
+            (function() {
+                var topBar = document.querySelector('.top-bar');
+                var navEl  = document.querySelector('nav');
+                function snapNav() {
+                    navEl.style.top = topBar.getBoundingClientRect().height + 'px';
+                }
+                snapNav();
+                window.addEventListener('resize', snapNav);
+            })();
             // ── MOBILE NAV SCROLL HIDE ──
             (function() {
-                const mobileNavItems = document.querySelectorAll('.nav-menu li:nth-child(2), .nav-menu li:nth-child(3), .nav-menu li:nth-child(4)');
+                const mobileNavItems = document.querySelectorAll('.nav-menu li:nth-child(2), .nav-menu li:nth-child(3), .nav-menu li:nth-child(4), .nav-menu li:nth-child(5)');
                 let scrolled = false;
                 window.addEventListener('scroll', function() {
                     if (window.innerWidth > 768) return;

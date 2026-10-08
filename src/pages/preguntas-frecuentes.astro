@@ -1,7 +1,5 @@
 ---
-import HeartButton from '../components/HeartButton.astro';
-import Drawer from '../components/Drawer.astro';
-import NavPrincipal from '../components/NavPrincipal.astro';
+import Menu from '../components/Menu.astro';
 import TopBar from '../components/TopBar.astro';
 import Footer from '../components/Footer.astro';
 import PageHero from '../components/PageHero.astro';
@@ -844,42 +842,11 @@ import Favicons from '../components/Favicons.astro';
 </head>
 <body>
 
-    <!-- ── HEART BTN ── -->
-    <HeartButton acentos />
-
-    <!-- ── OVERLAY ── -->
-    <div class="drawer-overlay" id="drawerOverlay"></div>
-
-    <!-- ── DRAWER ── -->
-    <Drawer
-        acentos
-        links={[
-            { href: "/preguntas-frecuentes", label: "Preguntas Frecuentes" },
-            { href: "/#Biblioteca", label: "Biblioteca" },
-            { href: "/#video", label: "Proceso Ecológico" },
-            { href: "/#nosotros", label: "Nosotros" },
-            { href: "/testimonios", label: "Testimonios" },
-        ]}
-        cta="fijo"
-        logo={{ src: "/Assets/logo_para_web.webp", alt: "Logo PetsAlCielo" }}
-        deco="Disponibles 24/7 · Puerto Montt"
-    />
-
     <!-- ── TOP BAR ── -->
     <TopBar variant="faq" />
 
     <!-- ── NAV ── -->
-    <NavPrincipal
-        logoHref="/"
-        corazon={{ href: "/", ariaLabel: "Inicio" }}
-        links={[
-            { href: "/#Biblioteca", label: "Biblioteca" },
-            { href: "/#video", label: "Proceso Ecológico" },
-            { href: "/preguntas-frecuentes", label: "Preguntas", class: "active-page" },
-            { href: "/testimonios", label: "Testimonios" },
-        ]}
-        cta="fijo"
-    />
+    <Menu />
 
     <!-- ── PAGE HERO ── -->
     <PageHero />

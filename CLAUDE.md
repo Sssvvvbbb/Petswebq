@@ -40,10 +40,11 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 ## Componentes (`src/components/`)
 | Componente | Uso |
 |---|---|
+| `Menu` | Menú del sitio, igual al de testimonios: botón corazón + menú lateral + barra de escritorio, con su `<style is:inline>`. Lo usan todas las páginas menos testimonios (que tiene el original) |
 | `SvgDefs` | Gradientes `g-roof/g-wall/g-door/g-win` + `#icon-house` (index, servicios) |
-| `HeartButton` | Botón corazón del celular. Prop `acentos` (preguntas-frecuentes) |
-| `Drawer` | Menú lateral. Props: `links`, `cta` (`aleatorio`/`fijo`), `logo?`, `deco`, `acentos` |
-| `NavPrincipal` | Menú de escritorio. Props: `logoHref`, `corazon?`, `links`, `cta` |
+| `HeartButton` | Botón corazón del celular (lo usa `Menu`) |
+| `Drawer` | Menú lateral (lo usa `Menu`). Props: `links`, `cta` (`aleatorio`/`fijo`), `logo?`, `deco`, `acentos` |
+| `NavPrincipal` | Menú de escritorio (lo usa `Menu`). Props: `logoHref`, `corazon?`, `links`, `cta` |
 | `TopBar` | Barra superior. `variant`: `home`/`nosotros`/`faq`/`regreso` |
 | `HeroCarousel` | Cabecera con carrusel. `variant`: `home`/`nosotros`/`regreso` |
 | `PageHero` | Cabecera con migas de pan (preguntas-frecuentes) |
