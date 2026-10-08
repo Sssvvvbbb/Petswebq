@@ -5,7 +5,7 @@ Sitio de un crematorio ecológico de mascotas en Puerto Montt (Chile). Está hec
 ## Comandos
 - `npm run dev`: servidor local.
 - `npm run build`: genera `dist/`. Configurar en Cloudflare Pages: build `npm run build`, output `dist`, `NODE_VERSION=22`.
-- `npm run compare`: compara el DOM de cada página en `dist/` con el HTML original de `main` (anterior a la migración). **Correrlo antes de cada commit** mientras la migración no esté publicada: tiene que dar `Total: 0 diferencias`. Una vez publicada, se apunta a otra referencia con `COMPARE_REF=<commit>`.
+- `npm run compare`: compara el DOM de cada página en `dist/` con el HTML anterior a Astro (commit `edfb11a`). Desde la migración hay cambios deliberados (menú unificado, horario, canonical, testimonios), así que las diferencias son esperables: sirve para revisar qué cambió. Para comprobar que un refactor no cambia nada, comparar estilos y capturas en el navegador antes y después.
 
 ## Rutas (NO CAMBIAR: están posicionadas en Google)
 | Página | Archivo | URL | Canonical actual |
@@ -26,14 +26,14 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 ## Reglas
 - **No cambiar URLs ni nombres de archivos** en `src/pages/` ni en `public/`. `/Assets` va con A mayúscula, porque Cloudflare distingue mayúsculas en los archivos.
 - `astro.config.mjs`: `build.format: 'file'` (genera `servicios.html`, que se sirve en `/servicios` sin barra final), `trailingSlash: 'never'` y `compressHTML: false`. No cambiar.
-- **No crear `src/pages/404.astro`**. Sin 404.html, Cloudflare responde con la home a las rutas desconocidas, y los recursos inexistentes no rompen nada.
+- **No crear `src/pages/404.astro`** sin decidirlo con el dueño. Sin 404.html, Cloudflare responde con la home y código 200 a cualquier ruta desconocida, **también a imágenes o videos que no existen**: el navegador recibe HTML y no puede mostrarlo. Por eso, toda ruta nueva a un archivo de `public/` hay que comprobarla (que exista con ese nombre exacto) y no basta con que responda 200.
 - No usar `@astrojs/sitemap`: `public/sitemap.xml` es manual y solo lista `/`, `/testimonios` y `/preguntas-frecuentes`, todo en minúsculas y sin `www`.
 - **`public/_redirects`**: `/servicios`, `/nosotros`, `/instalaciones` y `/regreso-a-casa` (con y sin `.html`, y sus versiones con mayúsculas) redirigen con 301 a `/`. `/Testimonios` y `/Preguntas-Frecuentes` redirigen a su versión en minúsculas. Los enlaces `/#...` no se tocan.
 - Todo `<style>` y `<script>` de página lleva `is:inline`. Astro no procesa el CSS/JS y no genera archivos en `/_astro/`.
 - **Los comentarios HTML dentro de slots se pierden** en Astro. Por eso no hay `BaseLayout` y cada página escribe su propio `<html>`, `<head>` y `<body>`.
 - El HTML original tiene etiquetas mal cerradas que el compilador de Astro rechaza. Se emiten literales con `<Fragment set:html={"</div>"} />`. No "arreglarlas" sin revisar el resultado visual.
 - **`public/_headers`**: el bloque `/*` con la CSP es el original; solo se agregan bloques, nunca se reemplaza. `immutable` va solo en `/_astro/*`. `/instagram.json` y `/gallery/*` no llevan caché larga.
-- **testimonios está congelado**: `src/pages/testimonios.astro` es el HTML original tal cual, sin componentes, hasta su rediseño posterior a la migración.
+- **testimonios está congelado**: `src/pages/testimonios.astro` es el HTML original, sin componentes, hasta su rediseño. Únicas correcciones aprobadas: horario 23:59, primer slide del carrusel como `testimonio-01.webp` (el `.webm` no existía) y se quitaron las fotos de perfil inexistentes de las reseñas (se ve la inicial). Su menú es el modelo del componente `Menu`.
 - **Bot de Instagram**: `.github/workflows/instagram.yml` corre `update_instagram.py` cada 12 h (06:00 y 18:00 UTC). El script escribe `public/instagram.json` y `public/Assets/instagram/<id>.jpg` y hace commit en `main`. El `src` del JSON sigue siendo `/Assets/instagram/<id>.jpg`. Requiere el secret `IG_TOKEN`.
 - Git: no hacer push a `main` ni merges sin aprobación del dueño.
 
@@ -90,9 +90,8 @@ Otros: degradé de los botones Instagram/Testimonios `linear-gradient(135deg,#7D
 
 ## Problemas conocidos (se conservaron a propósito en la migración)
 - servicios, nosotros e instalaciones tienen canonical `/`. nosotros e instalaciones son idénticas.
-- Recursos referenciados que no existen. Sin 404, cada uno descarga la home (~127 KB):
-  - en testimonios: `Assets/reviews/*-perfil.webp`, `nombre-apellido-1.webp` y `Assets/testimonios/testimonio-01.webm`;
-  - en nosotros e instalaciones: `foto-mulán-…-insipiracion…webp`.
+- nosotros e instalaciones (que redirigen a la home) enlazan `foto-mulán-…-insipiracion…webp`, que no existe (el archivo real es `foto-mulan-…-inspiracion…webp`).
+- Horario en los datos estructurados (JSON-LD): atención 24/7 se escribe `"opens": "00:00", "closes": "23:59"`. `00:00`–`00:00` significa "cerrado" para Google.
 - La CSP de producción (con Google Analytics) viene del panel de Cloudflare, no de `_headers`. El `_headers` del repo no incluye los dominios de GA.
 - `Assets/shared.css`, `index.css` y `faq.css` no se usan. `Assets/Fonts/uwu` es un archivo basura.
 - Rocket Loader de Cloudflare está activo y reescribe scripts y `onclick`.

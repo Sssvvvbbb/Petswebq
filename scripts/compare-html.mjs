@@ -1,5 +1,11 @@
 // Compara cada página generada en dist/ con el HTML original del sitio
-// estático (rama main, antes de la migración a Astro).
+// estático (commit edfb11a, el último antes de la migración a Astro).
+//
+// Desde la migración hay cambios deliberados respecto de ese HTML (menú
+// unificado, horario 23:59, canonical de regreso-a-casa, etc.), así que hoy
+// las diferencias son esperables: sirve para revisar qué cambió, no para
+// exigir 0. Para comprobar que un refactor no cambia nada, comparar contra
+// otra referencia con COMPARE_REF=<commit> (que tenga los HTML en la raíz).
 //
 // Criterio: DOM idéntico. Ambos HTML se parsean con parse5 (el algoritmo
 // HTML5 que usan los navegadores) y se comparan serializados, normalizando
@@ -14,7 +20,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { parse, serialize } from 'parse5';
 
 // Referencia: commit con los HTML originales (COMPARE_REF para cambiarlo).
-const REF = process.env.COMPARE_REF || 'main';
+const REF = process.env.COMPARE_REF || 'edfb11a';
 
 // página generada -> archivo original
 const PAGES = {
@@ -41,7 +47,15 @@ for (const [built, original] of Object.entries(PAGES)) {
     total++;
     continue;
   }
-  const a = dom(execFileSync('git', ['show', `${REF}:${original}`], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }));
+  let html;
+  try {
+    html = execFileSync('git', ['show', `${REF}:${original}`], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] });
+  } catch {
+    console.log(`✗ ${built}: ${original} no existe en ${REF}`);
+    total++;
+    continue;
+  }
+  const a = dom(html);
   const b = dom(readFileSync(builtPath, 'utf8'));
   if (a === b) {
     console.log(`✓ ${built}: 0 diferencias`);
