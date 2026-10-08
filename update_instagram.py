@@ -2,7 +2,8 @@
 """
 update_instagram.py
 Obtiene las últimas publicaciones de @_petsalcielo via Graph API,
-descarga las imágenes a /Assets/instagram/ y actualiza instagram.json.
+descarga las imágenes a public/Assets/instagram/ y actualiza public/instagram.json
+(Astro copia public/ tal cual al sitio: se sirven en /Assets/instagram/ y /instagram.json).
 
 Ejecutar manualmente:
     python update_instagram.py
@@ -22,8 +23,8 @@ from datetime import datetime, timezone
 IG_USER_ID        = "17841429339022812"
 ACCESS_TOKEN      = os.environ.get("IG_TOKEN", "")   # siempre desde variable de entorno
 POSTS_LIMIT       = 10                                 # cuántas publicaciones mostrar
-OUTPUT_JSON       = "instagram.json"
-ASSETS_DIR        = os.path.join("Assets", "instagram")
+OUTPUT_JSON       = os.path.join("public", "instagram.json")
+ASSETS_DIR        = os.path.join("public", "Assets", "instagram")
 API_VERSION       = "v25.0"
 DUP_SIMILARITY    = 0.90   # 0–1: qué tan parecido debe ser el caption para considerarlo repetido
 DUP_MAX_MINUTES   = 30     # solo se compara contra publicaciones subidas dentro de esta ventana
