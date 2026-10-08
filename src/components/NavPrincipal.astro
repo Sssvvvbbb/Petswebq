@@ -1,0 +1,34 @@
+---
+// Barra de navegación principal (escritorio).
+import { MSG_CREMACION, waAleatorio, waFijo } from '../data/sitio';
+
+interface Props {
+  logoHref: string;
+  /** Ícono de corazón como primer ítem; se omite si no se pasa. */
+  corazon?: { href: string; ariaLabel: string };
+  links: { href: string; label: string; class?: string }[];
+  /** 'aleatorio': WhatsApp a uno de los dos números al azar; 'fijo': número principal. */
+  cta: 'aleatorio' | 'fijo';
+}
+const { logoHref, corazon, links, cta } = Astro.props;
+---
+<nav role="navigation" aria-label="Navegación principal">
+    <div class="nav-container">
+        <a href={logoHref} class="logo" aria-label="PetsAlCielo - Inicio">Pets<em>Al</em>Cielo</a>
+        <ul class="nav-menu">
+            {corazon && (
+                <li>
+                    <a href={corazon.href} aria-label={corazon.ariaLabel}>
+                        <svg class="icon-heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </a>
+                </li>
+            )}
+            {links.map(({ href, label, class: cls }) => <li><a href={href} class={cls}>{label}</a></li>)}
+            <li>{cta === 'aleatorio'
+                ? <a href="#" onclick={waAleatorio(MSG_CREMACION)} class="nav-cta btn">Contactar</a>
+                : <a href={waFijo(MSG_CREMACION)} target="_blank" rel="noopener" class="nav-cta btn">Contactar</a>}</li>
+        </ul>
+    </div>
+</nav>

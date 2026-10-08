@@ -1,6 +1,7 @@
 ---
 import HeartButton from '../components/HeartButton.astro';
 import Drawer from '../components/Drawer.astro';
+import NavPrincipal from '../components/NavPrincipal.astro';
 ---
     <!DOCTYPE html>
     <html lang="es">
@@ -1303,18 +1304,16 @@ import Drawer from '../components/Drawer.astro';
         </aside>
 
         <!-- Navigation -->
-        <nav role="navigation" aria-label="Navegación principal">
-            <div class="nav-container">
-                <a href="#" class="logo" aria-label="PetsAlCielo - Inicio">Pets<em>Al</em>Cielo</a>
-                <ul class="nav-menu">
-                    <li><a href="#servicios"></a></li>
-                    <li><a href="#galeria">Biblioteca</a></li>
-                    <li><a href="#proceso">Proceso Ecológico</a></li>
-                    <li><a href="#nosotros">Nosotros</a></li>
-                    <li><a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" class="nav-cta btn">Contactar</a></li>
-                </ul>
-            </div>
-        </nav>
+        <NavPrincipal
+            logoHref="#"
+            links={[
+                { href: "#servicios", label: "" },
+                { href: "#galeria", label: "Biblioteca" },
+                { href: "#proceso", label: "Proceso Ecológico" },
+                { href: "#nosotros", label: "Nosotros" },
+            ]}
+            cta="fijo"
+        />
 
         <!-- Hero Carousel -->
         <header class="carousel-wrap" id="inicio" aria-label="Bienvenida PetsAlCielo">

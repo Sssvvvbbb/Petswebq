@@ -2,6 +2,7 @@
 import SvgDefs from '../components/SvgDefs.astro';
 import HeartButton from '../components/HeartButton.astro';
 import Drawer from '../components/Drawer.astro';
+import NavPrincipal from '../components/NavPrincipal.astro';
 ---
 <!DOCTYPE html>
     <html lang="es">
@@ -127,24 +128,16 @@ import Drawer from '../components/Drawer.astro';
         </aside>
 
         <!-- Navigation -->
-        <nav role="navigation" aria-label="Navegación principal">
-            <div class="nav-container">
-                <a href="#" class="logo" aria-label="PetsAlCielo - Inicio">Pets<em>Al</em>Cielo</a>
-                <ul class="nav-menu">
-                  <li>
-  <a href="#servicios" aria-label="Ir a servicios">
-    <svg class="icon-heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-    </svg>
-  </a>
-</li>
-                    <li><a href="#Biblioteca">Biblioteca</a></li>
-                    <li><a href="#video">Proceso Ecológico</a></li>
-                    <li><a href="#nosotros">Nosotros</a></li>
-                    <li><a href="#" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n','_blank','noopener');" class="nav-cta btn">Contactar</a></li>
-                </ul>
-            </div>
-        </nav>
+        <NavPrincipal
+            logoHref="#"
+            corazon={{ href: "#servicios", ariaLabel: "Ir a servicios" }}
+            links={[
+                { href: "#Biblioteca", label: "Biblioteca" },
+                { href: "#video", label: "Proceso Ecológico" },
+                { href: "#nosotros", label: "Nosotros" },
+            ]}
+            cta="aleatorio"
+        />
 
         <!-- Hero Carousel -->
         <header class="carousel-wrap" id="inicio" aria-label="Bienvenida PetsAlCielo">
