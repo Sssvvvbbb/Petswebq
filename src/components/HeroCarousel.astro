@@ -1,0 +1,15 @@
+---
+// Cabecera con carrusel de bienvenida (#inicio).
+// Cada variante conserva el HTML exacto de su grupo de páginas.
+import Home from './HeroCarousel/Home.astro';
+import Nosotros from './HeroCarousel/Nosotros.astro';
+import Regreso from './HeroCarousel/Regreso.astro';
+
+interface Props {
+  variant: 'home' | 'nosotros' | 'regreso';
+}
+const { variant } = Astro.props;
+---
+{variant === 'home' && <Home />}
+{variant === 'nosotros' && <Nosotros />}
+{variant === 'regreso' && <Regreso />}

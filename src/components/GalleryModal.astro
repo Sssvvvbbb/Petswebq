@@ -1,0 +1,39 @@
+---
+// Modal de galería (#glb-overlay). Su script, que hace fetch de
+// /gallery/<clave>.json, sigue dentro del <script> de cada página.
+interface Props {
+  /** 'oscuro': velo oscuro (index/servicios); 'blur': fondo desenfocado (nosotros/instalaciones). */
+  fondo: 'oscuro' | 'blur';
+}
+const { fondo } = Astro.props;
+const FONDOS = {
+  oscuro: 'display:none;position:fixed;inset:0;z-index:9000;background:rgba(40,30,50,0.6);align-items:center;justify-content:center;opacity:0;transition:opacity 0.32s ease;',
+  blur: 'display:none;position:fixed;inset:0;z-index:9000;background:transparent;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:center;justify-content:center;opacity:0;transition:opacity 0.32s ease;',
+};
+---
+<div id="glb-overlay" role="dialog" aria-modal="true" aria-labelledby="glb-title" aria-hidden="true"
+     style={FONDOS[fondo]}>
+    <div id="glb-modal-inner" style="position:relative;width:min(92vw,860px);max-height:90vh;display:flex;flex-direction:column;background:rgba(250,248,249,0.97);border-radius:24px;overflow:hidden;box-shadow:none;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem;border-bottom:1px solid rgba(168,230,214,0.25);">
+            <h2 id="glb-title" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:#3d4a5c;margin:0;"></h2>
+            <span id="glb-counter" style="font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:300;color:#8a9aaa;margin-right:0.8rem;"></span>
+            <button id="glb-close" aria-label="Cerrar galería"
+                    style="background:none;border:none;cursor:pointer;padding:0.4rem;color:#8a9aaa;font-size:1.4rem;line-height:1;transition:color 0.2s;"
+                    onmouseover="this.style.color='#3d4a5c'" onmouseout="this.style.color='#8a9aaa'">&#x2715;</button>
+        </div>
+        <div style="position:relative;flex:1;overflow:hidden;min-height:300px;">
+            <div id="glb-track" style="width:100%;height:100%;"></div>
+            <div id="glb-loader" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                <div style="width:36px;height:36px;border:3px solid rgba(41,167,152,0.2);border-top-color:#29A798;border-radius:50%;animation:glbSpin 0.8s linear infinite;"></div>
+            </div>
+            <div id="glb-empty" style="display:none;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.8rem;color:#8a9aaa;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:300;text-align:center;padding:2rem;">
+                <span style="font-size:2.5rem;">&#x1F5BC;&#xFE0F;</span>
+                Pr&#xF3;ximamente &#x2014; las fotos de esta galer&#xED;a estar&#xE1;n disponibles aqu&#xED;.
+            </div>
+            <button id="glb-prev" aria-label="Foto anterior"
+                    style="display:none;position:absolute;left:0.8rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;align-items:center;justify-content:center;font-size:1.4rem;color:#3d4a5c;box-shadow:0 2px 12px rgba(0,0,0,0.12);transition:background 0.2s;">&#x2039;</button>
+            <button id="glb-next" aria-label="Foto siguiente"
+                    style="display:none;position:absolute;right:0.8rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;align-items:center;justify-content:center;font-size:1.4rem;color:#3d4a5c;box-shadow:0 2px 12px rgba(0,0,0,0.12);transition:background 0.2s;">&#x203A;</button>
+        </div>
+    </div>
+</div>

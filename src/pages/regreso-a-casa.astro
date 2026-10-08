@@ -2,6 +2,9 @@
 import HeartButton from '../components/HeartButton.astro';
 import Drawer from '../components/Drawer.astro';
 import NavPrincipal from '../components/NavPrincipal.astro';
+import TopBar from '../components/TopBar.astro';
+import Footer from '../components/Footer.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
 ---
     <!DOCTYPE html>
     <html lang="es">
@@ -1281,27 +1284,7 @@ import NavPrincipal from '../components/NavPrincipal.astro';
         />
 
         <!-- Top Bar -->
-        <aside class="top-bar">
-            <div class="top-bar-content" style="padding-left:0;padding-right:0;justify-content:space-between;align-items:center;display:flex;width:100%;">
-                <a href="https://www.google.com/maps/place/Pets+al+Cielo/@-41.4129877,-72.8823701,17z/data=!3m1!4b1!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="top-bar-item" aria-label="Ver ubicación en Google Maps" style="padding-left:0.5rem;">
-                    <span>📍</span>
-                    <span itemscope itemtype="https://schema.org/PostalAddress" itemprop="addressLocality">La Vara, Puerto Montt</span>
-                </a>
-                <div style="display:flex;align-items:center;gap:0.8rem;flex:1;justify-content:center;">
-                    <span class="top-bar-item">
-                        <span>Disponibles 24 horas</span>
-                    </span>
-                </div>
-                <div style="display:flex;align-items:center;gap:0.5rem;padding-right:0.9rem;">
-                    <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#A8E6D6 0%,#6CD2F5 40%,#EEA5E9 75%,#CBAEF2 100%);text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
-                        <svg width="8" height="8" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    </a>
-                    <a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" class="top-bar-item" itemprop="telephone" aria-label="WhatsApp">
-                        <span>+569 9846 1172</span>
-                    </a>
-                </div>
-            </div>
-        </aside>
+        <TopBar variant="regreso" />
 
         <!-- Navigation -->
         <NavPrincipal
@@ -1316,75 +1299,7 @@ import NavPrincipal from '../components/NavPrincipal.astro';
         />
 
         <!-- Hero Carousel -->
-        <header class="carousel-wrap" id="inicio" aria-label="Bienvenida PetsAlCielo">
-
-            <div class="orb orb-1"></div>
-            <div class="orb orb-2"></div>
-            <div class="orb orb-3"></div>
-            <div class="orb orb-4"></div>
-
-            <!-- Petals -->
-            <div class="petals" aria-hidden="true" id="petalContainer"></div>
-
-            <!-- Slide 1 -->
-            <div class="carousel-slide slide-bg-1 active" role="tabpanel" aria-label="Slide 1">
-                <div class="hero-inner">
-                    <span class="hero-eyebrow">Puerto Montt · Región de Los Lagos</span>
-                    <h1 class="hero-title">
-                        Crematorio Ecológico <br>para <em>Mascotas</em>
-                    </h1>
-                    <p class="hero-sub">
-                        Una despedida digna, llena de amor y respeto.<br>
-                        Acompañamos a tu familia en este momento con calidez y profesionalismo.
-                    </p>
-                    <div class="hero-actions">
-                        <a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" class="btn btn-primary" aria-label="Contactar por WhatsApp">Contactar Ahora</a>
-                        <a href="#servicios" class="btn btn-ghost">Ver Servicios</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 2 -->
-            <div class="carousel-slide slide-bg-2" role="tabpanel" aria-label="Slide 2">
-                <div class="hero-inner">
-                    <span class="hero-eyebrow">Tecnología Avalada · Universidad de Concepción</span>
-                    <h2 class="hero-title">
-                        Cremación <em>Ecológica</em><br>mediante Agua
-                    </h2>
-                    <p class="hero-sub">
-                        Hidrólisis alcalina: el proceso más respetuoso con el medio ambiente.<br>
-                        Sin fuego, sin humo — solo pureza y serenidad.
-                    </p>
-                    <div class="hero-actions">
-                        <a href="#proceso" class="btn btn-primary">Conocer el Proceso</a>
-                        <a href="#nosotros" class="btn btn-ghost">Sobre Nosotros</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="carousel-slide slide-bg-3" role="tabpanel" aria-label="Slide 3">
-                <div class="hero-inner">
-                    <span class="hero-eyebrow" style="margin-top: 8px; display: inline-block;">Porque son Familia</span>
-                    <h2 class="hero-title">
-                        Un Adiós <em>Digno</em><br>para Quien Amaste
-                    </h2>
-                    <p class="hero-sub">
-                        Aquí destacar la diferencia estética (ética y buena) de preferir un adiós en agua que en fuego. Cremación individual, urnas conmemorativas personalizadas y retiro a domicilio dentro de Puerto Montt. Atención inmediata, siempre.
-                    </p>
-                    <div class="hero-actions">
-                        <a href="#servicios" class="btn btn-primary">Ver Servicios</a>
-                        <a href="https://wa.me/56998461172?text=Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios" target="_blank" rel="noopener" class="btn btn-ghost">Hablar con Nosotros</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-dots" role="tablist" aria-label="Controles del carrusel">
-                <button class="dot active" data-slide="0" aria-label="Slide 1" role="tab"></button>
-                <button class="dot" data-slide="1" aria-label="Slide 2" role="tab"></button>
-                <button class="dot" data-slide="2" aria-label="Slide 3" role="tab"></button>
-            </div>
-        </header>
+        <HeroCarousel variant="regreso" />
 
         <!-- Stats Strip -->
         <div class="container">
@@ -1678,52 +1593,7 @@ import NavPrincipal from '../components/NavPrincipal.astro';
         </section>
 
         <!-- Footer -->
-        <footer role="contentinfo">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <div class="footer-logo">Pets<em>Al</em>Cielo</div>
-                    <p>
-                        Crematorio ecológico para mascotitas en Puerto Montt, Décima región. 
-                        <p>
-
-                        </p>Atención profesional 24/7.
-                    </p>
-                    <p style="margin-top: 1rem; color: rgba(255,255,255,0.45);">
-                        <strong style="color:rgba(255,255,255,0.6)">Cobertura:</strong> Puerto Montt, Puerto Varas, Osorno, Ancud, Castro, Frutillar, Llanquihue y Región de Los Lagos.
-                    </p>
-                </div>
-                <div class="footer-col">
-                    <h4>Servicios</h4>
-                    <Fragment set:html={"<ul>"} />
-                        <li><a href="#servicios">Cremación Verde y Ecológica en Agua, no en Fuego</a></li>
-                        <li><a href="#servicios">Cremación Individual Perritos, gatitos y mascotitas especiales</a></li>
-                        <li><a href="#servicios">Urnas Conmemorativas de Madera, Bronce e impresión 3D a base de maíz</a></li>
-                </div>
-                <div class="footer-col">
-                    <h4>Información</h4>
-                    <ul>
-                        <li><a href="#nosotros">Sobre PetsAlCielo</a></li>
-                        <li><a href="#proceso">Proceso Cremación Verde</a></li>
-                        <li><a href="#galeria">Galería Instalaciones</a></li>
-                        <li><a href="#testimonios">Testimonios Familias</a></li>
-                        <li><a href="#contacto">Preguntas Frecuentes</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Redes Sociales</h4>
-                    <ul>
-                        <li><a href="https://www.facebook.com/cremaciondemascotasenpuertomontt" target="_blank" rel="noopener">📘 Facebook PetsAlCielo</a></li>
-                        <li><a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener">📷 Instagram @petsalcielo</a></li>
-                    </ul>
-                    <Fragment set:html={'<h4 style="margin-top: 1.5rem;">'} />Horario<Fragment set:html={"</h>"} />
-                    <p><strong style="color:rgb(255, 255, 255)"></strong><br>Todos los días del año<br>Atención inmediata</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p style="white-space: nowrap; font-size: clamp(0.55rem, 2.2vw, 0.9rem);"><strong>© 2026 PetsAlCielo — Crematorio Verde para Mascotitas en Décima Región</strong></p>
-                <p style="margin-top: 0.5rem; white-space: nowrap; font-size: clamp(0.55rem, 2.2vw, 0.9rem);">🌈Con amor y respeto por quienes fueron y todavía son parte de tu familia 🌈</p>
-            </div>
-        </footer>
+        <Footer variant="regreso" />
 
         <script is:inline>
             // ── CAROUSEL ──

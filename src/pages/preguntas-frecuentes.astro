@@ -2,6 +2,9 @@
 import HeartButton from '../components/HeartButton.astro';
 import Drawer from '../components/Drawer.astro';
 import NavPrincipal from '../components/NavPrincipal.astro';
+import TopBar from '../components/TopBar.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -872,36 +875,7 @@ import NavPrincipal from '../components/NavPrincipal.astro';
     />
 
     <!-- ── TOP BAR ── -->
-    <aside class="top-bar">
-        <div class="top-bar-content">
-            <a href="https://www.google.com/maps/place/Pets+Al+Cielo/@-41.4417349,-72.9405311,13.07z/data=!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="top-bar-item" aria-label="Ver ubicación en Google Maps" style="gap:0.25rem;justify-content:flex-start;">
-                <svg width="18" height="18" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <polygon points="32,8 6,30 58,30" fill="url(#tb-roof)"/>
-                    <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#tb-wall)"/>
-                    <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#tb-door)"/>
-                    <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#tb-winL)"/>
-                    <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#tb-winR)"/>
-                    <defs>
-                        <linearGradient id="tb-roof" x1="6" y1="8" x2="58" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f9c8e0"/><stop offset="100%" stop-color="#cbaef2"/></linearGradient>
-                        <linearGradient id="tb-wall" x1="12" y1="29" x2="52" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff4cc"/><stop offset="100%" stop-color="#fde8f5"/></linearGradient>
-                        <linearGradient id="tb-door" x1="26" y1="38" x2="38" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#cbaef2"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
-                        <linearGradient id="tb-winL" x1="15" y1="35" x2="24" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
-                        <linearGradient id="tb-winR" x1="40" y1="35" x2="49" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
-                    </defs>
-                </svg>
-                <span>Puerto Montt, X Región</span>
-            </a>
-            <span class="top-bar-separator" aria-hidden="true" style="text-align:center;">|</span>
-            <span class="top-bar-item" style="justify-content:flex-start;">
-                <span>Consultas y agendamiento vía WhatsApp</span>
-            </span>
-            <div style="display:flex;align-items:center;gap:0.5rem;padding-right:3px;justify-content:flex-end;grid-column:4;">
-                <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#F5D0E8 0%,#E3B0D8 35%,#D4A4CC 65%,#CDBAF0 100%);text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                </a>
-            </div>
-        </div>
-    </aside>
+    <TopBar variant="faq" />
 
     <!-- ── NAV ── -->
     <NavPrincipal
@@ -917,23 +891,7 @@ import NavPrincipal from '../components/NavPrincipal.astro';
     />
 
     <!-- ── PAGE HERO ── -->
-    <header class="page-hero">
-        <div class="hero-orb hero-orb-1"></div>
-        <div class="hero-orb hero-orb-2"></div>
-        <div class="hero-orb hero-orb-3"></div>
-        <div class="page-hero-inner">
-            <nav aria-label="Breadcrumb" class="breadcrumb">
-                <a href="/">Inicio</a>
-                <span class="breadcrumb-sep">›</span>
-                <span>Preguntas Frecuentes</span>
-            </nav>
-            <span class="hero-eyebrow">Todo lo que necesita saber</span>
-            <h1 class="page-title"><em>Preguntas Frecuentes</em></h1>
-            <p class="page-lead">
-                Sabemos que este es un momento difícil. Aquí encontrará respuestas claras y honestas sobre nuestro proceso de cremación ecológica para mascotas.
-            </p>
-        </div>
-    </header>
+    <PageHero />
 
     <!-- ── FAQ MAIN SECTION ── -->
     <section class="section" aria-labelledby="faq-heading">
@@ -1304,49 +1262,7 @@ recuperados y entregados contribuyen a dar mayor certeza a los dueños o tutores
     </section>
 
     <!-- ── FOOTER ── -->
-    <footer role="contentinfo">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <div class="footer-logo">Pets<em>Al</em>Cielo</div>
-                <p>Crematorio ecológico para mascotitas en Puerto Montt, Décima región.</p>
-                <p style="margin-top: 1rem; color: rgba(255,255,255,0.45);">
-                    <strong style="color:rgba(255,255,255,0.6)">Cobertura:</strong> Puerto Montt, Puerto Varas, Osorno, Ancud, Castro, Frutillar, Llanquihue y Región de Los Lagos.
-                </p>
-            </div>
-            <div class="footer-col">
-                <h4>Servicios</h4>
-                <ul>
-                    <li><a href="/#servicios">Cremación Ecológica e Individual</a></li>
-                    <li><a href="/#servicios">Reencuentro: reunir familias con sus mascotitas</a></li>
-                    <li><a href="/#servicios">Ánforas de madera, bronce e impresión 3D</a></li>
-                    <li><a href="/#servicios">Cremación de perros, gatos y mascotas especiales</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Estamos en Puerto Montt, X Región</h4>
-                <ul>
-                    <li><a href="/#nosotros">Sobre PetsAlCielo</a></li>
-                    <li><a href="/#video">Sobre la Cremación Ecológica</a></li>
-                    <li><a href="/#Biblioteca">Instalaciones en Puerto Montt</a></li>
-                    <li><a href="/preguntas-frecuentes">Preguntas Frecuentes</a></li>
-                    <li><a href="/testimonios">Testimonios</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Nuestras Redes Sociales</h4>
-                <ul>
-                    <li><a href="https://www.facebook.com/cremaciondemascotasenpuertomontt" target="_blank" rel="noopener">📘 Facebook PetsAlCielo</a></li>
-                    <li><a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener">📷 Instagram @petsalcielo</a></li>
-                </ul>
-                <h4 style="margin-top: 1.5rem;">Horario</h4>
-                <p>Todos los días del año. Atención inmediata.</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p style="font-size: clamp(0.55rem, 2.2vw, 0.9rem);"><strong>© 2026 PetsAlCielo — Crematorio Verde para Mascotitas en la Región de los Lagos</strong></p>
-            <p style="margin-top: 0.5rem; font-size: clamp(0.55rem, 2.2vw, 0.9rem);">🌈 Con amor y respeto por quienes fueron y todavía son parte de su familia 🌈</p>
-        </div>
-    </footer>
+    <Footer variant="faq" />
 
     <script is:inline>
         // ── DRAWER ──

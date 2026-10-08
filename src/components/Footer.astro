@@ -1,0 +1,17 @@
+---
+// Pie de página.
+// Cada variante conserva el HTML exacto de su grupo de páginas.
+import Home from './Footer/Home.astro';
+import Nosotros from './Footer/Nosotros.astro';
+import Faq from './Footer/Faq.astro';
+import Regreso from './Footer/Regreso.astro';
+
+interface Props {
+  variant: 'home' | 'nosotros' | 'faq' | 'regreso';
+}
+const { variant } = Astro.props;
+---
+{variant === 'home' && <Home />}
+{variant === 'nosotros' && <Nosotros />}
+{variant === 'faq' && <Faq />}
+{variant === 'regreso' && <Regreso />}
