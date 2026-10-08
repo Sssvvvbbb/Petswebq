@@ -1,0 +1,14 @@
+# Páginas que se envían a la home (301 permanente).
+# /testimonios y /preguntas-frecuentes siguen como páginas propias.
+/servicios            /  301
+/servicios.html       /  301
+/nosotros             /  301
+/nosotros.html        /  301
+/instalaciones        /  301
+/instalaciones.html   /  301
+/regreso-a-casa       /  301
+/regreso-a-casa.html  /  301
+/Servicios            /  301
+/Nosotros             /  301
+/Instalaciones        /  301
+/RegresoACasa         /  301
