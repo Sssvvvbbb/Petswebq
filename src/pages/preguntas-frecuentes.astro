@@ -13,8 +13,8 @@
 
         <!-- Google tag (gtag.js) -->
         <link rel="preconnect" href="https://www.googletagmanager.com">
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMK6NF1B3Z"></script>
-        <script>
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-GMK6NF1B3Z"></script>
+        <script is:inline>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -52,9 +52,9 @@
     <!-- Fuentes auto-hospedadas (igual que index.html): sin dependencia de Google ni roundtrips externos -->
     <link rel="preload" href="/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
-    <style>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght.woff2') format('woff2')}</style>
+    <style is:inline>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght.woff2') format('woff2')}</style>
 
-    <style>
+    <style is:inline>
         /* ── DESIGN TOKENS ── */
         :root {
             --mint:        #A8E6D6;
@@ -1365,7 +1365,7 @@ recuperados y entregados contribuyen a dar mayor certeza a los dueños o tutores
         </div>
     </footer>
 
-    <script>
+    <script is:inline>
         // ── DRAWER ──
         const heartBtn      = document.getElementById('heartBtn');
         const drawer        = document.getElementById('drawer');

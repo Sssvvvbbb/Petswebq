@@ -2,8 +2,8 @@
     <html lang="es">
     <head>
         <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMK6NF1B3Z"></script>
-        <script>
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-GMK6NF1B3Z"></script>
+        <script is:inline>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag("js", new Date());
@@ -58,7 +58,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
-        <style>
+        <style is:inline>
             /* ── DESIGN TOKENS ── */
             :root {
                 --mint:        #A8E6D6;
@@ -2024,7 +2024,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#F1A7F1" style="width:1rem;height:1rem;flex-shrink:0;display:block;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                             </span>
                         </div>
-                        <style>@media(max-width:768px){.gallery-hint{display:flex!important;align-items:center;flex-wrap:nowrap;margin-top:0.8rem;font-size:0.78rem!important;gap:0.3em!important;white-space:nowrap;}.gallery-hint svg{width:0.72rem!important;height:0.72rem!important;}}</style>
+                        <style is:inline>@media(max-width:768px){.gallery-hint{display:flex!important;align-items:center;flex-wrap:nowrap;margin-top:0.8rem;font-size:0.78rem!important;gap:0.3em!important;white-space:nowrap;}.gallery-hint svg{width:0.72rem!important;height:0.72rem!important;}}</style>
                     </div>
                     <div class="gallery-mosaic reveal" aria-label="Galería de instalaciones">
                         <div class="mosaic-item" data-gallery="instalaciones" role="button" tabindex="0" aria-label="Ver galería de instalaciones" style="cursor:pointer;">
@@ -2156,8 +2156,8 @@
 
        
                 
-            </div>
-        </section>
+            <Fragment set:html={"</div>"} />
+        <Fragment set:html={"</section>"} />
 
         <!-- Video -->
         <section class="section video-section" id="video">
@@ -2395,7 +2395,7 @@
             </div><!-- /overlay wrapper -->
         </footer>
 
-        <script>
+        <script is:inline>
             // ── CAROUSEL ──
             let currentSlide = 0;
             const slides = document.querySelectorAll('.carousel-slide');
@@ -2752,7 +2752,7 @@
             </div>
         </div>
 
-        <style>
+        <style is:inline>
             .glb-visible { opacity:1 !important; }
             .glb-slide { display:none; width:100%; height:100%; align-items:center; justify-content:center; }
             .glb-slide.glb-active { display:flex; }
@@ -2768,7 +2768,7 @@
             #glb-modal-inner.accent-mariposas     { border-color: #8FE0A4; } /* verde menta vivo    */
             #glb-modal-inner.accent-despedida     { border-color: #FFC4A0; } /* naranja pastel suave */
         </style>
-        <script>
+        <script is:inline>
             // ── GALLERY LIGHTBOX ──
             document.addEventListener('DOMContentLoaded', function() {
             // ── GALLERY LIGHTBOX ──

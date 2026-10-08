@@ -33,7 +33,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
-        <style>
+        <style is:inline>
             /* ── DESIGN TOKENS ── */
             :root {
                 --mint:        #A8E6D6;
@@ -1599,7 +1599,7 @@
                     <div class="process-step glass-card reveal reveal-delay-4" style="padding: 2rem 1.5rem;">
                         <div class="step-bubble sb-4" aria-hidden="true">🏺</div>
                         <h4>Entrega en Urna</h4>
-                        <p>Entregamos al pequeño o pequeña en urnas especiales y personalizadas. Procuramos entregar urnas resistentes a caídas, por lo cual no entregamos en greda sí no es petición del tutor.                </div>
+                        <Fragment set:html={"<p>"} />Entregamos al pequeño o pequeña en urnas especiales y personalizadas. Procuramos entregar urnas resistentes a caídas, por lo cual no entregamos en greda sí no es petición del tutor.                </div>
                 </div>
             </div>
         </section>
@@ -1704,7 +1704,7 @@
                 </div>
                 <div class="footer-col">
                     <h4>Servicios</h4>
-                    <ul>
+                    <Fragment set:html={"<ul>"} />
                         <li><a href="#servicios">Cremación Verde y Ecológica en Agua, no en Fuego</a></li>
                         <li><a href="#servicios">Cremación Individual Perritos, gatitos y mascotitas especiales</a></li>
                         <li><a href="#servicios">Urnas Conmemorativas de Madera, Bronce e impresión 3D a base de maíz</a></li>
@@ -1725,7 +1725,7 @@
                         <li><a href="https://www.facebook.com/cremaciondemascotasenpuertomontt" target="_blank" rel="noopener">📘 Facebook PetsAlCielo</a></li>
                         <li><a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener">📷 Instagram @petsalcielo</a></li>
                     </ul>
-                    <h4 style="margin-top: 1.5rem;">Horario</h>
+                    <Fragment set:html={'<h4 style="margin-top: 1.5rem;">'} />Horario<Fragment set:html={"</h>"} />
                     <p><strong style="color:rgb(255, 255, 255)"></strong><br>Todos los días del año<br>Atención inmediata</p>
                 </div>
             </div>
@@ -1735,7 +1735,7 @@
             </div>
         </footer>
 
-        <script>
+        <script is:inline>
             // ── CAROUSEL ──
             let currentSlide = 0;
             const slides = document.querySelectorAll('.carousel-slide');
