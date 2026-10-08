@@ -16,7 +16,7 @@ Sitio de un crematorio ecológico de mascotas en Puerto Montt (Chile). Está hec
 | Instalaciones | `src/pages/instalaciones.astro` | `/instalaciones` | `/` |
 | Preguntas frecuentes | `src/pages/preguntas-frecuentes.astro` | `/preguntas-frecuentes` | `/preguntas-frecuentes` |
 | Testimonios | `src/pages/testimonios.astro` | `/testimonios` | `/testimonios` |
-| Regreso a casa | `src/pages/regreso-a-casa.astro` | `/regreso-a-casa` | `/RegresoACasa` |
+| Regreso a casa | `src/pages/regreso-a-casa.astro` | `/regreso-a-casa` | `/regreso-a-casa` |
 
 Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 - `/instagram.json`: feed que genera el bot.
@@ -26,8 +26,9 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 ## Reglas
 - **No cambiar URLs ni nombres de archivos** en `src/pages/` ni en `public/`. `/Assets` va con A mayúscula, porque Cloudflare distingue mayúsculas en los archivos.
 - `astro.config.mjs`: `build.format: 'file'` (genera `servicios.html`, que se sirve en `/servicios` sin barra final), `trailingSlash: 'never'` y `compressHTML: false`. No cambiar.
-- **No crear `src/pages/404.astro`**. Sin 404.html, Cloudflare responde con la home a las rutas desconocidas, y de eso dependen las URLs con mayúsculas del sitemap (`/Servicios`, `/RegresoACasa`…).
-- No usar `@astrojs/sitemap`: `public/sitemap.xml` es manual.
+- **No crear `src/pages/404.astro`**. Sin 404.html, Cloudflare responde con la home a las rutas desconocidas, y los recursos inexistentes no rompen nada.
+- No usar `@astrojs/sitemap`: `public/sitemap.xml` es manual y solo lista `/`, `/testimonios` y `/preguntas-frecuentes`, todo en minúsculas y sin `www`.
+- **`public/_redirects`**: `/servicios`, `/nosotros`, `/instalaciones` y `/regreso-a-casa` (con y sin `.html`, y sus versiones con mayúsculas) redirigen con 301 a `/`. `/Testimonios` y `/Preguntas-Frecuentes` redirigen a su versión en minúsculas. Los enlaces `/#...` no se tocan.
 - Todo `<style>` y `<script>` de página lleva `is:inline`. Astro no procesa el CSS/JS y no genera archivos en `/_astro/`.
 - **Los comentarios HTML dentro de slots se pierden** en Astro. Por eso no hay `BaseLayout` y cada página escribe su propio `<html>`, `<head>` y `<body>`.
 - El HTML original tiene etiquetas mal cerradas que el compilador de Astro rechaza. Se emiten literales con `<Fragment set:html={"</div>"} />`. No "arreglarlas" sin revisar el resultado visual.
@@ -87,7 +88,6 @@ Otros: degradé de los botones Instagram/Testimonios `linear-gradient(135deg,#7D
 - Archivos locales en `public/Assets/Fonts/*.woff2` con `@font-face` inline y `preload`. nosotros, instalaciones y regreso-a-casa además cargan Google Fonts.
 
 ## Problemas conocidos (se conservaron a propósito en la migración)
-- `sitemap.xml` usa `https://www.petsalcielo.cl/Servicios`, `/RegresoACasa`, etc. Esas URLs no existen: Cloudflare las responde con la home (soft 404), y `www` redirige a la versión sin `www`.
 - servicios, nosotros e instalaciones tienen canonical `/`. nosotros e instalaciones son idénticas.
 - Recursos referenciados que no existen. Sin 404, cada uno descarga la home (~127 KB):
   - en testimonios: `Assets/reviews/*-perfil.webp`, `nombre-apellido-1.webp` y `Assets/testimonios/testimonio-01.webm`;
