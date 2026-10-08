@@ -1,0 +1,19 @@
+---
+// Gradientes y símbolo de casita reutilizados por los íconos SVG de la página
+// (p. ej. el ícono de ubicación de la barra superior).
+---
+<svg width="0" height="0" style="position:absolute;overflow:hidden;" aria-hidden="true">
+    <defs>
+        <linearGradient id="g-roof" x1="6" y1="8" x2="58" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f9c8e0"/><stop offset="100%" stop-color="#cbaef2"/></linearGradient>
+        <linearGradient id="g-wall" x1="12" y1="29" x2="52" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff4cc"/><stop offset="100%" stop-color="#fde8f5"/></linearGradient>
+        <linearGradient id="g-door" x1="26" y1="38" x2="38" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#cbaef2"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
+        <linearGradient id="g-win" x1="15" y1="35" x2="24" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
+        <symbol id="icon-house" viewBox="0 0 64 64" fill="none">
+            <polygon points="32,8 6,30 58,30" fill="url(#g-roof)"/>
+            <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#g-wall)"/>
+            <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#g-door)"/>
+            <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+            <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
+        </symbol>
+    </defs>
+</svg>
