@@ -102,7 +102,7 @@ function revisar(valor, origen, paginaActual) {
   (paginaActual && redirigidas.has(paginaActual) ? avisos : errores).push(linea);
 }
 
-const ATRIBUTOS = new Set(['src', 'href', 'poster', 'data-src']);
+const ATRIBUTOS = new Set(['src', 'href', 'poster', 'data-src', 'data-poster', 'data-video', 'data-mp4']);
 for (const f of paginas) {
   const ruta = rutaDePagina(f);
   (function caminar(n) {
@@ -128,7 +128,7 @@ for (const j of JSONS) {
   if (!existsSync(p)) { errores.push(`${j}: el JSON no existe`); continue; }
   const texto = readFileSync(p, 'utf8');
   try { JSON.parse(texto); } catch (e) { errores.push(`${j}: JSON inválido (${e.message})`); continue; }
-  for (const m of texto.matchAll(/"src"\s*:\s*"([^"]+)"/g)) revisar(m[1], j, null);
+  for (const m of texto.matchAll(/"(?:src|poster|mp4)"\s*:\s*"([^"]+)"/g)) revisar(m[1], j, null);
 }
 
 if (avisos.length) {
