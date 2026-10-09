@@ -27,11 +27,24 @@ jobs:
         run: python update_instagram.py
 
       - name: Commit y push si hay cambios
+        id: commit
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/instagram.json public/Assets/instagram/
-          git diff --cached --quiet || git commit -m "chore: actualizar feed Instagram $(date -u '+%Y-%m-%d %H:%M')"
+          if git diff --cached --quiet; then
+            echo "Sin cambios en el feed."
+            exit 0
+          fi
+          git commit -m "chore: actualizar feed Instagram $(date -u '+%Y-%m-%d %H:%M')"
           # Trae los commits que se hayan subido mientras corría el bot, para que el push no falle
           git pull --rebase
           git push
+          echo "publicar=si" >> "$GITHUB_OUTPUT"
+
+      # Cloudflare omite los despliegues por push; el deploy hook sí publica (ver deploy.yml)
+      - name: Publicar en Cloudflare
+        if: steps.commit.outputs.publicar == 'si'
+        env:
+          CF_DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
+        run: curl -fsS -X POST "$CF_DEPLOY_HOOK" -o /dev/null

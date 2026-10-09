@@ -1,0 +1,20 @@
+name: Publicar en Cloudflare
+
+# Cloudflare Pages omite (is_skipped) los despliegues que llegan por push desde
+# GitHub desde el 2026-10-08. Los despliegues por deploy hook sí funcionan, así
+# que cada push a main lo llama. Los commits del bot de Instagram no disparan
+# este workflow (GitHub no encadena workflows con GITHUB_TOKEN): el bot llama al
+# hook en su propio workflow.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # permite publicar a mano desde GitHub
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Llamar al deploy hook de Cloudflare Pages
+        env:
+          CF_DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
+        run: curl -fsS -X POST "$CF_DEPLOY_HOOK" -o /dev/null
