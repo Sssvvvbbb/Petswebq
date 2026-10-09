@@ -36,6 +36,7 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 - **testimonios está congelado**: `src/pages/testimonios.astro` es el HTML original, sin componentes, hasta su rediseño. Únicas correcciones aprobadas: horario 23:59, primer slide del carrusel como `testimonio-01.webp` (el `.webm` no existía) y se quitaron las fotos de perfil inexistentes de las reseñas (se ve la inicial). Su menú es el modelo del componente `Menu`.
 - **Bot de Instagram**: `.github/workflows/instagram.yml` corre `update_instagram.py` cada 12 h (06:00 y 18:00 UTC). El script escribe `public/instagram.json` y `public/Assets/instagram/<id>.jpg` y hace commit en `main`. El `src` del JSON sigue siendo `/Assets/instagram/<id>.jpg`. Requiere el secret `IG_TOKEN`.
 - Git: no hacer push a `main` ni merges sin aprobación del dueño.
+- **Flujo de trabajo**: no se usan ramas de prueba ni previews de Cloudflare. Se cambia en `main` local → `npm run build` → `npm run preview` (http://localhost:4321) → el dueño lo revisa en el visor de VS Code (Ctrl+Shift+P → "Simple Browser: Show") → con su OK, commit y push a `main` → comprobar petsalcielo.cl con `?v=<algo>` para saltar la caché. `astro preview` no aplica `public/_redirects`: las páginas que redirigen se ven igual en local.
 
 ## Componentes (`src/components/`)
 | Componente | Uso |
