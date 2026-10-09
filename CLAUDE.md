@@ -20,7 +20,7 @@ Sitio de un crematorio ecológico de mascotas en Puerto Montt (Chile). Está hec
 
 Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 - `/instagram.json`: feed que genera el bot.
-- `/gallery/{instalaciones,jardin,urnas,mariposas,despedida}.json`: galerías del modal.
+- `/gallery/{instalaciones,jardin,urnas,despedida}.json`: galerías del modal. La tarjeta `mariposas` no tiene JSON: abre el video educativo de YouTube (`QA8nm3SR-wU`).
 - `/Assets/testimonios/testimonios.json`: carrusel de testimonios.
 
 ## Reglas
