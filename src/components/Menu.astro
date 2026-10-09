@@ -107,7 +107,10 @@ import NavPrincipal from './NavPrincipal.astro';
         flex-direction: column;
         gap: 0;
         transform: translateX(110%);
-        transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Cerrado queda oculto también para el teclado y los lectores de pantalla:
+           visibility cambia al terminar la animación de cierre */
+        visibility: hidden;
+        transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.38s;
         box-shadow: -8px 0 40px rgba(180,140,190,0.14);
         border-left: 1px solid rgba(240,200,220,0.4);
         border-radius: 20px 0 0 20px;
@@ -115,7 +118,11 @@ import NavPrincipal from './NavPrincipal.astro';
         overscroll-behavior: contain;
         -webkit-overflow-scrolling: touch;
     }
-    .drawer.open { transform: translateX(0); }
+    .drawer.open {
+        transform: translateX(0);
+        visibility: visible;
+        transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    }
     .drawer-head {
         display: flex;
         align-items: center;
@@ -317,7 +324,7 @@ import NavPrincipal from './NavPrincipal.astro';
         { href: "/#nosotros", label: "Nosotros" },
     ]}
     cta="aleatorio"
-    logo={{ src: "/Assets/logo_para_web.webp", alt: "Logo de Pets Al Cielo crematorio en Puerto Montt" }}
+    logo={{ src: "/Assets/logo_para_web.webp", alt: "Logo de Pets Al Cielo crematorio en Puerto Montt", width: "180", height: "180" }}
     deco="Disponibles 24/7 · Puerto Montt"
 />
 

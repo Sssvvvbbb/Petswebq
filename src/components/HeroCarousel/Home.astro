@@ -5,21 +5,21 @@
 
     <!-- FONDO ESTÁTICO: imagen y gradiente aquí, nunca hacen fade -->
     <div class="carousel-bg-static" aria-hidden="true">
-        <img src="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp"
-             alt="" class="slide-photo slide-photo-desktop"
-             width="1920" height="1080"
-             loading="eager" fetchpriority="high">
-        <img src="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp"
-             alt="" class="slide-photo slide-photo-mobile"
-             width="768" height="1080"
-             loading="eager" fetchpriority="high">
+        <!-- Una sola imagen: el navegador descarga solo la de su ancho. Lleva las dos clases: el CSS de cada página la muestra a pantalla completa en escritorio y como franja inferior en el celular -->
+        <picture>
+            <source media="(max-width:768px)" srcset="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp">
+            <img src="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp"
+                 alt="" class="slide-photo slide-photo-desktop slide-photo-mobile"
+                 width="1672" height="941"
+                 loading="eager" fetchpriority="high">
+        </picture>
     </div>
 
     <!-- Petals -->
     <div class="petals" aria-hidden="true" id="petalContainer"></div>
 
     <!-- Slide 1 -->
-    <div class="carousel-slide slide-bg-1 active" role="tabpanel" aria-label="Slide 1">
+    <div class="carousel-slide slide-bg-1 active" role="tabpanel" aria-label="Diapositiva 1">
         <div class="slide-overlay"></div>
         <div class="hero-inner">
             <h1 class="hero-title">
@@ -36,7 +36,7 @@
     </div>
 
     <!-- Slide 2 -->
-    <div class="carousel-slide slide-bg-2" role="tabpanel" aria-label="Slide 2">
+    <div class="carousel-slide slide-bg-2" role="tabpanel" aria-label="Diapositiva 2">
         <div class="slide-overlay"></div>
         <div class="hero-inner">
             <h2 class="hero-title">
@@ -54,7 +54,7 @@
     </div>
 
     <!-- Slide 3 -->
-    <div class="carousel-slide slide-bg-3" role="tabpanel" aria-label="Slide 3">
+    <div class="carousel-slide slide-bg-3" role="tabpanel" aria-label="Diapositiva 3">
         <div class="slide-overlay"></div>
         <div class="hero-inner">
             <h2 class="hero-title">
@@ -65,15 +65,15 @@
                 Cremación individual SIEMPRE.<br>Respeto y dignidad en cada paso.
             </p>
             <div class="hero-actions">
-                <a href="https://petsalcielo.cl/preguntas-frecuentes" class="btn btn-primary hero-btn">Preguntas frecuentes ›</a>
-                <a href="#" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios','_blank','noopener');" class="btn btn-ghost hero-btn">Hablar con nosotros</a>
+                <a href="/preguntas-frecuentes" class="btn btn-primary hero-btn">Preguntas frecuentes ›</a>
+                <a href="https://wa.me/56998461172?text=Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios','_blank','noopener');" class="btn btn-ghost hero-btn">Hablar con nosotros</a>
             </div>
         </div>
     </div>
 
     <div class="carousel-dots" role="tablist" aria-label="Controles del carrusel">
-        <button class="dot active" data-slide="0" aria-label="Slide 1" role="tab"></button>
-        <button class="dot" data-slide="1" aria-label="Slide 2" role="tab"></button>
-        <button class="dot" data-slide="2" aria-label="Slide 3" role="tab"></button>
+        <button class="dot active" data-slide="0" aria-label="Diapositiva 1" role="tab"></button>
+        <button class="dot" data-slide="1" aria-label="Diapositiva 2" role="tab"></button>
+        <button class="dot" data-slide="2" aria-label="Diapositiva 3" role="tab"></button>
     </div>
 </header>

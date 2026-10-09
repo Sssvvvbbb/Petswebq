@@ -10,7 +10,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "compare": "node scripts/compare-html.mjs"
+    "compare": "node scripts/compare-html.mjs",
+    "check": "astro build && node scripts/check-rutas.mjs"
   },
   "dependencies": {
     "astro": "7.3.5"

@@ -8,7 +8,8 @@ descarga las imágenes a public/Assets/instagram/ y actualiza public/instagram.j
 Ejecutar manualmente:
     python update_instagram.py
 
-En GitHub Actions se ejecuta automáticamente cada 24h.
+En GitHub Actions se ejecuta automáticamente cada 12 h.
+Al final borra de public/Assets/instagram/ las imágenes que ya no están en el feed.
 """
 
 import os
@@ -27,7 +28,7 @@ OUTPUT_JSON       = os.path.join("public", "instagram.json")
 ASSETS_DIR        = os.path.join("public", "Assets", "instagram")
 API_VERSION       = "v25.0"
 DUP_SIMILARITY    = 0.90   # 0–1: qué tan parecido debe ser el caption para considerarlo repetido
-DUP_MAX_MINUTES   = 30     # solo se compara contra publicaciones subidas dentro de esta ventana
+DUP_MAX_MINUTES   = 60    # solo se compara contra publicaciones subidas dentro de esta ventana
 # ──────────────────────────────────────────────────────────────────────────────
 
 def parse_timestamp(ts):
@@ -70,6 +71,19 @@ def download_image(url, path):
     except Exception as e:
         print(f"  ✗ Error descargando imagen: {e}")
         return False
+
+def remove_old_images(posts):
+    """Borra las imágenes <id>.jpg que ya no están en el feed (quedan solo las de las últimas POSTS_LIMIT publicaciones)."""
+    if not posts:
+        print("  ⚠️  Sin publicaciones: no se borra ninguna imagen.")
+        return
+    keep = {f"{p['id']}.jpg" for p in posts}
+    removed = 0
+    for name in os.listdir(ASSETS_DIR):
+        if name.endswith(".jpg") and name not in keep:
+            os.remove(os.path.join(ASSETS_DIR, name))
+            removed += 1
+    print(f"🧹  {removed} imágenes antiguas borradas de {ASSETS_DIR}")
 
 def main():
     if not ACCESS_TOKEN:
@@ -161,6 +175,9 @@ def main():
         json.dump(output, f, ensure_ascii=False, indent=2)
 
     print(f"\n✅  {len(posts)} publicaciones guardadas en {OUTPUT_JSON}")
+
+    # 4. Borrar las imágenes que ya no se usan
+    remove_old_images(posts)
 
 if __name__ == "__main__":
     main()

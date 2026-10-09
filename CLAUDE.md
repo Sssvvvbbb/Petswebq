@@ -5,6 +5,7 @@ Sitio de un crematorio ecológico de mascotas en Puerto Montt (Chile). Está hec
 ## Comandos
 - `npm run dev`: servidor local.
 - `npm run build`: genera `dist/`. Configurar en Cloudflare Pages: build `npm run build`, output `dist`, `NODE_VERSION=22`.
+- `npm run check`: compila y comprueba que cada imagen, video, fuente, JSON, enlace a página y ancla `/#id` exista con el nombre exacto (mayúsculas y tildes incluidas). Correrlo antes de cada push. Los problemas en páginas que redirigen a la home salen como aviso.
 - `npm run compare`: compara el DOM de cada página en `dist/` con el HTML anterior a Astro (commit `edfb11a`). Desde la migración hay cambios deliberados (menú unificado, horario, canonical, testimonios), así que las diferencias son esperables: sirve para revisar qué cambió. Para comprobar que un refactor no cambia nada, comparar estilos y capturas en el navegador antes y después.
 
 ## Rutas (NO CAMBIAR: están posicionadas en Google)
@@ -34,8 +35,9 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 - El HTML original tiene etiquetas mal cerradas que el compilador de Astro rechaza. Se emiten literales con `<Fragment set:html={"</div>"} />`. No "arreglarlas" sin revisar el resultado visual.
 - **`public/_headers`**: es la única fuente de la CSP (incluye Google Analytics, `i.ytimg.com` y `frame-ancestors 'self'`) y de la `Permissions-Policy`. No lleva `'unsafe-eval'`; `'unsafe-inline'` sigue siendo necesario por los `<script is:inline>` y los `onclick`. Si se agrega un dominio externo nuevo, hay que sumarlo a la CSP y probar con `npx wrangler pages dev dist` (aplica `_headers` y `_redirects`), revisando que la consola no muestre errores "Content Security Policy". `immutable` va solo en `/_astro/*`. `/instagram.json` y `/gallery/*` no llevan caché larga. No crear reglas de cabeceras en el panel de Cloudflare (Rules > Transform Rules > Modify Response Header): reemplazan la CSP de `_headers` (la regla antigua "CSP with Google Tag domains" se borró el 2026-10-09).
 - Rocket Loader de Cloudflare está apagado. No activarlo: reescribe los scripts y los `onclick`.
-- **testimonios está congelado**: `src/pages/testimonios.astro` es el HTML original, sin componentes, hasta su rediseño. Únicas correcciones aprobadas: horario 23:59, primer slide del carrusel como `testimonio-01.webp` (el `.webm` no existía) , se quitaron las fotos de perfil inexistentes de las reseñas (se ve la inicial) y se eliminó el texto oculto bajo la foto del pie (igual que en `Footer`). Su menú es el modelo del componente `Menu`.
-- **Bot de Instagram**: `.github/workflows/instagram.yml` corre `update_instagram.py` cada 12 h (06:00 y 18:00 UTC). El script escribe `public/instagram.json` y `public/Assets/instagram/<id>.jpg` y hace commit en `main`. El `src` del JSON sigue siendo `/Assets/instagram/<id>.jpg`. Requiere el secret `IG_TOKEN`.
+- **testimonios ya no está congelado** (desde el 2026-10-09): `src/pages/testimonios.astro` sigue siendo el HTML original, sin componentes (tiene su propio menú, pie y JS), y se puede corregir como cualquier otra página. Su menú es el modelo del componente `Menu`. Las reseñas de clientes son citas textuales: no corregirles la redacción.
+- **Bot de Instagram**: `.github/workflows/instagram.yml` corre `update_instagram.py` cada 12 h (06:00 y 18:00 UTC). El script escribe `public/instagram.json` y `public/Assets/instagram/<id>.jpg` y hace commit en `main`. El `src` del JSON sigue siendo `/Assets/instagram/<id>.jpg`. Al final borra de `public/Assets/instagram/` las imágenes que ya no están entre las 10 publicaciones del feed (si la API no devuelve publicaciones, no borra nada). Omite como repetida una publicación con texto 90 % igual a otra subida dentro de 60 minutos. El workflow hace `git pull --rebase` antes del push. Requiere el secret `IG_TOKEN`.
+- **Caché del panel de Cloudflare** (Caching > Cache Rules): imágenes, fuentes, CSS y JS se guardan 30 días (en Cloudflare y en el navegador) y las páginas, 4 h en Cloudflare y 1 h en el navegador. Estas reglas mandan sobre `Cache-Control` de `_headers`. Por eso, después de publicar hay que purgar la caché (Caching > Purge, o por API), y una imagen reemplazada con el mismo nombre puede seguir viéndose antigua hasta 30 días en navegadores que ya la tenían.
 - Git: no hacer push a `main` ni merges sin aprobación del dueño.
 - **Flujo de trabajo**: no se usan ramas de prueba ni previews de Cloudflare. Se cambia en `main` local → `npm run build` → `npm run preview` (http://localhost:4321) → el dueño lo revisa en el visor de VS Code (Ctrl+Shift+P → "Simple Browser: Show") → con su OK, commit y push a `main` → comprobar petsalcielo.cl con `?v=<algo>` para saltar la caché. `astro preview` no aplica `public/_redirects`: las páginas que redirigen se ven igual en local.
 
@@ -45,7 +47,7 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 | `Menu` | Menú del sitio, igual al de testimonios: botón corazón + menú lateral + barra de escritorio, con su `<style is:inline>`. Lo usan todas las páginas menos testimonios (que tiene el original) |
 | `SvgDefs` | Gradientes `g-roof/g-wall/g-door/g-win` + `#icon-house` (index, servicios) |
 | `HeartButton` | Botón corazón del celular (lo usa `Menu`) |
-| `Drawer` | Menú lateral (lo usa `Menu`). Props: `links`, `cta` (`aleatorio`/`fijo`), `logo?`, `deco`, `acentos` |
+| `Drawer` | Menú lateral (lo usa `Menu`). Props: `links`, `cta` (`aleatorio`/`fijo`), `logo?`, `deco` |
 | `NavPrincipal` | Menú de escritorio (lo usa `Menu`). Props: `logoHref`, `corazon?`, `links`, `cta` |
 | `TopBar` | Barra superior. `variant`: `home`/`nosotros`/`faq`/`regreso` |
 | `HeroCarousel` | Cabecera con carrusel. `variant`: `home`/`nosotros`/`regreso` |
@@ -94,5 +96,4 @@ Otros: degradé de los botones Instagram/Testimonios `linear-gradient(135deg,#7D
 - servicios, nosotros e instalaciones tienen canonical `/`. nosotros e instalaciones son idénticas.
 - nosotros e instalaciones (que redirigen a la home) enlazan `foto-mulán-…-insipiracion…webp`, que no existe (el archivo real es `foto-mulan-…-inspiracion…webp`).
 - Horario en los datos estructurados (JSON-LD): atención 24/7 se escribe `"opens": "00:00", "closes": "23:59"`. `00:00`–`00:00` significa "cerrado" para Google.
-- `Assets/shared.css`, `index.css` y `faq.css` no se usan. `Assets/Fonts/uwu` es un archivo basura.
 - regreso-a-casa bloquea el zoom en el celular (`user-scalable=no`).

@@ -10,27 +10,25 @@ interface Props {
   /** Logo bajo el botón de contacto; se omite si no se pasa. */
   logo?: { src: string; alt: string; width?: string; height?: string };
   deco: string;
-  /** true: aria-labels con tildes, como en preguntas-frecuentes. */
-  acentos?: boolean;
 }
-const { links, cta, logo, deco, acentos = false } = Astro.props;
+const { links, cta, logo, deco } = Astro.props;
 ---
-<div class="drawer" id="drawer" role="dialog" aria-label={acentos ? 'Menú de navegación' : 'Menu de navegacion'} aria-modal="true">
+<div class="drawer" id="drawer" role="dialog" aria-label="Menú de navegación" aria-modal="true">
     <div class="drawer-head">
         <span class="drawer-logo">Pets<em>Al</em>Cielo</span>
-        <button class="drawer-close" id="drawerClose" aria-label={acentos ? 'Cerrar menú' : 'Cerrar menu'}>✕</button>
+        <button class="drawer-close" id="drawerClose" aria-label="Cerrar menú">✕</button>
     </div>
     <ul class="drawer-nav">
         {links.map(({ href, label }) => <li><a href={href} class="drawer-link">{label}</a></li>)}
     </ul>
     <div class="drawer-cta">
         {cta === 'aleatorio'
-            ? <a href="#" onclick={waAleatorio(MSG_SERVICIOS)}>Contactar ahora</a>
+            ? <a href={waFijo(MSG_SERVICIOS)} onclick={waAleatorio(MSG_SERVICIOS)}>Contactar ahora</a>
             : <a href={waFijo(MSG_SERVICIOS)} target="_blank" rel="noopener">Contactar ahora</a>}
     </div>
     {logo && (
         <div class="drawer-logo-img">
-            <img src={logo.src} alt={logo.alt} width={logo.width} height={logo.height} />
+            <img src={logo.src} alt={logo.alt} width={logo.width} height={logo.height} loading="lazy" decoding="async" />
         </div>
     )}
     <div class="drawer-deco">
