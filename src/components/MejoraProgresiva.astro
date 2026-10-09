@@ -1,0 +1,20 @@
+---
+// Mejora progresiva: el contenido se ve aunque el JavaScript falle o tarde.
+//
+// - Apenas carga, marca <html class="js">. Las animaciones de entrada (.reveal,
+//   .reveal-fog) y el acordeón cerrado de la FAQ solo se aplican con esa clase.
+// - Cada <script> del <body> de la página suma 1 a window.__listos en su última
+//   línea, cuando terminó de inicializar (menú, animaciones, carruseles,
+//   acordeón). Si un script falla a mitad de camino, nunca llega a esa línea.
+// - Si a los 4 s el contador no llegó a `scripts`, se quita la clase "js" y todo
+//   queda visible. Si un script llega después, ya no vuelve a ocultar nada: la
+//   clase no se vuelve a poner.
+// data-inmediato: npm run visual no lo retrasa en su prueba de JavaScript lento.
+interface Props {
+  /** Cuántos <script> del <body> deben terminar de inicializar. */
+  scripts: number;
+}
+const { scripts } = Astro.props;
+---
+<script is:inline data-inmediato define:vars={{ scripts }}>(function(h){h.classList.add('js');setTimeout(function(){if((window.__listos||0)<scripts)h.classList.remove('js')},4000)})(document.documentElement)</script>
+<style is:inline>html:not(.js) .reveal,html:not(.js) .reveal-fog{opacity:1!important;transform:none!important;filter:none!important}html:not(.js) .faq-answer{max-height:none!important}</style>

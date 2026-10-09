@@ -1,3 +1,6 @@
+---
+import MejoraProgresiva from '../components/MejoraProgresiva.astro';
+---
 <!DOCTYPE html>
     <html lang="es">
     <head>
@@ -10,6 +13,7 @@
             gtag("config", "G-GMK6NF1B3Z");
         </script>
         <meta charset="UTF-8">
+        <MejoraProgresiva scripts={1} />
 <link rel="icon" type="image/x-icon" href="/Assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/Assets/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/Assets/favicon-16x16.png">
@@ -56,9 +60,9 @@
         </script>
 
         <!-- Fuentes auto-hospedadas (igual que index.html): sin dependencia de Google ni roundtrips externos -->
-        <link rel="preload" href="/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2" as="font" type="font/woff2" crossorigin>
-        <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
-        <style is:inline>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght.woff2') format('woff2')}</style>
+        <link rel="preload" href="/Assets/Fonts/DMSans-VariableFont_opsz_wght-latin.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght-latin.woff2" as="font" type="font/woff2" crossorigin>
+        <style is:inline>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght-latin.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght-latin.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght-latin.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght-latin.woff2') format('woff2')}</style>
 
         <style is:inline>
             /* ── DESIGN TOKENS ── */
@@ -1817,6 +1821,21 @@
         object-fit: cover;
         display: block;
     }
+    /* Video aún no cargado: portada + botón de reproducir. El archivo del video se
+       asigna recién al pulsar (sin JS, el enlace abre el video directamente). */
+    .testi-video { position: absolute; inset: 0; display: block; background: #f4eef6; }
+    .testi-play {
+        position: absolute; left: 50%; top: 50%;
+        width: 64px; height: 64px; margin: -32px 0 0 -32px;
+        border-radius: 50%; background: rgba(255,255,255,0.9);
+        box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+    }
+    .testi-play::after {
+        content: ''; position: absolute; left: 25px; top: 20px;
+        border-style: solid; border-width: 12px 0 12px 20px;
+        border-color: transparent transparent transparent #29A798;
+    }
+    .testi-video:focus-visible .testi-play { outline: 3px solid #29A798; outline-offset: 3px; }
     /* Espacio en espera (se reemplaza por un .testi-media) */
     .testi-placeholder {
         position: absolute;
@@ -2256,10 +2275,10 @@
                 <li><a href="/#nosotros" class="drawer-link">Nosotros</a></li>
             </ul>
             <div class="drawer-cta">
-                <a href="#" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20sus%20servicios','_blank','noopener');">Contactar ahora</a>
+                <a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20sus%20servicios" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20sus%20servicios','_blank','noopener');">Contactar ahora</a>
             </div>
             <div class="drawer-logo-img">
-                <img src="/Assets/logo_para_web.webp" alt="Logo de Pets Al Cielo crematorio en Puerto Montt" />
+                <img src="/Assets/logo_para_web-360.webp" alt="Logo de Pets Al Cielo crematorio en Puerto Montt" width="180" height="180" loading="lazy" decoding="async" />
             </div>
             <div class="drawer-deco">
                 <span></span><br>
@@ -2319,7 +2338,7 @@
                     <li><a href="/#video">Proceso Ecológico</a></li>
                     <li><a href="/#nosotros">Nosotros</a></li>
                     <li><a href="/testimonios">Testimonios</a></li>
-                    <li><a href="#" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n','_blank','noopener');" class="nav-cta btn">Contactar</a></li>
+                    <li><a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n','_blank','noopener');" class="nav-cta btn">Contactar</a></li>
                 </ul>
             </div>
         </nav>
@@ -2329,7 +2348,7 @@
         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
         <section class="section testi-page-header">
             <div class="container">
-                <div class="section-header reveal">
+                <div class="section-header">
                     <h1 class="section-title">Testimonios de familias que<br>confiaron en <em>Pets Al Cielo</em></h1>
                     <p class="section-lead">
                         Cada historia es un pequeño homenaje a las mascotitas que cruzaron el arcoíris,
@@ -2345,7 +2364,7 @@
         <section class="section" id="carrusel-testimonios" aria-label="Carrusel de testimonios">
             <div class="container">
                 <div class="testi-carousel-outer">
-                    <div class="glass-card testi-carousel-wrap reveal" id="testiCarouselWrap">
+                    <div class="glass-card testi-carousel-wrap" id="testiCarouselWrap">
                         <div id="testiSlidesContainer">
                             <!-- ══════════════════════════════════════════════
                                  CARRUSEL 9:16 (imagen o video). Hoy: slide 1 = imagen testimonio-01.webp, slides 2-4 = videos
@@ -2355,18 +2374,19 @@
                                  agregar una línea a /Assets/testimonios/testimonios.json. Si ese JSON existe
                                  y tiene elementos, reemplaza estos slides (estos quedan de respaldo).
                                  Campos: type "video"|"image", src, mp4 (opcional, respaldo para iPhone
-                                 antiguos), poster (opcional), alt (descripción). ══════════════════════════════════════════════ -->
+                                 antiguos), poster (portada del video, recomendada), alt (descripción).
+                                 Los videos no se descargan hasta pulsar reproducir: se ve la portada con un botón. ══════════════════════════════════════════════ -->
                             <div class="testi-slide active" role="group" aria-roledescription="testimonio" aria-label="Testimonio 1 de 10">
-                                <img class="testi-media" src="/Assets/testimonios/testimonio-01.webp" alt="Testimonio de Blacky" decoding="async">
+                                <img class="testi-media" src="/Assets/testimonios/testimonio-01.webp" alt="Testimonio de Blacky" width="400" height="720" fetchpriority="high" decoding="async">
                             </div>
                             <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 2 de 10">
-                                <video class="testi-media" controls playsinline preload="none" data-i="2"><source src="/Assets/testimonios/testimonio-02.webm" type="video/webm"></video>
+                                <a class="testi-video" href="/Assets/testimonios/testimonio-02.webm" data-video="/Assets/testimonios/testimonio-02.webm" aria-label="Reproducir: Testimonio de Luna"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-02-portada.webp" alt="Testimonio de Luna" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
                             </div>
                             <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 3 de 10">
-                                <video class="testi-media" controls playsinline preload="none" data-i="3"><source src="/Assets/testimonios/testimonio-03.webm" type="video/webm"></video>
+                                <a class="testi-video" href="/Assets/testimonios/testimonio-03.webm" data-video="/Assets/testimonios/testimonio-03.webm" aria-label="Reproducir: Testimonio Vicho"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-03-portada.webp" alt="Testimonio Vicho" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
                             </div>
                             <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 4 de 10">
-                                <video class="testi-media" controls playsinline preload="none" data-i="4"><source src="/Assets/testimonios/testimonio-04.webm" type="video/webm"></video>
+                                <a class="testi-video" href="/Assets/testimonios/testimonio-04.webm" data-video="/Assets/testimonios/testimonio-04.webm" aria-label="Reproducir: Testimonio de Luffy"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-04-portada.webp" alt="Testimonio de Luffy" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
                             </div>
                             <div class="testi-slide" role="tabpanel" aria-label="Testimonio 5 de 10">
                                 <div class="testi-placeholder">
@@ -2600,7 +2620,7 @@
                     <!-- Kissita -->
                     <div class="glass-card memoriam-card reveal">
                         <div class="memoriam-photo-frame">
-                    <img src="/Assets/foto-kissita.webp" alt="Kissita">
+                    <img src="/Assets/foto-kissita-600.webp" alt="Kissita" width="600" height="750" loading="lazy" decoding="async">
                         </div>
                         <h3 class="memoriam-pet-name">Kissita</h3>
                         <p class="memoriam-dedication">
@@ -2890,7 +2910,12 @@
                     if (v && !v.paused && !v.ended) return;
                     timer = setTimeout(() => show(current + 1), DELAY);
                 }
-                function warm(i) { const v = vid((i + total) % total); if (v && v.preload === 'none') v.preload = 'metadata'; }
+                // Portada de un video: se carga solo cuando su diapositiva se muestra o es la siguiente.
+                function portada(i) {
+                    const sl = slides[(i + total) % total];
+                    const img = sl && sl.querySelector('img[data-poster]:not([src])');
+                    if (img) img.src = img.dataset.poster;
+                }
 
                 function show(n) {
                     current = (n + total) % total;
@@ -2900,11 +2925,37 @@
                         s.setAttribute('aria-hidden', on ? 'false' : 'true');
                         if (!on) s.querySelectorAll('video').forEach(v => { if (!v.paused) v.pause(); });
                     });
-                    warm(current); warm(current + 1);
+                    portada(current); portada(current + 1);
                     counterEl.textContent = (current + 1) + ' / ' + total;
                     progressEl.style.width = (((current + 1) / total) * 100) + '%';
                     schedule();
                 }
+
+                // Al pulsar la portada se crea el <video> con su archivo y recién ahí se descarga.
+                function reproducir(a) {
+                    const sl = a.closest('.testi-slide');
+                    const img = a.querySelector('img');
+                    const v = document.createElement('video');
+                    v.className = 'testi-media';
+                    v.controls = true; v.playsInline = true; v.preload = 'auto';
+                    if (img) { v.poster = img.dataset.poster || img.src; v.setAttribute('aria-label', img.alt); }
+                    [[a.dataset.video, 'video/webm'], [a.dataset.mp4, 'video/mp4']].forEach(([src, type]) => {
+                        if (!src) return;
+                        const so = document.createElement('source'); so.src = src; so.type = type; v.appendChild(so);
+                    });
+                    v.addEventListener('play', stop);
+                    v.addEventListener('pause', () => { if (!v.ended && slides[current] === sl) schedule(); });
+                    v.addEventListener('ended', () => { if (slides[current] === sl) show(current + 1); });
+                    a.replaceWith(v);
+                    stop();
+                    v.play().catch(() => {});
+                }
+                container.addEventListener('click', e => {
+                    const a = e.target.closest('.testi-video');
+                    if (!a) return;
+                    e.preventDefault();
+                    reproducir(a);
+                });
 
                 function init() {
                     stop();
@@ -2912,14 +2963,7 @@
                     total = slides.length;
                     if (!total) return;
                     prevBtn.hidden = nextBtn.hidden = total < 2;
-                    slides.forEach((sl, i) => {
-                        sl.setAttribute('aria-label', 'Testimonio ' + (i + 1) + ' de ' + total);
-                        const v = sl.querySelector('video');
-                        if (!v) return;
-                        v.addEventListener('play', stop);
-                        v.addEventListener('pause', () => { if (!v.ended && slides[current] === sl) schedule(); });
-                        v.addEventListener('ended', () => { if (slides[current] === sl) show(current + 1); });
-                    });
+                    slides.forEach((sl, i) => sl.setAttribute('aria-label', 'Testimonio ' + (i + 1) + ' de ' + total));
                     show(0);
                 }
 
@@ -2928,22 +2972,30 @@
                     sl.className = 'testi-slide';
                     sl.setAttribute('role', 'group');
                     sl.setAttribute('aria-roledescription', 'testimonio');
-                    let m;
                     if (it.type === 'video') {
-                        m = document.createElement('video');
-                        m.controls = true; m.playsInline = true; m.preload = i === 0 ? 'metadata' : 'none';
-                        if (it.poster) m.poster = it.poster;
-                        if (it.alt) m.setAttribute('aria-label', it.alt);
-                        [[it.src, 'video/webm'], [it.mp4, 'video/mp4']].forEach(([src, type]) => {
-                            if (!src) return;
-                            const so = document.createElement('source'); so.src = src; so.type = type; m.appendChild(so);
-                        });
+                        const a = document.createElement('a');
+                        a.className = 'testi-video';
+                        a.href = it.src;
+                        a.dataset.video = it.src;
+                        if (it.mp4) a.dataset.mp4 = it.mp4;
+                        a.setAttribute('aria-label', 'Reproducir: ' + (it.alt || 'testimonio en video'));
+                        const img = document.createElement('img');
+                        img.className = 'testi-media';
+                        img.alt = it.alt || '';
+                        img.decoding = 'async';
+                        if (it.poster) img.dataset.poster = it.poster;
+                        const play = document.createElement('span');
+                        play.className = 'testi-play';
+                        play.setAttribute('aria-hidden', 'true');
+                        a.append(img, play);
+                        sl.appendChild(a);
                     } else {
-                        m = document.createElement('img');
-                        m.src = it.src; m.alt = it.alt || ''; m.loading = 'lazy'; m.decoding = 'async';
+                        const m = document.createElement('img');
+                        m.className = 'testi-media';
+                        m.src = it.src; m.alt = it.alt || ''; m.decoding = 'async';
+                        if (i === 0) m.fetchPriority = 'high'; else m.loading = 'lazy';
+                        sl.appendChild(m);
                     }
-                    m.className = 'testi-media';
-                    sl.appendChild(m);
                     return sl;
                 }
 
@@ -2957,12 +3009,18 @@
                         if (!Array.isArray(list)) return;
                         const items = list.filter(it => it && it.src && (it.type === 'video' || it.type === 'image'));
                         if (!items.length) return;
+                        // Si la primera foto del JSON es la misma del HTML, se conserva tal cual
+                        // (ya está cargada y visible): no se vuelve a crear ni a descargar.
+                        const primera = container.querySelector('.testi-slide img.testi-media');
+                        const conservar = items[0].type === 'image' && primera && primera.getAttribute('src') === items[0].src
+                            ? primera.closest('.testi-slide') : null;
                         container.textContent = '';
-                        items.forEach((it, i) => container.appendChild(build(it, i)));
+                        items.forEach((it, i) => container.appendChild(i === 0 && conservar ? conservar : build(it, i)));
                         init();
                     })
                     .catch(() => {});
             })();
+            window.__listos = (window.__listos || 0) + 1; // MejoraProgresiva: este script terminó de inicializar
         </script>
     </body>
     </html>

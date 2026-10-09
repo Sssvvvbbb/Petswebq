@@ -1,4 +1,5 @@
 ---
+import MejoraProgresiva from '../components/MejoraProgresiva.astro';
 import Menu from '../components/Menu.astro';
 import TopBar from '../components/TopBar.astro';
 import Footer from '../components/Footer.astro';
@@ -10,6 +11,7 @@ import Favicons from '../components/Favicons.astro';
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <MejoraProgresiva scripts={1} />
 <Favicons />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="color-scheme" content="only light">
@@ -47,9 +49,9 @@ import Favicons from '../components/Favicons.astro';
     </script>
 
     <!-- Fuentes auto-hospedadas (igual que index.html): sin dependencia de Google ni roundtrips externos -->
-    <link rel="preload" href="/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
-    <style is:inline>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght.woff2') format('woff2')}</style>
+    <link rel="preload" href="/Assets/Fonts/DMSans-VariableFont_opsz_wght-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <style is:inline>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght-latin.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght-latin.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght-latin.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght-latin.woff2') format('woff2')}</style>
 
     <style is:inline>
         /* ── DESIGN TOKENS ── */
@@ -661,7 +663,7 @@ import Favicons from '../components/Favicons.astro';
         <div class="container">
 
             <!-- Categories -->
-            <div class="faq-categories reveal reveal-delay-1">
+            <div class="faq-categories">
                 <button class="cat-btn active" data-cat="all"><span class="cat-emoji">🌿</span> Todas</button>
                 <button class="cat-btn" data-cat="proceso"><span class="cat-emoji">🌊</span> El Proceso</button>
                 <button class="cat-btn" data-cat="garantias"><span class="cat-emoji">✅</span> Garantías</button>
@@ -671,7 +673,7 @@ import Favicons from '../components/Favicons.astro';
             </div>
 
             <!-- GROUP 1: El Proceso -->
-            <div class="faq-group reveal" data-group="proceso">
+            <div class="faq-group" data-group="proceso">
                 <h2 class="faq-group-title"><span class="group-icon">🌊</span> El Proceso de Cremación</h2>
                 <div class="faq-list">
 
@@ -757,7 +759,7 @@ recuperados y entregados contribuyen a dar mayor certeza a los dueños o tutores
             </div>
 
             <!-- GROUP 2: Garantías -->
-            <div class="faq-group reveal" data-group="garantias" style="padding-top:0">
+            <div class="faq-group" data-group="garantias" style="padding-top:0">
                 <h2 class="faq-group-title"><span class="group-icon">✅</span> Garantías e Identidad</h2>
                 <div class="faq-list">
 
@@ -811,7 +813,7 @@ recuperados y entregados contribuyen a dar mayor certeza a los dueños o tutores
             </div>
 
             <!-- GROUP 3: Servicio y Logística -->
-            <div class="faq-group reveal" data-group="servicio">
+            <div class="faq-group" data-group="servicio">
                 <h2 class="faq-group-title"><span class="group-icon">🚐</span> Servicio y Logística</h2>
                 <div class="faq-list">
 
@@ -875,7 +877,7 @@ recuperados y entregados contribuyen a dar mayor certeza a los dueños o tutores
             </div>
 
             <!-- GROUP 4: Urnas -->
-            <div class="faq-group reveal" data-group="Ánforas">
+            <div class="faq-group" data-group="Ánforas">
                 <h2 class="faq-group-title"><span class="group-icon">🏺</span> Ánforas y Relicarios</h2>
                 <div class="faq-list">
 
@@ -923,7 +925,7 @@ recuperados y entregados contribuyen a dar mayor certeza a los dueños o tutores
     <section class="cta-section">
         <div class="cta-orb-1" aria-hidden="true"></div>
         <div class="cta-orb-2" aria-hidden="true"></div>
-        <div class="cta-inner reveal-fog">
+        <div class="cta-inner">
             <span class="section-tag">¿No encontró su respuesta?</span>
             <h2 class="section-title">
                 Estamos disponibles<br>para <em>ayudarle ahora</em>
@@ -1143,6 +1145,7 @@ recuperados y entregados contribuyen a dar mayor certeza a los dueños o tutores
                 }
             });
         });
+        window.__listos = (window.__listos || 0) + 1; // MejoraProgresiva: este script terminó de inicializar
     </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 ---
+import MejoraProgresiva from '../components/MejoraProgresiva.astro';
 import SvgDefs from '../components/SvgDefs.astro';
 import Menu from '../components/Menu.astro';
 import GalleryModal from '../components/GalleryModal.astro';
@@ -12,6 +13,7 @@ import Favicons from '../components/Favicons.astro';
 <html lang="es">
 <head>
         <meta charset="UTF-8">
+        <MejoraProgresiva scripts={2} />
 <Favicons />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="color-scheme" content="only light">
@@ -49,9 +51,9 @@ import Favicons from '../components/Favicons.astro';
         {"@context":"https://schema.org","@type":"Service","name":"Cremación Ecológica de Mascotas en Puerto Montt","serviceType":"Crematorio de Mascotas","description":"Servicio de cremación individual ecológica mediante agua para mascotas en Puerto Montt y toda la X Región. Sin fuego, 100% ecológico. El único crematorio de mascotas en Puerto Montt.","provider":{"@type":"LocalBusiness","name":"PetsAlCielo","url":"https://petsalcielo.cl"},"areaServed":[{"@type":"City","name":"Puerto Montt"},{"@type":"AdministrativeArea","name":"Región de Los Lagos"}],"availableChannel":{"@type":"ServiceChannel","servicePhone":"+56998461172","availableLanguage":"Spanish"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Servicios de Crematorio para Mascotas","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Cremación Ecológica Individual de Mascotas mediante Agua"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Urnas Conmemorativas de Madera, Bronce e Impresión 3D"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Retiro de Mascota a Domicilio 24/7"}}]}}
         </script>
         <!-- Fuentes locales — sin dependencia de Google, sin roundtrips externos -->
-        <link rel="preload" href="/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2" as="font" type="font/woff2" crossorigin>
-        <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
-        <style is:inline>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght.woff2') format('woff2')}</style>
+        <link rel="preload" href="/Assets/Fonts/DMSans-VariableFont_opsz_wght-latin.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght-latin.woff2" as="font" type="font/woff2" crossorigin>
+        <style is:inline>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght-latin.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght-latin.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght-latin.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght-latin.woff2') format('woff2')}</style>
         <!-- Preload imagen hero (LCP) -->
         <link rel="preload" as="image" href="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" media="(min-width:769px)">
         <link rel="preload" as="image" href="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" media="(max-width:768px)">
@@ -469,6 +471,7 @@ import Favicons from '../components/Favicons.astro';
 
                 function startAutoplay() {
                     stopAutoplay();
+                    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // sin avance automático
                     autoplay = setInterval(() => showSlide(currentSlide + 1), INTERVAL);
                 }
 
@@ -652,6 +655,7 @@ import Favicons from '../components/Favicons.astro';
                     dots[igCurrent].classList.add('active');
                 }
                 function startAutoplay() {
+                    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // sin avance automático
                     igAutoplay = setInterval(() => igShowSlide(igCurrent + 1), 6500);
                 }
                 function stopAutoplay() { clearInterval(igAutoplay); }
@@ -851,6 +855,7 @@ import Favicons from '../components/Favicons.astro';
                 facade.appendChild(iframe);
             }
 
+            window.__listos = (window.__listos || 0) + 1; // MejoraProgresiva: este script terminó de inicializar
         </script>
 
         <!-- ── GALLERY LIGHTBOX MODAL ── -->
@@ -1022,6 +1027,7 @@ import Favicons from '../components/Favicons.astro';
                 });
 
             });
+            window.__listos = (window.__listos || 0) + 1; // MejoraProgresiva: este script terminó de inicializar
         </script>
         <!-- Google tag (gtag.js) — movido al final del body para no bloquear render -->
         <GoogleTag />

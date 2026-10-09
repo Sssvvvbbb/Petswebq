@@ -6,6 +6,7 @@ Sitio de un crematorio ecológico de mascotas en Puerto Montt (Chile). Está hec
 - `npm run dev`: servidor local.
 - `npm run build`: genera `dist/`. Configurar en Cloudflare Pages: build `npm run build`, output `dist`, `NODE_VERSION=22`.
 - `npm run check`: compila y comprueba que cada imagen, video, fuente, JSON, enlace a página y ancla `/#id` exista con el nombre exacto (mayúsculas y tildes incluidas). Correrlo antes de cada push. Los problemas en páginas que redirigen a la home salen como aviso.
+- `npm run visual -- --referencia` y luego `npm run visual`: red de seguridad para cambios que no deberían cambiar lo que se ve. Compila, captura las 7 páginas a 320/390/768/1440 px (y sin JS), compara píxel por píxel con la referencia (diferencias en rojo en `.visual/diferencias`) y corre pruebas de funcionamiento y escenarios sin congelar: sin JS, script que falla, JS retrasado 6 s, JSON caídos, descargas de video sin pulsar y movimiento reducido. `--paginas=inicio,testimonios` limita las páginas. Usa el Chrome instalado (`CHROME_PATH` para otro).
 - `npm run compare`: compara el DOM de cada página en `dist/` con el HTML anterior a Astro (commit `edfb11a`). Desde la migración hay cambios deliberados (menú unificado, horario, canonical, testimonios), así que las diferencias son esperables: sirve para revisar qué cambió. Para comprobar que un refactor no cambia nada, comparar estilos y capturas en el navegador antes y después.
 
 ## Rutas (NO CAMBIAR: están posicionadas en Google)
@@ -41,6 +42,10 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 - Git: no hacer push a `main` ni merges sin aprobación del dueño.
 - **Despliegue**: desde el 2026-10-08 Cloudflare Pages omite (`is_skipped`) los despliegues que llegan por push desde GitHub, por una causa en Cloudflare que no se pudo resolver. Por eso `.github/workflows/deploy.yml` llama en cada push a `main` a un deploy hook de Pages (secret `CF_DEPLOY_HOOK`, hook `github-actions` del proyecto `petswebq`), y el bot de Instagram lo llama después de su commit. Después de un push del dueño hay que purgar la caché (ver "Caché del panel").
 - **Flujo de trabajo**: no se usan ramas de prueba ni previews de Cloudflare. Se cambia en `main` local → `npm run build` → `npm run preview` (http://localhost:4321) → el dueño lo revisa en el visor de VS Code (Ctrl+Shift+P → "Simple Browser: Show") → con su OK, commit y push a `main` → comprobar petsalcielo.cl con `?v=<algo>` para saltar la caché. `astro preview` no aplica `public/_redirects`: las páginas que redirigen se ven igual en local.
+- **Contenido sin depender del JS**: cada `<script>` del `<body>` termina con `window.__listos = (window.__listos || 0) + 1;` (después de inicializar todo). Si se agrega o se quita un script del body, actualizar `scripts` en `<MejoraProgresiva>`. La primera pantalla, el contacto (WhatsApp, teléfono, dirección) y el contenido principal de la página (las preguntas de la FAQ, el carrusel de testimonios) no llevan `reveal`. Los botones de WhatsApp llevan `href` real al número principal aunque el `onclick` sortee entre los dos.
+- **Movimiento reducido**: ningún carrusel avanza solo si `prefers-reduced-motion: reduce`.
+- **Videos de testimonios**: el HTML no lleva el archivo del video. Cada diapositiva muestra una portada (`<a class="testi-video" href="…webm" data-video="…webm">` con `<img data-poster="…-portada.webp">` y un botón) y el `<video>` se crea al pulsar. Las portadas se asignan al mostrarse la diapositiva actual y la siguiente. Al agregar un video, subir también su portada 400×711 WebP y ponerla en `poster` de `testimonios.json`.
+- **Archivos reemplazados llevan nombre nuevo** (fuentes `…-latin.woff2`, `logo_para_web-360.webp`, `foto-kissita-600.webp`): Cloudflare guarda imágenes y fuentes 30 días en el navegador, y purgar Cloudflare no borra esa copia.
 
 ## Componentes (`src/components/`)
 | Componente | Uso |
@@ -57,6 +62,7 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 | `GalleryModal` | Modal `#glb-overlay`. Prop `fondo` (`oscuro`/`blur`) |
 | `GoogleTag` | gtag.js. Prop `comillas` (`dobles` en nosotros/instalaciones) |
 | `Favicons` | Íconos del sitio |
+| `MejoraProgresiva` | En el `<head>` de cada página, después del charset. Prop `scripts`: cuántos `<script>` del `<body>` debe esperar. Marca `<html class="js">`; las animaciones `.reveal`/`.reveal-fog` y el acordeón cerrado de la FAQ solo se aplican con esa clase. Si a los 4 s no terminaron de inicializar todos los scripts, quita la clase y todo queda visible |
 
 - Las variantes literales (`TopBar/`, `HeroCarousel/`, `Footer/`) guardan el HTML exacto de cada grupo de páginas: `home` = index + servicios, `nosotros` = nosotros + instalaciones.
 - El JavaScript (menú, carruseles, Instagram, galería) sigue en el `<script is:inline>` de cada página. Si se separa en varios `<script>`, cambia el DOM.
@@ -91,10 +97,9 @@ Otros: degradé de los botones Instagram/Testimonios `linear-gradient(135deg,#7D
 ## Tipografías
 - **DM Sans**: texto (`'DM Sans', sans-serif`), variable 100–900, normal e itálica.
 - **Cormorant Garamond**: títulos (`'Cormorant Garamond', serif`), variable 300–700, normal e itálica.
-- Archivos locales en `public/Assets/Fonts/*.woff2` con `@font-face` inline y `preload`. nosotros, instalaciones y regreso-a-casa además cargan Google Fonts.
+- Archivos locales en `public/Assets/Fonts/*-latin.woff2`: recortados al latín (Basic, Latin-1, Latin Extended-A, puntuación general, flechas, €, ₂, ™, ★, ♥, ✕). Emojis y otros símbolos salen de las fuentes del sistema. Los `.woff2` sin `-latin` son los originales completos (ya no se enlazan; se pueden borrar más adelante) con `@font-face` inline y `preload`. nosotros, instalaciones y regreso-a-casa además cargan Google Fonts.
 
 ## Problemas conocidos (se conservaron a propósito en la migración)
 - servicios, nosotros e instalaciones tienen canonical `/`. nosotros e instalaciones son idénticas.
-- nosotros e instalaciones (que redirigen a la home) enlazan `foto-mulán-…-insipiracion…webp`, que no existe (el archivo real es `foto-mulan-…-inspiracion…webp`).
 - Horario en los datos estructurados (JSON-LD): atención 24/7 se escribe `"opens": "00:00", "closes": "23:59"`. `00:00`–`00:00` significa "cerrado" para Google.
 - regreso-a-casa bloquea el zoom en el celular (`user-scalable=no`).

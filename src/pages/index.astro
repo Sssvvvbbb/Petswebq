@@ -1,4 +1,5 @@
 ---
+import MejoraProgresiva from '../components/MejoraProgresiva.astro';
 import SvgDefs from '../components/SvgDefs.astro';
 import Menu from '../components/Menu.astro';
 import GalleryModal from '../components/GalleryModal.astro';
@@ -12,6 +13,7 @@ import Favicons from '../components/Favicons.astro';
 <html lang="es">
 <head>
         <meta charset="UTF-8">
+        <MejoraProgresiva scripts={2} />
 <Favicons />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="color-scheme" content="only light">
@@ -49,9 +51,9 @@ import Favicons from '../components/Favicons.astro';
         {"@context":"https://schema.org","@type":"Service","name":"Cremación Ecológica de Mascotas en Puerto Montt","serviceType":"Crematorio de Mascotas","description":"Servicio de cremación individual ecológica mediante agua para mascotas en Puerto Montt y toda la X Región. Sin fuego, 100% ecológico. El único crematorio de mascotas en Puerto Montt.","provider":{"@type":"LocalBusiness","name":"PetsAlCielo","url":"https://petsalcielo.cl"},"areaServed":[{"@type":"City","name":"Puerto Montt"},{"@type":"AdministrativeArea","name":"Región de Los Lagos"}],"availableChannel":{"@type":"ServiceChannel","servicePhone":"+56998461172","availableLanguage":"Spanish"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Servicios de Crematorio para Mascotas","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Cremación Ecológica Individual de Mascotas mediante Agua"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Urnas Conmemorativas de Madera, Bronce e Impresión 3D"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Retiro de Mascota a Domicilio 24/7"}}]}}
         </script>
         <!-- Fuentes locales — sin dependencia de Google, sin roundtrips externos -->
-        <link rel="preload" href="/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2" as="font" type="font/woff2" crossorigin>
-        <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
-        <style is:inline>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght.woff2') format('woff2')}</style>
+        <link rel="preload" href="/Assets/Fonts/DMSans-VariableFont_opsz_wght-latin.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght-latin.woff2" as="font" type="font/woff2" crossorigin>
+        <style is:inline>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght-latin.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght-latin.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght-latin.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght-latin.woff2') format('woff2')}</style>
         <!-- Preload imagen hero (LCP) -->
         <link rel="preload" as="image" href="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" media="(min-width:769px)">
         <link rel="preload" as="image" href="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" media="(max-width:768px)">
@@ -82,7 +84,7 @@ import Favicons from '../components/Favicons.astro';
 
         <!-- Stats Strip -->
         <div class="container" style="margin-top: 5rem;">
-            <div class="stats-strip reveal">
+            <div class="stats-strip">
                 
                 <div class="stat-item">
                     <div class="stat-num">100%</div>
@@ -99,11 +101,11 @@ import Favicons from '../components/Favicons.astro';
         <section class="section" id="servicios" aria-labelledby="services-heading">
             <div class="container">
                 <div class="section-header">
-                    <span class="section-tag reveal">Proceso Ecológico: Sin fuego y con Amor</span>
-                    <h2 id="services-heading" class="section-title reveal reveal-delay-1">
+                    <span class="section-tag">Proceso Ecológico: Sin fuego y con Amor</span>
+                    <h2 id="services-heading" class="section-title">
                         Cremación Verde<br>para <em>Mascotas</em> en Puerto Montt
                     </h2>
-                    <p class="section-lead reveal reveal-delay-2">
+                    <p class="section-lead">
                         Primer crematorio de mascotitas en la región desde 2019.<br>
                         Nuestro servicio de cremación es SIEMPRE individual sin excepciones. <br>
                         Atendemos Puerto Montt, Puerto Varas y toda la Región de Los Lagos.
@@ -111,7 +113,7 @@ import Favicons from '../components/Favicons.astro';
                 </div>
 
                 <div class="services-bento" aria-label="Lista de servicios">
-                    <article class="glass-card service-card reveal reveal-delay-1" itemscope itemtype="https://schema.org/Service">
+                    <article class="glass-card service-card" itemscope itemtype="https://schema.org/Service">
                         <div class="service-card-header">
                             <div class="service-icon-wrap ic-1">
                                 <!-- ÍCONO 1: reemplaza este svg con tu imagen cuando la tengas -->
@@ -124,7 +126,7 @@ import Favicons from '../components/Favicons.astro';
                         </div>
                         <p itemprop="description">Llamado científicamente como Hidrólisis Alcalina, es el proceso natural que ocurre en algunos lagos del mundo. Es respetuoso con el medio ambiente y con la mascotita, ya que nos asegura un proceso individual y no termina en cenizas: es el Polvito de Calcio lo entregado en su urna especial junto a su chip de identificación operativo.</p>
                     </article>
-                    <article class="glass-card service-card reveal reveal-delay-2" itemscope itemtype="https://schema.org/Service" onclick="document.querySelector('.mosaic-item[data-gallery=\'urnas\']').click()" role="button" tabindex="0" aria-label="Ver galería de ánforas y relicarios" style="cursor:pointer;" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.querySelector('.mosaic-item[data-gallery=\'urnas\']').click();}">
+                    <article class="glass-card service-card" itemscope itemtype="https://schema.org/Service" onclick="document.querySelector('.mosaic-item[data-gallery=\'urnas\']').click()" role="button" tabindex="0" aria-label="Ver galería de ánforas y relicarios" style="cursor:pointer;" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.querySelector('.mosaic-item[data-gallery=\'urnas\']').click();}">
                         <div class="service-card-header">
                             <div class="service-icon-wrap ic-2" style="transition:transform 0.2s;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#CBAEF2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -137,7 +139,7 @@ import Favicons from '../components/Favicons.astro';
                         </div>
                         <p itemprop="description">Contamos con ánforas especiales para preservar el polvito de calcio de su mascota. Usamos madera de Raulí, bronce y ánforas de impresión 3D a base de maíz como compromiso por nuestra misión ecológica.</p>
                     </article>
-                    <article class="glass-card service-card reveal reveal-delay-3" itemscope itemtype="https://schema.org/Service">
+                    <article class="glass-card service-card" itemscope itemtype="https://schema.org/Service">
                         <div class="service-card-header">
                             <div class="service-icon-wrap ic-3">
                                 <!-- ÍCONO 3: reemplaza este svg con tu imagen cuando la tengas -->
@@ -309,7 +311,7 @@ import Favicons from '../components/Favicons.astro';
 
         <!-- CTA -->
         <section class="cta-section" id="testimonios">
-            <div class="cta-inner reveal-fog">
+            <div class="cta-inner">
                 <span class="section-tag">Con amor y respeto</span>
                 <h2 class="section-title">
                     Crematorio de Confianza<br>para <em>Familias de Puerto Montt</em>
@@ -464,6 +466,7 @@ import Favicons from '../components/Favicons.astro';
 
                 function startAutoplay() {
                     stopAutoplay();
+                    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // sin avance automático
                     autoplay = setInterval(() => showSlide(currentSlide + 1), INTERVAL);
                 }
 
@@ -647,6 +650,7 @@ import Favicons from '../components/Favicons.astro';
                     dots[igCurrent].classList.add('active');
                 }
                 function startAutoplay() {
+                    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // sin avance automático
                     igAutoplay = setInterval(() => igShowSlide(igCurrent + 1), 6500);
                 }
                 function stopAutoplay() { clearInterval(igAutoplay); }
@@ -832,6 +836,7 @@ import Favicons from '../components/Favicons.astro';
             // will-change: gestionado directamente en showSlide() del carrusel hero
 
 
+            window.__listos = (window.__listos || 0) + 1; // MejoraProgresiva: este script terminó de inicializar
         </script>
 
         <!-- ── GALLERY LIGHTBOX MODAL ── -->
@@ -1003,6 +1008,7 @@ import Favicons from '../components/Favicons.astro';
                 });
 
             });
+            window.__listos = (window.__listos || 0) + 1; // MejoraProgresiva: este script terminó de inicializar
         </script>
 
 

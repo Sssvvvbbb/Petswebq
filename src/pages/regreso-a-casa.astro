@@ -1,4 +1,5 @@
 ---
+import MejoraProgresiva from '../components/MejoraProgresiva.astro';
 import Menu from '../components/Menu.astro';
 import TopBar from '../components/TopBar.astro';
 import Footer from '../components/Footer.astro';
@@ -8,6 +9,7 @@ import HeroCarousel from '../components/HeroCarousel.astro';
 <html lang="es">
 <head>
         <meta charset="UTF-8">
+        <MejoraProgresiva scripts={1} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         
         <!-- SEO Meta Tags -->
@@ -1277,7 +1279,7 @@ import HeroCarousel from '../components/HeroCarousel.astro';
                 dots[currentSlide].classList.add('active');
             }
             function nextSlide() { showSlide(currentSlide + 1); }
-            const autoplay = setInterval(nextSlide, 6500);
+            const autoplay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : setInterval(nextSlide, 6500); // sin avance automático con movimiento reducido
             dots.forEach((dot, i) => dot.addEventListener('click', () => { clearInterval(autoplay); showSlide(i); }));
 
             // ── PETALS ──
@@ -1390,6 +1392,7 @@ import HeroCarousel from '../components/HeroCarousel.astro';
                     if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
                 });
             });
+            window.__listos = (window.__listos || 0) + 1; // MejoraProgresiva: este script terminó de inicializar
         </script>
     </body>
 </html>
