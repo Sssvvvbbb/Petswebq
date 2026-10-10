@@ -440,55 +440,8 @@ recuperados y entregados contribuyen a dar mayor certeza a los dueños o tutores
 
     <script>
         // ── DRAWER ──
-        const heartBtn      = document.getElementById('heartBtn');
-        const drawer        = document.getElementById('drawer');
-        const drawerOverlay = document.getElementById('drawerOverlay');
-        const drawerClose   = document.getElementById('drawerClose');
 
-        function openDrawer() {
-            drawer.classList.add('open');
-            drawerOverlay.classList.add('open');
-            heartBtn.setAttribute('aria-expanded', 'true');
-            drawerClose.focus(); // el foco del teclado entra al menú
-        }
-        function closeDrawer() {
-            drawer.classList.remove('open');
-            if (drawer.contains(document.activeElement)) heartBtn.focus(); // y vuelve al botón corazón
-            drawerOverlay.classList.remove('open');
-            heartBtn.setAttribute('aria-expanded', 'false');
-        }
-        heartBtn.addEventListener('click', openDrawer);
-        drawerClose.addEventListener('click', closeDrawer);
-        drawerOverlay.addEventListener('click', closeDrawer);
-        document.querySelectorAll('.drawer-link').forEach(l => l.addEventListener('click', closeDrawer));
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 
-        // ── NAV TOP SNAP ──
-        (function() {
-            var topBar = document.querySelector('.top-bar');
-            var navEl  = document.querySelector('nav');
-            function snapNav() {
-                navEl.style.top = topBar.getBoundingClientRect().height + 'px';
-            }
-            snapNav();
-            window.addEventListener('resize', snapNav);
-        })();
-
-        // ── MOBILE NAV SCROLL HIDE ──
-        (function() {
-            const mobileNavItems = document.querySelectorAll('.nav-menu li:nth-child(2), .nav-menu li:nth-child(3), .nav-menu li:nth-child(4), .nav-menu li:nth-child(5)');
-            let scrolled = false;
-            window.addEventListener('scroll', function() {
-                if (window.innerWidth > 768) return;
-                if (window.scrollY > 10 && !scrolled) {
-                    scrolled = true;
-                    mobileNavItems.forEach(li => li.classList.add('nav-hidden'));
-                } else if (window.scrollY <= 10 && scrolled) {
-                    scrolled = false;
-                    mobileNavItems.forEach(li => li.classList.remove('nav-hidden'));
-                }
-            }, { passive: true });
-        })();
 
         // ── SCROLL REVEAL ──
         const revealEls = document.querySelectorAll('.reveal');

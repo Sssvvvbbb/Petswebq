@@ -1,0 +1,63 @@
+---
+// Sección #Biblioteca: texto y mosaico de galerías (.mosaic-item[data-gallery]); el modal es GalleryModal y su JS está en la página.
+---
+<!-- Gallery -->
+<section class="section" id="Biblioteca" aria-labelledby="gallery-heading">
+    <div class="container">
+        <div class="about-split" style="align-items: start;">
+            <div>
+                <span class="section-tag reveal">Biblioteca</span>
+                <h2 id="gallery-heading" class="section-title reveal reveal-delay-1">
+                    Un Espacio de<br><em>Paz y Serenidad</em>
+                </h2>
+                <p class="section-lead reveal reveal-delay-2" style="margin-bottom: 2rem;">
+                    Nuestras instalaciones en La Vara, Puerto Montt, fueron diseñadas para que tanto usted como su mascota se sientan con dignidad, calma y amor durante todo el proceso.
+                </p>
+                <div style="display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;">
+                    <a href="/preguntas-frecuentes" class="btn btn-primary reveal reveal-delay-3">Preguntas Frecuentes</a>
+                    <span class="gallery-hint reveal reveal-delay-3" style="display:flex;align-items:center;gap:0.4em;font-size:1.1rem;line-height:1;color:var(--text-mid);font-family:'DM Sans',sans-serif;font-weight:300;">
+                        Presione la imagen para entrar a la galería
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#F1A7F1" style="width:1rem;height:1rem;flex-shrink:0;display:block;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </span>
+                </div>
+            </div>
+            <div class="gallery-mosaic reveal" aria-label="Galería de instalaciones">
+                <div class="mosaic-item" data-gallery="instalaciones" role="button" tabindex="0" aria-label="Ver galería de servicios e instalaciones" style="cursor:pointer;">
+                    <div class="mosaic-fill mf-1" aria-hidden="true">
+                        <span class="mosaic-icon">🏡</span>
+                        <span class="mosaic-label">Servicios</span>
+                    </div>
+                    <span class="sr-only">Servicios e Instalaciones PetsAlCielo</span>
+                </div>
+                <div class="mosaic-item" data-gallery="jardin" role="button" tabindex="0" aria-label="Ver galería de nuestro equipo e instalaciones" style="cursor:pointer;">
+                    <div class="mosaic-fill mf-2" aria-hidden="true">
+                        <span class="mosaic-icon">🌸</span>
+                        <span class="mosaic-label">Nuestro Equipo Pets e Instalaciones</span>
+                    </div>
+                    <span class="sr-only">Nuestro equipo e instalaciones</span>
+                </div>
+                <div class="mosaic-item" data-gallery="urnas" role="button" tabindex="0" aria-label="Ver galería de ánforas y relicarios" style="cursor:pointer;">
+                    <div class="mosaic-fill mf-3" aria-hidden="true">
+                        <span class="mosaic-icon">⚱️</span>
+                        <span class="mosaic-label">Ánforas y Relicarios</span>
+                    </div>
+                    <span class="sr-only">Madera, Bronce e Impresión 3D ecológica</span>
+                </div>
+                <div class="mosaic-item" data-gallery="mariposas" role="button" tabindex="0" aria-label="Ver video educativo" style="cursor:pointer;">
+                    <div class="mosaic-fill mf-4" aria-hidden="true">
+                        <span class="mosaic-icon">🎓</span>
+                        <span class="mosaic-label">Video Educativo</span>
+                    </div>
+                    <span class="sr-only">Video Educativo</span>
+                </div>
+                <div class="mosaic-item mosaic-testimonios" data-gallery="despedida" role="button" tabindex="0" aria-label="Ver testimonios" style="cursor:pointer;">
+                    <div class="mosaic-fill mf-5" aria-hidden="true">
+                        <span class="mosaic-icon">🕊️</span>
+                        <span class="mosaic-label">Testimonios</span>
+                    </div>
+                    <span class="sr-only">Gracias ❤️</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

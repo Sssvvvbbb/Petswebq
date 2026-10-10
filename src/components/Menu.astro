@@ -3,8 +3,8 @@
 // lateral (drawer) y barra de navegación de escritorio, con sus estilos.
 // Su CSS (src/styles/menu.css) va después del CSS de la página, así que sus reglas mandan:
 // cada página importa su CSS antes que este componente.
-// El JS (abrir/cerrar drawer y ocultar ítems al hacer scroll) sigue en el
-// <script> de cada página. Este componente incluye además src/scripts/enlaces.ts
+// Su JS es src/scripts/menu.ts (abrir/cerrar el menú lateral, pegar la barra bajo
+// la barra superior y ocultar ítems al bajar). Incluye además src/scripts/enlaces.ts
 // (WhatsApp al azar y atajos a las galerías), común a todas las páginas.
 import HeartButton from './HeartButton.astro';
 import Drawer from './Drawer.astro';
@@ -43,5 +43,6 @@ import '../styles/menu.css';
 />
 
 <script>
+    import '../scripts/menu';
     import '../scripts/enlaces';
 </script>

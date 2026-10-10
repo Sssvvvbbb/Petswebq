@@ -13,9 +13,9 @@ Sitio de un crematorio ecológico de mascotas en Puerto Montt (Chile). Está hec
 | Página | Archivo | URL | Canonical actual |
 |---|---|---|---|
 | Inicio | `src/pages/index.astro` | `/` | `https://petsalcielo.cl/` |
-| Servicios | `src/pages/servicios.astro` | `/servicios` | `/` |
+| Servicios | `src/pages/servicios.astro` (muestra `index.astro`) | `/servicios` | `/` |
 | Nosotros | `src/pages/nosotros.astro` | `/nosotros` | `/` |
-| Instalaciones | `src/pages/instalaciones.astro` | `/instalaciones` | `/` |
+| Instalaciones | `src/pages/instalaciones.astro` (muestra `nosotros.astro`) | `/instalaciones` | `/` |
 | Preguntas frecuentes | `src/pages/preguntas-frecuentes.astro` | `/preguntas-frecuentes` | `/preguntas-frecuentes` |
 | Testimonios | `src/pages/testimonios.astro` | `/testimonios` | `/testimonios` |
 | Regreso a casa | `src/pages/regreso-a-casa.astro` | `/regreso-a-casa` | `/regreso-a-casa` |
@@ -32,7 +32,7 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 - No usar `@astrojs/sitemap`: `public/sitemap.xml` es manual y solo lista `/`, `/testimonios` y `/preguntas-frecuentes`, todo en minúsculas y sin `www`.
 - **`public/_redirects`**: `/servicios`, `/nosotros`, `/instalaciones` y `/regreso-a-casa` (con y sin `.html`, y sus versiones con mayúsculas) redirigen con 301 a `/`. `/Testimonios` y `/Preguntas-Frecuentes` redirigen a su versión en minúsculas. Los enlaces `/#...` no se tocan.
 - **Scripts**: los `<script>` de páginas y componentes los empaqueta Astro en `/_astro/*.js` (módulos, se ejecutan al terminar de leer el HTML, en orden). `vite.build.assetsInlineLimit: 0` en `astro.config.mjs` evita que Astro meta los chicos dentro del HTML. No usar `is:inline` en scripts nuevos ni atributos `onclick`/`onmouseover`: la CSP los bloquea. Para WhatsApp al azar se usa `data-wa="<mensaje>"` y para abrir una galería `data-abre-galeria="<clave>"` (los maneja `src/scripts/enlaces.ts`); los hover van en CSS. El único script en línea es el de `MejoraProgresiva` (va con hash en la CSP).
-- **CSS**: el de cada página está en `src/styles/` y la página lo importa en su frontmatter; Astro lo minifica (con esbuild, ver `astro.config.mjs`) y lo publica en `/_astro/*.css`, que el navegador guarda en caché. index y servicios comparten `home.css`; nosotros e instalaciones, `nosotros.css`. **El orden importa**: el CSS de la página se importa antes que los componentes, porque `Menu` importa `menu.css` y sus reglas deben mandar; los archivos que antes estaban en `<style>` dentro del `<body>` (`home-galeria.css`, `nosotros-galeria*.css`) se importan después de los componentes. Siguen en línea en el `<head>` solo los `@font-face` y el estilo de `MejoraProgresiva`. Para comprobar que un cambio de CSS no altera nada, además de `npm run visual` sirve comparar el estilo calculado de cada elemento entre dos builds.
+- **CSS**: el de cada página está en `src/styles/` y la página lo importa en su frontmatter; Astro lo minifica (con esbuild, ver `astro.config.mjs`) y lo publica en `/_astro/*.css`, que el navegador guarda en caché. index usa `home.css` y nosotros, `nosotros.css` (servicios e instalaciones las muestran tal cual). **El orden importa**: el CSS de la página se importa antes que los componentes, porque `Menu` importa `menu.css` y sus reglas deben mandar; los archivos que antes estaban en `<style>` dentro del `<body>` (`home-galeria.css`, `nosotros-galeria*.css`) se importan después de los componentes. Siguen en línea en el `<head>` solo los `@font-face` y el estilo de `MejoraProgresiva`. Para comprobar que un cambio de CSS no altera nada, además de `npm run visual` sirve comparar el estilo calculado de cada elemento entre dos builds.
 - **Los comentarios HTML dentro de slots se pierden** en Astro. Por eso no hay `BaseLayout` y cada página escribe su propio `<html>`, `<head>` y `<body>`.
 - El HTML original tiene etiquetas mal cerradas que el compilador de Astro rechaza. Se emiten literales con `<Fragment set:html={"</div>"} />`. No "arreglarlas" sin revisar el resultado visual.
 - **`public/_headers`**: es la única fuente de la CSP (incluye Google Analytics, `i.ytimg.com` y `frame-ancestors 'self'`) y de la `Permissions-Policy`. `script-src` no lleva `'unsafe-inline'` ni `'unsafe-eval'`: solo `'self'`, los dominios externos y los hashes `'sha256-...'` del script de `MejoraProgresiva` (uno por cada valor de `scripts`). Si se cambia ese script, `npm run check` muestra el hash nuevo. `style-src` sí lleva `'unsafe-inline'` (hay muchos atributos `style="..."`). `npm run visual` aplica esta CSP en sus pruebas. Si se agrega un dominio externo nuevo, hay que sumarlo a la CSP y probar con `npx wrangler pages dev dist` (aplica `_headers` y `_redirects`), revisando que la consola no muestre errores "Content Security Policy". `immutable` va solo en `/_astro/*`. `/instagram.json` y `/gallery/*` no llevan caché larga. No crear reglas de cabeceras en el panel de Cloudflare (Rules > Transform Rules > Modify Response Header): reemplazan la CSP de `_headers` (la regla antigua "CSP with Google Tag domains" se borró el 2026-10-09).
@@ -51,7 +51,7 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 ## Componentes (`src/components/`)
 | Componente | Uso |
 |---|---|
-| `Menu` | Menú del sitio: botón corazón + menú lateral + barra de escritorio. Su CSS es `src/styles/menu.css` (incluye el hover del ícono de Instagram de la barra superior). Incluye `src/scripts/enlaces.ts` (WhatsApp al azar y atajos a galerías). Lo usan las 7 páginas. Cerrado, el menú lateral queda oculto para el teclado; al abrirlo el foco pasa al botón de cierre y al cerrarlo vuelve al corazón (JS de cada página) |
+| `Menu` | Menú del sitio: botón corazón + menú lateral + barra de escritorio. Su CSS es `src/styles/menu.css` (incluye el hover del ícono de Instagram de la barra superior). Su JS es `src/scripts/menu.ts` (abrir/cerrar el menú lateral, pegar la barra bajo la barra superior y dejar su alto en `--fixed-bars-h`, desvanecer ítems al bajar) y además incluye `src/scripts/enlaces.ts` (WhatsApp al azar y atajos a galerías). Lo usan las 7 páginas. Cerrado, el menú lateral queda oculto para el teclado; al abrirlo el foco pasa al botón de cierre y al cerrarlo vuelve al corazón |
 | `SvgDefs` | Gradientes `g-roof/g-wall/g-door/g-win` + `#icon-house` (index, servicios) |
 | `HeartButton` | Botón corazón del celular (lo usa `Menu`) |
 | `Drawer` | Menú lateral (lo usa `Menu`). Props: `links`, `cta` (`aleatorio`/`fijo`), `logo?`, `deco` |
@@ -65,8 +65,9 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 | `Favicons` | Íconos del sitio |
 | `MejoraProgresiva` | En el `<head>` de cada página, después del charset. Prop `scripts`: cuántos `<script>` del `<body>` debe esperar. Marca `<html class="js">`; las animaciones `.reveal`/`.reveal-fog` y el acordeón cerrado de la FAQ solo se aplican con esa clase. Si a los 4 s no terminaron de inicializar todos los scripts, quita la clase y todo queda visible |
 
-- Las variantes literales (`TopBar/`, `HeroCarousel/`, `Footer/`) guardan el HTML exacto de cada grupo de páginas: `home` = index + servicios, `nosotros` = nosotros + instalaciones.
-- El JavaScript propio de cada página (menú, carruseles, Instagram, galería) sigue en sus `<script>`, ahora empaquetados por Astro.
+- Las variantes literales (`TopBar/`, `HeroCarousel/`, `Footer/`) guardan el HTML exacto de cada grupo de páginas: `home` = index, `nosotros` = nosotros.
+- **Secciones de la home** (`src/components/inicio/`), en orden: `Cifras`, `Servicios`, `Biblioteca`, `Homenajes` (Instagram), `SobreNosotros`, `VideoEducativo`, `Llamado` y `Contacto`. Los `<div class="divider">` entre secciones están en `index.astro`. Su CSS sigue en `home.css`.
+- El JavaScript propio de cada página (carruseles, Instagram, galería, animaciones) sigue en sus `<script>`, empaquetados por Astro. El del menú está en `src/scripts/menu.ts`.
 - Datos compartidos en `src/data/sitio.ts`:
   - WhatsApp: principal **56998461172**, secundario **56940082594**. `waFijo()` arma el enlace al principal; con `data-wa` el script común elige uno de los dos al azar.
   - Instagram: `@_petsalcielo`.
@@ -101,6 +102,6 @@ Otros: degradé de los botones Instagram/Testimonios `linear-gradient(135deg,#7D
 - Archivos locales en `public/Assets/Fonts/*-latin.woff2`: recortados al latín (Basic, Latin-1, Latin Extended-A, puntuación general, flechas, €, ₂, ™, ★, ♥, ✕). Emojis y otros símbolos salen de las fuentes del sistema. Los `.woff2` sin `-latin` son los originales completos (ya no se enlazan; se pueden borrar más adelante) con `@font-face` inline y `preload`. nosotros, instalaciones y regreso-a-casa además cargan Google Fonts.
 
 ## Problemas conocidos (se conservaron a propósito en la migración)
-- servicios, nosotros e instalaciones tienen canonical `/`. nosotros e instalaciones son idénticas.
+- servicios, nosotros e instalaciones tienen canonical `/` (y redirigen a la home). servicios muestra la home; instalaciones, nosotros.
 - Horario en los datos estructurados (JSON-LD): atención 24/7 se escribe `"opens": "00:00", "closes": "23:59"`. `00:00`–`00:00` significa "cerrado" para Google.
 - regreso-a-casa bloquea el zoom en el celular (`user-scalable=no`).
