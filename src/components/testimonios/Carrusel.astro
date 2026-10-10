@@ -1,0 +1,82 @@
+---
+// Carrusel de testimonios: la primera diapositiva (Blacky) viene en el HTML y el JS de la página agrega el resto desde /Assets/testimonios/testimonios.json. Videos: portada y <video> creado al pulsar (ver CLAUDE.md).
+---
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    CARRUSEL DE TESTIMONIOS (10 espacios, imagen o video 9:16)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="section" id="carrusel-testimonios" aria-label="Carrusel de testimonios">
+    <div class="container">
+        <div class="testi-carousel-outer">
+            <div class="glass-card testi-carousel-wrap" id="testiCarouselWrap">
+                <div id="testiSlidesContainer">
+                    <!-- ══════════════════════════════════════════════
+                         CARRUSEL 9:16 (imagen o video). Hoy: slide 1 = imagen testimonio-01.webp, slides 2-4 = videos
+                         /Assets/testimonios/testimonio-02.webm … 04.webm; 5-10 en espera.
+
+                         CRECER SIN TOCAR EL HTML (admin): subir el archivo a /Assets/testimonios/ y
+                         agregar una línea a /Assets/testimonios/testimonios.json. Si ese JSON existe
+                         y tiene elementos, reemplaza estos slides (estos quedan de respaldo).
+                         Campos: type "video"|"image", src, mp4 (opcional, respaldo para iPhone
+                         antiguos), poster (portada del video, recomendada), alt (descripción).
+                         Los videos no se descargan hasta pulsar reproducir: se ve la portada con un botón. ══════════════════════════════════════════════ -->
+                    <div class="testi-slide active" role="group" aria-roledescription="testimonio" aria-label="Testimonio 1 de 10">
+                        <img class="testi-media" src="/Assets/testimonios/testimonio-01.webp" alt="Testimonio de Blacky" width="400" height="720" fetchpriority="high" decoding="async">
+                    </div>
+                    <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 2 de 10">
+                        <a class="testi-video" href="/Assets/testimonios/testimonio-02.webm" data-video="/Assets/testimonios/testimonio-02.webm" aria-label="Reproducir: Testimonio de Luna"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-02-portada.webp" alt="Testimonio de Luna" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
+                    </div>
+                    <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 3 de 10">
+                        <a class="testi-video" href="/Assets/testimonios/testimonio-03.webm" data-video="/Assets/testimonios/testimonio-03.webm" aria-label="Reproducir: Testimonio Vicho"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-03-portada.webp" alt="Testimonio Vicho" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
+                    </div>
+                    <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 4 de 10">
+                        <a class="testi-video" href="/Assets/testimonios/testimonio-04.webm" data-video="/Assets/testimonios/testimonio-04.webm" aria-label="Reproducir: Testimonio de Luffy"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-04-portada.webp" alt="Testimonio de Luffy" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
+                    </div>
+                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 5 de 10">
+                        <div class="testi-placeholder">
+                            <div class="testi-avatar-fallback">♥</div>
+                            <p class="testi-quote">Testimonio 5 en espera</p>
+                        </div>
+                    </div>
+                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 6 de 10">
+                        <div class="testi-placeholder">
+                            <div class="testi-avatar-fallback">♥</div>
+                            <p class="testi-quote">Testimonio 6 en espera</p>
+                        </div>
+                    </div>
+                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 7 de 10">
+                        <div class="testi-placeholder">
+                            <div class="testi-avatar-fallback">♥</div>
+                            <p class="testi-quote">Testimonio 7 en espera</p>
+                        </div>
+                    </div>
+                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 8 de 10">
+                        <div class="testi-placeholder">
+                            <div class="testi-avatar-fallback">♥</div>
+                            <p class="testi-quote">Testimonio 8 en espera</p>
+                        </div>
+                    </div>
+                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 9 de 10">
+                        <div class="testi-placeholder">
+                            <div class="testi-avatar-fallback">♥</div>
+                            <p class="testi-quote">Testimonio 9 en espera</p>
+                        </div>
+                    </div>
+                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 10 de 10">
+                        <div class="testi-placeholder">
+                            <div class="testi-avatar-fallback">♥</div>
+                            <p class="testi-quote">Testimonio 10 en espera</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="testi-carousel-arrow testi-arrow-prev" id="testiPrev" aria-label="Testimonio anterior">&#8249;</button>
+                <button class="testi-carousel-arrow testi-arrow-next" id="testiNext" aria-label="Testimonio siguiente">&#8250;</button>
+            </div>
+            <div class="testi-progress-wrap">
+                <span class="testi-counter" id="testiCounter">1 / 10</span>
+                <div class="testi-progress-track">
+                    <div class="testi-progress-fill" id="testiProgressFill" style="width:10%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

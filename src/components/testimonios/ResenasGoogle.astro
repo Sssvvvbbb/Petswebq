@@ -1,0 +1,166 @@
+---
+// Reseñas de Google. Son citas textuales de clientes: no corregirles la redacción.
+---
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    RESEÑAS DE GOOGLE (carrusel escrito a mano, 6 reseñas de 5 estrellas)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="section" id="resenas-google" aria-labelledby="google-reviews-heading">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="section-tag">Opiniones verificadas</span>
+            <h2 id="google-reviews-heading" class="section-title">Reseñas de <em>Google</em></h2>
+            <p class="section-lead">Palabras de familias que nos dejaron su reseña en Google, publicadas con su autorización.</p>
+        </div>
+
+        <div class="glass-card google-reviews-card reveal">
+            <!--
+                ══════════════════════════════════════════════════════════
+                CÓMO AGREGAR / EDITAR UNA RESEÑA
+                Copia un bloque <article class="greview-slide"> completo,
+                pégalo dentro de .greview-track y edita:
+                  · data-initial="X"  → inicial que se ve si no hay foto de perfil
+                  · foto de perfil    → /Assets/reviews/nombre-perfil.webp
+                  · data-gender       → "f" (fondo rosa) o "m" (fondo verde pastel) en .greview-avatar
+                                        (si el archivo no existe, se muestra la inicial)
+                  · .greview-name     → nombre de la persona
+                  · .greview-text     → texto de la reseña (usa <br> para salto de línea)
+                  · .greview-photos   → 0 a 3 <img>. Sin fotos: borra todo el
+                                        <div class="greview-photos">. Con 1, 2 o 3
+                                        el diseño se ajusta solo. Si una imagen no
+                                        carga, se omite sin dejar hueco.
+                Los puntos (dots), las flechas y el contador se generan solos.
+                Formato recomendado: .webp, fotos ~1200px de ancho, perfil 200×200.
+                Plantilla:
+
+                <article class="greview-slide" role="group" aria-roledescription="reseña">
+                    <header class="greview-head">
+                        <div class="greview-avatar" data-initial="A" data-gender="f">
+                            <img src="/Assets/reviews/nombre-apellido-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
+                        </div>
+                        <div class="greview-who">
+                            <span class="greview-name">Nombre Apellido</span>
+                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+                        </div>
+                        <span class="greview-badge">en Google</span>
+                    </header>
+                    <blockquote class="greview-text">Texto de la reseña.</blockquote>
+                    <div class="greview-photos">
+                        <img src="/Assets/reviews/nombre-apellido-1.webp" alt="Descripción de la foto" loading="lazy" decoding="async">
+                    </div>
+                </article>
+                ══════════════════════════════════════════════════════════
+            -->
+            <div class="greview-carousel" id="greviewCarousel" aria-roledescription="carrusel" aria-label="Reseñas de Google">
+                <div class="greview-track">
+
+                <article class="greview-slide active" role="group" aria-roledescription="reseña" aria-label="Reseña 1 de 6">
+                    <header class="greview-head">
+                        <div class="greview-avatar" data-initial="D" data-gender="f">
+                        </div>
+                        <div class="greview-who">
+                            <span class="greview-name">Dafne Retamal</span>
+                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+                        </div>
+                        <span class="greview-badge">en Google</span>
+                    </header>
+                    <blockquote class="greview-text">Agradezco mucho la cercanía que han tenido, la empatía que tuvieron durante todo este proceso, las palabras y el consuelo. Llegar allá fue un respiro para mi corazón porque sabía que pronto tendría a mi Teo de vuelta. Lily además se acercó con todo el amor a acompañarme el primer día, agradecida de ella también.</blockquote>
+                    <div class="greview-photos">
+                        <img src="/Assets/reviews/dafne-retamal-1.webp" alt="Ánfora y retrato de Teo, foto compartida por Dafne Retamal" loading="lazy" decoding="async">
+                        <img src="/Assets/reviews/dafne-retamal-2.webp" alt="Teo, foto compartida por Dafne Retamal" loading="lazy" decoding="async">
+                        <img src="/Assets/reviews/dafne-retamal-3.webp" alt="Teo, foto compartida por Dafne Retamal" loading="lazy" decoding="async">
+                    </div>
+                </article>
+                <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 2 de 6">
+                    <header class="greview-head">
+                        <div class="greview-avatar" data-initial="D" data-gender="f">
+                        </div>
+                        <div class="greview-who">
+                            <span class="greview-name">Daniela Risco</span>
+                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+                        </div>
+                        <span class="greview-badge">en Google</span>
+                    </header>
+                    <blockquote class="greview-text">Agradecida de la hermosa labor que realizan, lleve a mi perrita Emma que me acompañó durante 14 años, apenas ingrese sentí un ambiente cálido, de mucho amor y entendimiento hacia la pérdida que estaba cursando.<br>
+                    Felicidades por esta hermosa labor en la que nos ayudan a mantener a nuestros compañeros de vida, siempre junto a nosotros.</blockquote>
+                </article>
+                <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 3 de 6">
+                    <header class="greview-head">
+                        <div class="greview-avatar" data-initial="C" data-gender="f">
+                        </div>
+                        <div class="greview-who">
+                            <span class="greview-name">Constanza Villagran</span>
+                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+                        </div>
+                        <span class="greview-badge">en Google</span>
+                    </header>
+                    <blockquote class="greview-text">He tenido que acudir a Pets al Cielo en dos ocasiones por mi Fanny y Pequita y no tengo palabras suficientes para agradecer el servicio que brindan. En los momentos más dolorosos, han demostrado una empatía, respeto y calidad humana, te acompañan con un amor y una delicadeza. Los recomiendo a ojos cerrados, de verdad hacen honor a su nombre y tratan a nuestras mascotas con el mayor de los respetos 🌸</blockquote>
+                </article>
+                <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 4 de 6">
+                    <header class="greview-head">
+                        <div class="greview-avatar" data-initial="R" data-gender="m">
+                        </div>
+                        <div class="greview-who">
+                            <span class="greview-name">Rodrigo Latorre</span>
+                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+                        </div>
+                        <span class="greview-badge">en Google</span>
+                    </header>
+                    <blockquote class="greview-text">Es una atencion muy humana y te tranquilizan en un momento tan dificil, el trabajo fue muy profesional y es un gran alivio que sean ellos los que ayudaron en estos que era tan importante</blockquote>
+                    <div class="greview-photos">
+                        <img src="/Assets/reviews/rodrigo-latorre-1.webp" alt="Ánfora, cuadros con la huella y el retrato de Tomás y certificado de eco-incineración, foto compartida por Rodrigo Latorre" loading="lazy" decoding="async">
+                    </div>
+                </article>
+                <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 5 de 6">
+                    <header class="greview-head">
+                        <div class="greview-avatar" data-initial="C" data-gender="f">
+                        </div>
+                        <div class="greview-who">
+                            <span class="greview-name">Carmen Gloria Diaz Bunster</span>
+                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+                        </div>
+                        <span class="greview-badge">en Google</span>
+                    </header>
+                    <blockquote class="greview-text">Somos una familia que amamos a nuestros perritos, por eso valoramos enormemente el profesionalismo, seriedad, respeto y empatía que han tenido con cada uno de nuestros perritos que han partido.</blockquote>
+                    <div class="greview-photos">
+                        <img src="/Assets/reviews/carmen-gloria-diaz-1.webp" alt="Ánforas y retratos de Zeus, Negrita y Aquiles, foto compartida por Carmen Gloria Diaz Bunster" loading="lazy" decoding="async">
+                    </div>
+                </article>
+                <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 6 de 6">
+                    <header class="greview-head">
+                        <div class="greview-avatar" data-initial="A" data-gender="m">
+                        </div>
+                        <div class="greview-who">
+                            <span class="greview-name">Arturo Rivero</span>
+                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
+                        </div>
+                        <span class="greview-badge">en Google</span>
+                    </header>
+                    <blockquote class="greview-text">Excelente servicio y atención, personas que te acompañan en todo momento y saben lo significativo que es perder a un ser querido, con una atención personalizada excepcional. 100% recomendados, mis mascotas siempre con ellos.</blockquote>
+                    <div class="greview-photos">
+                        <img src="/Assets/reviews/arturo-rivero-1.webp" alt="Ánforas y recuerdos de sus mascotas en un estante, foto compartida por Arturo Rivero" loading="lazy" decoding="async">
+                    </div>
+                </article>
+                </div>
+            </div>
+
+            <div class="greview-controls">
+                <button class="greview-arrow" id="greviewPrev" aria-label="Reseña anterior">&#8249;</button>
+                <div class="greview-dots" id="greviewDots">
+                <button class="greview-dot active" data-i="0" aria-label="Ir a la reseña 1"></button>
+                <button class="greview-dot" data-i="1" aria-label="Ir a la reseña 2"></button>
+                <button class="greview-dot" data-i="2" aria-label="Ir a la reseña 3"></button>
+                <button class="greview-dot" data-i="3" aria-label="Ir a la reseña 4"></button>
+                <button class="greview-dot" data-i="4" aria-label="Ir a la reseña 5"></button>
+                <button class="greview-dot" data-i="5" aria-label="Ir a la reseña 6"></button>
+                </div>
+                <button class="greview-arrow" id="greviewNext" aria-label="Reseña siguiente">&#8250;</button>
+            </div>
+
+            <!-- Enlace estable al perfil (por Place ID). Si prefieres otro enlace, cambia solo este href. -->
+            <a href="https://search.google.com/local/reviews?placeid=ChIJWTfOQDgvGJYR_Ylu3xobxlI"
+               target="_blank" rel="noopener" class="btn btn-primary greview-cta">
+                Ver todas las reseñas en Google ›
+            </a>
+        </div>
+    </div>
+</section>

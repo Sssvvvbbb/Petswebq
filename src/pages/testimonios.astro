@@ -4,6 +4,14 @@ import '../styles/testimonios.css';
 import MejoraProgresiva from '../components/MejoraProgresiva.astro';
 import Menu from '../components/Menu.astro';
 import GoogleTag from '../components/GoogleTag.astro';
+import SvgDefs from '../components/SvgDefs.astro';
+import TopBar from '../components/TopBar.astro';
+import Footer from '../components/Footer.astro';
+import Encabezado from '../components/testimonios/Encabezado.astro';
+import Carrusel from '../components/testimonios/Carrusel.astro';
+import ResenasGoogle from '../components/testimonios/ResenasGoogle.astro';
+import EnMemoria from '../components/testimonios/EnMemoria.astro';
+import Agradecimiento from '../components/testimonios/Agradecimiento.astro';
 ---
 <!DOCTYPE html>
     <html lang="es">
@@ -64,401 +72,30 @@ import GoogleTag from '../components/GoogleTag.astro';
     </head>
     <body>
 
-        <!-- SVG defs compartidos (mismos gradientes que index): icono de casa de la top bar -->
-        <svg width="0" height="0" style="position:absolute;overflow:hidden;" aria-hidden="true">
-            <defs>
-                <linearGradient id="g-roof" x1="6" y1="8" x2="58" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f9c8e0"/><stop offset="100%" stop-color="#cbaef2"/></linearGradient>
-                <linearGradient id="g-wall" x1="12" y1="29" x2="52" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff4cc"/><stop offset="100%" stop-color="#fde8f5"/></linearGradient>
-                <linearGradient id="g-door" x1="26" y1="38" x2="38" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#cbaef2"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
-                <linearGradient id="g-win" x1="15" y1="35" x2="24" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient>
-            </defs>
-        </svg>
+        <SvgDefs />
 
         <!-- Top Bar -->
-        <aside class="top-bar">
-            <div class="top-bar-content">
-                <a href="https://www.google.com/maps/place/Pets+Al+Cielo/@-41.4417349,-72.9405311,13.07z/data=!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="top-bar-item" aria-label="Ver ubicación en Google Maps" style="gap:0.25rem;justify-content:flex-start;">
-                    <svg width="18" height="18" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <polygon points="32,8 6,30 58,30" fill="url(#g-roof)"/>
-                        <rect x="12" y="29" width="40" height="26" rx="3" fill="url(#g-wall)"/>
-                        <rect x="26" y="38" width="12" height="17" rx="2" fill="url(#g-door)"/>
-                        <rect x="15" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
-                        <rect x="40" y="35" width="9" height="8" rx="2" fill="url(#g-win)"/>
-                    </svg>
-                    <span itemscope itemtype="https://schema.org/PostalAddress" itemprop="addressLocality">Puerto Montt, X Región</span>
-                </a>
-                <span class="top-bar-separator" aria-hidden="true" style="text-align:center;">|</span>
-                <span class="top-bar-item" style="justify-content:flex-start;">
-                    <span>Consultas y agendamiento vía WhatsApp</span>
-                </span>
-                <div style="display:flex;align-items:center;gap:0.5rem;padding-right:3px;justify-content:flex-end;grid-column:4;">
-                    <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#F5D0E8 0%,#E3B0D8 35%,#D4A4CC 65%,#CDBAF0 100%);text-decoration:none;transition:opacity 0.2s;" class="ig-mini">
-                        <svg width="8" height="8" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    </a>
-
-                </div>
-            </div>
-        </aside>
+        <TopBar variant="home" />
 
         <!-- Menú del sitio (corazón + menú lateral + barra de escritorio) -->
         <Menu />
 
-        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            ENCABEZADO DE PÁGINA
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-        <section class="section testi-page-header">
-            <div class="container">
-                <div class="section-header">
-                    <h1 class="section-title">Testimonios de familias que<br>confiaron en <em>Pets Al Cielo</em></h1>
-                    <p class="section-lead">
-                        Cada historia es un pequeño homenaje a las mascotitas que cruzaron el arcoíris,
-                        y a las familias que nos permitieron acompañarlas en este díficil momento
-                    </p>
-                </div>
-            </div>
-        </section>
+        <Encabezado />
 
-        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            CARRUSEL DE TESTIMONIOS (10 espacios, imagen o video 9:16)
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-        <section class="section" id="carrusel-testimonios" aria-label="Carrusel de testimonios">
-            <div class="container">
-                <div class="testi-carousel-outer">
-                    <div class="glass-card testi-carousel-wrap" id="testiCarouselWrap">
-                        <div id="testiSlidesContainer">
-                            <!-- ══════════════════════════════════════════════
-                                 CARRUSEL 9:16 (imagen o video). Hoy: slide 1 = imagen testimonio-01.webp, slides 2-4 = videos
-                                 /Assets/testimonios/testimonio-02.webm … 04.webm; 5-10 en espera.
-
-                                 CRECER SIN TOCAR EL HTML (admin): subir el archivo a /Assets/testimonios/ y
-                                 agregar una línea a /Assets/testimonios/testimonios.json. Si ese JSON existe
-                                 y tiene elementos, reemplaza estos slides (estos quedan de respaldo).
-                                 Campos: type "video"|"image", src, mp4 (opcional, respaldo para iPhone
-                                 antiguos), poster (portada del video, recomendada), alt (descripción).
-                                 Los videos no se descargan hasta pulsar reproducir: se ve la portada con un botón. ══════════════════════════════════════════════ -->
-                            <div class="testi-slide active" role="group" aria-roledescription="testimonio" aria-label="Testimonio 1 de 10">
-                                <img class="testi-media" src="/Assets/testimonios/testimonio-01.webp" alt="Testimonio de Blacky" width="400" height="720" fetchpriority="high" decoding="async">
-                            </div>
-                            <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 2 de 10">
-                                <a class="testi-video" href="/Assets/testimonios/testimonio-02.webm" data-video="/Assets/testimonios/testimonio-02.webm" aria-label="Reproducir: Testimonio de Luna"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-02-portada.webp" alt="Testimonio de Luna" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
-                            </div>
-                            <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 3 de 10">
-                                <a class="testi-video" href="/Assets/testimonios/testimonio-03.webm" data-video="/Assets/testimonios/testimonio-03.webm" aria-label="Reproducir: Testimonio Vicho"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-03-portada.webp" alt="Testimonio Vicho" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
-                            </div>
-                            <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 4 de 10">
-                                <a class="testi-video" href="/Assets/testimonios/testimonio-04.webm" data-video="/Assets/testimonios/testimonio-04.webm" aria-label="Reproducir: Testimonio de Luffy"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-04-portada.webp" alt="Testimonio de Luffy" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
-                            </div>
-                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 5 de 10">
-                                <div class="testi-placeholder">
-                                    <div class="testi-avatar-fallback">♥</div>
-                                    <p class="testi-quote">Testimonio 5 en espera</p>
-                                </div>
-                            </div>
-                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 6 de 10">
-                                <div class="testi-placeholder">
-                                    <div class="testi-avatar-fallback">♥</div>
-                                    <p class="testi-quote">Testimonio 6 en espera</p>
-                                </div>
-                            </div>
-                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 7 de 10">
-                                <div class="testi-placeholder">
-                                    <div class="testi-avatar-fallback">♥</div>
-                                    <p class="testi-quote">Testimonio 7 en espera</p>
-                                </div>
-                            </div>
-                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 8 de 10">
-                                <div class="testi-placeholder">
-                                    <div class="testi-avatar-fallback">♥</div>
-                                    <p class="testi-quote">Testimonio 8 en espera</p>
-                                </div>
-                            </div>
-                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 9 de 10">
-                                <div class="testi-placeholder">
-                                    <div class="testi-avatar-fallback">♥</div>
-                                    <p class="testi-quote">Testimonio 9 en espera</p>
-                                </div>
-                            </div>
-                            <div class="testi-slide" role="tabpanel" aria-label="Testimonio 10 de 10">
-                                <div class="testi-placeholder">
-                                    <div class="testi-avatar-fallback">♥</div>
-                                    <p class="testi-quote">Testimonio 10 en espera</p>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="testi-carousel-arrow testi-arrow-prev" id="testiPrev" aria-label="Testimonio anterior">&#8249;</button>
-                        <button class="testi-carousel-arrow testi-arrow-next" id="testiNext" aria-label="Testimonio siguiente">&#8250;</button>
-                    </div>
-                    <div class="testi-progress-wrap">
-                        <span class="testi-counter" id="testiCounter">1 / 10</span>
-                        <div class="testi-progress-track">
-                            <div class="testi-progress-fill" id="testiProgressFill" style="width:10%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <Carrusel />
 
         <div class="divider"></div>
 
-        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            RESEÑAS DE GOOGLE (carrusel escrito a mano, 6 reseñas de 5 estrellas)
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-        <section class="section" id="resenas-google" aria-labelledby="google-reviews-heading">
-            <div class="container">
-                <div class="section-header reveal">
-                    <span class="section-tag">Opiniones verificadas</span>
-                    <h2 id="google-reviews-heading" class="section-title">Reseñas de <em>Google</em></h2>
-                    <p class="section-lead">Palabras de familias que nos dejaron su reseña en Google, publicadas con su autorización.</p>
-                </div>
-
-                <div class="glass-card google-reviews-card reveal">
-                    <!--
-                        ══════════════════════════════════════════════════════════
-                        CÓMO AGREGAR / EDITAR UNA RESEÑA
-                        Copia un bloque <article class="greview-slide"> completo,
-                        pégalo dentro de .greview-track y edita:
-                          · data-initial="X"  → inicial que se ve si no hay foto de perfil
-                          · foto de perfil    → /Assets/reviews/nombre-perfil.webp
-                          · data-gender       → "f" (fondo rosa) o "m" (fondo verde pastel) en .greview-avatar
-                                                (si el archivo no existe, se muestra la inicial)
-                          · .greview-name     → nombre de la persona
-                          · .greview-text     → texto de la reseña (usa <br> para salto de línea)
-                          · .greview-photos   → 0 a 3 <img>. Sin fotos: borra todo el
-                                                <div class="greview-photos">. Con 1, 2 o 3
-                                                el diseño se ajusta solo. Si una imagen no
-                                                carga, se omite sin dejar hueco.
-                        Los puntos (dots), las flechas y el contador se generan solos.
-                        Formato recomendado: .webp, fotos ~1200px de ancho, perfil 200×200.
-                        Plantilla:
-
-                        <article class="greview-slide" role="group" aria-roledescription="reseña">
-                            <header class="greview-head">
-                                <div class="greview-avatar" data-initial="A" data-gender="f">
-                                    <img src="/Assets/reviews/nombre-apellido-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
-                                </div>
-                                <div class="greview-who">
-                                    <span class="greview-name">Nombre Apellido</span>
-                                    <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                                </div>
-                                <span class="greview-badge">en Google</span>
-                            </header>
-                            <blockquote class="greview-text">Texto de la reseña.</blockquote>
-                            <div class="greview-photos">
-                                <img src="/Assets/reviews/nombre-apellido-1.webp" alt="Descripción de la foto" loading="lazy" decoding="async">
-                            </div>
-                        </article>
-                        ══════════════════════════════════════════════════════════
-                    -->
-                    <div class="greview-carousel" id="greviewCarousel" aria-roledescription="carrusel" aria-label="Reseñas de Google">
-                        <div class="greview-track">
-
-                        <article class="greview-slide active" role="group" aria-roledescription="reseña" aria-label="Reseña 1 de 6">
-                            <header class="greview-head">
-                                <div class="greview-avatar" data-initial="D" data-gender="f">
-                                </div>
-                                <div class="greview-who">
-                                    <span class="greview-name">Dafne Retamal</span>
-                                    <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                                </div>
-                                <span class="greview-badge">en Google</span>
-                            </header>
-                            <blockquote class="greview-text">Agradezco mucho la cercanía que han tenido, la empatía que tuvieron durante todo este proceso, las palabras y el consuelo. Llegar allá fue un respiro para mi corazón porque sabía que pronto tendría a mi Teo de vuelta. Lily además se acercó con todo el amor a acompañarme el primer día, agradecida de ella también.</blockquote>
-                            <div class="greview-photos">
-                                <img src="/Assets/reviews/dafne-retamal-1.webp" alt="Ánfora y retrato de Teo, foto compartida por Dafne Retamal" loading="lazy" decoding="async">
-                                <img src="/Assets/reviews/dafne-retamal-2.webp" alt="Teo, foto compartida por Dafne Retamal" loading="lazy" decoding="async">
-                                <img src="/Assets/reviews/dafne-retamal-3.webp" alt="Teo, foto compartida por Dafne Retamal" loading="lazy" decoding="async">
-                            </div>
-                        </article>
-                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 2 de 6">
-                            <header class="greview-head">
-                                <div class="greview-avatar" data-initial="D" data-gender="f">
-                                </div>
-                                <div class="greview-who">
-                                    <span class="greview-name">Daniela Risco</span>
-                                    <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                                </div>
-                                <span class="greview-badge">en Google</span>
-                            </header>
-                            <blockquote class="greview-text">Agradecida de la hermosa labor que realizan, lleve a mi perrita Emma que me acompañó durante 14 años, apenas ingrese sentí un ambiente cálido, de mucho amor y entendimiento hacia la pérdida que estaba cursando.<br>
-                            Felicidades por esta hermosa labor en la que nos ayudan a mantener a nuestros compañeros de vida, siempre junto a nosotros.</blockquote>
-                        </article>
-                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 3 de 6">
-                            <header class="greview-head">
-                                <div class="greview-avatar" data-initial="C" data-gender="f">
-                                </div>
-                                <div class="greview-who">
-                                    <span class="greview-name">Constanza Villagran</span>
-                                    <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                                </div>
-                                <span class="greview-badge">en Google</span>
-                            </header>
-                            <blockquote class="greview-text">He tenido que acudir a Pets al Cielo en dos ocasiones por mi Fanny y Pequita y no tengo palabras suficientes para agradecer el servicio que brindan. En los momentos más dolorosos, han demostrado una empatía, respeto y calidad humana, te acompañan con un amor y una delicadeza. Los recomiendo a ojos cerrados, de verdad hacen honor a su nombre y tratan a nuestras mascotas con el mayor de los respetos 🌸</blockquote>
-                        </article>
-                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 4 de 6">
-                            <header class="greview-head">
-                                <div class="greview-avatar" data-initial="R" data-gender="m">
-                                </div>
-                                <div class="greview-who">
-                                    <span class="greview-name">Rodrigo Latorre</span>
-                                    <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                                </div>
-                                <span class="greview-badge">en Google</span>
-                            </header>
-                            <blockquote class="greview-text">Es una atencion muy humana y te tranquilizan en un momento tan dificil, el trabajo fue muy profesional y es un gran alivio que sean ellos los que ayudaron en estos que era tan importante</blockquote>
-                            <div class="greview-photos">
-                                <img src="/Assets/reviews/rodrigo-latorre-1.webp" alt="Ánfora, cuadros con la huella y el retrato de Tomás y certificado de eco-incineración, foto compartida por Rodrigo Latorre" loading="lazy" decoding="async">
-                            </div>
-                        </article>
-                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 5 de 6">
-                            <header class="greview-head">
-                                <div class="greview-avatar" data-initial="C" data-gender="f">
-                                </div>
-                                <div class="greview-who">
-                                    <span class="greview-name">Carmen Gloria Diaz Bunster</span>
-                                    <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                                </div>
-                                <span class="greview-badge">en Google</span>
-                            </header>
-                            <blockquote class="greview-text">Somos una familia que amamos a nuestros perritos, por eso valoramos enormemente el profesionalismo, seriedad, respeto y empatía que han tenido con cada uno de nuestros perritos que han partido.</blockquote>
-                            <div class="greview-photos">
-                                <img src="/Assets/reviews/carmen-gloria-diaz-1.webp" alt="Ánforas y retratos de Zeus, Negrita y Aquiles, foto compartida por Carmen Gloria Diaz Bunster" loading="lazy" decoding="async">
-                            </div>
-                        </article>
-                        <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 6 de 6">
-                            <header class="greview-head">
-                                <div class="greview-avatar" data-initial="A" data-gender="m">
-                                </div>
-                                <div class="greview-who">
-                                    <span class="greview-name">Arturo Rivero</span>
-                                    <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                                </div>
-                                <span class="greview-badge">en Google</span>
-                            </header>
-                            <blockquote class="greview-text">Excelente servicio y atención, personas que te acompañan en todo momento y saben lo significativo que es perder a un ser querido, con una atención personalizada excepcional. 100% recomendados, mis mascotas siempre con ellos.</blockquote>
-                            <div class="greview-photos">
-                                <img src="/Assets/reviews/arturo-rivero-1.webp" alt="Ánforas y recuerdos de sus mascotas en un estante, foto compartida por Arturo Rivero" loading="lazy" decoding="async">
-                            </div>
-                        </article>
-                        </div>
-                    </div>
-
-                    <div class="greview-controls">
-                        <button class="greview-arrow" id="greviewPrev" aria-label="Reseña anterior">&#8249;</button>
-                        <div class="greview-dots" id="greviewDots">
-                        <button class="greview-dot active" data-i="0" aria-label="Ir a la reseña 1"></button>
-                        <button class="greview-dot" data-i="1" aria-label="Ir a la reseña 2"></button>
-                        <button class="greview-dot" data-i="2" aria-label="Ir a la reseña 3"></button>
-                        <button class="greview-dot" data-i="3" aria-label="Ir a la reseña 4"></button>
-                        <button class="greview-dot" data-i="4" aria-label="Ir a la reseña 5"></button>
-                        <button class="greview-dot" data-i="5" aria-label="Ir a la reseña 6"></button>
-                        </div>
-                        <button class="greview-arrow" id="greviewNext" aria-label="Reseña siguiente">&#8250;</button>
-                    </div>
-
-                    <!-- Enlace estable al perfil (por Place ID). Si prefieres otro enlace, cambia solo este href. -->
-                    <a href="https://search.google.com/local/reviews?placeid=ChIJWTfOQDgvGJYR_Ylu3xobxlI"
-                       target="_blank" rel="noopener" class="btn btn-primary greview-cta">
-                        Ver todas las reseñas en Google ›
-                    </a>
-                </div>
-            </div>
-        </section>
+        <ResenasGoogle />
 
         <div class="divider"></div>
 
-        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            EN MEMORIA DE
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-        <section class="section" id="en-memoria-de" aria-labelledby="memoriam-heading">
-            <div class="container">
-                <div class="section-header reveal">
-                    <h2 id="memoriam-heading" class="section-title">En Memoria de</h2>
-                    <p class="section-lead">Dos pequeñas compañeras que también forman parte de nuestra historia.</p>
-                </div>
+        <EnMemoria />
 
-                <div class="memoriam-grid">
-                    <!-- Kissita -->
-                    <div class="glass-card memoriam-card reveal">
-                        <div class="memoriam-photo-frame">
-                    <img src="/Assets/foto-kissita-600.webp" alt="Kissita" width="600" height="750" loading="lazy" decoding="async">
-                        </div>
-                        <h3 class="memoriam-pet-name">Kissita</h3>
-                        <p class="memoriam-dedication">
-                            <!-- Pendiente: pequeña dedicatoria para Kissita -->
-                            Kissita, tu amor llenó nuestros días de ternura y dejó recuerdos que siempre nos acompañarán. Aunque ya no podamos abrazarte, sigues presente en cada sonrisa que nace al pensar en ti. Gracias por haber sido parte de nuestra familia.
-                        </p>
-                    </div>
-
-                    <!-- Mulán -->
-                    <div class="glass-card memoriam-card reveal reveal-delay-1">
-                        <div class="memoriam-photo-frame">
-                            <img src="/Assets/foto-mulan-nuestra-mascota-llanquihue-la-inspiracion-de-nosotros-preguntas-frecuentes.webp" alt="Mulán, mascota fundadora de Pets Al Cielo" loading="lazy" decoding="async">
-                        </div>
-                        <h3 class="memoriam-pet-name">Mulán</h3>
-                        <p class="memoriam-dedication">
-                            <!-- Pendiente: pequeña dedicatoria para Mulán -->
-                            Mulán, durante 13 años nos regalaste compañía y amor. Tu partida nos enseñó cuánto importa despedir con cuidado a quienes son familia. En tu memoria nació Pets al Cielo, para acompañar a otros en ese momento tan difícil.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Tarjeta para incrustar un webp adicional -->
-                <div class="glass-card memoriam-embed-card reveal reveal-delay-2">
-                    <div class="memoriam-embed-frame" id="memoriamEmbedFrame">
-                        <img src="/Assets/patitagatoydueño.webp" alt="Patita de gato junto a la mano de su dueño" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            MENSAJE DE GRATITUD
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-        <section class="section gratitude-section">
-            <div class="gratitude-block reveal-fog">
-                <p>Gracias por confiar en nosotros</p>
-                <p>Con mucho amor, Equipo Pets Al Cielo</p>
-            </div>
-        </section>
+        <Agradecimiento />
 
         <!-- Footer -->
-        <footer role="contentinfo" style="position:relative;">
-
-            <div class="footer-logo">Pets<em>Al</em>Cielo</div>
-            <div style="border-bottom:1px solid rgba(255,255,255,0.08);padding:2.5rem 2rem 2rem;max-width:1360px;margin:0 auto;">
-                <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2.5vw,1.6rem);color:rgba(255,255,255,0.9);margin-bottom:1.4rem;font-weight:500;">Consultas e Información Adicional</h2>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;">
-                    <div>
-                        <h3 style="font-size:0.82rem;color:var(--mint);margin-bottom:0.4rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Crematorio en Puerto Montt</h3>
-                        <p style="font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.65;">Cremación 100% individual de perritos, gatitos y otras mascotitas con retiro a domicilio. Nuestros pequeños merecen dignidad y respeto del agua y no la violencia del fuego..</p>
-                    </div>
-                    <div>
-                        <h3 style="font-size:0.82rem;color:var(--mint);margin-bottom:0.4rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;"> Ecología y consciencia</h3>
-                        <p style="font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.65;">Único crematorio en Puerto Montt con recuperación de chip.</p>
-                    </div>
-                    <div>
-                        <h3 style="font-size:0.82rem;color:var(--mint);margin-bottom:0.4rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Servicio especial: Reencuentro</h3>
-                        <p style="font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.65;">Posibilidad de cremación para mascotas amadas que fallecieron en el pasado. Perros, Gatos, coonejos, hámsteres, aves y todas las especies</p>
-                    </div>
-                    <div>
-                        <h3 style="font-size:0.82rem;color:var(--mint);margin-bottom:0.4rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">Servicio en la Décima Región</h3>
-                        <p style="font-size:0.82rem;color:rgba(255,255,255,0.5);line-height:1.65;">En nuestros 7 años de funcionamiento hemos acompañado a familias de toda la región.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div style="position:relative; margin:0 -2rem; padding:0; overflow:hidden;">
-                <div class="footer-foto" aria-hidden="true" style="
-                    height:166px;
-                    background:url('/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp') center center / cover no-repeat;
-                    opacity:0.97;
-                "></div>
-            </div>
-            <div style="text-align:center;padding:0.6rem 1rem;border-top:1px solid rgba(255,255,255,0.08);font-size:0.65rem;color:rgba(255,255,255,0.85);">
-                <p><strong>© 2026 PetsAlCielo — Crematorio Verde para Mascotitas en la Región de Los Lagos</strong></p>
-                <p style="margin-top:0.2rem;">🌈 Con amor y respeto por quienes fueron y todavía son parte de su familia 🌈</p>
-            </div>
-        </footer>
+        <Footer variant="nosotros" />
 
         <script>
             // ── FOG REVEAL ──
