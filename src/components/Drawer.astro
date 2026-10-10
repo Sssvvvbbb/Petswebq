@@ -1,7 +1,7 @@
 ---
 // Menú lateral (drawer) del celular. Cada página pasa sus enlaces y variantes
 // para reproducir exactamente su HTML original.
-import { MSG_SERVICIOS, waAleatorio, waFijo } from '../data/sitio';
+import { MSG_SERVICIOS, waFijo } from '../data/sitio';
 
 interface Props {
   links: { href: string; label: string }[];
@@ -23,7 +23,7 @@ const { links, cta, logo, deco } = Astro.props;
     </ul>
     <div class="drawer-cta">
         {cta === 'aleatorio'
-            ? <a href={waFijo(MSG_SERVICIOS)} onclick={waAleatorio(MSG_SERVICIOS)}>Contactar ahora</a>
+            ? <a href={waFijo(MSG_SERVICIOS)} data-wa={MSG_SERVICIOS}>Contactar ahora</a>
             : <a href={waFijo(MSG_SERVICIOS)} target="_blank" rel="noopener">Contactar ahora</a>}
     </div>
     {logo && (

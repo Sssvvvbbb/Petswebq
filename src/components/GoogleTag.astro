@@ -1,20 +1,15 @@
 ---
-// Google tag (gtag.js) de Google Analytics. Cada página lo incluye en la
-// misma posición que tenía en el HTML original.
+// Google tag (gtag.js) de Google Analytics. El snippet de configuración va en un
+// script que empaqueta Astro (la CSP no permite scripts en línea).
 import { GA_ID } from '../data/sitio';
-
-interface Props {
-  /** Comillas usadas en el snippet original: dobles en nosotros/instalaciones. */
-  comillas?: 'simples' | 'dobles';
-}
-const { comillas = 'simples' } = Astro.props;
-const q = comillas === 'dobles' ? '"' : "'";
-const codigo = `
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag(${q}js${q}, new Date());
-    gtag(${q}config${q}, ${q}${GA_ID}${q});
-`;
 ---
 <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
-<script is:inline set:html={codigo}></script>
+<script>
+    import { GA_ID } from '../data/sitio';
+    const w = window as unknown as { dataLayer: unknown[] };
+    w.dataLayer = w.dataLayer || [];
+    // gtag.js necesita el objeto arguments, no un arreglo
+    function gtag(..._: unknown[]) { w.dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+</script>

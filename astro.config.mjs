@@ -14,4 +14,7 @@ export default defineConfig({
   compressHTML: false,
   // Sin barra de herramientas de desarrollo inyectada en el HTML de dev.
   devToolbar: { enabled: false },
+  // Los <script> que empaqueta Astro van siempre en archivos /_astro/*.js, aunque
+  // sean chicos: la CSP no permite scripts en línea (ver public/_headers).
+  vite: { build: { assetsInlineLimit: 0 } },
 });

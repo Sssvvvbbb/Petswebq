@@ -11,7 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "compare": "node scripts/compare-html.mjs",
-    "check": "astro build && node scripts/check-rutas.mjs",
+    "check": "astro build && node scripts/check-rutas.mjs && node scripts/check-csp.mjs",
     "visual": "node scripts/visual.mjs"
   },
   "dependencies": {

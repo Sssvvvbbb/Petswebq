@@ -12,7 +12,7 @@ import Favicons from '../components/Favicons.astro';
 <html lang="es">
 <head>
         <!-- Google tag (gtag.js) -->
-        <GoogleTag comillas="dobles" />
+        <GoogleTag />
         <meta charset="UTF-8">
         <MejoraProgresiva scripts={2} />
 <Favicons />
@@ -1458,7 +1458,7 @@ import Favicons from '../components/Favicons.astro';
                     </article>
                     <article class="glass-card service-card reveal reveal-delay-2" itemscope itemtype="https://schema.org/Service">
                         <div class="service-card-header">
-                            <button onclick="document.querySelector('.mosaic-item[data-gallery=\'urnas\']').click()" aria-label="Ver galería de ánforas y relicarios" style="background:none;border:none;padding:0;cursor:pointer;display:block;">
+                            <button data-abre-galeria="urnas" aria-label="Ver galería de ánforas y relicarios" style="background:none;border:none;padding:0;cursor:pointer;display:block;">
                                 <div class="service-icon-wrap ic-2" style="transition:transform 0.2s;pointer-events:none;">
                                     <!-- ÍCONO 2: reemplaza este svg con tu imagen cuando la tengas -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#CBAEF2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1570,7 +1570,7 @@ import Favicons from '../components/Favicons.astro';
 
                     <!-- Botones flotantes arriba a la derecha, fuera de la card -->
                     <div style="display:flex;gap:0.5rem;justify-content:center;margin-bottom:0.5rem;" class="ig-top-btns">
-                        <button onclick="document.querySelector('.mosaic-item[data-gallery=\'despedida\']').click()"
+                        <button data-abre-galeria="despedida"
                            class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;cursor:pointer;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);white-space:nowrap;">
                             Testimonios
                         </button>
@@ -1689,7 +1689,7 @@ import Favicons from '../components/Favicons.astro';
                     <p> Usamos Agua, no Fuego.</p>
                 </p>
                 <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-                    <a href="https://wa.me/56998461172?text=Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20cremaci%C3%B3n" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20cremaci%C3%B3n','_blank','noopener');" class="btn" style="background:linear-gradient(135deg,#29A798,#3ab8a8);color:#fff;box-shadow:0 4px 20px rgba(41,167,152,0.35);" aria-label="Solicitar información por WhatsApp">Solicitar información vía WhatsApp</a>
+                    <a href="https://wa.me/56998461172?text=Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20cremaci%C3%B3n" data-wa="Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20cremaci%C3%B3n" class="btn" style="background:linear-gradient(135deg,#29A798,#3ab8a8);color:#fff;box-shadow:0 4px 20px rgba(41,167,152,0.35);" aria-label="Solicitar información por WhatsApp">Solicitar información vía WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -1807,7 +1807,7 @@ import Favicons from '../components/Favicons.astro';
         <!-- Footer -->
         <Footer variant="nosotros" />
 
-        <script is:inline>
+        <script>
             // ── CAROUSEL ──
             let currentSlide = 0;
             const slides = document.querySelectorAll('.carousel-slide');
@@ -2159,7 +2159,7 @@ import Favicons from '../components/Favicons.astro';
             #glb-modal-inner.accent-mariposas     { border-color: #8FE0A4; } /* verde menta vivo    */
             #glb-modal-inner.accent-despedida     { border-color: #FFC4A0; } /* naranja pastel suave */
 </style>
-        <script is:inline>
+        <script>
             // ── GALLERY LIGHTBOX ──
             document.addEventListener('DOMContentLoaded', function() {
             // ── GALLERY LIGHTBOX ──

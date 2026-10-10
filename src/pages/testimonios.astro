@@ -1,18 +1,12 @@
 ---
 import MejoraProgresiva from '../components/MejoraProgresiva.astro';
 import Menu from '../components/Menu.astro';
+import GoogleTag from '../components/GoogleTag.astro';
 ---
 <!DOCTYPE html>
     <html lang="es">
     <head>
-        <!-- Google tag (gtag.js) -->
-        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-GMK6NF1B3Z"></script>
-        <script is:inline>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag("js", new Date());
-            gtag("config", "G-GMK6NF1B3Z");
-        </script>
+        <GoogleTag />
         <meta charset="UTF-8">
         <MejoraProgresiva scripts={1} />
 <link rel="icon" type="image/x-icon" href="/Assets/favicon.ico">
@@ -1933,7 +1927,7 @@ import Menu from '../components/Menu.astro';
                     <span>Consultas y agendamiento vía WhatsApp</span>
                 </span>
                 <div style="display:flex;align-items:center;gap:0.5rem;padding-right:3px;justify-content:flex-end;grid-column:4;">
-                    <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#F5D0E8 0%,#E3B0D8 35%,#D4A4CC 65%,#CDBAF0 100%);text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+                    <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener" aria-label="Instagram PetsAlCielo" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#F5D0E8 0%,#E3B0D8 35%,#D4A4CC 65%,#CDBAF0 100%);text-decoration:none;transition:opacity 0.2s;" class="ig-mini">
                         <svg width="8" height="8" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     </a>
 
@@ -2301,7 +2295,7 @@ import Menu from '../components/Menu.astro';
             </div>
         </footer>
 
-        <script is:inline>
+        <script>
             // ── FOG REVEAL ──
             const fogEls = document.querySelectorAll('.reveal-fog');
             const fogIO = new IntersectionObserver((entries) => {

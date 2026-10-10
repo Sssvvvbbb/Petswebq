@@ -24,7 +24,7 @@
 // Sale con código 1 si alguna captura difiere más que el umbral (--umbral=0.05,
 // en % de píxeles) o si falla una prueba.
 import { spawn } from 'node:child_process';
-import { mkdirSync, existsSync, readdirSync, rmSync, writeFileSync, realpathSync } from 'node:fs';
+import { mkdirSync, existsSync, readdirSync, readFileSync, rmSync, writeFileSync, realpathSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
 import puppeteer from 'puppeteer-core';
@@ -82,6 +82,20 @@ async function levantarServidor() {
 }
 function bajarServidor(proc) {
   proc.kill();
+}
+
+// astro preview no aplica public/_headers: las pruebas de funcionamiento entregan
+// cada página con la CSP de "/*" para que una violación salga como falla.
+const CSP = (readFileSync('public/_headers', 'utf8').match(/^\/\*\s*\n(?:[ \t]+.*\n)*?[ \t]+Content-Security-Policy:[ \t]*(.+)$/m) || [])[1];
+if (!CSP) throw new Error('No encontré la Content-Security-Policy de "/*" en public/_headers');
+async function conCsp(page) {
+  await page.setRequestInterception(true);
+  page.on('request', async r => {
+    // Solo la página: los iframes (YouTube) traen su propia política
+    if (!r.isNavigationRequest() || r.frame() !== page.mainFrame()) return r.continue();
+    const res = await fetch(r.url());
+    r.respond({ status: res.status, headers: { 'content-type': res.headers.get('content-type') || 'text/html', 'content-security-policy': CSP }, body: await res.text() });
+  });
 }
 
 // Se ejecuta antes que los scripts de la página: azar con semilla y sin temporizadores largos.
@@ -149,6 +163,10 @@ async function capturar(browser) {
       await page.goto(BASE + p, { waitUntil: 'networkidle0', timeout: 60000 });
       // Puppeteer puede evaluar aunque la página no ejecute JS: espera las fuentes.
       await page.evaluate(() => document.fonts.ready.then(() => document.fonts.size)).catch(() => {});
+      // ...y las imágenes: sin esto, a veces la foto de Mulán salía a medio cargar.
+      await page.evaluate(() => Promise.all([...document.images].filter(i => !i.complete).map(i => new Promise(r => { i.onload = i.onerror = r; })))
+        .then(() => Promise.all([...document.images].map(i => (i.decode ? i.decode().catch(() => {}) : null))))).catch(() => {});
+      await page.waitForNetworkIdle({ idleTime: 500, timeout: 30000 }).catch(() => {});
       await new Promise(r => setTimeout(r, 500));
       await page.screenshot({ path: join(out, `${nombre(p)}-${ancho}-sin-js.png`), fullPage: true });
       await page.close();
@@ -199,6 +217,7 @@ async function probar(browser) {
       const donde = `${p} @${ancho}`;
       page.on('pageerror', e => fallas.push(`${donde}: error de JavaScript: ${e.message}`));
       page.on('console', m => { if (m.type() === 'error' || /Content Security Policy/i.test(m.text())) fallas.push(`${donde}: consola: ${m.text().slice(0, 160)}`); });
+      await conCsp(page);
       // Los enlaces externos (WhatsApp, Instagram, Maps) se abren en otra pestaña: no se siguen.
       await page.goto(BASE + p, { waitUntil: 'networkidle0', timeout: 60000 });
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
@@ -207,7 +226,7 @@ async function probar(browser) {
       const r = await page.evaluate(() => ({
         desborde: document.documentElement.scrollWidth - window.innerWidth,
         rotas: [...document.images].filter(i => i.complete && i.naturalWidth === 0 && i.getAttribute('src')).map(i => i.getAttribute('src')),
-        waSinDestino: [...document.querySelectorAll('a[href="#"]')].filter(a => /wa\.me/.test(a.getAttribute('onclick') || '')).length,
+        waSinDestino: [...document.querySelectorAll('a[href="#"]')].filter(a => /wa\.me/.test(a.getAttribute('onclick') || '') || a.hasAttribute('data-wa')).length,
       }));
       if (r.desborde > 1) fallas.push(`${donde}: scroll horizontal de ${r.desborde}px`);
       r.rotas.forEach(s => fallas.push(`${donde}: imagen rota ${s}`));
@@ -281,7 +300,8 @@ async function abrir(browser, ruta, { sinJs = false, antes } = {}) {
 
 // Envuelve cada <script> en línea de la página en un setTimeout que lo ejecuta en
 // el ámbito global con 6 s de retraso. Se excluyen JSON-LD, los scripts externos y
-// los marcados con data-inmediato (el marcador de la clase "js" del <head>).
+// los marcados con data-inmediato (el marcador de la clase "js" del <head>). Los
+// scripts externos del sitio (/_astro/*.js) se retrasan en la red (ver escenarios).
 function retrasarScripts(html) {
   return html.replace(/<script(?![^>]*(?:application\/ld\+json|\ssrc=|data-inmediato))([^>]*)>([\s\S]*?)<\/script>/g,
     (m, attrs, codigo) => `<script${attrs}>setTimeout(function(){(0,eval)(${JSON.stringify(codigo).replace(/<\//g, '<\\/')})},6000)</script>`);
@@ -311,7 +331,11 @@ async function escenarios(browser, lista) {
     page = await abrir(browser, p, {
       antes: async pg => {
         await pg.setRequestInterception(true);
-        pg.on('request', r => (r.isNavigationRequest() ? r.respond({ status: 200, contentType: 'text/html; charset=utf-8', body: html }) : r.continue()));
+        pg.on('request', r => {
+          if (r.isNavigationRequest()) return r.respond({ status: 200, contentType: 'text/html; charset=utf-8', body: html });
+          if (/\/_astro\/.+\.js(\?|$)/.test(r.url())) return void setTimeout(() => r.continue(), 6000);
+          r.continue();
+        });
       },
     });
     await esperar(4500);

@@ -124,7 +124,7 @@ import Favicons from '../components/Favicons.astro';
                         </div>
                         <p itemprop="description">Llamado científicamente como Hidrólisis Alcalina, es el proceso natural que ocurre en algunos lagos del mundo. Es respetuoso con el medio ambiente y con la mascotita, ya que nos asegura un proceso individual y no termina en cenizas: es el Polvito de Calcio lo entregado en su urna especial junto a su chip de identificación operativo.</p>
                     </article>
-                    <article class="glass-card service-card reveal reveal-delay-2" itemscope itemtype="https://schema.org/Service" onclick="document.querySelector('.mosaic-item[data-gallery=\'urnas\']').click()" role="button" tabindex="0" aria-label="Ver galería de ánforas y relicarios" style="cursor:pointer;" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.querySelector('.mosaic-item[data-gallery=\'urnas\']').click();}">
+                    <article class="glass-card service-card reveal reveal-delay-2" itemscope itemtype="https://schema.org/Service" data-abre-galeria="urnas" role="button" tabindex="0" aria-label="Ver galería de ánforas y relicarios" style="cursor:pointer;">
                         <div class="service-card-header">
                             <div class="service-icon-wrap ic-2" style="transition:transform 0.2s;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#CBAEF2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -235,7 +235,7 @@ import Favicons from '../components/Favicons.astro';
 
                     <!-- Botones flotantes arriba a la derecha, fuera de la card -->
                     <div style="display:flex;gap:0.5rem;justify-content:center;margin-bottom:0.5rem;" class="ig-top-btns">
-                        <button onclick="document.querySelector('.mosaic-item[data-gallery=\'despedida\']').click()"
+                        <button data-abre-galeria="despedida"
                            class="btn" style="font-size:0.82rem;padding:0.55rem 1.2rem;cursor:pointer;background:linear-gradient(135deg,#7DD6EE,#4BBEDD);color:#fff;box-shadow:0 4px 16px rgba(91,196,232,0.35);white-space:nowrap;">
                             Testimonios
                         </button>
@@ -327,7 +327,7 @@ import Favicons from '../components/Favicons.astro';
                 </p>
                 <p>Usamos Agua, no Fuego.</p>
                 <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-                    <a href="https://wa.me/56998461172?text=Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20cremaci%C3%B3n" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20cremaci%C3%B3n','_blank','noopener');" class="btn" style="background:linear-gradient(135deg,#29A798,#3ab8a8);color:#fff;box-shadow:0 4px 20px rgba(41,167,152,0.35);" aria-label="Solicitar información por WhatsApp">Solicitar información vía WhatsApp</a>
+                    <a href="https://wa.me/56998461172?text=Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20cremaci%C3%B3n" data-wa="Hola%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20cremaci%C3%B3n" class="btn" style="background:linear-gradient(135deg,#29A798,#3ab8a8);color:#fff;box-shadow:0 4px 20px rgba(41,167,152,0.35);" aria-label="Solicitar información por WhatsApp">Solicitar información vía WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -423,7 +423,7 @@ import Favicons from '../components/Favicons.astro';
         <!-- Footer -->
         <Footer variant="home" />
 
-        <script is:inline>
+        <script>
             // ── CAROUSEL HERO ──
             (function () {
                 let currentSlide = 0;
@@ -864,7 +864,7 @@ import Favicons from '../components/Favicons.astro';
         <GalleryModal fondo="oscuro" />
 
         <style is:inline>.glb-visible{opacity:1 !important}.glb-slide{display:none;width:100%;height:100%;align-items:center;justify-content:center}.glb-slide.glb-active{display:flex}.glb-slide img{max-width:100%;max-height:72vh;object-fit:contain;display:block}@keyframes glbSpin{to{transform:rotate(360deg)}}#glb-modal-inner{border:3.5px solid transparent;transition:border-color 0.28s ease}#glb-modal-inner.accent-despedida{width:min(92vw,420px) !important}#glb-modal-inner.accent-instalaciones{border-color:#F9B8C8}#glb-modal-inner.accent-jardin{border-color:#90D8F0}#glb-modal-inner.accent-urnas{border-color:#C9A8F0}#glb-modal-inner.accent-mariposas{border-color:#8FE0A4}#glb-modal-inner.accent-despedida{border-color:#FFC4A0}</style>
-        <script is:inline>
+        <script>
             // ── GALLERY LIGHTBOX ──
             document.addEventListener('DOMContentLoaded', function() {
             // ── GALLERY LIGHTBOX ──

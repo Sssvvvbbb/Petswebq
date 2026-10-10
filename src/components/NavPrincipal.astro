@@ -1,6 +1,6 @@
 ---
 // Barra de navegación principal (escritorio).
-import { MSG_CREMACION, waAleatorio, waFijo } from '../data/sitio';
+import { MSG_CREMACION, waFijo } from '../data/sitio';
 
 interface Props {
   logoHref: string;
@@ -27,7 +27,7 @@ const { logoHref, corazon, links, cta } = Astro.props;
             )}
             {links.map(({ href, label, class: cls }) => <li><a href={href} class={cls}>{label}</a></li>)}
             <li>{cta === 'aleatorio'
-                ? <a href={waFijo(MSG_CREMACION)} onclick={waAleatorio(MSG_CREMACION)} class="nav-cta btn">Contactar</a>
+                ? <a href={waFijo(MSG_CREMACION)} data-wa={MSG_CREMACION} class="nav-cta btn">Contactar</a>
                 : <a href={waFijo(MSG_CREMACION)} target="_blank" rel="noopener" class="nav-cta btn">Contactar</a>}</li>
         </ul>
     </div>

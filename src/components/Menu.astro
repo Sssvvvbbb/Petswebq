@@ -3,7 +3,8 @@
 // lateral (drawer) y barra de navegación de escritorio, con sus estilos.
 // El <style> va después del CSS de la página, así que sus reglas mandan.
 // El JS (abrir/cerrar drawer y ocultar ítems al hacer scroll) sigue en el
-// <script is:inline> de cada página.
+// <script> de cada página. Este componente incluye además src/scripts/enlaces.ts
+// (WhatsApp al azar y atajos a las galerías), común a todas las páginas.
 import HeartButton from './HeartButton.astro';
 import Drawer from './Drawer.astro';
 import NavPrincipal from './NavPrincipal.astro';
@@ -339,3 +340,7 @@ import NavPrincipal from './NavPrincipal.astro';
     ]}
     cta="aleatorio"
 />
+
+<script>
+    import '../scripts/enlaces';
+</script>

@@ -9,7 +9,7 @@
 // Revisa las páginas de dist/ (sin los comentarios HTML) y los JSON que las
 // páginas cargan con fetch: src, href, srcset, poster, data-src, metas con
 // URL de petsalcielo.cl, url(...) del CSS y rutas '/Assets/...' o
-// '/gallery/...' escritas dentro de los <script>. También revisa enlaces a
+// '/gallery/...' escritas dentro de los <script> (en línea o en /_astro/*.js). También revisa enlaces a
 // páginas (sin .html ni barra final) y anclas /#id.
 //
 // Las páginas que _redirects manda a la home se informan como aviso, no
@@ -123,6 +123,33 @@ for (const f of paginas) {
   })(docs[f]);
 }
 
+// Scripts que empaqueta Astro (/_astro/*.js, con sus imports): mismas rutas
+// '/Assets/...' y '/gallery/...' que se revisan dentro de los <script> en línea.
+// Si solo los cargan páginas que redirigen, sus problemas son avisos.
+const RUTA_EN_JS = /['"`](\/(?:Assets|gallery)\/[^'"`]*\.[a-z0-9]{2,5})['"`]/gi;
+const paginasDeJs = new Map();
+function seguirJs(archivo, ruta) {
+  const lista = paginasDeJs.get(archivo) || [];
+  if (lista.includes(ruta)) return;
+  paginasDeJs.set(archivo, lista.concat(ruta));
+  const codigo = readFileSync(join(DIST, archivo), 'utf8');
+  for (const m of codigo.matchAll(/(?:import|from)\s*["']\.\/([^"']+\.js)["']/g)) seguirJs('_astro/' + m[1], ruta);
+}
+for (const f of paginas) {
+  (function caminar(n) {
+    if (n.nodeName === 'script') {
+      const src = (n.attrs || []).find(a => a.name === 'src')?.value || '';
+      if (src.startsWith('/_astro/')) seguirJs(src.slice(1), rutaDePagina(f));
+    }
+    for (const h of n.childNodes || []) caminar(h);
+    if (n.content) caminar(n.content);
+  })(docs[f]);
+}
+for (const [archivo, rutas] of paginasDeJs) {
+  const visible = rutas.find(r => !redirigidas.has(r)) || rutas[0];
+  for (const m of readFileSync(join(DIST, archivo), 'utf8').matchAll(RUTA_EN_JS)) revisar(m[1], archivo, visible);
+}
+
 for (const j of JSONS) {
   const p = join(PUBLIC, j);
   if (!existsSync(p)) { errores.push(`${j}: el JSON no existe`); continue; }
@@ -140,4 +167,4 @@ if (errores.length) {
   errores.forEach(e => console.log('  ✗ ' + e));
   process.exit(1);
 }
-console.log(`\n✓ Rutas correctas en ${paginas.length} páginas y ${JSONS.length} JSON.`);
+console.log(`\n✓ Rutas correctas en ${paginas.length} páginas, ${paginasDeJs.size} scripts y ${JSONS.length} JSON.`);
