@@ -1,0 +1,27 @@
+---
+// Un grupo de preguntas de /preguntas-frecuentes, armado desde src/data/faq.ts
+// (única fuente: el JSON-LD del <head> sale de los mismos datos). El JS de la
+// página abre/cierra cada respuesta y filtra por data-group/data-cat.
+import type { GrupoFaq } from '../../data/faq';
+
+interface Props { grupo: GrupoFaq }
+const { grupo } = Astro.props;
+---
+<div class="faq-group" data-group={grupo.id} style={grupo.estilo}>
+    <h2 class="faq-group-title"><span class="group-icon">{grupo.icono}</span> {grupo.titulo}</h2>
+    <div class="faq-list">
+        {grupo.preguntas.map(p => (
+            <div class="faq-item" data-cat={grupo.id} data-question={p.pregunta}>
+                <button class="faq-question" aria-expanded="false">
+                    {p.pregunta}
+                    <span class="faq-chevron" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                    </span>
+                </button>
+                <div class="faq-answer" role="region">
+                    <div class="faq-answer-inner" set:html={p.respuesta} />
+                </div>
+            </div>
+        ))}
+    </div>
+</div>
