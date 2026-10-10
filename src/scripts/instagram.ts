@@ -175,15 +175,21 @@
         startAutoplay();
     }
 
+    // Sin feed: enlace al perfil. Se arma con elementos y elemento.style (no con
+    // style="..." en innerHTML, que la CSP bloquea).
     function showFallback() {
         wrapEl.style.minHeight = '180px';
-        container.innerHTML = `
-            <div class="ig-slide active" style="flex-direction:column;gap:1rem;">
-                <a href="https://www.instagram.com/_petsalcielo/" target="_blank" rel="noopener"
-                   style="display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,#f9c8a0,#e06090,#9060d0);color:white;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;padding:0.55rem 1.4rem;border-radius:50px;">
-                    Ver @_petsalcielo en Instagram ↗
-                </a>
-            </div>`;
+        const slide = document.createElement('div');
+        slide.className = 'ig-slide active';
+        slide.style.cssText = 'flex-direction:column;gap:1rem;';
+        const a = document.createElement('a');
+        a.href = 'https://www.instagram.com/_petsalcielo/';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.style.cssText = "display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,#f9c8a0,#e06090,#9060d0);color:white;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;padding:0.55rem 1.4rem;border-radius:50px;";
+        a.textContent = 'Ver @_petsalcielo en Instagram ↗';
+        slide.appendChild(a);
+        container.replaceChildren(slide);
     }
 
     // Cargar instagram.json solo cuando la sección sea visible
