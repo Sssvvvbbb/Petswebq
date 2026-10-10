@@ -62,7 +62,7 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 | `PageHero` | Cabecera con migas de pan (preguntas-frecuentes) |
 | `Footer` | Pie. `variant`: `home`/`nosotros`/`faq`/`regreso` |
 | `GalleryModal` | Modal `#glb-overlay`. Prop `fondo` (`oscuro`/`blur`) |
-| `GoogleTag` | Google Analytics. La configuración queda en `dataLayer` de inmediato, pero gtag.js se descarga recién con la primera interacción (scroll, toque, tecla, mouse) o a los 4 s de cargada la página: cargado al inicio retrasaba 2 a 3 s el contenido principal en celulares. Se pierde solo la visita de quien no interactúa y cierra antes de 4 s |
+| `GoogleTag` | Google Analytics. La configuración queda en `dataLayer` de inmediato, pero gtag.js se descarga 3 s después del evento load (en un momento libre): cargado al inicio retrasaba 2 a 3 s el contenido principal en celulares, y justo después del load seguía bajando el puntaje de la home. Se pierden solo las visitas de menos de ~3 s |
 | `Favicons` | Íconos del sitio |
 | `MejoraProgresiva` | En el `<head>` de cada página, después del charset. Incluye `src/scripts/revelar.ts`. Prop `scripts`: cuántos scripts debe esperar (1; 2 en la FAQ). Marca `<html class="js">`; las animaciones `.reveal`/`.reveal-fog` y el acordeón cerrado de la FAQ solo se aplican con esa clase. Si a los 4 s no terminaron de inicializar todos los scripts, quita la clase y todo queda visible |
 

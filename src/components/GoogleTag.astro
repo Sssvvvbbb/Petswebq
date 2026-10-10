@@ -1,19 +1,21 @@
 ---
 // Google tag (gtag.js) de Google Analytics.
 //
-// gtag.js se descarga recién con la primera interacción (scroll, toque, tecla,
-// mouse) o a los 4 s de cargada la página, lo que ocurra primero. Cargado desde
-// el inicio retrasaba 2 a 3 s la aparición del contenido principal en celulares
-// (Lighthouse), y cargado justo después del evento load seguía pesando en la home
-// y la FAQ. La configuración se pone en dataLayer de inmediato, así que la visita
-// se registra igual cuando gtag.js llega; solo se pierde la de quien no
-// interactúa y cierra antes de 4 s.
+// gtag.js se descarga 3 s después de que la página terminó de cargar (evento
+// load), en un momento libre del navegador. La configuración se pone en dataLayer
+// de inmediato y la visita se registra al llegar gtag.js, sin que el visitante
+// tenga que interactuar. Mediciones (Lighthouse móvil, 2026-10-10):
+// - cargado al inicio: retrasaba 2 a 3 s el contenido principal (home 77);
+// - justo después del load: seguía pesando en la home (67, +326 ms de bloqueo);
+// - 3 s después del load: home 88, testimonios 89, FAQ 97.
+// Solo se pierden las visitas de menos de ~3 s, que GA ya trata como "sin
+// interacción". Decidido con el dueño: priorizar velocidad y SEO.
 // El script va empaquetado por Astro (la CSP no permite scripts en línea) y
 // googletagmanager.com está permitido en script-src.
 ---
 <script>
     import { GA_ID } from '../data/sitio';
-    const w = window as unknown as { dataLayer: unknown[] };
+    const w = window as unknown as { dataLayer: unknown[]; requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => void };
     w.dataLayer = w.dataLayer || [];
     // gtag.js necesita el objeto arguments, no un arreglo
     function gtag(..._: unknown[]) { w.dataLayer.push(arguments); }
@@ -26,16 +28,13 @@
         s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
         document.head.appendChild(s);
     }
-    let cargado = false;
-    const EVENTOS = ['scroll', 'pointerdown', 'keydown', 'touchstart', 'mousemove'];
-    function cargarUnaVez() {
-        if (cargado) return;
-        cargado = true;
-        EVENTOS.forEach(e => window.removeEventListener(e, cargarUnaVez));
-        cargarGtag();
+    // 3 s después del load y en un momento libre del navegador
+    function despuesDeCargar() {
+        setTimeout(() => {
+            if (w.requestIdleCallback) w.requestIdleCallback(cargarGtag, { timeout: 2000 });
+            else cargarGtag();
+        }, 3000);
     }
-    EVENTOS.forEach(e => window.addEventListener(e, cargarUnaVez, { once: true, passive: true }));
-    function despuesDeCargar() { setTimeout(cargarUnaVez, 4000); }
     if (document.readyState === 'complete') despuesDeCargar();
     else window.addEventListener('load', despuesDeCargar, { once: true });
 </script>
