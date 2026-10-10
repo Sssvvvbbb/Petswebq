@@ -1,0 +1,2 @@
+/* Pista "Presione la imagen" de /nosotros y /instalaciones (antes en un <style> dentro de la sección). El orden de los import en la página reproduce el orden original. */
+@media(max-width:768px){.gallery-hint{display:flex!important;align-items:center;flex-wrap:nowrap;margin-top:0.8rem;font-size:0.78rem!important;gap:0.3em!important;white-space:nowrap;}.gallery-hint svg{width:0.72rem!important;height:0.72rem!important;}}

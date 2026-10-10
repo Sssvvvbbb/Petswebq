@@ -128,6 +128,7 @@ for (const f of paginas) {
 // Si solo los cargan páginas que redirigen, sus problemas son avisos.
 const RUTA_EN_JS = /['"`](\/(?:Assets|gallery)\/[^'"`]*\.[a-z0-9]{2,5})['"`]/gi;
 const paginasDeJs = new Map();
+const paginasDeCss = new Map(); // CSS que empaqueta Astro (/_astro/*.css): se revisan sus url(...)
 function seguirJs(archivo, ruta) {
   const lista = paginasDeJs.get(archivo) || [];
   if (lista.includes(ruta)) return;
@@ -141,6 +142,13 @@ for (const f of paginas) {
       const src = (n.attrs || []).find(a => a.name === 'src')?.value || '';
       if (src.startsWith('/_astro/')) seguirJs(src.slice(1), rutaDePagina(f));
     }
+    if (n.nodeName === 'link' && (n.attrs || []).some(a => a.name === 'rel' && a.value === 'stylesheet')) {
+      const href = (n.attrs || []).find(a => a.name === 'href')?.value || '';
+      if (href.startsWith('/_astro/')) {
+        const archivo = href.slice(1);
+        paginasDeCss.set(archivo, (paginasDeCss.get(archivo) || []).concat(rutaDePagina(f)));
+      }
+    }
     for (const h of n.childNodes || []) caminar(h);
     if (n.content) caminar(n.content);
   })(docs[f]);
@@ -148,6 +156,11 @@ for (const f of paginas) {
 for (const [archivo, rutas] of paginasDeJs) {
   const visible = rutas.find(r => !redirigidas.has(r)) || rutas[0];
   for (const m of readFileSync(join(DIST, archivo), 'utf8').matchAll(RUTA_EN_JS)) revisar(m[1], archivo, visible);
+}
+
+for (const [archivo, rutas] of paginasDeCss) {
+  const visible = rutas.find(r => !redirigidas.has(r)) || rutas[0];
+  for (const m of readFileSync(join(DIST, archivo), 'utf8').matchAll(/url\(\s*['"]?([^'")]+)/g)) revisar(m[1], archivo, visible);
 }
 
 for (const j of JSONS) {
@@ -167,4 +180,4 @@ if (errores.length) {
   errores.forEach(e => console.log('  ✗ ' + e));
   process.exit(1);
 }
-console.log(`\n✓ Rutas correctas en ${paginas.length} páginas, ${paginasDeJs.size} scripts y ${JSONS.length} JSON.`);
+console.log(`\n✓ Rutas correctas en ${paginas.length} páginas, ${paginasDeJs.size} scripts, ${paginasDeCss.size} CSS y ${JSONS.length} JSON.`);

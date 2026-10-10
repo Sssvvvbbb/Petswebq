@@ -16,5 +16,8 @@ export default defineConfig({
   devToolbar: { enabled: false },
   // Los <script> que empaqueta Astro van siempre en archivos /_astro/*.js, aunque
   // sean chicos: la CSP no permite scripts en línea (ver public/_headers).
-  vite: { build: { assetsInlineLimit: 0 } },
+  // CSS minificado con esbuild: lightningcss (el de Vite por defecto) borra
+  // `backdrop-filter` cuando le sigue `-webkit-backdrop-filter`, y Chrome pierde
+  // el desenfoque del menú y de las tarjetas.
+  vite: { build: { assetsInlineLimit: 0, cssMinify: 'esbuild' } },
 });
