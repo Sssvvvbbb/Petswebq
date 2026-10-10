@@ -1,9 +1,16 @@
 ---
-// Google tag (gtag.js) de Google Analytics. El snippet de configuración va en un
-// script que empaqueta Astro (la CSP no permite scripts en línea).
-import { GA_ID } from '../data/sitio';
+// Google tag (gtag.js) de Google Analytics.
+//
+// gtag.js se descarga recién con la primera interacción (scroll, toque, tecla,
+// mouse) o a los 4 s de cargada la página, lo que ocurra primero. Cargado desde
+// el inicio retrasaba 2 a 3 s la aparición del contenido principal en celulares
+// (Lighthouse), y cargado justo después del evento load seguía pesando en la home
+// y la FAQ. La configuración se pone en dataLayer de inmediato, así que la visita
+// se registra igual cuando gtag.js llega; solo se pierde la de quien no
+// interactúa y cierra antes de 4 s.
+// El script va empaquetado por Astro (la CSP no permite scripts en línea) y
+// googletagmanager.com está permitido en script-src.
 ---
-<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
 <script>
     import { GA_ID } from '../data/sitio';
     const w = window as unknown as { dataLayer: unknown[] };
@@ -12,4 +19,23 @@ import { GA_ID } from '../data/sitio';
     function gtag(..._: unknown[]) { w.dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', GA_ID);
+
+    function cargarGtag() {
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+        document.head.appendChild(s);
+    }
+    let cargado = false;
+    const EVENTOS = ['scroll', 'pointerdown', 'keydown', 'touchstart', 'mousemove'];
+    function cargarUnaVez() {
+        if (cargado) return;
+        cargado = true;
+        EVENTOS.forEach(e => window.removeEventListener(e, cargarUnaVez));
+        cargarGtag();
+    }
+    EVENTOS.forEach(e => window.addEventListener(e, cargarUnaVez, { once: true, passive: true }));
+    function despuesDeCargar() { setTimeout(cargarUnaVez, 4000); }
+    if (document.readyState === 'complete') despuesDeCargar();
+    else window.addEventListener('load', despuesDeCargar, { once: true });
 </script>

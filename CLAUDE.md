@@ -47,6 +47,7 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 - **Movimiento reducido**: ningún carrusel avanza solo si `prefers-reduced-motion: reduce`.
 - **Videos de testimonios**: el HTML no lleva el archivo del video. Cada diapositiva muestra una portada (`<a class="testi-video" href="…webm" data-video="…webm">` con `<img data-poster="…-portada.webp">` y un botón) y el `<video>` se crea al pulsar. Las portadas se asignan al mostrarse la diapositiva actual y la siguiente. Al agregar un video, subir también su portada 400×711 WebP y ponerla en `poster` de `testimonios.json`.
 - **Archivos reemplazados llevan nombre nuevo** (fuentes `…-latin.woff2`, `logo_para_web-360.webp`, `foto-kissita-600.webp`): Cloudflare guarda imágenes y fuentes 30 días en el navegador, y purgar Cloudflare no borra esa copia.
+- **Fotos en varios tamaños**: las grandes tienen una versión chica con el ancho al final del nombre (`imagen_hero_…-800.webp`, `foto-mulan-…-640.webp`, `reviews/…-440.webp`, `reviews/carmen-gloria-diaz-1-1000.webp`) y el `<img>` (o `<source>`) las ofrece con `srcset`/`sizes` para que el celular baje la chica. La portada de la home se precarga con `imagesrcset` en `index.astro`. Si se reemplaza una foto, regenerar también sus versiones (con nombre nuevo).
 
 ## Componentes (`src/components/`)
 | Componente | Uso |
@@ -61,7 +62,7 @@ Datos que las páginas cargan con `fetch`, servidos desde `public/`:
 | `PageHero` | Cabecera con migas de pan (preguntas-frecuentes) |
 | `Footer` | Pie. `variant`: `home`/`nosotros`/`faq`/`regreso` |
 | `GalleryModal` | Modal `#glb-overlay`. Prop `fondo` (`oscuro`/`blur`) |
-| `GoogleTag` | gtag.js y su configuración (script empaquetado) |
+| `GoogleTag` | Google Analytics. La configuración queda en `dataLayer` de inmediato, pero gtag.js se descarga recién con la primera interacción (scroll, toque, tecla, mouse) o a los 4 s de cargada la página: cargado al inicio retrasaba 2 a 3 s el contenido principal en celulares. Se pierde solo la visita de quien no interactúa y cierra antes de 4 s |
 | `Favicons` | Íconos del sitio |
 | `MejoraProgresiva` | En el `<head>` de cada página, después del charset. Incluye `src/scripts/revelar.ts`. Prop `scripts`: cuántos scripts debe esperar (1; 2 en la FAQ). Marca `<html class="js">`; las animaciones `.reveal`/`.reveal-fog` y el acordeón cerrado de la FAQ solo se aplican con esa clase. Si a los 4 s no terminaron de inicializar todos los scripts, quita la clase y todo queda visible |
 
