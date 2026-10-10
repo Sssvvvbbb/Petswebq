@@ -1,5 +1,6 @@
 ---
 import MejoraProgresiva from '../components/MejoraProgresiva.astro';
+import Menu from '../components/Menu.astro';
 ---
 <!DOCTYPE html>
     <html lang="es">
@@ -158,66 +159,9 @@ import MejoraProgresiva from '../components/MejoraProgresiva.astro';
             /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             NAVEGACION PRINCIPAL
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-            nav {
-                background: rgba(250,248,249,0.92);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                border-bottom: 1px solid rgba(168,230,214,0.25);
-                position: fixed;
-                top: 28px;
-                left: 0;
-                right: 0;
-                z-index: 1000;
-            }
             .nav-offset {
                 height: 72px;
             }
-            .nav-container {
-                max-width: 1360px;
-                margin: 0 auto;
-                padding: 1rem 2rem;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .logo {
-                font-family: 'Cormorant Garamond', serif;
-                font-size: 1.75rem;
-                font-weight: 500;
-                color: var(--text-dark);
-                text-decoration: none;
-                letter-spacing: 0.02em;
-            }
-            .logo em {
-                font-style: italic;
-                background: linear-gradient(120deg, var(--teal), var(--lavender));
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-            }
-            .nav-menu { display: flex; gap: 2rem; list-style: none; align-items: center; }
-            .nav-menu a {
-                color: var(--text-mid);
-                text-decoration: none;
-                font-size: 0.88rem;
-                font-weight: 400;
-                letter-spacing: 0.03em;
-                transition: color 0.25s;
-            }
-            .nav-menu a:hover { color: var(--teal); }
-            .nav-cta {
-                background: linear-gradient(135deg, #b39ddb, #9575cd) !important;
-                color: #fff !important;
-                padding: 0.6rem 1.6rem !important;
-                border-radius: 50px !important;
-                font-weight: 500 !important;
-                font-size: 0.88rem !important;
-                transition: transform 0.25s !important;
-            }
-            .nav-cta:hover {
-                transform: translateY(-2px) !important;
-            }
-
             /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             HERO - foto de fondo con card
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -1043,30 +987,6 @@ import MejoraProgresiva from '../components/MejoraProgresiva.astro';
                 }
                 .carousel-slide.active { opacity: 1; }
 
-                /* Nav mobile: todos los items visibles, comprimidos */
-                .nav-menu {
-                    display: flex !important;
-                    gap: 0;
-                    flex-wrap: nowrap;
-                    overflow: hidden;
-                    flex: 1;
-                    justify-content: flex-end;
-                    align-items: center;
-                }
-                .nav-menu li a {
-                    font-size: 0.58rem;
-                    white-space: nowrap;
-                    padding: 0 0.2rem;
-                    letter-spacing: 0;
-                }
-                .nav-menu .nav-cta {
-                    padding: 0.4rem 0.8rem !important;
-                    font-size: 0.65rem !important;
-                    white-space: nowrap;
-                    flex-shrink: 0;
-                    margin-left: 0.2rem;
-                }
-
                 .hero-inner {
                     padding: 1.4rem 1.2rem;
                     width: 88%;
@@ -1131,263 +1051,8 @@ import MejoraProgresiva from '../components/MejoraProgresiva.astro';
                 .top-bar-content > div { justify-content: flex-end; }
                 .top-bar-left { gap: 0.6rem; flex-wrap: nowrap; }
                 .top-bar-item { gap: 0.2rem; }
-
-                /* Nav siempre visible en mobile — sin hide-on-scroll */
-                nav {
-                    top: 28px;
-                }
-
-                .nav-container {
-                    padding: 0.5rem 0.6rem;
-                    gap: 0.4rem;
-                    overflow: hidden;
-                }
-                .logo {
-                    font-size: 1rem;
-                    flex-shrink: 0;
-                }
-
-                /* Nav menu: sin scroll, items se comprimen para caber */
-                .nav-menu {
-                    display: flex !important;
-                    gap: 0;
-                    flex-wrap: nowrap;
-                    overflow: hidden;
-                    flex: 1;
-                    justify-content: flex-end;
-                    align-items: center;
-                }
-                .nav-menu li a {
-                    font-size: 0.6rem;
-                    white-space: nowrap;
-                    padding: 0 0.25rem;
-                    letter-spacing: 0;
-                }
-                /* Galería, Proceso, Nosotros, Testimonios: visibles al inicio, se desvanecen al hacer scroll (JS) */
-                /* Orden: 1-Cremación, 2-Galería, 3-Proceso, 4-Nosotros, 5-Testimonios, 6-Contactar */
-                .nav-menu li:nth-child(2),
-                .nav-menu li:nth-child(3),
-                .nav-menu li:nth-child(4),
-                .nav-menu li:nth-child(5) {
-                    opacity: 1;
-                    transition: opacity 0.5s ease;
-                }
-                .nav-menu li:nth-child(4) {
-                    margin-left: -2px;
-                }
-                .nav-menu li:nth-child(2).nav-hidden,
-                .nav-menu li:nth-child(3).nav-hidden,
-                .nav-menu li:nth-child(4).nav-hidden,
-                .nav-menu li:nth-child(5).nav-hidden {
-                    opacity: 0;
-                    pointer-events: none;
-                }
-                /* Botón Contactar siempre visible con margen derecho */
-                .nav-menu .nav-cta {
-                    padding: 0.28rem 0.65rem;
-                    font-size: 0.6rem;
-                    white-space: nowrap;
-                    margin-left: 0.25rem;
-                    flex-shrink: 0;
-                }
             }
 
-
-            /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            BOTON CORAZON - solo visible en celular
-            Flota fijo a la derecha durante todo el scroll
-            Abre el menu lateral al hacer click
-            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-            .heart-btn {
-                display: none;
-            }
-            @media (max-width: 768px) {
-                .heart-btn {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    position: fixed;
-                    bottom: 2rem;
-                    right: 1.2rem;
-                    width: 48px;
-                    height: 48px;
-                    border-radius: 50%;
-                    background: linear-gradient(145deg, #f9c6d8, #e8a0c0);
-                    border: none;
-                    cursor: pointer;
-                    z-index: 9000;
-                    box-shadow: 0 4px 18px rgba(220,130,170,0.35);
-                    transition: transform 0.2s ease;
-                }
-                .heart-btn:active { transform: scale(0.92); }
-                .heart-btn svg {
-                    width: 22px;
-                    height: 22px;
-                    fill: rgba(255,255,255,0.92);
-                }
-            }
-
-            /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            OVERLAY OSCURO - fondo al abrir el menu
-            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-            .drawer-overlay {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(60,50,70,0.18);
-                backdrop-filter: blur(2px);
-                z-index: 9100;
-                opacity: 0;
-                transition: opacity 0.35s ease;
-            }
-            .drawer-overlay.open {
-                display: block;
-                opacity: 1;
-            }
-
-            /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            MENU LATERAL DERECHO - aesthetic blanco
-            Solo ocupa el ancho del contenido del menu
-            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-            .drawer {
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: min(72vw, 300px);
-                height: 100dvh;
-                background: rgba(255,255,255,0.97);
-                backdrop-filter: blur(24px);
-                -webkit-backdrop-filter: blur(24px);
-                z-index: 9200;
-                padding: 2.5rem 2rem 2rem;
-                display: flex;
-                flex-direction: column;
-                gap: 0;
-                transform: translateX(110%);
-                transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
-                box-shadow: -8px 0 40px rgba(180,140,190,0.14);
-                border-left: 1px solid rgba(240,200,220,0.4);
-                border-radius: 20px 0 0 20px;
-                overflow-y: auto;
-                overscroll-behavior: contain;
-                -webkit-overflow-scrolling: touch;
-            }
-            .drawer.open { transform: translateX(0); }
-
-            /* Encabezado del drawer con logo y boton cerrar */
-            .drawer-head {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-bottom: 1.2rem;
-            }
-            .drawer-logo {
-                font-family: 'Cormorant Garamond', serif;
-                font-size: 1.35rem;
-                font-weight: 500;
-                color: var(--text-dark);
-                letter-spacing: 0.02em;
-            }
-            .drawer-logo em {
-                font-style: italic;
-                background: linear-gradient(120deg, var(--teal), var(--lavender));
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-            }
-            .drawer-close {
-                width: 32px;
-                height: 32px;
-                border-radius: 50%;
-                background: rgba(240,200,220,0.3);
-                border: none;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: var(--text-mid);
-                font-size: 1rem;
-                transition: background 0.2s;
-            }
-            .drawer-close:hover { background: rgba(240,200,220,0.6); }
-
-            /* Links de navegacion dentro del drawer */
-            .drawer-nav {
-                list-style: none;
-                display: flex;
-                flex-direction: column;
-                gap: 0;
-            }
-            .drawer-nav li a {
-                display: block;
-                padding: 0.65rem 0;
-                font-family: 'Cormorant Garamond', serif;
-                font-size: 1.35rem;
-                font-weight: 400;
-                color: var(--text-dark);
-                text-decoration: none;
-                border-bottom: 1px solid rgba(200,220,215,0.4);
-                transition: color 0.2s, padding-left 0.2s;
-                letter-spacing: 0.01em;
-            }
-            .drawer-nav li:last-child a { border-bottom: none; }
-            .drawer-nav li a:hover {
-                color: var(--teal);
-                padding-left: 0.5rem;
-            }
-
-            /* Boton de contacto al final del drawer */
-            .drawer-cta {
-                margin-top: 1.2rem;
-                text-align: center;
-            }
-            .drawer-cta a {
-                display: block;
-                background: linear-gradient(135deg, var(--teal), #3ab8a8);
-                color: white !important;
-                text-decoration: none;
-                padding: 0.85rem 1.5rem;
-                border-radius: 50px;
-                font-family: 'DM Sans', sans-serif;
-                font-size: 0.9rem;
-                font-weight: 500;
-                box-shadow: 0 4px 18px rgba(41,167,152,0.25);
-                transition: transform 0.2s, box-shadow 0.2s;
-            }
-            .drawer-cta a:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(41,167,152,0.32); }
-
-            /* Logo imagen centrada entre CTA y deco */
-            .drawer-logo-img {
-                margin-top: auto;
-                padding-top: 0.6rem;
-                padding-bottom: 0;
-                text-align: center;
-            }
-            .drawer-logo-img img {
-                width: 70%;
-                max-width: 180px;
-                height: auto;
-                display: block;
-                margin: 0 auto;
-                object-fit: contain;
-            }
-
-            /* Detalle decorativo pastel abajo del drawer */
-            .drawer-deco {
-                padding-top: 0.5rem;
-                text-align: center;
-                font-size: 0.72rem;
-                color: var(--text-soft);
-                letter-spacing: 0.08em;
-            }
-            .drawer-deco span {
-                display: inline-block;
-                width: 40px;
-                height: 2px;
-                background: linear-gradient(90deg, #f9c6d8, var(--lavender));
-                border-radius: 2px;
-                margin-bottom: 0.6rem;
-            }
 
             /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             CARRUSEL DE INSTAGRAM
@@ -1658,11 +1323,6 @@ import MejoraProgresiva from '../components/MejoraProgresiva.astro';
                 .reveal, .reveal-fog { transition: opacity 0.3s ease; }
                 .glass-card { transition: none; }
             }
-             .icon-heart {
-      width: 8px;
-      height: 8px;
-      fill: #ff4d8d;
-    }
 
     /* ── MOSAIC: estructura base para label ── */
     .mosaic-fill {
@@ -2245,47 +1905,6 @@ import MejoraProgresiva from '../components/MejoraProgresiva.astro';
     </head>
     <body>
 
-        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            BOTON CORAZON FLOTANTE - solo en celular
-            Abre el menu lateral al pulsarlo
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-        <button class="heart-btn" id="heartBtn" aria-label="Abrir menú de navegación" aria-expanded="false">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-        </button>
-
-        <!-- Overlay oscuro detras del drawer -->
-        <div class="drawer-overlay" id="drawerOverlay"></div>
-
-        <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            MENU LATERAL (DRAWER)
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-        <div class="drawer" id="drawer" role="dialog" aria-label="Menú de navegación" aria-modal="true">
-            <div class="drawer-head">
-                <span class="drawer-logo">Pets<em>Al</em>Cielo</span>
-                <button class="drawer-close" id="drawerClose" aria-label="Cerrar menú">✕</button>
-            </div>
-            <ul class="drawer-nav">
-                <li><a href="/" class="drawer-link">Inicio</a></li>
-                <li><a href="/preguntas-frecuentes" class="drawer-link">Preguntas Frecuentes</a></li>
-                <li><a href="/testimonios" class="drawer-link">Testimonios</a></li>
-                <li><a href="/#Biblioteca" class="drawer-link">Biblioteca</a></li>
-                <li><a href="/#video" class="drawer-link">Proceso Ecológico</a></li>
-                <li><a href="/#nosotros" class="drawer-link">Nosotros</a></li>
-            </ul>
-            <div class="drawer-cta">
-                <a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20sus%20servicios" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20sus%20servicios','_blank','noopener');">Contactar ahora</a>
-            </div>
-            <div class="drawer-logo-img">
-                <img src="/Assets/logo_para_web-360.webp" alt="Logo de Pets Al Cielo crematorio en Puerto Montt" width="180" height="180" loading="lazy" decoding="async" />
-            </div>
-            <div class="drawer-deco">
-                <span></span><br>
-                Disponibles 24/7 · Puerto Montt
-            </div>
-        </div>
-
         <!-- SVG defs compartidos (mismos gradientes que index): icono de casa de la top bar -->
         <svg width="0" height="0" style="position:absolute;overflow:hidden;" aria-hidden="true">
             <defs>
@@ -2322,26 +1941,8 @@ import MejoraProgresiva from '../components/MejoraProgresiva.astro';
             </div>
         </aside>
 
-        <!-- Navigation -->
-        <nav role="navigation" aria-label="Navegación principal">
-            <div class="nav-container">
-                <a href="/" class="logo" aria-label="PetsAlCielo - Inicio">Pets<em>Al</em>Cielo</a>
-                <ul class="nav-menu">
-                    <li>
-                        <a href="/" aria-label="Ir a inicio">
-                            <svg class="icon-heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                            </svg>
-                        </a>
-                    </li>
-                    <li><a href="/#Biblioteca">Biblioteca</a></li>
-                    <li><a href="/#video">Proceso Ecológico</a></li>
-                    <li><a href="/#nosotros">Nosotros</a></li>
-                    <li><a href="/testimonios">Testimonios</a></li>
-                    <li><a href="https://wa.me/56998461172?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" onclick="event.preventDefault();var n=Math.random()<0.5?'56998461172':'56940082594';window.open('https://wa.me/'+n+'?text=Hola%2C%20necesito%20informaci%C3%B3n%20sobre%20el%20servicio%20de%20cremaci%C3%B3n','_blank','noopener');" class="nav-cta btn">Contactar</a></li>
-                </ul>
-            </div>
-        </nav>
+        <!-- Menú del sitio (corazón + menú lateral + barra de escritorio) -->
+        <Menu />
 
         <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             ENCABEZADO DE PÁGINA
@@ -2737,9 +2338,11 @@ import MejoraProgresiva from '../components/MejoraProgresiva.astro';
                 drawer.classList.add('open');
                 drawerOverlay.classList.add('open');
                 heartBtn.setAttribute('aria-expanded', 'true');
+                drawerClose.focus(); // el foco del teclado entra al menú
             }
             function closeDrawer() {
                 drawer.classList.remove('open');
+                if (drawer.contains(document.activeElement)) heartBtn.focus(); // y vuelve al botón corazón
                 drawerOverlay.classList.remove('open');
                 heartBtn.setAttribute('aria-expanded', 'false');
             }

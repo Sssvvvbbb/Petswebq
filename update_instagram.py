@@ -10,6 +10,14 @@ Ejecutar manualmente:
 
 En GitHub Actions se ejecuta automáticamente cada 12 h.
 Al final borra de public/Assets/instagram/ las imágenes que ya no están en el feed.
+
+Para no dejar el sitio con imágenes rotas ni el carrusel vacío:
+- cada imagen se descarga a un archivo temporal y solo pasa a ser la definitiva
+  si llegó completa y es realmente una imagen;
+- una publicación sin imagen descargada se omite (la URL de Instagram caduca en días);
+- si la API falla, no devuelve publicaciones o ninguna imagen se pudo descargar,
+  no se toca el feed actual y el script termina con error (el workflow queda en rojo);
+- si las publicaciones no cambiaron, no se reescribe el JSON (sin commit ni despliegue).
 """
 
 import os
@@ -60,17 +68,46 @@ def fetch(url):
         body = e.read().decode()
         print(f"❌  HTTP {e.code} — respuesta de Graph API:\n{body}")
         raise SystemExit(1)
+    except (urllib.error.URLError, TimeoutError, ValueError) as e:
+        raise SystemExit(f"❌  No se pudo consultar la Graph API: {e}")
+
+def is_image(data):
+    """JPEG, PNG, WebP o GIF (el navegador muestra cualquiera aunque el archivo se llame .jpg)."""
+    return (data[:3] == b"\xff\xd8\xff" or data[:8] == b"\x89PNG\r\n\x1a\n"
+            or (data[:4] == b"RIFF" and data[8:12] == b"WEBP") or data[:4] == b"GIF8")
 
 def download_image(url, path):
-    """Descarga una imagen solo si no existe ya."""
+    """Descarga una imagen solo si no existe ya. Escribe un .tmp y lo renombra al terminar."""
     if os.path.exists(path):
         return True
+    if not url:
+        print("  ✗ La publicación no trae URL de imagen.")
+        return False
+    tmp = path + ".tmp"
     try:
-        urllib.request.urlretrieve(url, path)
+        with urllib.request.urlopen(url, timeout=30) as r:
+            data = r.read()
+        if not is_image(data):
+            print(f"  ✗ La descarga no es una imagen ({len(data)} bytes).")
+            return False
+        with open(tmp, "wb") as f:
+            f.write(data)
+        os.replace(tmp, path)
         return True
     except Exception as e:
         print(f"  ✗ Error descargando imagen: {e}")
         return False
+    finally:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+
+def read_current_posts():
+    """Publicaciones del instagram.json actual (lista vacía si no existe o está dañado)."""
+    try:
+        with open(OUTPUT_JSON, encoding="utf-8") as f:
+            return json.load(f).get("posts", [])
+    except (OSError, ValueError):
+        return []
 
 def remove_old_images(posts):
     """Borra las imágenes <id>.jpg que ya no están en el feed (quedan solo las de las últimas POSTS_LIMIT publicaciones)."""
@@ -80,7 +117,7 @@ def remove_old_images(posts):
     keep = {f"{p['id']}.jpg" for p in posts}
     removed = 0
     for name in os.listdir(ASSETS_DIR):
-        if name.endswith(".jpg") and name not in keep:
+        if (name.endswith(".jpg") and name not in keep) or name.endswith(".tmp"):
             os.remove(os.path.join(ASSETS_DIR, name))
             removed += 1
     print(f"🧹  {removed} imágenes antiguas borradas de {ASSETS_DIR}")
@@ -111,6 +148,8 @@ def main():
 
     raw_posts = data.get("data", [])
     print(f"    → {len(raw_posts)} publicaciones encontradas")
+    if not raw_posts:
+        raise SystemExit("❌  La API no devolvió publicaciones: se mantiene el feed actual.")
 
     # 2. Filtrar: IMAGE, CAROUSEL_ALBUM y VIDEO (Reels se muestran con su portada)
     posts = []
@@ -134,7 +173,6 @@ def main():
         if is_near_duplicate(caption_full, post_dt, kept_meta):
             print(f"  ⚠️  Publicación repetida (caption muy similar, subida minutos después) detectada y omitida: {post_id}")
             continue
-        kept_meta.append((caption_full, post_dt))
 
         # Para VIDEO (incluye Reels), media_url apunta al archivo .mp4 —
         # siempre usamos thumbnail_url para mostrar la portada como imagen.
@@ -153,11 +191,14 @@ def main():
         web_path   = f"/Assets/instagram/{filename}"
 
         print(f"  ↓  Descargando {filename}...")
-        ok = download_image(image_url, local_path)
+        if not download_image(image_url, local_path):
+            print(f"  ⚠️  Publicación omitida por no tener imagen: {post_id}")
+            continue
+        kept_meta.append((caption_full, post_dt))
 
         posts.append({
             "id":        post_id,
-            "src":       web_path if ok else image_url,
+            "src":       web_path,
             "alt":       caption.replace("\n", " ").strip() or "Publicación de PetsAlCielo",
             "timestamp": timestamp,
             "permalink": permalink,
@@ -166,15 +207,20 @@ def main():
         if len(posts) >= POSTS_LIMIT:
             break
 
-    # 3. Guardar JSON
-    output = {
-        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "posts":   posts,
-    }
-    with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
-        json.dump(output, f, ensure_ascii=False, indent=2)
+    if not posts:
+        raise SystemExit("❌  Ninguna publicación tiene imagen: se mantiene el feed actual.")
 
-    print(f"\n✅  {len(posts)} publicaciones guardadas en {OUTPUT_JSON}")
+    # 3. Guardar JSON, solo si cambiaron las publicaciones (la fecha "updated" sola no justifica un commit)
+    if posts == read_current_posts():
+        print(f"\n✅  Sin publicaciones nuevas: {OUTPUT_JSON} queda igual.")
+    else:
+        output = {
+            "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "posts":   posts,
+        }
+        with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
+            json.dump(output, f, ensure_ascii=False, indent=2)
+        print(f"\n✅  {len(posts)} publicaciones guardadas en {OUTPUT_JSON}")
 
     # 4. Borrar las imágenes que ya no se usan
     remove_old_images(posts)

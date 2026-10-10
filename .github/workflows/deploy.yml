@@ -3,18 +3,55 @@ name: Publicar en Cloudflare
 # Cloudflare Pages omite (is_skipped) los despliegues que llegan por push desde
 # GitHub desde el 2026-10-08. Los despliegues por deploy hook sí funcionan, así
 # que cada push a main lo llama. Los commits del bot de Instagram no disparan
-# este workflow (GitHub no encadena workflows con GITHUB_TOKEN): el bot llama al
-# hook en su propio workflow.
+# este workflow (GitHub no encadena workflows con GITHUB_TOKEN): el bot lo
+# llama como workflow reutilizable (workflow_call) después de su commit.
+#
+# Después de llamar al hook, espera a que https://petsalcielo.cl/version.txt
+# muestre el commit publicado (lo escribe src/pages/version.txt.ts al compilar
+# en Cloudflare). Si no aparece en 15 minutos, el workflow queda en rojo.
 on:
   push:
     branches: [main]
   workflow_dispatch:  # permite publicar a mano desde GitHub
+  workflow_call:
+    inputs:
+      sha:
+        description: Commit que debe quedar publicado
+        type: string
+        required: true
+    secrets:
+      CF_DEPLOY_HOOK:
+        required: true
+
+# No lee ni escribe el repositorio: solo llama al hook y consulta el sitio
+permissions: {}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Un push nuevo cancela la espera del anterior: el hook siempre compila el último commit de main
+    concurrency:
+      group: publicar-cloudflare
+      cancel-in-progress: true
     steps:
       - name: Llamar al deploy hook de Cloudflare Pages
         env:
           CF_DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
         run: curl -fsS -X POST "$CF_DEPLOY_HOOK" -o /dev/null
+
+      - name: Comprobar que el sitio publica el commit
+        env:
+          SHA: ${{ inputs.sha || github.sha }}
+        run: |
+          for i in $(seq 1 45); do
+            sleep 20
+            # ?v= distinto en cada intento para saltar la caché de Cloudflare
+            publicado=$(curl -fsS "https://petsalcielo.cl/version.txt?v=$SHA-$i" || true)
+            if [ "$publicado" = "$SHA" ]; then
+              curl -fsS -o /dev/null "https://petsalcielo.cl/?v=$SHA" && echo "Publicado $SHA" && exit 0
+            fi
+            echo "Esperando el despliegue ($i/45): el sitio publica '${publicado:0:12}'"
+          done
+          echo "::error::Cloudflare no publicó $SHA en 15 minutos. Revisar el panel de Pages."
+          exit 1

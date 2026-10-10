@@ -67,12 +67,18 @@ function buscarChrome() {
 }
 
 async function levantarServidor() {
-  const proc = spawn(process.execPath, [ASTRO, 'preview', '--port', String(PUERTO), '--root', process.cwd()], { stdio: 'ignore' });
-  for (let i = 0; i < 60; i++) {
+  const proc = spawn(process.execPath, [ASTRO, 'preview', '--port', String(PUERTO), '--root', process.cwd()], { stdio: ['ignore', 'pipe', 'pipe'] });
+  // Se guarda la salida para mostrarla si no arranca (p. ej. Astro admite un solo
+  // preview por carpeta: "Another astro preview server is already running").
+  let salida = '';
+  proc.stdout.on('data', d => { salida += d; });
+  proc.stderr.on('data', d => { salida += d; });
+  for (let i = 0; i < 60 && proc.exitCode === null; i++) {
     try { if ((await fetch(BASE + '/')).ok) return proc; } catch {}
     await new Promise(r => setTimeout(r, 500));
   }
-  throw new Error('astro preview no respondió en el puerto ' + PUERTO);
+  proc.kill();
+  throw new Error('astro preview no respondió en el puerto ' + PUERTO + ':\n' + salida.replace(/\x1b\[[0-9;]*m/g, '').trim());
 }
 function bajarServidor(proc) {
   proc.kill();

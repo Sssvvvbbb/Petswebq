@@ -1886,10 +1886,12 @@ import Favicons from '../components/Favicons.astro';
                 drawer.classList.add('open');
                 drawerOverlay.classList.add('open');
                 heartBtn.setAttribute('aria-expanded', 'true');
+                drawerClose.focus(); // el foco del teclado entra al menú
                 // No bloqueamos body scroll — overscroll-behavior:contain en el drawer lo maneja
             }
             function closeDrawer() {
                 drawer.classList.remove('open');
+                if (drawer.contains(document.activeElement)) heartBtn.focus(); // y vuelve al botón corazón
                 drawerOverlay.classList.remove('open');
                 heartBtn.setAttribute('aria-expanded', 'false');
             }

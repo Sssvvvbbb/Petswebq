@@ -6,15 +6,26 @@ on:
     - cron: "0 6,18 * * *"
   workflow_dispatch:  # permite correrlo manualmente desde GitHub
 
+# Sin permisos por defecto: cada job pide solo lo que usa
+permissions: {}
+
+# Nunca dos actualizaciones a la vez (una manual y la programada)
+concurrency:
+  group: instagram
+  cancel-in-progress: false
+
 jobs:
   update-feed:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write  # commit y push del feed
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
 
     steps:
       - name: Checkout repositorio
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -40,11 +51,14 @@ jobs:
           # Trae los commits que se hayan subido mientras corría el bot, para que el push no falle
           git pull --rebase
           git push
-          echo "publicar=si" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      # Cloudflare omite los despliegues por push; el deploy hook sí publica (ver deploy.yml)
-      - name: Publicar en Cloudflare
-        if: steps.commit.outputs.publicar == 'si'
-        env:
-          CF_DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
-        run: curl -fsS -X POST "$CF_DEPLOY_HOOK" -o /dev/null
+  # Cloudflare omite los despliegues por push; el deploy hook sí publica (ver deploy.yml)
+  publicar:
+    needs: update-feed
+    if: needs.update-feed.outputs.sha != ''
+    uses: ./.github/workflows/deploy.yml
+    with:
+      sha: ${{ needs.update-feed.outputs.sha }}
+    secrets:
+      CF_DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}

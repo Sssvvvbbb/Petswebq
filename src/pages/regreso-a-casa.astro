@@ -1344,10 +1344,12 @@ import HeroCarousel from '../components/HeroCarousel.astro';
                 drawer.classList.add('open');
                 drawerOverlay.classList.add('open');
                 heartBtn.setAttribute('aria-expanded', 'true');
+                drawerClose.focus(); // el foco del teclado entra al menú
                 document.body.style.overflow = 'hidden';
             }
             function closeDrawer() {
                 drawer.classList.remove('open');
+                if (drawer.contains(document.activeElement)) heartBtn.focus(); // y vuelve al botón corazón
                 drawerOverlay.classList.remove('open');
                 heartBtn.setAttribute('aria-expanded', 'false');
                 document.body.style.overflow = '';
