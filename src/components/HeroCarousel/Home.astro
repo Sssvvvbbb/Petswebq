@@ -77,3 +77,85 @@
         <button class="dot" data-slide="2" aria-label="Diapositiva 3" role="tab"></button>
     </div>
 </header>
+
+<script>
+    // Carrusel de la portada (cambia tarjeta y foto con fundido) y pétalos.
+    import { crearPetalos } from '../../scripts/petalos';
+
+    // ── CAROUSEL HERO ──
+    (function () {
+        let currentSlide = 0;
+        let autoplay     = null;
+        let fadeTimer    = null;
+        const slides     = document.querySelectorAll('.carousel-slide');
+        const dots       = document.querySelectorAll('.carousel-dots .dot');
+        const INTERVAL   = 7400;
+        const FADE       = 1100; // ms total del crossfade
+
+        function showSlide(n) {
+            const prevSlide = slides[currentSlide];
+            currentSlide = (n + slides.length) % slides.length;
+            const nextSlide = slides[currentSlide];
+            if (prevSlide === nextSlide) return;
+
+            const prevCard = prevSlide.querySelector('.hero-inner');
+            const nextCard = nextSlide.querySelector('.hero-inner');
+
+            // Cancelar timer anterior si lo hay
+            if (fadeTimer) clearTimeout(fadeTimer);
+
+            // Fade OUT la card saliente
+            if (prevCard) {
+                prevCard.style.transition = 'opacity ' + FADE + 'ms ease';
+                prevCard.style.opacity = '0';
+            }
+
+            // Fade IN la nueva card con un pequeño delay (mitad del fade out)
+            fadeTimer = setTimeout(() => {
+                prevSlide.classList.remove('active');
+                nextSlide.classList.add('active');
+                if (nextCard) {
+                    nextCard.style.transition = 'none';
+                    nextCard.style.opacity = '0';
+                    nextCard.getBoundingClientRect(); // reflow
+                    nextCard.style.transition = 'opacity ' + FADE + 'ms ease';
+                    nextCard.style.opacity = '1';
+                }
+            }, FADE / 2);
+
+            dots.forEach(d => d.classList.remove('active'));
+            if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+        }
+
+        function startAutoplay() {
+            stopAutoplay();
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // sin avance automático
+            autoplay = setInterval(() => showSlide(currentSlide + 1), INTERVAL);
+        }
+
+        function stopAutoplay() {
+            if (autoplay) { clearInterval(autoplay); autoplay = null; }
+        }
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                stopAutoplay();
+                showSlide(i);
+                startAutoplay();
+            });
+        });
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) stopAutoplay();
+            else startAutoplay();
+        });
+
+        // Card inicial visible sin animación
+        const firstCard = slides[0] && slides[0].querySelector('.hero-inner');
+        if (firstCard) { firstCard.style.transition = 'none'; firstCard.style.opacity = '1'; }
+
+        startAutoplay();
+    })();
+
+    crearPetalos('home');
+</script>

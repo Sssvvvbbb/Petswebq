@@ -18,7 +18,7 @@ import Contacto from '../components/faq/Contacto.astro';
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <MejoraProgresiva scripts={1} />
+    <MejoraProgresiva scripts={2} />
 <Favicons />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="color-scheme" content="only light">
@@ -90,78 +90,5 @@ import Contacto from '../components/faq/Contacto.astro';
     <!-- ── FOOTER ── -->
     <Footer variant="faq" />
 
-    <script>
-        // ── DRAWER ──
-
-
-
-        // ── SCROLL REVEAL ──
-        const revealEls = document.querySelectorAll('.reveal');
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    io.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        revealEls.forEach(el => io.observe(el));
-
-        const fogEls = document.querySelectorAll('.reveal-fog');
-        const fogIO = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    fogIO.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-        fogEls.forEach(el => fogIO.observe(el));
-
-        // ── FAQ ACCORDION ──
-        document.querySelectorAll('.faq-question').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const item = btn.closest('.faq-item');
-                const isOpen = item.classList.contains('open');
-                // Close all
-                document.querySelectorAll('.faq-item.open').forEach(i => {
-                    i.classList.remove('open');
-                    i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-                });
-                // Open clicked (if was closed)
-                if (!isOpen) {
-                    item.classList.add('open');
-                    btn.setAttribute('aria-expanded', 'true');
-                }
-            });
-        });
-
-        // ── CATEGORY FILTER ──
-        const catBtns = document.querySelectorAll('.cat-btn');
-        const faqGroups = document.querySelectorAll('.faq-group');
-        const faqItems = document.querySelectorAll('.faq-item');
-
-        catBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                catBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const cat = btn.dataset.cat;
-
-                if (cat === 'all') {
-                    faqGroups.forEach(g => g.style.display = '');
-                    faqItems.forEach(i => i.style.display = '');
-                } else {
-                    faqGroups.forEach(g => {
-                        if (g.dataset.group === cat) {
-                            g.style.display = '';
-                        } else {
-                            g.style.display = 'none';
-                        }
-                    });
-                }
-            });
-        });
-        window.__listos = (window.__listos || 0) + 1; // MejoraProgresiva: este script terminó de inicializar
-    </script>
 </body>
 </html>

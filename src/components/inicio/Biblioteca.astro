@@ -61,3 +61,27 @@
         </div>
     </div>
 </section>
+
+<script>
+    // Precarga la primera foto de cada galería cuando la sección se acerca a la pantalla.
+    // ── PRELOAD galerías — solo cuando la sección sea visible ──
+    (function () {
+        const gallerySection = document.getElementById('Biblioteca');
+        const target = gallerySection || document.body;
+        const preloadIO = new IntersectionObserver((entries) => {
+            if (!entries[0].isIntersecting) return;
+            preloadIO.disconnect();
+            ['instalaciones', 'jardin', 'urnas', 'despedida'].forEach(key => {
+                fetch('/gallery/' + key + '.json')
+                    .then(r => r.ok ? r.json() : null)
+                    .then(d => {
+                        if (!d || !d.fotos || !d.fotos.length) return;
+                        const pre = new Image();
+                        pre.src = d.fotos[0].src;
+                    })
+                    .catch(() => {});
+            });
+        }, { rootMargin: '400px' });
+        preloadIO.observe(target);
+    })();
+</script>

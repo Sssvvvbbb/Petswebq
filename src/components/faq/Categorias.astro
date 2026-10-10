@@ -10,3 +10,32 @@
     <button class="cat-btn" data-cat="Ánforas"><span class="cat-emoji">🏺</span> Ánforas</button>
     
 </div>
+
+<script>
+    // Filtro por categoría: muestra solo el grupo elegido (data-group).
+    // ── CATEGORY FILTER ──
+    const catBtns = document.querySelectorAll('.cat-btn');
+    const faqGroups = document.querySelectorAll('.faq-group');
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    catBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            catBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const cat = btn.dataset.cat;
+
+            if (cat === 'all') {
+                faqGroups.forEach(g => g.style.display = '');
+                faqItems.forEach(i => i.style.display = '');
+            } else {
+                faqGroups.forEach(g => {
+                    if (g.dataset.group === cat) {
+                        g.style.display = '';
+                    } else {
+                        g.style.display = 'none';
+                    }
+                });
+            }
+        });
+    });
+</script>

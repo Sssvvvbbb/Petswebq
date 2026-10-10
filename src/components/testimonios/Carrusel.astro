@@ -80,3 +80,144 @@
         </div>
     </div>
 </section>
+
+<script>
+    // Carrusel de testimonios.
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // CARRUSEL DE TESTIMONIOS 9:16 (imagen o video, cantidad variable)
+    // Slides del HTML = respaldo. Si existe MANIFEST con elementos, se
+    // construyen los slides desde él (así el admin puede ir agregando).
+    // Un video en reproducción pausa el avance; al terminar pasa al siguiente.
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    (function () {
+        const MANIFEST = '/Assets/testimonios/testimonios.json';
+        const container  = document.getElementById('testiSlidesContainer');
+        const prevBtn    = document.getElementById('testiPrev');
+        const nextBtn    = document.getElementById('testiNext');
+        const counterEl  = document.getElementById('testiCounter');
+        const progressEl = document.getElementById('testiProgressFill');
+        if (!container) return;
+        const DELAY  = 5500;
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let slides = [], total = 0, current = 0, timer = null;
+
+        const vid = i => slides[i] && slides[i].querySelector('video');
+        const stop = () => { clearTimeout(timer); timer = null; };
+        function schedule() {
+            stop();
+            if (reduce || total < 2) return;
+            const v = vid(current);
+            if (v && !v.paused && !v.ended) return;
+            timer = setTimeout(() => show(current + 1), DELAY);
+        }
+        // Portada de un video: se carga solo cuando su diapositiva se muestra o es la siguiente.
+        function portada(i) {
+            const sl = slides[(i + total) % total];
+            const img = sl && sl.querySelector('img[data-poster]:not([src])');
+            if (img) img.src = img.dataset.poster;
+        }
+
+        function show(n) {
+            current = (n + total) % total;
+            slides.forEach((s, i) => {
+                const on = i === current;
+                s.classList.toggle('active', on);
+                s.setAttribute('aria-hidden', on ? 'false' : 'true');
+                if (!on) s.querySelectorAll('video').forEach(v => { if (!v.paused) v.pause(); });
+            });
+            portada(current); portada(current + 1);
+            counterEl.textContent = (current + 1) + ' / ' + total;
+            progressEl.style.width = (((current + 1) / total) * 100) + '%';
+            schedule();
+        }
+
+        // Al pulsar la portada se crea el <video> con su archivo y recién ahí se descarga.
+        function reproducir(a) {
+            const sl = a.closest('.testi-slide');
+            const img = a.querySelector('img');
+            const v = document.createElement('video');
+            v.className = 'testi-media';
+            v.controls = true; v.playsInline = true; v.preload = 'auto';
+            if (img) { v.poster = img.dataset.poster || img.src; v.setAttribute('aria-label', img.alt); }
+            [[a.dataset.video, 'video/webm'], [a.dataset.mp4, 'video/mp4']].forEach(([src, type]) => {
+                if (!src) return;
+                const so = document.createElement('source'); so.src = src; so.type = type; v.appendChild(so);
+            });
+            v.addEventListener('play', stop);
+            v.addEventListener('pause', () => { if (!v.ended && slides[current] === sl) schedule(); });
+            v.addEventListener('ended', () => { if (slides[current] === sl) show(current + 1); });
+            a.replaceWith(v);
+            stop();
+            v.play().catch(() => {});
+        }
+        container.addEventListener('click', e => {
+            const a = e.target.closest('.testi-video');
+            if (!a) return;
+            e.preventDefault();
+            reproducir(a);
+        });
+
+        function init() {
+            stop();
+            slides = Array.from(container.querySelectorAll('.testi-slide'));
+            total = slides.length;
+            if (!total) return;
+            prevBtn.hidden = nextBtn.hidden = total < 2;
+            slides.forEach((sl, i) => sl.setAttribute('aria-label', 'Testimonio ' + (i + 1) + ' de ' + total));
+            show(0);
+        }
+
+        function build(it, i) {
+            const sl = document.createElement('div');
+            sl.className = 'testi-slide';
+            sl.setAttribute('role', 'group');
+            sl.setAttribute('aria-roledescription', 'testimonio');
+            if (it.type === 'video') {
+                const a = document.createElement('a');
+                a.className = 'testi-video';
+                a.href = it.src;
+                a.dataset.video = it.src;
+                if (it.mp4) a.dataset.mp4 = it.mp4;
+                a.setAttribute('aria-label', 'Reproducir: ' + (it.alt || 'testimonio en video'));
+                const img = document.createElement('img');
+                img.className = 'testi-media';
+                img.alt = it.alt || '';
+                img.decoding = 'async';
+                if (it.poster) img.dataset.poster = it.poster;
+                const play = document.createElement('span');
+                play.className = 'testi-play';
+                play.setAttribute('aria-hidden', 'true');
+                a.append(img, play);
+                sl.appendChild(a);
+            } else {
+                const m = document.createElement('img');
+                m.className = 'testi-media';
+                m.src = it.src; m.alt = it.alt || ''; m.decoding = 'async';
+                if (i === 0) m.fetchPriority = 'high'; else m.loading = 'lazy';
+                sl.appendChild(m);
+            }
+            return sl;
+        }
+
+        prevBtn.addEventListener('click', () => show(current - 1));
+        nextBtn.addEventListener('click', () => show(current + 1));
+        init();
+
+        fetch(MANIFEST, { cache: 'no-cache' })
+            .then(r => r.ok ? r.json() : null)
+            .then(list => {
+                if (!Array.isArray(list)) return;
+                const items = list.filter(it => it && it.src && (it.type === 'video' || it.type === 'image'));
+                if (!items.length) return;
+                // Si la primera foto del JSON es la misma del HTML, se conserva tal cual
+                // (ya está cargada y visible): no se vuelve a crear ni a descargar.
+                const primera = container.querySelector('.testi-slide img.testi-media');
+                const conservar = items[0].type === 'image' && primera && primera.getAttribute('src') === items[0].src
+                    ? primera.closest('.testi-slide') : null;
+                container.textContent = '';
+                items.forEach((it, i) => container.appendChild(i === 0 && conservar ? conservar : build(it, i)));
+                init();
+            })
+            .catch(() => {});
+    })();
+</script>

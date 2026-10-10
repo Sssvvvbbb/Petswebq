@@ -383,7 +383,8 @@ async function escenarios(browser, lista) {
     page = await abrir(browser, p, { antes: pg => pg.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]) });
     const estado = () => page.evaluate(() => [
       [...document.querySelectorAll('.carousel-dots .dot')].findIndex(d => d.classList.contains('active')),
-      document.getElementById('testiCounter')?.textContent ?? '',
+      // Solo la diapositiva actual: el total cambia al llegar testimonios.json
+      (document.getElementById('testiCounter')?.textContent ?? '').split('/')[0].trim(),
     ].join('|'));
     const antes = await estado();
     await esperar(9000);

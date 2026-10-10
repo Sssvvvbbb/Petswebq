@@ -3,18 +3,26 @@
 //
 // - Apenas carga, marca <html class="js">. Las animaciones de entrada (.reveal,
 //   .reveal-fog) y el acordeón cerrado de la FAQ solo se aplican con esa clase.
-// - Cada <script> del <body> de la página suma 1 a window.__listos en su última
-//   línea, cuando terminó de inicializar (menú, animaciones, carruseles,
-//   acordeón). Si un script falla a mitad de camino, nunca llega a esa línea.
+// - Los scripts de los que depende que el contenido se vea suman 1 a
+//   window.__listos al terminar de inicializar: src/scripts/revelar.ts (lo
+//   incluye este componente, en todas las páginas) y, en la FAQ, el acordeón
+//   (faq/Grupo). Si un script falla a mitad de camino, nunca llega a sumar.
 // - Si a los 4 s el contador no llegó a `scripts`, se quita la clase "js" y todo
 //   queda visible. Si un script llega después, ya no vuelve a ocultar nada: la
 //   clase no se vuelve a poner.
+// - Los demás scripts (carruseles, Instagram, galería) no ocultan contenido y no
+//   cuentan.
+// El script en línea va con su hash en la CSP de public/_headers (uno por cada
+// valor de `scripts`); npm run check avisa si cambia.
 // data-inmediato: npm run visual no lo retrasa en su prueba de JavaScript lento.
 interface Props {
-  /** Cuántos <script> del <body> deben terminar de inicializar. */
+  /** Cuántos scripts deben terminar de inicializar: 1 (revelar.ts) o 2 en la FAQ (+ acordeón). */
   scripts: number;
 }
 const { scripts } = Astro.props;
 ---
 <script is:inline data-inmediato define:vars={{ scripts }}>(function(h){h.classList.add('js');setTimeout(function(){if((window.__listos||0)<scripts)h.classList.remove('js')},4000)})(document.documentElement)</script>
 <style is:inline>html:not(.js) .reveal,html:not(.js) .reveal-fog{opacity:1!important;transform:none!important;filter:none!important}html:not(.js) .faq-answer{max-height:none!important}</style>
+<script>
+    import '../scripts/revelar';
+</script>

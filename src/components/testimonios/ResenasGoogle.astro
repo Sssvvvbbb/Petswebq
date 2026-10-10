@@ -164,3 +164,96 @@
         </div>
     </div>
 </section>
+
+<script>
+    // Carrusel de reseñas de Google.
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // CARRUSEL DE RESEÑAS DE GOOGLE
+    // Las reseñas están escritas directo en el HTML (sin JSON).
+    // Se autoajusta a la cantidad de reseñas y de fotos (0-3).
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    (function () {
+        const wrap = document.getElementById('greviewCarousel');
+        if (!wrap) return;
+        const slides  = Array.from(wrap.querySelectorAll('.greview-slide'));
+        const dotsBox = document.getElementById('greviewDots');
+        const prevBtn = document.getElementById('greviewPrev');
+        const nextBtn = document.getElementById('greviewNext');
+        const total   = slides.length;
+        if (!total) return;
+
+        // Fotos: contar cuántas hay (máx. 3) y omitir las que no carguen
+        function syncPhotos(box) {
+            const imgs = Array.from(box.querySelectorAll('img'));
+            imgs.slice(3).forEach(im => im.remove());
+            box.dataset.count = box.querySelectorAll('img').length;
+        }
+        slides.forEach(sl => {
+            const box = sl.querySelector('.greview-photos');
+            if (box) {
+                syncPhotos(box);
+                box.querySelectorAll('img').forEach(im => {
+                    const drop = () => { im.remove(); syncPhotos(box); };
+                    // Solo el evento 'error' (fallo real). No se usa
+                    // complete/naturalWidth: con loading="lazy" una imagen que
+                    // aún no empezó a cargar cumple esa condición y se borraba.
+                    im.addEventListener('error', drop);
+                });
+            }
+            // Foto de perfil que no carga: se quita y queda la inicial
+            const av = sl.querySelector('.greview-avatar img');
+            if (av) {
+                const drop = () => av.remove();
+                av.addEventListener('error', drop);
+            }
+        });
+
+        // Puntos: se regeneran según la cantidad real de reseñas
+        dotsBox.innerHTML = '';
+        const dots = slides.map((_, i) => {
+            const b = document.createElement('button');
+            b.className = 'greview-dot';
+            b.setAttribute('aria-label', 'Ir a la reseña ' + (i + 1));
+            b.addEventListener('click', () => { stop(); show(i); start(); });
+            dotsBox.appendChild(b);
+            return b;
+        });
+        slides.forEach((sl, i) => sl.setAttribute('aria-label', 'Reseña ' + (i + 1) + ' de ' + total));
+        if (total < 2) { prevBtn.hidden = true; nextBtn.hidden = true; dotsBox.hidden = true; }
+
+        let current = 0, timer = null;
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function show(n) {
+            current = (n + total) % total;
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === current);
+                s.setAttribute('aria-hidden', i === current ? 'false' : 'true');
+            });
+            dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        }
+        function start() { if (reduce || total < 2) return; stop(); timer = setInterval(() => show(current + 1), 8000); }
+        function stop()  { clearInterval(timer); timer = null; }
+
+        prevBtn.addEventListener('click', () => { stop(); show(current - 1); start(); });
+        nextBtn.addEventListener('click', () => { stop(); show(current + 1); start(); });
+
+        // Pausar al pasar el mouse / enfocar; deslizar con el dedo en móvil
+        wrap.addEventListener('mouseenter', stop);
+        wrap.addEventListener('mouseleave', start);
+        wrap.addEventListener('focusin', stop);
+        wrap.addEventListener('focusout', start);
+        let x0 = null;
+        wrap.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; stop(); }, { passive: true });
+        wrap.addEventListener('touchend', e => {
+            if (x0 !== null) {
+                const dx = e.changedTouches[0].clientX - x0;
+                if (Math.abs(dx) > 40) show(current + (dx < 0 ? 1 : -1));
+            }
+            x0 = null; start();
+        }, { passive: true });
+
+        show(0);
+        start();
+    })();
+</script>

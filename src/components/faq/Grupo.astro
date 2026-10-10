@@ -25,3 +25,28 @@ const { grupo } = Astro.props;
         ))}
     </div>
 </div>
+
+<script>
+    // Acordeón: abre una respuesta y cierra las demás.
+    // ── FAQ ACCORDION ──
+    document.querySelectorAll('.faq-question').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.closest('.faq-item');
+            const isOpen = item.classList.contains('open');
+            // Close all
+            document.querySelectorAll('.faq-item.open').forEach(i => {
+                i.classList.remove('open');
+                i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+            });
+            // Open clicked (if was closed)
+            if (!isOpen) {
+                item.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    // MejoraProgresiva: con la clase "js" las respuestas empiezan cerradas; este script
+    // debe terminar para que se puedan abrir (la FAQ espera 2 scripts: este y revelar.ts).
+    window.__listos = (window.__listos || 0) + 1;
+</script>
