@@ -104,4 +104,3 @@ Otros: degradé de los botones Instagram/Testimonios `linear-gradient(135deg,#7D
 - servicios, nosotros e instalaciones tienen canonical `/`. nosotros e instalaciones son idénticas.
 - Horario en los datos estructurados (JSON-LD): atención 24/7 se escribe `"opens": "00:00", "closes": "23:59"`. `00:00`–`00:00` significa "cerrado" para Google.
 - regreso-a-casa bloquea el zoom en el celular (`user-scalable=no`).
-- `home.css` tiene `padding-top:calc(90px+3svh)` (sin espacios alrededor del `+`): el navegador ignora esa regla desde siempre. Corregirla cambia la posición de la tarjeta del carrusel en el celular; decidir con el dueño.

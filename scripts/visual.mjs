@@ -4,7 +4,7 @@
 //   npm run visual                   captura de nuevo, compara y prueba funciones
 //   npm run visual -- --paginas=inicio,testimonios   limita las páginas
 //
-// Compila el sitio, lo sirve con astro preview en
+// Compila el sitio, lo sirve con un servidor propio (no astro preview) en
 // el puerto 4340 y lo recorre con el Chrome instalado (CHROME_PATH para usar
 // otro).
 //
@@ -24,8 +24,9 @@
 // Sale con código 1 si alguna captura difiere más que el umbral (--umbral=0.05,
 // en % de píxeles) o si falla una prueba.
 import { spawn } from 'node:child_process';
-import { mkdirSync, existsSync, readdirSync, readFileSync, rmSync, writeFileSync, realpathSync } from 'node:fs';
-import { join } from 'node:path';
+import { mkdirSync, existsSync, readdirSync, readFileSync, rmSync, writeFileSync, realpathSync, statSync } from 'node:fs';
+import { join, extname } from 'node:path';
+import { createServer } from 'node:http';
 import { createRequire } from 'node:module';
 import puppeteer from 'puppeteer-core';
 
@@ -66,25 +67,30 @@ function buscarChrome() {
   return c;
 }
 
-async function levantarServidor() {
-  const proc = spawn(process.execPath, [ASTRO, 'preview', '--port', String(PUERTO), '--root', process.cwd()], { stdio: ['ignore', 'pipe', 'pipe'] });
-  // Se guarda la salida para mostrarla si no arranca (p. ej. Astro admite un solo
-  // preview por carpeta: "Another astro preview server is already running").
-  let salida = '';
-  proc.stdout.on('data', d => { salida += d; });
-  proc.stderr.on('data', d => { salida += d; });
-  for (let i = 0; i < 60 && proc.exitCode === null; i++) {
-    try { if ((await fetch(BASE + '/')).ok) return proc; } catch {}
-    await new Promise(r => setTimeout(r, 500));
-  }
-  proc.kill();
-  throw new Error('astro preview no respondió en el puerto ' + PUERTO + ':\n' + salida.replace(/\x1b\[[0-9;]*m/g, '').trim());
+// Servidor propio de dist/ (no astro preview: Astro admite un solo preview por
+// carpeta y chocaba con el que se deja abierto para revisar). Sirve /ruta desde
+// ruta.html, como Cloudflare con build.format 'file'. No aplica _redirects.
+const TIPOS = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json', '.webp': 'image/webp', '.woff2': 'font/woff2', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webm': 'video/webm', '.mp4': 'video/mp4', '.ico': 'image/x-icon', '.txt': 'text/plain', '.xml': 'application/xml' };
+function levantarServidor() {
+  return new Promise((ok, mal) => {
+    const s = createServer((q, r) => {
+      let p = decodeURIComponent(q.url.split('?')[0]);
+      if (p.endsWith('/')) p += 'index.html';
+      let f = join('dist', p);
+      if (!(existsSync(f) && statSync(f).isFile()) && existsSync(f + '.html')) f += '.html';
+      if (!(existsSync(f) && statSync(f).isFile())) { r.writeHead(404); return r.end(); }
+      r.writeHead(200, { 'content-type': TIPOS[extname(f).toLowerCase()] || 'application/octet-stream' });
+      r.end(readFileSync(f));
+    });
+    s.on('error', e => mal(new Error(`No pude abrir el puerto ${PUERTO}: ${e.message}`)));
+    s.listen(PUERTO, () => ok(s));
+  });
 }
-function bajarServidor(proc) {
-  proc.kill();
+function bajarServidor(s) {
+  s.close();
 }
 
-// astro preview no aplica public/_headers: las pruebas de funcionamiento entregan
+// El servidor no aplica public/_headers: las pruebas de funcionamiento entregan
 // cada página con la CSP de "/*" para que una violación salga como falla.
 const CSP = (readFileSync('public/_headers', 'utf8').match(/^\/\*\s*\n(?:[ \t]+.*\n)*?[ \t]+Content-Security-Policy:[ \t]*(.+)$/m) || [])[1];
 if (!CSP) throw new Error('No encontré la Content-Security-Policy de "/*" en public/_headers');
