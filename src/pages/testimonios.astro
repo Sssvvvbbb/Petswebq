@@ -6,12 +6,13 @@ import Menu from '../components/Menu.astro';
 import GoogleTag from '../components/GoogleTag.astro';
 import SvgDefs from '../components/SvgDefs.astro';
 import TopBar from '../components/TopBar.astro';
-import Footer from '../components/Footer.astro';
 import Encabezado from '../components/testimonios/Encabezado.astro';
 import Carrusel from '../components/testimonios/Carrusel.astro';
 import ResenasGoogle from '../components/testimonios/ResenasGoogle.astro';
 import EnMemoria from '../components/testimonios/EnMemoria.astro';
 import Agradecimiento from '../components/testimonios/Agradecimiento.astro';
+import Decoracion from '../components/Decoracion.astro';
+import PieFinal from '../components/PieFinal.astro';
 ---
 <!DOCTYPE html>
     <html lang="es">
@@ -73,6 +74,7 @@ import Agradecimiento from '../components/testimonios/Agradecimiento.astro';
     <body>
 
         <SvgDefs />
+        <Decoracion />
 
         <!-- Top Bar -->
         <TopBar variant="home" />
@@ -80,22 +82,15 @@ import Agradecimiento from '../components/testimonios/Agradecimiento.astro';
         <!-- Menú del sitio (corazón + menú lateral + barra de escritorio) -->
         <Menu />
 
+        <main>
+        <div class="t-portada">
         <Encabezado />
-
         <Carrusel />
-
-        <div class="divider"></div>
-
+        </div>
         <ResenasGoogle />
-
-        <div class="divider"></div>
-
         <EnMemoria />
-
         <Agradecimiento />
-
-        <!-- Footer -->
-        <Footer variant="nosotros" />
-
+        </main>
+        <PieFinal />
     </body>
     </html>

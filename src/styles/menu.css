@@ -219,7 +219,12 @@
         margin-bottom: 0.6rem;
     }
 
+    /* Ítems con texto corto en el celular (prop corto de NavPrincipal) */
+    .txt-corto { display: none; }
+
     @media (max-width: 768px) {
+        .txt-largo { display: none; }
+        .txt-corto { display: inline; }
         nav {
             top: 28px;
         }
@@ -247,7 +252,7 @@
             padding: 0 0.25rem;
             letter-spacing: 0;
         }
-        /* Orden: 1-Corazón, 2-Biblioteca, 3-Proceso, 4-Nosotros, 5-Testimonios, 6-Contactar.
+        /* Orden: 1-Corazón, 2-Biblioteca, 3-Nosotros, 4-Preguntas Frecuentes, 5-Testimonios, 6-Contactar.
            2 a 5 se desvanecen al hacer scroll (JS de cada página). */
         .nav-menu li:nth-child(2),
         .nav-menu li:nth-child(3),
@@ -299,5 +304,6 @@
         }
     }
 
-/* Ícono de Instagram de la barra superior (todas las páginas; antes onmouseover) */
-.ig-mini:hover { opacity: 0.75; }
+/* Ícono de WhatsApp de la barra superior (todas las páginas) */
+.wa-mini { display: inline-flex; align-items: center; transition: opacity 0.2s; }
+.wa-mini:hover { opacity: 0.75; }

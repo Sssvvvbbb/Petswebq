@@ -6,7 +6,8 @@ interface Props {
   logoHref: string;
   /** Ícono de corazón como primer ítem; se omite si no se pasa. */
   corazon?: { href: string; ariaLabel: string };
-  links: { href: string; label: string; class?: string }[];
+  /** corto: texto que se muestra en el celular (≤768 px) en lugar de label. */
+  links: { href: string; label: string; corto?: string; class?: string }[];
   /** 'aleatorio': WhatsApp a uno de los dos números al azar; 'fijo': número principal. */
   cta: 'aleatorio' | 'fijo';
 }
@@ -25,7 +26,7 @@ const { logoHref, corazon, links, cta } = Astro.props;
                     </a>
                 </li>
             )}
-            {links.map(({ href, label, class: cls }) => <li><a href={href} class={cls}>{label}</a></li>)}
+            {links.map(({ href, label, corto, class: cls }) => <li><a href={href} class={cls} aria-label={corto ? label : undefined}>{corto ? <Fragment><span class="txt-largo">{label}</span><span class="txt-corto" aria-hidden="true">{corto}</span></Fragment> : label}</a></li>)}
             <li>{cta === 'aleatorio'
                 ? <a href={waFijo(MSG_CREMACION)} data-wa={MSG_CREMACION} class="nav-cta btn">Contactar</a>
                 : <a href={waFijo(MSG_CREMACION)} target="_blank" rel="noopener" class="nav-cta btn">Contactar</a>}</li>

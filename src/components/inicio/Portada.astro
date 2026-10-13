@@ -1,0 +1,59 @@
+---
+// Portada de la home (#inicio): carrusel de 3 diapositivas sobre la foto del lago.
+// Sin JS se ve la primera diapositiva. La foto se precarga en index.astro (mismo srcset).
+// "Conocer el proceso" abre el video en el modal de Explicaciones (data-open="video").
+import Onda from './Onda.astro';
+import { waFijo } from '../../data/sitio';
+const MSG_HABLAR = 'Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios';
+---
+<header class="hero pg hw" id="inicio" aria-label="Bienvenida PetsAlCielo">
+<picture><source media="(max-width:899px)" srcset="/Assets/imagen_hero_crematorio_puertomontt_llanquihue-800.webp 800w, /Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp 1672w" sizes="100vw"><img class="hero-photo" src="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" width="1672" height="941" loading="eager" fetchpriority="high"></picture>
+<div class="hero-glow"></div>
+<div class="hero-inner">
+{[0, 1, 2].map(n => (
+<div class={n === 0 ? 'hs active' : 'hs'} role="tabpanel" aria-label={`Diapositiva ${n + 1}`}>
+{n === 0 && <Fragment><h1>Un adiós digno<br>para quienes<br><em>amamos.</em></h1>
+<i class="bar"></i>
+<p class="sub">Cremación individual SIEMPRE.<br>Respeto y dignidad en cada paso.</p>
+<div class="hs-btns"><a href="/preguntas-frecuentes" class="btn btn-primary">Preguntas frecuentes ›</a><a href={waFijo(MSG_HABLAR)} data-wa={MSG_HABLAR} class="btn btn-ghost">Hablar por WhatsApp</a></div></Fragment>}
+{n === 1 && <Fragment><h2>Cremación ecológica<br>por <em>agua</em>, sin fuego,<br>sin humo.</h2>
+<i class="bar"></i>
+<p class="sub">El proceso más respetuoso<br>con el medio ambiente.</p>
+<div class="hs-btns"><button type="button" class="btn btn-primary" data-open="video">Conocer el proceso</button><a href="#nosotros" class="btn btn-ghost">Sobre Nosotros</a></div></Fragment>}
+{n === 2 && <Fragment><h2>Su compañero<br>de vida, <em>siempre</em><br>en su corazón.</h2>
+<i class="bar"></i>
+<p class="sub">Una despedida digna, individual<br>y respetuosa con el planeta.</p>
+<a href="#servicios" class="btn btn-primary">Conocer nuestros servicios ›</a></Fragment>}
+<div class="hero-dots" role="tablist" aria-label="Controles del carrusel">{[0, 1, 2].map(i => <button type="button" class={i === n ? 'dot active' : 'dot'} aria-label={`Diapositiva ${i + 1}`} role="tab" aria-selected={i === n ? 'true' : 'false'}></button>)}</div>
+</div>
+))}
+</div>
+<Onda forma="a" capas={[['#e6ddf3', .6], ['#e8def4', .75], ['#e2f0e8', 1], ['#e4f2e9', 1]]} />
+</header>
+
+<script>
+    // Carrusel de la portada: avanza cada 6,5 s, salvo con movimiento reducido o con la pestaña oculta.
+    const diapositivas = document.querySelectorAll<HTMLElement>('.hero-inner > .hs');
+    const grupos = document.querySelectorAll<HTMLElement>('.hero-dots');
+    const quieto = matchMedia('(prefers-reduced-motion: reduce)');
+    let actual = 0;
+    let temporizador: number | undefined;
+
+    function mostrar(n: number) {
+        diapositivas[actual].classList.remove('active');
+        actual = (n + diapositivas.length) % diapositivas.length;
+        diapositivas[actual].classList.add('active');
+        grupos.forEach(g => Array.from(g.children).forEach((p, i) => {
+            p.classList.toggle('active', i === actual);
+            p.setAttribute('aria-selected', String(i === actual));
+        }));
+    }
+    function avanzar() {
+        clearInterval(temporizador);
+        if (quieto.matches || document.hidden) return;
+        temporizador = window.setInterval(() => mostrar(actual + 1), 6500);
+    }
+    grupos.forEach(g => Array.from(g.children).forEach((p, i) => p.addEventListener('click', () => { mostrar(i); avanzar(); })));
+    document.addEventListener('visibilitychange', avanzar);
+    avanzar();
+</script>

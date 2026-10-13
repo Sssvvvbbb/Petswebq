@@ -1,0 +1,83 @@
+/* Cierre compartido (componente PieFinal): contacto y pie de la home y de /testimonios. */
+.finale{--navy:#232a4d;--mute:#8a8fa8;--mint:#A8E6D6}
+.finale .container{max-width:1180px;margin:0 auto;padding:0 1.5rem}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.contact-bar{background:#fff;padding:2.2rem 0;position:relative}
+.contact-grid{display:flex;justify-content:center;align-items:flex-start;gap:3rem;flex-wrap:wrap}
+.contact-item{text-align:center;display:flex;flex-direction:column;align-items:center}
+.contact-icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;margin-bottom:.8rem}
+.contact-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:.3rem}
+.contact-value{font-size:1.02rem;font-weight:300}
+.contact-value a{text-decoration:none}
+.ig-btn{display:inline-flex;align-items:center;gap:.45rem;background:linear-gradient(135deg,#f9c8a0,#e06090,#9060d0);color:#fff;text-decoration:none;font-size:.8rem;padding:.42rem .9rem;border-radius:999px}
+.ig-btn svg{width:16px;height:16px;fill:#fff}
+@media(max-width:768px){.contact-grid{gap:1rem;flex-wrap:nowrap}.contact-item{flex:1 1 0;min-width:0}.contact-label{font-size:.5rem}.contact-value{font-size:.62rem;word-break:break-word}.contact-icon{width:32px;height:32px}.contact-icon svg{width:18px;height:18px}.ig-btn{font-size:.58rem;padding:.3rem .5rem}}
+footer{position:relative;background:#9c8dc6;color:rgba(255,255,255,.78);padding:2.4rem 1.5rem 1.6rem;overflow:hidden}
+footer .fi{max-width:1180px;margin:0 auto}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:2rem;color:#fff;margin-bottom:1rem}
+.footer-logo em{font-style:italic;color:var(--mint)}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.6rem;font-size:.86rem;line-height:1.7}
+.fgrid h4{color:#fff;font-weight:600;margin-bottom:.4rem;font-size:.9rem}
+.fbottom{margin-top:1.6rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.18);font-size:.78rem;text-align:center;color:rgba(255,255,255,.6)}
+.finale{position:relative;overflow:hidden}
+.finale .contact-bar{background:linear-gradient(180deg,#f6dbe8 0%,#eddcf1 62%,#f3e3ee 100%);padding:clamp(3.2rem,7vw,5rem) 0 1.6rem}
+.finale .contact-label{color:#6b7090}
+.finale .contact-value,.finale .contact-value a{color:var(--navy)}
+.finale footer{position:relative;margin-top:-1px;background:linear-gradient(180deg,#e7d8f2 0%,#d9c9ee 55%,#cdbbe8 100%);color:#38345e;padding-top:1.6rem}
+.finale footer .fi{position:relative}
+.finale .footer-logo{color:var(--navy)}.finale .footer-logo em{color:#8f6fcf}
+.finale .fgrid h4{color:var(--navy)}
+.finale .fgrid{color:#38345e}
+.finale .fbottom{border-top-color:rgba(35,42,77,.2);color:rgba(35,42,77,.72)}
+.finale{background:linear-gradient(180deg,#f6dbe8 0%,#f1dcee 30%,#e8d8f2 58%,#dccdf0 80%,#cfbfe9 100%)}
+.finale .contact-bar{background:transparent}
+.finale footer{background:transparent;margin-top:0;padding-left:clamp(1.5rem,10vw,170px);padding-right:clamp(1.5rem,10vw,170px);padding-bottom:5.8rem}
+.finale footer .fi{padding:0}
+.finale .fl,.finale .fr{position:absolute;bottom:-3px;width:clamp(76px,11vw,170px);z-index:2;pointer-events:none}
+.finale .fl{left:-4px}.finale .fr{right:-4px;transform:scaleX(-1)}
+@media(min-width:900px){.finale footer{padding-bottom:2.4rem}}
+.finale .contact-icon{background:#fff!important;box-shadow:0 8px 22px rgba(120,100,170,.16)}
+.finale .contact-bar{padding-top:clamp(2.4rem,5vw,3.6rem)}
+.finale footer{padding-left:clamp(1.5rem,12vw,200px);padding-right:clamp(1.5rem,12vw,200px)}
+.finale .fl,.finale .fr{width:clamp(76px,9vw,140px)}
+.finale .reveal,.finale .reveal-fog{opacity:1!important;transform:none!important;filter:none!important}
+.finale .contact-label{color:#b28edc!important;font-weight:300;letter-spacing:.14em;font-size:clamp(.5rem,1.7vw,1.05rem)}
+.finale .contact-value,.finale .contact-value a{color:#b28edc!important;font-weight:300;font-size:clamp(.62rem,2.3vw,1.62rem)}
+.finale .contact-icon{width:clamp(32px,7.2vw,74px);height:clamp(32px,7.2vw,74px)}
+.finale .contact-icon svg{width:50%;height:50%}
+.finale .footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#767791!important;margin-bottom:.9rem}
+.finale .footer-logo em{color:#767791!important;font-style:normal;padding:0}
+.finale .fgrid{color:#767791!important;font-size:.7rem;line-height:1.55}
+.finale .fgrid h4{color:#767791!important;font-size:.7rem}
+.finale .fbottom{color:#767791!important;border-top-color:rgba(118,119,145,.35)!important;font-size:.78rem}
+@media(min-width:760px){.finale .fgrid{grid-template-columns:repeat(4,1fr);gap:1.4rem}.finale footer{padding-left:clamp(1.5rem,10vw,200px);padding-right:clamp(1.5rem,10vw,200px)}}
+.finale .ig-btn{display:none!important}
+.finale .contact-item{position:relative;cursor:pointer;transition:transform .3s}
+.finale .contact-item:hover{transform:translateY(-3px)}
+.finale .contact-item:hover .contact-icon{box-shadow:0 12px 28px rgba(120,100,170,.28)}
+.finale .contact-value a::after{content:"";position:absolute;inset:-.4rem -.6rem;border-radius:20px}
+.finale .contact-value a:focus-visible{outline:none}
+.finale .contact-value a:focus-visible::after{outline:3px solid #6f4fb0;outline-offset:2px}
+.finale .contact-item,.finale .contact-item:hover{box-shadow:none!important;filter:none!important;background:none!important}
+.finale .contact-icon{box-shadow:0 8px 22px rgba(143,111,207,.28)!important}
+.finale .contact-item:hover .contact-icon{box-shadow:0 14px 30px rgba(143,111,207,.5)!important}
+.finale .contact-label{color:#7a58b5!important}
+.finale .contact-value,.finale .contact-value a{color:#6a46a8!important;font-weight:400}
+.finale .contact-icon,.finale .contact-item:hover .contact-icon,.finale .contact-item:hover{box-shadow:none!important;filter:none!important;text-shadow:none!important}
+.finale .contact-title{font-family:'Cormorant Garamond',serif;font-weight:400;text-align:center;color:#232a4d;font-size:clamp(1.7rem,4.2vw,2.8rem);line-height:1.15;margin:0 0 clamp(1.6rem,3.5vw,2.6rem)}
+.finale .contact-title{font-size:clamp(1.955rem,4.83vw,3.22rem);margin-bottom:clamp(1.84rem,4vw,3rem)}
+.finale .contact-icon{width:clamp(37px,8.28vw,85px);height:clamp(37px,8.28vw,85px)}
+.finale .contact-label{font-size:clamp(.575rem,1.955vw,1.2rem)}
+.finale .contact-value,.finale .contact-value a{font-size:clamp(.713rem,2.645vw,1.86rem)}
+.finale .contact-bar{padding-bottom:clamp(2.5rem,5vw,4.5rem)}
+.finale .contact-title{margin-bottom:.9rem}
+.finale .contact-title em{color:#8f6fcf;font-style:italic}
+.finale .contact-sub{text-align:center;color:#5a5f82;font-size:clamp(.82rem,1.6vw,1.05rem);line-height:1.6;margin:0 0 clamp(1.8rem,4vw,3rem)}
+.finale{background:#fcf9f2}
+.finale .fwaves{position:absolute;left:0;bottom:0;width:100%;height:clamp(120px,15vw,210px);z-index:0;pointer-events:none}
+.finale .contact-bar,.finale footer{position:relative;z-index:1}
+.finale footer{padding-bottom:clamp(6.5rem,15vw,13rem)}
+.contact-icon svg.tel-ic{width:40px;height:40px}
+@media(max-width:768px){.contact-icon svg.tel-ic{width:26px;height:26px}}
+.finale .contact-icon svg.tel-ic{width:57.6%;height:57.6%}
+.finale .fgrid h3{color:#767791;font-size:.7rem;font-weight:600;margin-bottom:.4rem}

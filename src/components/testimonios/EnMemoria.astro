@@ -1,47 +1,13 @@
 ---
-// En memoria de: tarjetas con las mascotas despedidas.
+// En memoria de: Kissita y Mulán (usa el corazón #corazon de Encabezado).
+const MULAN = '/Assets/foto-mulan-nuestra-mascota-llanquihue-la-inspiracion-de-nosotros-preguntas-frecuentes';
+const mascotas = [
+    { nombre: 'Kissita', img: { src: '/Assets/foto-kissita-600.webp', width: 600, height: 750 }, texto: 'Kissita, tu amor llenó nuestros días de ternura y dejó recuerdos que siempre nos acompañarán. Aunque ya no podamos abrazarte, sigues presente en cada sonrisa que nace al pensar en ti. Gracias por haber sido parte de nuestra familia.' },
+    { nombre: 'Mulán', img: { src: `${MULAN}-640.webp`, srcset: `${MULAN}-640.webp 640w, ${MULAN}.webp 1200w`, sizes: '(max-width: 600px) 90vw, (max-width: 820px) 40vw, 220px', width: 640, height: 661 }, texto: 'Mulán, durante 13 años nos regalaste compañía y amor. Tu partida nos enseñó cuánto importa despedir con cuidado a quienes son familia. En tu memoria nació Pets al Cielo, para acompañar a otros en ese momento tan difícil.' },
+];
 ---
-<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    EN MEMORIA DE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<section class="section" id="en-memoria-de" aria-labelledby="memoriam-heading">
-    <div class="container">
-        <div class="section-header reveal">
-            <h2 id="memoriam-heading" class="section-title">En Memoria de</h2>
-            <p class="section-lead">Dos pequeñas compañeras que también forman parte de nuestra historia.</p>
-        </div>
-
-        <div class="memoriam-grid">
-            <!-- Kissita -->
-            <div class="glass-card memoriam-card reveal">
-                <div class="memoriam-photo-frame">
-            <img src="/Assets/foto-kissita-600.webp" alt="Kissita" width="600" height="750" loading="lazy" decoding="async">
-                </div>
-                <h3 class="memoriam-pet-name">Kissita</h3>
-                <p class="memoriam-dedication">
-                    <!-- Pendiente: pequeña dedicatoria para Kissita -->
-                    Kissita, tu amor llenó nuestros días de ternura y dejó recuerdos que siempre nos acompañarán. Aunque ya no podamos abrazarte, sigues presente en cada sonrisa que nace al pensar en ti. Gracias por haber sido parte de nuestra familia.
-                </p>
-            </div>
-
-            <!-- Mulán -->
-            <div class="glass-card memoriam-card reveal reveal-delay-1">
-                <div class="memoriam-photo-frame">
-                    <img src="/Assets/foto-mulan-nuestra-mascota-llanquihue-la-inspiracion-de-nosotros-preguntas-frecuentes.webp" srcset="/Assets/foto-mulan-nuestra-mascota-llanquihue-la-inspiracion-de-nosotros-preguntas-frecuentes-640.webp 640w, /Assets/foto-mulan-nuestra-mascota-llanquihue-la-inspiracion-de-nosotros-preguntas-frecuentes.webp 1200w" sizes="260px" alt="Mulán, mascota fundadora de Pets Al Cielo" loading="lazy" decoding="async">
-                </div>
-                <h3 class="memoriam-pet-name">Mulán</h3>
-                <p class="memoriam-dedication">
-                    <!-- Pendiente: pequeña dedicatoria para Mulán -->
-                    Mulán, durante 13 años nos regalaste compañía y amor. Tu partida nos enseñó cuánto importa despedir con cuidado a quienes son familia. En tu memoria nació Pets al Cielo, para acompañar a otros en ese momento tan difícil.
-                </p>
-            </div>
-        </div>
-
-        <!-- Tarjeta para incrustar un webp adicional -->
-        <div class="glass-card memoriam-embed-card reveal reveal-delay-2">
-            <div class="memoriam-embed-frame" id="memoriamEmbedFrame">
-                <img src="/Assets/patitagatoydueño.webp" alt="Patita de gato junto a la mano de su dueño" loading="lazy" decoding="async">
-            </div>
-        </div>
-    </div>
-</section>
+<section class="t-sec t-mem" id="en-memoria-de" aria-labelledby="memoriam-heading"><div class="t-wrap">
+<div class="t-head reveal"><h2 id="memoriam-heading" class="t-title">En Memoria <em>de</em></h2><p class="t-lead m-lead">Dos amadas compañeras que también son parte de nuestra historia <svg class="m-lead-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.2 20.6C8.4 17.6 3.6 13.9 3.4 9.2 3.3 6.4 5.2 4.3 7.7 4.3c2 0 3.5 1.3 4.4 3.2.8-1.9 2.4-3.3 4.5-3.3 2.6 0 4.3 2.2 4.1 4.9-.3 4.6-5.2 8.3-8.5 11.5-.9.9-2.3 1.4-3.6.9"/></svg></p></div>
+<div class="m-grid">{mascotas.map((m, i) => (
+<article class={i ? 'm-card reveal reveal-delay-1' : 'm-card reveal'}><div class="m-photo"><img {...m.img} alt={m.nombre} loading="lazy" decoding="async"></div><div class="m-body"><h3 class="m-name">{m.nombre}</h3><div class="m-orn" aria-hidden="true"><span></span><svg class="m-heart" viewBox="0 0 24 24"><use href="#corazon"/></svg><span></span></div><p class="m-text">{m.texto}</p></div></article>
+))}</div></div></section>

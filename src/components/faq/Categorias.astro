@@ -1,41 +1,20 @@
 ---
-// Botones de filtro por categoría (data-cat); el JS de la página muestra/oculta los .faq-group por data-group.
+// Botones de filtro por categoría (data-cat = id del grupo en src/data/faq.ts);
+// muestran solo el .faq-group con ese data-group (clase is-hidden en los demás).
+import { GRUPOS_FAQ } from '../../data/faq';
+const CORTOS: Record<string, string> = { proceso: 'El Proceso', garantias: 'Garantías', servicio: 'Servicio', 'Ánforas': 'Ánforas' };
 ---
-<!-- Categories -->
-<div class="faq-categories">
-    <button class="cat-btn active" data-cat="all"><span class="cat-emoji">🌿</span> Todas</button>
-    <button class="cat-btn" data-cat="proceso"><span class="cat-emoji">🌊</span> El Proceso</button>
-    <button class="cat-btn" data-cat="garantias"><span class="cat-emoji">✅</span> Garantías</button>
-    <button class="cat-btn" data-cat="servicio"><span class="cat-emoji">🚐</span> Servicio</button>
-    <button class="cat-btn" data-cat="Ánforas"><span class="cat-emoji">🏺</span> Ánforas</button>
-    
+<div class="faq-categories" role="group" aria-label="Filtrar preguntas por categoría">
+<button type="button" class="cat-btn active" data-cat="all" aria-pressed="true"><svg class="ico" aria-hidden="true"><use href="#i-leaf"/></svg> Todas</button>
+{GRUPOS_FAQ.map(g => <button type="button" class="cat-btn" data-cat={g.id} aria-pressed="false"><svg class="ico" aria-hidden="true"><use href={`#${g.icono}`}/></svg> {CORTOS[g.id] ?? g.titulo}</button>)}
 </div>
 
 <script>
-    // Filtro por categoría: muestra solo el grupo elegido (data-group).
-    // ── CATEGORY FILTER ──
-    const catBtns = document.querySelectorAll('.cat-btn');
-    const faqGroups = document.querySelectorAll('.faq-group');
-    const faqItems = document.querySelectorAll('.faq-item');
-
-    catBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            catBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const cat = btn.dataset.cat;
-
-            if (cat === 'all') {
-                faqGroups.forEach(g => g.style.display = '');
-                faqItems.forEach(i => i.style.display = '');
-            } else {
-                faqGroups.forEach(g => {
-                    if (g.dataset.group === cat) {
-                        g.style.display = '';
-                    } else {
-                        g.style.display = 'none';
-                    }
-                });
-            }
-        });
-    });
+    const botones = document.querySelectorAll<HTMLElement>('.cat-btn');
+    const grupos = document.querySelectorAll<HTMLElement>('.faq-group');
+    botones.forEach(btn => btn.addEventListener('click', () => {
+        botones.forEach(b => { b.classList.toggle('active', b === btn); b.setAttribute('aria-pressed', String(b === btn)); });
+        const cat = btn.dataset.cat;
+        grupos.forEach(g => g.classList.toggle('is-hidden', cat !== 'all' && g.dataset.group !== cat));
+    }));
 </script>

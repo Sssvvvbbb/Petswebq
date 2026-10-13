@@ -1,211 +1,163 @@
 ---
-// Carrusel de testimonios: la primera diapositiva (Blacky) viene en el HTML y el JS de la página agrega el resto desde /Assets/testimonios/testimonios.json. Videos: portada y <video> creado al pulsar (ver CLAUDE.md).
+// Carrusel de testimonios (9:16, imagen o video). Las diapositivas del HTML son el
+// respaldo; el JS las reemplaza con /Assets/testimonios/testimonios.json (así se
+// agregan testimonios sin tocar el código: subir el archivo a /Assets/testimonios/ y
+// sumar una línea al JSON con type "video"|"image", src, mp4 (opcional), poster y alt).
+// Videos: el HTML no lleva el archivo. Se ve la portada (data-poster, se asigna al
+// mostrarse la diapositiva actual y la siguiente) y el <video> se crea al pulsar.
+// En escritorio se ven dos diapositivas a la vez (la actual y la siguiente).
+// Sin avance automático con movimiento reducido. Contenido principal: sin reveal.
+import Hojas from './Hojas.astro';
+const RESPALDO = [
+    { tipo: 'image', src: '/Assets/testimonios/testimonio-01.webp', alt: 'Testimonio de Blacky' },
+    { tipo: 'video', src: '/Assets/testimonios/testimonio-02.webm', poster: '/Assets/testimonios/testimonio-02-portada.webp', alt: 'Testimonio de Luna' },
+    { tipo: 'video', src: '/Assets/testimonios/testimonio-03.webm', poster: '/Assets/testimonios/testimonio-03-portada.webp', alt: 'Testimonio Vicho' },
+    { tipo: 'video', src: '/Assets/testimonios/testimonio-04.webm', poster: '/Assets/testimonios/testimonio-04-portada.webp', alt: 'Testimonio de Luffy' },
+];
 ---
-<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    CARRUSEL DE TESTIMONIOS (10 espacios, imagen o video 9:16)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<section class="section" id="carrusel-testimonios" aria-label="Carrusel de testimonios">
-    <div class="container">
-        <div class="testi-carousel-outer">
-            <div class="glass-card testi-carousel-wrap" id="testiCarouselWrap">
-                <div id="testiSlidesContainer">
-                    <!-- ══════════════════════════════════════════════
-                         CARRUSEL 9:16 (imagen o video). Hoy: slide 1 = imagen testimonio-01.webp, slides 2-4 = videos
-                         /Assets/testimonios/testimonio-02.webm … 04.webm; 5-10 en espera.
-
-                         CRECER SIN TOCAR EL HTML (admin): subir el archivo a /Assets/testimonios/ y
-                         agregar una línea a /Assets/testimonios/testimonios.json. Si ese JSON existe
-                         y tiene elementos, reemplaza estos slides (estos quedan de respaldo).
-                         Campos: type "video"|"image", src, mp4 (opcional, respaldo para iPhone
-                         antiguos), poster (portada del video, recomendada), alt (descripción).
-                         Los videos no se descargan hasta pulsar reproducir: se ve la portada con un botón. ══════════════════════════════════════════════ -->
-                    <div class="testi-slide active" role="group" aria-roledescription="testimonio" aria-label="Testimonio 1 de 10">
-                        <img class="testi-media" src="/Assets/testimonios/testimonio-01.webp" alt="Testimonio de Blacky" width="400" height="720" fetchpriority="high" decoding="async">
-                    </div>
-                    <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 2 de 10">
-                        <a class="testi-video" href="/Assets/testimonios/testimonio-02.webm" data-video="/Assets/testimonios/testimonio-02.webm" aria-label="Reproducir: Testimonio de Luna"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-02-portada.webp" alt="Testimonio de Luna" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
-                    </div>
-                    <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 3 de 10">
-                        <a class="testi-video" href="/Assets/testimonios/testimonio-03.webm" data-video="/Assets/testimonios/testimonio-03.webm" aria-label="Reproducir: Testimonio Vicho"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-03-portada.webp" alt="Testimonio Vicho" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
-                    </div>
-                    <div class="testi-slide" role="group" aria-roledescription="testimonio" aria-label="Testimonio 4 de 10">
-                        <a class="testi-video" href="/Assets/testimonios/testimonio-04.webm" data-video="/Assets/testimonios/testimonio-04.webm" aria-label="Reproducir: Testimonio de Luffy"><img class="testi-media" data-poster="/Assets/testimonios/testimonio-04-portada.webp" alt="Testimonio de Luffy" width="400" height="711" decoding="async"><span class="testi-play" aria-hidden="true"></span></a>
-                    </div>
-                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 5 de 10">
-                        <div class="testi-placeholder">
-                            <div class="testi-avatar-fallback">♥</div>
-                            <p class="testi-quote">Testimonio 5 en espera</p>
-                        </div>
-                    </div>
-                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 6 de 10">
-                        <div class="testi-placeholder">
-                            <div class="testi-avatar-fallback">♥</div>
-                            <p class="testi-quote">Testimonio 6 en espera</p>
-                        </div>
-                    </div>
-                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 7 de 10">
-                        <div class="testi-placeholder">
-                            <div class="testi-avatar-fallback">♥</div>
-                            <p class="testi-quote">Testimonio 7 en espera</p>
-                        </div>
-                    </div>
-                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 8 de 10">
-                        <div class="testi-placeholder">
-                            <div class="testi-avatar-fallback">♥</div>
-                            <p class="testi-quote">Testimonio 8 en espera</p>
-                        </div>
-                    </div>
-                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 9 de 10">
-                        <div class="testi-placeholder">
-                            <div class="testi-avatar-fallback">♥</div>
-                            <p class="testi-quote">Testimonio 9 en espera</p>
-                        </div>
-                    </div>
-                    <div class="testi-slide" role="tabpanel" aria-label="Testimonio 10 de 10">
-                        <div class="testi-placeholder">
-                            <div class="testi-avatar-fallback">♥</div>
-                            <p class="testi-quote">Testimonio 10 en espera</p>
-                        </div>
-                    </div>
-                </div>
-                <button class="testi-carousel-arrow testi-arrow-prev" id="testiPrev" aria-label="Testimonio anterior">&#8249;</button>
-                <button class="testi-carousel-arrow testi-arrow-next" id="testiNext" aria-label="Testimonio siguiente">&#8250;</button>
-            </div>
-            <div class="testi-progress-wrap">
-                <span class="testi-counter" id="testiCounter">1 / 10</span>
-                <div class="testi-progress-track">
-                    <div class="testi-progress-fill" id="testiProgressFill" style="width:10%;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<section class="t-sec t-carr" id="carrusel-testimonios" aria-label="Carrusel de testimonios"><Hojas /><div class="t-wrap">
+<div class="t-stage"><button type="button" class="t-arrow t-prev" id="tPrev" aria-label="Testimonio anterior">‹</button>
+<div class="t-card" id="testiSlidesContainer">
+{RESPALDO.map((t, i) => (
+<div class={i === 0 ? 't-slide testi-slide active' : 't-slide testi-slide'} role="group" aria-roledescription="testimonio" aria-label={`Testimonio ${i + 1} de ${RESPALDO.length}`}>
+{t.tipo === 'image'
+    ? <img class="t-media testi-media" src={t.src} alt={t.alt} width="400" height="720" fetchpriority="high" decoding="async">
+    : <a class="t-video testi-video" href={t.src} data-video={t.src} aria-label={`Reproducir: ${t.alt}`}><img class="t-media testi-media" data-poster={t.poster} alt={t.alt} width="400" height="711" decoding="async"><span class="t-play" aria-hidden="true"></span></a>}
+</div>
+))}
+</div>
+<button type="button" class="t-arrow t-next" id="tNext" aria-label="Testimonio siguiente">›</button></div>
+<div class="t-dots" id="tDots" role="tablist" aria-label="Testimonios"></div></div></section>
 
 <script>
-    // Carrusel de testimonios.
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // CARRUSEL DE TESTIMONIOS 9:16 (imagen o video, cantidad variable)
-    // Slides del HTML = respaldo. Si existe MANIFEST con elementos, se
-    // construyen los slides desde él (así el admin puede ir agregando).
-    // Un video en reproducción pausa el avance; al terminar pasa al siguiente.
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    (function () {
-        const MANIFEST = '/Assets/testimonios/testimonios.json';
-        const container  = document.getElementById('testiSlidesContainer');
-        const prevBtn    = document.getElementById('testiPrev');
-        const nextBtn    = document.getElementById('testiNext');
-        const counterEl  = document.getElementById('testiCounter');
-        const progressEl = document.getElementById('testiProgressFill');
-        if (!container) return;
-        const DELAY  = 5500;
-        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        let slides = [], total = 0, current = 0, timer = null;
+    const MANIFEST = '/Assets/testimonios/testimonios.json';
+    const container = document.getElementById('testiSlidesContainer');
+    const prevBtn = document.getElementById('tPrev')!;
+    const nextBtn = document.getElementById('tNext')!;
+    const dotsEl = document.getElementById('tDots')!;
+    const DELAY = 5500;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // En escritorio se ven dos a la vez: la actual y la siguiente (clase "next").
+    const doble = matchMedia('(min-width: 900px)');
 
-        const vid = i => slides[i] && slides[i].querySelector('video');
-        const stop = () => { clearTimeout(timer); timer = null; };
+    interface Item { type: string; src: string; mp4?: string; poster?: string; alt?: string }
+
+    if (container) {
+        let slides: HTMLElement[] = [], total = 0, current = 0;
+        let timer: number | undefined;
+        const vid = (i: number) => slides[(i + total) % total]?.querySelector('video');
+        // Índices de las diapositivas a la vista (1 en el celular, 2 en escritorio).
+        const visibles = () => (doble.matches && total > 1 ? [current, (current + 1) % total] : [current]);
+        const stop = () => { clearTimeout(timer); timer = undefined; };
         function schedule() {
             stop();
             if (reduce || total < 2) return;
-            const v = vid(current);
-            if (v && !v.paused && !v.ended) return;
-            timer = setTimeout(() => show(current + 1), DELAY);
+            // Un video en reproducción en cualquiera de las diapositivas a la vista detiene el avance.
+            if (visibles().some(i => { const v = vid(i); return v && !v.paused && !v.ended; })) return;
+            timer = window.setTimeout(() => show(current + 1), DELAY);
         }
         // Portada de un video: se carga solo cuando su diapositiva se muestra o es la siguiente.
-        function portada(i) {
-            const sl = slides[(i + total) % total];
-            const img = sl && sl.querySelector('img[data-poster]:not([src])');
-            if (img) img.src = img.dataset.poster;
+        function portada(i: number) {
+            const img = slides[(i + total) % total]?.querySelector<HTMLImageElement>('img[data-poster]:not([src])');
+            if (img) img.src = img.dataset.poster!;
         }
-
-        function show(n) {
+        function show(n: number) {
             current = (n + total) % total;
+            const vista = visibles();
             slides.forEach((s, i) => {
-                const on = i === current;
-                s.classList.toggle('active', on);
+                const on = vista.includes(i);
+                s.classList.toggle('active', i === current);
+                s.classList.toggle('next', on && i !== current);
                 s.setAttribute('aria-hidden', on ? 'false' : 'true');
                 if (!on) s.querySelectorAll('video').forEach(v => { if (!v.paused) v.pause(); });
             });
+            Array.from(dotsEl.children).forEach((b, i) => {
+                b.classList.toggle('active', i === current);
+                b.setAttribute('aria-selected', String(i === current));
+            });
             portada(current); portada(current + 1);
-            counterEl.textContent = (current + 1) + ' / ' + total;
-            progressEl.style.width = (((current + 1) / total) * 100) + '%';
+            if (doble.matches) portada(current + 2);
             schedule();
         }
-
         // Al pulsar la portada se crea el <video> con su archivo y recién ahí se descarga.
-        function reproducir(a) {
+        function reproducir(a: HTMLAnchorElement) {
             const sl = a.closest('.testi-slide');
             const img = a.querySelector('img');
             const v = document.createElement('video');
-            v.className = 'testi-media';
+            v.className = 't-media testi-media';
             v.controls = true; v.playsInline = true; v.preload = 'auto';
             if (img) { v.poster = img.dataset.poster || img.src; v.setAttribute('aria-label', img.alt); }
             [[a.dataset.video, 'video/webm'], [a.dataset.mp4, 'video/mp4']].forEach(([src, type]) => {
                 if (!src) return;
-                const so = document.createElement('source'); so.src = src; so.type = type; v.appendChild(so);
+                const so = document.createElement('source'); so.src = src; so.type = type!; v.appendChild(so);
             });
             v.addEventListener('play', stop);
-            v.addEventListener('pause', () => { if (!v.ended && slides[current] === sl) schedule(); });
-            v.addEventListener('ended', () => { if (slides[current] === sl) show(current + 1); });
+            const aLaVista = () => visibles().some(i => slides[i] === sl);
+            v.addEventListener('pause', () => { if (!v.ended && aLaVista()) schedule(); });
+            v.addEventListener('ended', () => { if (slides[current] === sl) show(current + 1); else if (aLaVista()) schedule(); });
             a.replaceWith(v);
             stop();
             v.play().catch(() => {});
         }
         container.addEventListener('click', e => {
-            const a = e.target.closest('.testi-video');
+            const a = (e.target as Element).closest<HTMLAnchorElement>('.testi-video');
             if (!a) return;
             e.preventDefault();
             reproducir(a);
         });
-
         function init() {
             stop();
-            slides = Array.from(container.querySelectorAll('.testi-slide'));
+            slides = Array.from(container!.querySelectorAll<HTMLElement>('.testi-slide'));
             total = slides.length;
             if (!total) return;
             prevBtn.hidden = nextBtn.hidden = total < 2;
-            slides.forEach((sl, i) => sl.setAttribute('aria-label', 'Testimonio ' + (i + 1) + ' de ' + total));
+            slides.forEach((sl, i) => sl.setAttribute('aria-label', `Testimonio ${i + 1} de ${total}`));
+            dotsEl.replaceChildren(...slides.map((_, i) => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.setAttribute('role', 'tab');
+                b.setAttribute('aria-label', `Ir al testimonio ${i + 1}`);
+                b.addEventListener('click', () => show(i));
+                return b;
+            }));
             show(0);
         }
-
-        function build(it, i) {
+        function build(it: Item, i: number) {
             const sl = document.createElement('div');
-            sl.className = 'testi-slide';
+            sl.className = 't-slide testi-slide';
             sl.setAttribute('role', 'group');
             sl.setAttribute('aria-roledescription', 'testimonio');
+            const img = document.createElement('img');
+            img.className = 't-media testi-media';
+            img.alt = it.alt || '';
+            img.decoding = 'async';
             if (it.type === 'video') {
                 const a = document.createElement('a');
-                a.className = 'testi-video';
+                a.className = 't-video testi-video';
                 a.href = it.src;
                 a.dataset.video = it.src;
                 if (it.mp4) a.dataset.mp4 = it.mp4;
                 a.setAttribute('aria-label', 'Reproducir: ' + (it.alt || 'testimonio en video'));
-                const img = document.createElement('img');
-                img.className = 'testi-media';
-                img.alt = it.alt || '';
-                img.decoding = 'async';
                 if (it.poster) img.dataset.poster = it.poster;
                 const play = document.createElement('span');
-                play.className = 'testi-play';
+                play.className = 't-play';
                 play.setAttribute('aria-hidden', 'true');
                 a.append(img, play);
                 sl.appendChild(a);
             } else {
-                const m = document.createElement('img');
-                m.className = 'testi-media';
-                m.src = it.src; m.alt = it.alt || ''; m.decoding = 'async';
-                if (i === 0) m.fetchPriority = 'high'; else m.loading = 'lazy';
-                sl.appendChild(m);
+                img.src = it.src;
+                if (i === 0) img.fetchPriority = 'high'; else img.loading = 'lazy';
+                sl.appendChild(img);
             }
             return sl;
         }
-
+        doble.addEventListener('change', () => show(current));
         prevBtn.addEventListener('click', () => show(current - 1));
         nextBtn.addEventListener('click', () => show(current + 1));
         init();
-
         fetch(MANIFEST, { cache: 'no-cache' })
-            .then(r => r.ok ? r.json() : null)
-            .then(list => {
+            .then(r => (r.ok ? r.json() : null))
+            .then((list: Item[] | null) => {
                 if (!Array.isArray(list)) return;
                 const items = list.filter(it => it && it.src && (it.type === 'video' || it.type === 'image'));
                 if (!items.length) return;
@@ -219,5 +171,5 @@
                 init();
             })
             .catch(() => {});
-    })();
+    }
 </script>

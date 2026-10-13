@@ -1,12 +1,46 @@
 {
   "fotos": [
-    { "src": "/Assets/Nuestro_equipo_fundadora_2_mascotas_petsalcielo.webp", "alt": "Logo PetsAlCielo" },
-    { "src": "/Assets/nuestro-equipo-pets-al-cielo-crematorio-puerto-montt.webp", "alt": "Equipo Pets, Puerto Montt" },
-    { "src": "/Assets/Instalaciones_crematorio_puerto_montt_verde_petsalcielo.webp", "alt": "Instalaciones crematorio Puerto Montt verde Petsalcielo" },
-    { "src": "/Assets/Instalaciones_crematorio_puerto_montt_petsalcielo.webp", "alt": "Instalaciones crematorio Puerto Montt Petsalcielo" },
-    { "src": "/Assets/Instalaciones_oficinas_del_crematorio_petsalcielo.webp", "alt": "Instalaciones oficinas del crematorio Petsalcielo" },
-    { "src": "/Assets/Instalaciones_salita_de_despedida_crematorio_en_puertomontt.webp", "alt": "Instalaciones salita de despedida crematorio en Puerto Montt" },
-    { "src": "/Assets/Instalaciones_cremacion_puerto_montt_pet_sal_cielo.webp", "alt": "Instalaciones cremación Puerto Montt Pet Al Cielo" }
+    {
+      "src": "/Assets/Nuestro_equipo_fundadora_2_mascotas_petsalcielo.webp",
+      "grande": "/Assets/Nuestro_equipo_fundadora_2_mascotas_petsalcielo-1100.webp",
+      "mini": "/Assets/Nuestro_equipo_fundadora_2_mascotas_petsalcielo-140.webp",
+      "alt": "Logo PetsAlCielo"
+    },
+    {
+      "src": "/Assets/nuestro-equipo-pets-al-cielo-crematorio-puerto-montt.webp",
+      "grande": "/Assets/nuestro-equipo-pets-al-cielo-crematorio-puerto-montt-1100.webp",
+      "mini": "/Assets/nuestro-equipo-pets-al-cielo-crematorio-puerto-montt-140.webp",
+      "alt": "Equipo Pets, Puerto Montt"
+    },
+    {
+      "src": "/Assets/Instalaciones_crematorio_puerto_montt_verde_petsalcielo.webp",
+      "grande": "/Assets/Instalaciones_crematorio_puerto_montt_verde_petsalcielo-1100.webp",
+      "mini": "/Assets/Instalaciones_crematorio_puerto_montt_verde_petsalcielo-140.webp",
+      "alt": "Instalaciones crematorio Puerto Montt verde Petsalcielo"
+    },
+    {
+      "src": "/Assets/Instalaciones_crematorio_puerto_montt_petsalcielo.webp",
+      "grande": "/Assets/Instalaciones_crematorio_puerto_montt_petsalcielo-1100.webp",
+      "mini": "/Assets/Instalaciones_crematorio_puerto_montt_petsalcielo-140.webp",
+      "alt": "Instalaciones crematorio Puerto Montt Petsalcielo"
+    },
+    {
+      "src": "/Assets/Instalaciones_oficinas_del_crematorio_petsalcielo.webp",
+      "grande": "/Assets/Instalaciones_oficinas_del_crematorio_petsalcielo-1100.webp",
+      "mini": "/Assets/Instalaciones_oficinas_del_crematorio_petsalcielo-140.webp",
+      "alt": "Instalaciones oficinas del crematorio Petsalcielo"
+    },
+    {
+      "src": "/Assets/Instalaciones_salita_de_despedida_crematorio_en_puertomontt.webp",
+      "grande": "/Assets/Instalaciones_salita_de_despedida_crematorio_en_puertomontt-1100.webp",
+      "mini": "/Assets/Instalaciones_salita_de_despedida_crematorio_en_puertomontt-140.webp",
+      "alt": "Instalaciones salita de despedida crematorio en Puerto Montt"
+    },
+    {
+      "src": "/Assets/Instalaciones_cremacion_puerto_montt_pet_sal_cielo.webp",
+      "grande": "/Assets/Instalaciones_cremacion_puerto_montt_pet_sal_cielo-1100.webp",
+      "mini": "/Assets/Instalaciones_cremacion_puerto_montt_pet_sal_cielo-140.webp",
+      "alt": "Instalaciones cremación Puerto Montt Pet Al Cielo"
+    }
   ]
 }
-

@@ -4,7 +4,10 @@ import '../styles/preguntas-frecuentes.css';
 import MejoraProgresiva from '../components/MejoraProgresiva.astro';
 import Menu from '../components/Menu.astro';
 import TopBar from '../components/TopBar.astro';
-import Footer from '../components/Footer.astro';
+import SvgDefs from '../components/SvgDefs.astro';
+import Decoracion from '../components/Decoracion.astro';
+import PieFinal from '../components/PieFinal.astro';
+import Iconos from '../components/faq/Iconos.astro';
 import PageHero from '../components/PageHero.astro';
 import GoogleTag from '../components/GoogleTag.astro';
 import Favicons from '../components/Favicons.astro';
@@ -12,7 +15,6 @@ import Categorias from '../components/faq/Categorias.astro';
 import Grupo from '../components/faq/Grupo.astro';
 import { GRUPOS_FAQ, faqJsonLd } from '../data/faq';
 import Llamado from '../components/faq/Llamado.astro';
-import Contacto from '../components/faq/Contacto.astro';
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -60,6 +62,9 @@ import Contacto from '../components/faq/Contacto.astro';
 
 </head>
 <body>
+    <SvgDefs />
+    <Decoracion />
+    <Iconos />
 
     <!-- ── TOP BAR ── -->
     <TopBar variant="faq" />
@@ -67,27 +72,21 @@ import Contacto from '../components/faq/Contacto.astro';
     <!-- ── NAV ── -->
     <Menu />
 
-    <!-- ── PAGE HERO ── -->
     <PageHero />
 
-    <!-- ── FAQ MAIN SECTION ── -->
+    <main>
     <section class="section">
         <div class="container">
-
             <Categorias />
-
             <!-- Preguntas: src/data/faq.ts -->
             {GRUPOS_FAQ.map(grupo => <Grupo grupo={grupo} />)}
-
         </div>
     </section>
 
     <Llamado />
+    </main>
 
-    <Contacto />
-
-    <!-- ── FOOTER ── -->
-    <Footer variant="faq" />
+    <PieFinal titulo={false} />
 
 </body>
 </html>

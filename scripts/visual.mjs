@@ -254,10 +254,21 @@ async function probar(browser) {
       for (const clave of await page.$$eval('.mosaic-item[data-gallery]', els => els.map(e => e.dataset.gallery))) {
         await page.evaluate(k => document.querySelector(`.mosaic-item[data-gallery="${k}"]`).click(), clave);
         await new Promise(r => setTimeout(r, 1200));
-        const n = await page.evaluate(() => document.querySelectorAll('#glb-track .glb-slide img, #glb-track iframe').length);
+        // Ánforas y Relicarios abre la vista general: se entra a la primera tarjeta.
+        if (await page.$('#galChoose .gal-opt')) {
+          await page.evaluate(() => document.querySelector('#galChoose .gal-opt').click());
+          await new Promise(r => setTimeout(r, 800));
+        }
+        const n = await page.evaluate(() => document.querySelectorAll('#galStage .gal-slide img, #galVideo iframe').length);
         if (!n) fallas.push(`${donde}: la galería "${clave}" abre vacía`);
-        await page.keyboard.press('ArrowRight'); await page.keyboard.press('Escape');
-        await new Promise(r => setTimeout(r, 500));
+        const foto = await page.evaluate(() => { const i = document.querySelector('#galStage .gal-slide.act img'); return i ? i.complete && i.naturalWidth > 0 : true; });
+        if (!foto) fallas.push(`${donde}: la foto de la galería "${clave}" no carga`);
+        await page.keyboard.press('ArrowRight');
+        // Esc retrocede un paso (galería → vista general → cerrado): se repite hasta cerrar.
+        for (let i = 0; i < 3 && await page.evaluate(() => document.getElementById('gal').classList.contains('on')); i++) {
+          await page.keyboard.press('Escape'); await new Promise(r => setTimeout(r, 500));
+        }
+        if (await page.evaluate(() => document.getElementById('gal').classList.contains('on'))) fallas.push(`${donde}: la galería "${clave}" no se cierra con Escape`);
       }
 
       // FAQ: acordeón y filtros
@@ -383,8 +394,11 @@ async function escenarios(browser, lista) {
     page = await abrir(browser, p, { antes: pg => pg.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]) });
     const estado = () => page.evaluate(() => [
       [...document.querySelectorAll('.carousel-dots .dot')].findIndex(d => d.classList.contains('active')),
-      // Solo la diapositiva actual: el total cambia al llegar testimonios.json
-      (document.getElementById('testiCounter')?.textContent ?? '').split('/')[0].trim(),
+      // Diapositiva activa de la portada de la home, de testimonios y de las reseñas
+      [...document.querySelectorAll('.hero-inner > .hs')].findIndex(d => d.classList.contains('active')),
+      [...document.querySelectorAll('#testiSlidesContainer .testi-slide')].findIndex(d => d.classList.contains('active')),
+      document.querySelector('#gMain .g-card')?.dataset.i ?? '',
+      document.getElementById('igcTrack')?.style.transform ?? '',
     ].join('|'));
     const antes = await estado();
     await esperar(9000);

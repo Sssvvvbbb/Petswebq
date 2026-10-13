@@ -1,259 +1,90 @@
 ---
-// Reseñas de Google. Son citas textuales de clientes: no corregirles la redacción.
+// Reseñas de Google: una destacada (con sus fotos) y tres al costado; las flechas,
+// los puntos o un clic en una reseña lateral cambian la destacada. Los datos están
+// en src/data/resenas.ts (citas textuales: no corregirles la redacción).
+// Todas las reseñas van en el HTML ya ubicadas (sin JS se ven la destacada y las
+// tres laterales); el JS solo las cambia de lugar.
+import { RESENAS } from '../../data/resenas';
+import TarjetaResena from './TarjetaResena.astro';
+const GOOGLE_RESENAS = 'https://search.google.com/local/reviews?placeid=ChIJWTfOQDgvGJYR_Ylu3xobxlI';
 ---
-<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    RESEÑAS DE GOOGLE (carrusel escrito a mano, 6 reseñas de 5 estrellas)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-<section class="section" id="resenas-google" aria-labelledby="google-reviews-heading">
-    <div class="container">
-        <div class="section-header reveal">
-            <span class="section-tag">Opiniones verificadas</span>
-            <h2 id="google-reviews-heading" class="section-title">Reseñas de <em>Google</em></h2>
-            <p class="section-lead">Palabras de familias que nos dejaron su reseña en Google, publicadas con su autorización.</p>
-        </div>
-
-        <div class="glass-card google-reviews-card reveal">
-            <!--
-                ══════════════════════════════════════════════════════════
-                CÓMO AGREGAR / EDITAR UNA RESEÑA
-                Copia un bloque <article class="greview-slide"> completo,
-                pégalo dentro de .greview-track y edita:
-                  · data-initial="X"  → inicial que se ve si no hay foto de perfil
-                  · foto de perfil    → /Assets/reviews/nombre-perfil.webp
-                  · data-gender       → "f" (fondo rosa) o "m" (fondo verde pastel) en .greview-avatar
-                                        (si el archivo no existe, se muestra la inicial)
-                  · .greview-name     → nombre de la persona
-                  · .greview-text     → texto de la reseña (usa <br> para salto de línea)
-                  · .greview-photos   → 0 a 3 <img>. Sin fotos: borra todo el
-                                        <div class="greview-photos">. Con 1, 2 o 3
-                                        el diseño se ajusta solo. Si una imagen no
-                                        carga, se omite sin dejar hueco.
-                Los puntos (dots), las flechas y el contador se generan solos.
-                Formato recomendado: .webp, fotos ~1200px de ancho, perfil 200×200.
-                Plantilla:
-
-                <article class="greview-slide" role="group" aria-roledescription="reseña">
-                    <header class="greview-head">
-                        <div class="greview-avatar" data-initial="A" data-gender="f">
-                            <img src="/Assets/reviews/nombre-apellido-perfil.webp" alt="" width="52" height="52" loading="lazy" decoding="async">
-                        </div>
-                        <div class="greview-who">
-                            <span class="greview-name">Nombre Apellido</span>
-                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                        </div>
-                        <span class="greview-badge">en Google</span>
-                    </header>
-                    <blockquote class="greview-text">Texto de la reseña.</blockquote>
-                    <div class="greview-photos">
-                        <img src="/Assets/reviews/nombre-apellido-1.webp" alt="Descripción de la foto" loading="lazy" decoding="async">
-                    </div>
-                </article>
-                ══════════════════════════════════════════════════════════
-            -->
-            <div class="greview-carousel" id="greviewCarousel" aria-roledescription="carrusel" aria-label="Reseñas de Google">
-                <div class="greview-track">
-
-                <article class="greview-slide active" role="group" aria-roledescription="reseña" aria-label="Reseña 1 de 6">
-                    <header class="greview-head">
-                        <div class="greview-avatar" data-initial="D" data-gender="f">
-                        </div>
-                        <div class="greview-who">
-                            <span class="greview-name">Dafne Retamal</span>
-                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                        </div>
-                        <span class="greview-badge">en Google</span>
-                    </header>
-                    <blockquote class="greview-text">Agradezco mucho la cercanía que han tenido, la empatía que tuvieron durante todo este proceso, las palabras y el consuelo. Llegar allá fue un respiro para mi corazón porque sabía que pronto tendría a mi Teo de vuelta. Lily además se acercó con todo el amor a acompañarme el primer día, agradecida de ella también.</blockquote>
-                    <div class="greview-photos">
-                        <img src="/Assets/reviews/dafne-retamal-1.webp" alt="Ánfora y retrato de Teo, foto compartida por Dafne Retamal" loading="lazy" decoding="async">
-                        <img src="/Assets/reviews/dafne-retamal-2.webp" srcset="/Assets/reviews/dafne-retamal-2-440.webp 440w, /Assets/reviews/dafne-retamal-2.webp 652w" sizes="(max-width: 768px) 35vw, 260px" alt="Teo, foto compartida por Dafne Retamal" loading="lazy" decoding="async">
-                        <img src="/Assets/reviews/dafne-retamal-3.webp" srcset="/Assets/reviews/dafne-retamal-3-440.webp 440w, /Assets/reviews/dafne-retamal-3.webp 652w" sizes="(max-width: 768px) 35vw, 260px" alt="Teo, foto compartida por Dafne Retamal" loading="lazy" decoding="async">
-                    </div>
-                </article>
-                <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 2 de 6">
-                    <header class="greview-head">
-                        <div class="greview-avatar" data-initial="D" data-gender="f">
-                        </div>
-                        <div class="greview-who">
-                            <span class="greview-name">Daniela Risco</span>
-                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                        </div>
-                        <span class="greview-badge">en Google</span>
-                    </header>
-                    <blockquote class="greview-text">Agradecida de la hermosa labor que realizan, lleve a mi perrita Emma que me acompañó durante 14 años, apenas ingrese sentí un ambiente cálido, de mucho amor y entendimiento hacia la pérdida que estaba cursando.<br>
-                    Felicidades por esta hermosa labor en la que nos ayudan a mantener a nuestros compañeros de vida, siempre junto a nosotros.</blockquote>
-                </article>
-                <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 3 de 6">
-                    <header class="greview-head">
-                        <div class="greview-avatar" data-initial="C" data-gender="f">
-                        </div>
-                        <div class="greview-who">
-                            <span class="greview-name">Constanza Villagran</span>
-                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                        </div>
-                        <span class="greview-badge">en Google</span>
-                    </header>
-                    <blockquote class="greview-text">He tenido que acudir a Pets al Cielo en dos ocasiones por mi Fanny y Pequita y no tengo palabras suficientes para agradecer el servicio que brindan. En los momentos más dolorosos, han demostrado una empatía, respeto y calidad humana, te acompañan con un amor y una delicadeza. Los recomiendo a ojos cerrados, de verdad hacen honor a su nombre y tratan a nuestras mascotas con el mayor de los respetos 🌸</blockquote>
-                </article>
-                <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 4 de 6">
-                    <header class="greview-head">
-                        <div class="greview-avatar" data-initial="R" data-gender="m">
-                        </div>
-                        <div class="greview-who">
-                            <span class="greview-name">Rodrigo Latorre</span>
-                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                        </div>
-                        <span class="greview-badge">en Google</span>
-                    </header>
-                    <blockquote class="greview-text">Es una atencion muy humana y te tranquilizan en un momento tan dificil, el trabajo fue muy profesional y es un gran alivio que sean ellos los que ayudaron en estos que era tan importante</blockquote>
-                    <div class="greview-photos">
-                        <img src="/Assets/reviews/rodrigo-latorre-1.webp" alt="Ánfora, cuadros con la huella y el retrato de Tomás y certificado de eco-incineración, foto compartida por Rodrigo Latorre" loading="lazy" decoding="async">
-                    </div>
-                </article>
-                <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 5 de 6">
-                    <header class="greview-head">
-                        <div class="greview-avatar" data-initial="C" data-gender="f">
-                        </div>
-                        <div class="greview-who">
-                            <span class="greview-name">Carmen Gloria Diaz Bunster</span>
-                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                        </div>
-                        <span class="greview-badge">en Google</span>
-                    </header>
-                    <blockquote class="greview-text">Somos una familia que amamos a nuestros perritos, por eso valoramos enormemente el profesionalismo, seriedad, respeto y empatía que han tenido con cada uno de nuestros perritos que han partido.</blockquote>
-                    <div class="greview-photos">
-                        <img src="/Assets/reviews/carmen-gloria-diaz-1.webp" srcset="/Assets/reviews/carmen-gloria-diaz-1-1000.webp 1000w, /Assets/reviews/carmen-gloria-diaz-1.webp 1342w" sizes="(max-width: 768px) 90vw, 650px" alt="Ánforas y retratos de Zeus, Negrita y Aquiles, foto compartida por Carmen Gloria Diaz Bunster" loading="lazy" decoding="async">
-                    </div>
-                </article>
-                <article class="greview-slide" role="group" aria-roledescription="reseña" aria-label="Reseña 6 de 6">
-                    <header class="greview-head">
-                        <div class="greview-avatar" data-initial="A" data-gender="m">
-                        </div>
-                        <div class="greview-who">
-                            <span class="greview-name">Arturo Rivero</span>
-                            <span class="greview-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span>
-                        </div>
-                        <span class="greview-badge">en Google</span>
-                    </header>
-                    <blockquote class="greview-text">Excelente servicio y atención, personas que te acompañan en todo momento y saben lo significativo que es perder a un ser querido, con una atención personalizada excepcional. 100% recomendados, mis mascotas siempre con ellos.</blockquote>
-                    <div class="greview-photos">
-                        <img src="/Assets/reviews/arturo-rivero-1.webp" alt="Ánforas y recuerdos de sus mascotas en un estante, foto compartida por Arturo Rivero" loading="lazy" decoding="async">
-                    </div>
-                </article>
-                </div>
-            </div>
-
-            <div class="greview-controls">
-                <button class="greview-arrow" id="greviewPrev" aria-label="Reseña anterior">&#8249;</button>
-                <div class="greview-dots" id="greviewDots">
-                <button class="greview-dot active" data-i="0" aria-label="Ir a la reseña 1"></button>
-                <button class="greview-dot" data-i="1" aria-label="Ir a la reseña 2"></button>
-                <button class="greview-dot" data-i="2" aria-label="Ir a la reseña 3"></button>
-                <button class="greview-dot" data-i="3" aria-label="Ir a la reseña 4"></button>
-                <button class="greview-dot" data-i="4" aria-label="Ir a la reseña 5"></button>
-                <button class="greview-dot" data-i="5" aria-label="Ir a la reseña 6"></button>
-                </div>
-                <button class="greview-arrow" id="greviewNext" aria-label="Reseña siguiente">&#8250;</button>
-            </div>
-
-            <!-- Enlace estable al perfil (por Place ID). Si prefieres otro enlace, cambia solo este href. -->
-            <a href="https://search.google.com/local/reviews?placeid=ChIJWTfOQDgvGJYR_Ylu3xobxlI"
-               target="_blank" rel="noopener" class="btn btn-primary greview-cta">
-                Ver todas las reseñas en Google ›
-            </a>
-        </div>
-    </div>
-</section>
+<section class="t-sec t-goo" id="resenas-google" aria-labelledby="google-reviews-heading"><div class="t-wrap t-wide">
+<svg class="sprite" aria-hidden="true" focusable="false"><symbol id="logo-google" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.5 12.2c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2.1-1.9 3.3-4.7 3.3-8z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.2-2.7l-3.5-2.7c-1 .7-2.2 1-3.7 1a6.4 6.4 0 0 1-6-4.4H2.4v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M6 14.2a6.6 6.6 0 0 1 0-4.4V7H2.4a11 11 0 0 0 0 10z"/><path fill="#EA4335" d="M12 5.6c1.6 0 3.1.6 4.2 1.7l3.1-3.1A11 11 0 0 0 2.4 7L6 9.8a6.4 6.4 0 0 1 6-4.2z"/></symbol></svg>
+<div class="t-head reveal"><span class="t-tag">Opiniones verificadas</span>
+<h2 id="google-reviews-heading" class="t-title">Reseñas de <span class="gword" aria-label="Google"><i>G</i><i>o</i><i>o</i><i>g</i><i>l</i><i>e</i></span></h2>
+<p class="t-lead">Palabras de familias que nos dejaron su reseña en Google, publicadas con su autorización.</p></div>
+<div class="g-grid reveal" id="gGrid" aria-roledescription="reseñas">
+<div class="g-main" id="gMain"><TarjetaResena r={RESENAS[0]} i={0} lugar="destacada" /></div>
+<div class="g-side" id="gSide">{RESENAS.slice(1, 4).map((r, k) => <TarjetaResena r={r} i={k + 1} lugar="lateral" />)}</div>
+<div id="gResto" hidden>{RESENAS.slice(4).map((r, k) => <TarjetaResena r={r} i={k + 4} lugar="oculta" />)}</div>
+</div>
+<div class="g-ctrl"><button type="button" class="t-arrow g-arrow" id="gPrev" aria-label="Reseña anterior">‹</button><div class="t-dots" id="gDots"></div><button type="button" class="t-arrow g-arrow" id="gNext" aria-label="Reseña siguiente">›</button></div>
+<a class="g-cta" href={GOOGLE_RESENAS} target="_blank" rel="noopener"><svg class="g-logo" aria-hidden="true"><use href="#logo-google"/></svg><span>Ver más reseñas en Google</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</div></section>
 
 <script>
-    // Carrusel de reseñas de Google.
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // CARRUSEL DE RESEÑAS DE GOOGLE
-    // Las reseñas están escritas directo en el HTML (sin JSON).
-    // Se autoajusta a la cantidad de reseñas y de fotos (0-3).
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    (function () {
-        const wrap = document.getElementById('greviewCarousel');
-        if (!wrap) return;
-        const slides  = Array.from(wrap.querySelectorAll('.greview-slide'));
-        const dotsBox = document.getElementById('greviewDots');
-        const prevBtn = document.getElementById('greviewPrev');
-        const nextBtn = document.getElementById('greviewNext');
-        const total   = slides.length;
-        if (!total) return;
+    // Ubica las reseñas: la primera del orden en #gMain (destacada), las tres
+    // siguientes en #gSide (botones) y el resto ocultas en #gResto. Sin avance
+    // automático con movimiento reducido; se detiene con el mouse encima.
+    const grid = document.getElementById('gGrid');
+    const principal = document.getElementById('gMain');
+    const lado = document.getElementById('gSide');
+    const resto = document.getElementById('gResto');
+    const puntos = document.getElementById('gDots');
 
-        // Fotos: contar cuántas hay (máx. 3) y omitir las que no carguen
-        function syncPhotos(box) {
-            const imgs = Array.from(box.querySelectorAll('img'));
-            imgs.slice(3).forEach(im => im.remove());
-            box.dataset.count = box.querySelectorAll('img').length;
-        }
-        slides.forEach(sl => {
-            const box = sl.querySelector('.greview-photos');
-            if (box) {
-                syncPhotos(box);
-                box.querySelectorAll('img').forEach(im => {
-                    const drop = () => { im.remove(); syncPhotos(box); };
-                    // Solo el evento 'error' (fallo real). No se usa
-                    // complete/naturalWidth: con loading="lazy" una imagen que
-                    // aún no empezó a cargar cumple esa condición y se borraba.
-                    im.addEventListener('error', drop);
-                });
-            }
-            // Foto de perfil que no carga: se quita y queda la inicial
-            const av = sl.querySelector('.greview-avatar img');
-            if (av) {
-                const drop = () => av.remove();
-                av.addEventListener('error', drop);
-            }
-        });
+    if (grid && principal && lado && resto && puntos) {
+        const tarjetas = Array.from(grid.querySelectorAll<HTMLElement>('.g-card'));
+        const orden = tarjetas.map((_, i) => i);
+        const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let temporizador: number | undefined;
 
-        // Puntos: se regeneran según la cantidad real de reseñas
-        dotsBox.innerHTML = '';
-        const dots = slides.map((_, i) => {
-            const b = document.createElement('button');
-            b.className = 'greview-dot';
-            b.setAttribute('aria-label', 'Ir a la reseña ' + (i + 1));
-            b.addEventListener('click', () => { stop(); show(i); start(); });
-            dotsBox.appendChild(b);
-            return b;
-        });
-        slides.forEach((sl, i) => sl.setAttribute('aria-label', 'Reseña ' + (i + 1) + ' de ' + total));
-        if (total < 2) { prevBtn.hidden = true; nextBtn.hidden = true; dotsBox.hidden = true; }
-
-        let current = 0, timer = null;
-        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        function show(n) {
-            current = (n + total) % total;
-            slides.forEach((s, i) => {
-                s.classList.toggle('active', i === current);
-                s.setAttribute('aria-hidden', i === current ? 'false' : 'true');
+        function ubicar() {
+            orden.forEach((i, k) => {
+                const t = tarjetas[i];
+                const destacada = k === 0, lateral = k > 0 && k < 4;
+                t.classList.toggle('g-big', destacada);
+                if (lateral) {
+                    t.tabIndex = 0;
+                    t.setAttribute('role', 'button');
+                    t.setAttribute('aria-label', `Ver la reseña de ${t.querySelector('.g-name')!.textContent}`);
+                } else {
+                    t.removeAttribute('tabindex');
+                    t.removeAttribute('role');
+                    t.setAttribute('aria-label', `Reseña de ${t.querySelector('.g-name')!.textContent}`);
+                }
+                (destacada ? principal : lateral ? lado : resto)!.appendChild(t);
             });
-            dots.forEach((d, i) => d.classList.toggle('active', i === current));
+            Array.from(puntos!.children).forEach((b, i) => b.classList.toggle('active', i === orden[0]));
         }
-        function start() { if (reduce || total < 2) return; stop(); timer = setInterval(() => show(current + 1), 8000); }
-        function stop()  { clearInterval(timer); timer = null; }
+        const siguiente = () => { orden.push(orden.shift()!); ubicar(); };
+        const anterior = () => { orden.unshift(orden.pop()!); ubicar(); };
+        function ir(i: number) { while (orden[0] !== i) orden.push(orden.shift()!); ubicar(); }
+        function avanzar() {
+            clearInterval(temporizador);
+            if (!quieto) temporizador = window.setInterval(siguiente, 9000);
+        }
 
-        prevBtn.addEventListener('click', () => { stop(); show(current - 1); start(); });
-        nextBtn.addEventListener('click', () => { stop(); show(current + 1); start(); });
-
-        // Pausar al pasar el mouse / enfocar; deslizar con el dedo en móvil
-        wrap.addEventListener('mouseenter', stop);
-        wrap.addEventListener('mouseleave', start);
-        wrap.addEventListener('focusin', stop);
-        wrap.addEventListener('focusout', start);
-        let x0 = null;
-        wrap.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; stop(); }, { passive: true });
-        wrap.addEventListener('touchend', e => {
-            if (x0 !== null) {
-                const dx = e.changedTouches[0].clientX - x0;
-                if (Math.abs(dx) > 40) show(current + (dx < 0 ? 1 : -1));
-            }
-            x0 = null; start();
-        }, { passive: true });
-
-        show(0);
-        start();
-    })();
+        puntos.replaceChildren(...tarjetas.map((_, i) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.setAttribute('aria-label', `Ver la reseña ${i + 1}`);
+            b.addEventListener('click', () => { ir(i); avanzar(); });
+            return b;
+        }));
+        lado.addEventListener('click', e => {
+            const t = (e.target as Element).closest<HTMLElement>('.g-card');
+            if (t) { ir(+t.dataset.i!); avanzar(); }
+        });
+        lado.addEventListener('keydown', e => {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            const t = (e.target as Element).closest<HTMLElement>('.g-card');
+            if (t) { e.preventDefault(); ir(+t.dataset.i!); avanzar(); }
+        });
+        document.getElementById('gNext')!.addEventListener('click', () => { siguiente(); avanzar(); });
+        document.getElementById('gPrev')!.addEventListener('click', () => { anterior(); avanzar(); });
+        grid.addEventListener('mouseenter', () => clearInterval(temporizador));
+        grid.addEventListener('mouseleave', avanzar);
+        ubicar();
+        avanzar();
+    }
 </script>

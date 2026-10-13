@@ -1,0 +1,25 @@
+---
+// Onda de transición al pie de una sección del diseño nuevo de la home.
+// forma "a": portada y Confianza; "b": las demás. invertida: espejo horizontal.
+interface Props {
+  forma: 'a' | 'b';
+  capas: [string, number][]; // [color, opacidad], de la capa de atrás a la de adelante
+  invertida?: boolean;
+}
+const { forma, capas, invertida = false } = Astro.props;
+const trazos = {
+  a: [
+    'M0 112 C240 50 480 146 760 94 C1040 40 1250 88 1440 32 L1440 200 L0 200Z',
+    'M0 136 C260 84 520 168 800 122 C1060 82 1260 118 1440 74 L1440 200 L0 200Z',
+    'M0 164 C300 124 560 190 840 156 C1100 124 1290 148 1440 120 L1440 200 L0 200Z',
+    'M0 188 C320 170 600 200 900 186 C1150 174 1300 190 1440 180 L1440 200 L0 200Z',
+  ],
+  b: [
+    'M0 118 C240 56 480 150 760 98 C1040 46 1250 92 1440 38 L1440 200 L0 200Z',
+    'M0 140 C260 88 520 170 800 126 C1060 86 1260 122 1440 78 L1440 200 L0 200Z',
+    'M0 168 C300 128 560 192 840 160 C1100 128 1290 152 1440 124 L1440 200 L0 200Z',
+    'M0 188 C320 170 600 200 900 186 C1150 174 1300 190 1440 180 L1440 200 L0 200Z',
+  ],
+}[forma];
+---
+<svg class="wv wv-b" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true"><g transform={invertida ? 'scale(-1 1) translate(-1440 0)' : undefined}>{capas.map(([color, opacidad], i) => <path d={trazos[i]} fill={color} opacity={opacidad} />)}</g></svg>

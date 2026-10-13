@@ -1,0 +1,288 @@
+---
+// Galería de la sección Biblioteca (home, servicios, nosotros e instalaciones).
+// La abren los .mosaic-item[data-gallery="<clave>"] (clic, Enter y Espacio) y los
+// botones con data-abre-galeria (src/scripts/enlaces.ts, que hace clic en el mosaico).
+// - urnas: vista general "Ánforas y Relicarios" con dos tarjetas; cada una abre su
+//   galería (/gallery/urnas.json y /gallery/relicarios.json) con botón para cambiar.
+// - instalaciones, jardin, despedida: se abren directo en su galería.
+// - mariposas: el video educativo de YouTube en el mismo contenedor.
+// Fotos: cada una tiene "grande" (1100 px) y "mini" (140 px) en el JSON; solo cargan
+// la actual y sus dos vecinas. Botón Atrás del navegador: galería → vista general →
+// cerrado (history.pushState). No oculta contenido: no suma a window.__listos.
+// CSS: src/styles/galeria-biblioteca.css (la página lo importa después de los componentes).
+---
+<div class="gal" id="gal" role="dialog" aria-modal="true" aria-labelledby="gal-title" aria-hidden="true" data-view="choose">
+<div class="gal-bg" id="galBg"></div>
+<div class="gal-top"><div class="gal-left"><h2 class="gal-title" id="gal-title"></h2><button type="button" class="gal-back" id="galBack" hidden></button></div><span class="gal-count" id="galCount"></span><div class="gal-right"><button type="button" class="gal-x" id="galX" aria-label="Cerrar">&#x2715;</button></div></div>
+<div class="gal-choose" id="galChoose"></div>
+<div class="gal-stage" id="galStage"><button type="button" class="gal-arrow gal-prev" id="galPrev" aria-label="Foto anterior">&#8249;</button><button type="button" class="gal-arrow gal-next" id="galNext" aria-label="Foto siguiente">&#8250;</button></div>
+<div class="gal-video" id="galVideo"></div>
+<div class="gal-cap"><p class="gal-alt" id="galAlt" aria-hidden="true"></p></div>
+<div class="gal-sr" id="galLive" role="status" aria-live="polite" aria-atomic="true"></div>
+<div class="gal-thumbs" id="galThumbs" role="tablist" aria-label="Miniaturas"></div>
+</div>
+
+<script>
+    interface Foto { src: string; grande?: string; mini?: string; alt?: string }
+    type Vista = 'choose' | 'gallery' | 'video';
+    interface Estado { gal: Vista; k: string }
+
+    const TITULOS: Record<string, string> = {
+        instalaciones: 'Nuestros servicios',
+        jardin: 'Nuestro Equipo',
+        urnas: 'Ánforas',
+        relicarios: 'Relicarios',
+        mariposas: 'Sobre la hidrólisis alcalina',
+        despedida: 'Gracias ❤️',
+    };
+    const GRUPO = ['urnas', 'relicarios'];          // galerías con vista general
+    const BOTON: Record<string, string> = { urnas: 'Ver ánforas', relicarios: 'Ver relicarios' };
+    const PORTADA: Record<string, string> = { urnas: '/Assets/anfora-arcoiris-1100.webp' };
+    const VIDEO = 'https://www.youtube-nocookie.com/embed/QA8nm3SR-wU?rel=0&modestbranding=1';
+
+    const $ = (id: string) => document.getElementById(id)!;
+    const ov = $('gal'), stage = $('galStage'), bg = $('galBg'), cnt = $('galCount'), alt = $('galAlt');
+    const live = $('galLive'), th = $('galThumbs'), ch = $('galChoose'), title = $('gal-title');
+    const back = $('galBack') as HTMLButtonElement, prev = $('galPrev'), next = $('galNext'), video = $('galVideo');
+
+    const cache: Record<string, Promise<Foto[]>> = {};
+    const pos: Record<string, number> = {};        // en qué foto quedó cada galería
+    let P: Foto[] = [], cur = 0, curK = '', slides: HTMLElement[] = [], tbs: HTMLButtonElement[] = [];
+    let ultimo: HTMLElement | null = null, depth = 0, pedido = 0;
+
+    const grande = (f: Foto) => f.grande || f.src;
+    const mini = (f: Foto) => f.mini || f.src;
+    function fotos(k: string): Promise<Foto[]> {
+        return (cache[k] ??= fetch('/gallery/' + k + '.json')
+            .then(r => (r.ok ? r.json() : { fotos: [] }))
+            .then(d => (Array.isArray(d.fotos) ? d.fotos : []))
+            .catch(() => { delete cache[k]; return []; }));
+    }
+
+    // Título: en la vista general "Ánforas y Relicarios" (negro); en cada galería solo la suya (morado).
+    function ponerTitulo(k: string, vista: Vista) {
+        const partes = GRUPO.includes(k) ? [['urnas', TITULOS.urnas], ['', ' y '], ['relicarios', TITULOS.relicarios]] : [[k, TITULOS[k] || k]];
+        title.replaceChildren(...partes.map(([w, t]) => {
+            const s = document.createElement('span');
+            s.textContent = t;
+            if (w) s.dataset.w = w;
+            if (vista !== 'choose' && w === k) s.className = 'on';
+            return s;
+        }));
+        const otra = k === 'urnas' ? 'relicarios' : 'urnas';
+        back.hidden = !(GRUPO.includes(k) && vista === 'gallery');
+        back.textContent = k === 'urnas' ? 'Ver Relicarios' : 'Ver Ánforas';
+        back.dataset.k = otra;
+    }
+    function limpiar() {
+        stage.querySelectorAll('.gal-slide').forEach(n => n.remove());
+        th.replaceChildren(); video.replaceChildren();
+        slides = []; tbs = []; P = [];
+        alt.textContent = ''; live.textContent = ''; cnt.textContent = '';
+        bg.style.backgroundImage = 'none';
+    }
+
+    async function vistaGeneral() {
+        const mio = ++pedido;
+        limpiar(); curK = '';
+        ov.dataset.view = 'choose';
+        ponerTitulo('urnas', 'choose');
+        const listas = await Promise.all(GRUPO.map(fotos));
+        if (mio !== pedido) return;
+        ch.replaceChildren(...GRUPO.map((k, i) => {
+            const b = document.createElement('button');
+            b.type = 'button'; b.className = 'gal-opt'; b.dataset.k = k;
+            b.setAttribute('aria-label', `${BOTON[k]}: ${listas[i].length} fotos`);
+            const img = document.createElement('img');
+            img.alt = ''; img.decoding = 'async';
+            img.src = PORTADA[k] || (listas[i][0] ? grande(listas[i][0]) : '');
+            const span = document.createElement('span');
+            const b1 = document.createElement('b'); b1.textContent = BOTON[k];
+            const em = document.createElement('em'); em.textContent = `${listas[i].length} fotos ›`;
+            span.append(b1, em); b.append(img, span);
+            return b;
+        }));
+        (ch.querySelector('.gal-opt') as HTMLElement | null)?.focus();
+    }
+
+    async function galeria(k: string) {
+        const mio = ++pedido;
+        limpiar(); curK = k;
+        ov.dataset.view = 'gallery';
+        ponerTitulo(k, 'gallery');
+        const lista = await fotos(k);
+        if (mio !== pedido) return;
+        P = lista;
+        prev.hidden = next.hidden = P.length < 2;
+        if (!P.length) {
+            alt.textContent = 'Pronto estarán disponibles las fotos de esta galería.';
+            alt.classList.add('gal-vacio');
+            live.textContent = alt.textContent;
+            (back.hidden ? $('galX') : back).focus();
+            return;
+        }
+        alt.classList.remove('gal-vacio');
+        P.forEach((p, i) => {
+            const s = document.createElement('div');
+            s.className = 'gal-slide';
+            s.setAttribute('role', 'group');
+            s.setAttribute('aria-label', `Foto ${i + 1} de ${P.length}`);
+            const im = document.createElement('img');
+            im.alt = p.alt || ''; im.decoding = 'async'; im.draggable = false;
+            im.dataset.src = grande(p);
+            s.appendChild(im);
+            stage.insertBefore(s, prev);
+            slides.push(s);
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.setAttribute('role', 'tab');
+            b.setAttribute('aria-label', `Foto ${i + 1} de ${P.length}: ${p.alt || ''}`);
+            const ti = document.createElement('img');
+            ti.src = mini(p); ti.alt = ''; ti.decoding = 'async';
+            b.appendChild(ti);
+            b.addEventListener('click', () => ir(i));
+            th.appendChild(b); tbs.push(b);
+        });
+        ir(pos[k] || 0);
+        (back.hidden ? (tbs[cur] || $('galX')) : back).focus();
+    }
+
+    function verVideo() {
+        ++pedido;
+        limpiar(); curK = 'mariposas';
+        ov.dataset.view = 'video';
+        ponerTitulo('mariposas', 'video');
+        const marco = document.createElement('div');
+        marco.className = 'gal-video-in';
+        const f = document.createElement('iframe');
+        f.src = VIDEO;
+        f.title = 'Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina';
+        f.allow = 'accelerometer; encrypted-media; gyroscope; picture-in-picture';
+        f.allowFullscreen = true;
+        marco.appendChild(f);
+        video.appendChild(marco);
+        $('galX').focus();
+    }
+
+    function cargar(i: number) {
+        const im = slides[(i + P.length) % P.length]?.querySelector('img');
+        if (im && !im.getAttribute('src') && im.dataset.src) im.src = im.dataset.src;
+    }
+    function ir(n: number) {
+        if (!P.length) return;
+        cur = (n + P.length) % P.length;
+        if (curK) pos[curK] = cur;
+        slides.forEach((s, i) => { s.classList.toggle('act', i === cur); s.setAttribute('aria-hidden', i === cur ? 'false' : 'true'); });
+        tbs.forEach((b, i) => { b.classList.toggle('act', i === cur); b.setAttribute('aria-selected', String(i === cur)); });
+        cargar(cur); cargar(cur + 1); cargar(cur - 1);
+        const p = P[cur];
+        cnt.textContent = String(cur + 1).padStart(2, '0') + ' / ' + P.length;
+        alt.textContent = p.alt || '';
+        live.textContent = `Foto ${cur + 1} de ${P.length}: ${p.alt || ''}`;
+        bg.style.backgroundImage = `url("${mini(p)}")`;
+        const t = tbs[cur];
+        th.scrollTo({ left: t.offsetLeft - th.clientWidth / 2 + t.clientWidth / 2, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
+
+    // Muestra la vista pedida (sin tocar el historial).
+    function mostrar(e: Estado) {
+        if (!ov.classList.contains('on')) {
+            ov.classList.add('on');
+            ov.setAttribute('aria-hidden', 'false');
+            requestAnimationFrame(() => ov.classList.add('vis'));
+            document.body.style.overflow = 'hidden';
+        }
+        if (e.gal === 'choose') vistaGeneral();
+        else if (e.gal === 'video') verVideo();
+        else galeria(e.k);
+    }
+    function abrir(clave: string) {
+        ultimo = document.activeElement as HTMLElement | null;
+        const e: Estado = clave === 'mariposas' ? { gal: 'video', k: clave } : clave === 'urnas' ? { gal: 'choose', k: clave } : { gal: 'gallery', k: clave };
+        history.pushState({ gal: e.gal, k: e.k, galeria: true }, '');
+        depth = 1;
+        mostrar(e);
+    }
+    function entrar(k: string) {
+        if (depth === 2) history.replaceState({ gal: 'gallery', k, galeria: true }, '');
+        else { history.pushState({ gal: 'gallery', k, galeria: true }, ''); depth = 2; }
+        galeria(k);
+    }
+    function cerrar() { if (depth > 0) history.go(-depth); else cerrarUI(); }
+    function cerrarUI() {
+        depth = 0; ++pedido;
+        ov.classList.remove('vis');
+        ov.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        setTimeout(() => { if (!ov.classList.contains('vis')) { ov.classList.remove('on'); limpiar(); } }, 300);
+        if (ultimo) { ultimo.focus(); ultimo = null; }
+    }
+    // X y Esc: dentro de Ánforas/Relicarios vuelven a la vista general; si no, cierran.
+    function volverOCerrar() {
+        if (ov.dataset.view === 'gallery' && GRUPO.includes(curK) && depth === 2) history.back();
+        else cerrar();
+    }
+
+    ch.addEventListener('click', e => {
+        const b = (e.target as Element).closest<HTMLElement>('.gal-opt');
+        if (b) entrar(b.dataset.k!);
+    });
+    $('galX').addEventListener('click', volverOCerrar);
+    back.addEventListener('click', () => entrar(back.dataset.k!));
+    prev.addEventListener('click', () => ir(cur - 1));
+    next.addEventListener('click', () => ir(cur + 1));
+    // Clic fuera de las fotos, tarjetas, textos y miniaturas: cierra todo.
+    ov.addEventListener('click', e => {
+        if (!(e.target as Element).closest('button,img,iframe,.gal-title,.gal-alt,.gal-thumbs')) cerrar();
+    });
+    document.addEventListener('keydown', e => {
+        if (!ov.classList.contains('on')) return;
+        const g = ov.dataset.view === 'gallery' && P.length > 0;
+        if (e.key === 'Escape') volverOCerrar();
+        else if (g && e.key === 'ArrowRight') ir(cur + 1);
+        else if (g && e.key === 'ArrowLeft') ir(cur - 1);
+        else if (g && e.key === 'Home') ir(0);
+        else if (g && e.key === 'End') ir(P.length - 1);
+        else if (e.key === 'Tab') {
+            // Foco atrapado dentro del diálogo.
+            const f = Array.from(ov.querySelectorAll<HTMLElement>('button,iframe')).filter(x => x.offsetParent !== null);
+            if (!f.length) return;
+            const a = f[0], z = f[f.length - 1];
+            if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+            else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+        }
+    });
+    let tx = 0;
+    stage.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    stage.addEventListener('touchend', e => { const d = e.changedTouches[0].clientX - tx; if (Math.abs(d) > 50) ir(d < 0 ? cur + 1 : cur - 1); });
+    // Atrás / Adelante del navegador.
+    window.addEventListener('popstate', e => {
+        const st = e.state as (Estado & { galeria?: boolean }) | null;
+        if (st && st.galeria) {
+            // Una galería de Ánforas/Relicarios está sobre la vista general (2 pasos); lo demás, 1.
+            depth = st.gal === 'gallery' && GRUPO.includes(st.k) ? 2 : 1;
+            if (!ultimo) ultimo = document.activeElement as HTMLElement | null;
+            mostrar(st);
+        } else if (ov.classList.contains('on')) cerrarUI();
+    });
+
+    // Disparadores: tarjetas del mosaico (clic, Enter y Espacio).
+    document.querySelectorAll<HTMLElement>('.mosaic-item[data-gallery]').forEach(item => {
+        item.addEventListener('click', () => abrir(item.dataset.gallery!));
+        item.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(item.dataset.gallery!); }
+        });
+    });
+
+    // Cuando el mosaico se acerca a la pantalla: precarga los JSON y la primera foto de cada galería.
+    const mosaico = document.querySelector('.mosaic-item[data-gallery]');
+    if (mosaico) {
+        const io = new IntersectionObserver(en => {
+            if (!en[0].isIntersecting) return;
+            io.disconnect();
+            ['instalaciones', 'jardin', 'urnas', 'relicarios', 'despedida'].forEach(k =>
+                fotos(k).then(l => { if (l[0]) new Image().src = k === 'urnas' ? PORTADA.urnas : grande(l[0]); }));
+        }, { rootMargin: '400px' });
+        io.observe(mosaico);
+    }
+</script>

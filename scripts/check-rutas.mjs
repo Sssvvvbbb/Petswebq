@@ -23,7 +23,7 @@ import { parse } from 'parse5';
 const DIST = 'dist';
 const PUBLIC = 'public';
 const SITIO = 'https://petsalcielo.cl';
-const JSONS = ['instagram.json', 'gallery/instalaciones.json', 'gallery/jardin.json', 'gallery/urnas.json', 'gallery/despedida.json', 'Assets/testimonios/testimonios.json'];
+const JSONS = ['instagram.json', 'gallery/instalaciones.json', 'gallery/jardin.json', 'gallery/urnas.json', 'gallery/relicarios.json', 'gallery/despedida.json', 'Assets/testimonios/testimonios.json'];
 
 if (!existsSync(DIST)) {
   console.error('No existe dist/. Ejecute primero npm run build (o use npm run check, que compila).');

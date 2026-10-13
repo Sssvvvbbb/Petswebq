@@ -1,21 +1,17 @@
 ---
-// Llamado final: ¿no encontró su respuesta? WhatsApp.
+// Llamado final: ¿no encontró su respuesta? WhatsApp (usa #sprig e #i-wa de faq/Iconos).
+import { waFijo } from '../../data/sitio';
+const MSG = 'Hola%2C%20tengo%20una%20consulta%20sobre%20el%20servicio%20de%20cremaci%C3%B3n';
 ---
-<!-- ── CTA ── -->
-<section class="cta-section">
-    <div class="cta-orb-1" aria-hidden="true"></div>
-    <div class="cta-orb-2" aria-hidden="true"></div>
-    <div class="cta-inner">
-        <span class="section-tag">¿No encontró su respuesta?</span>
-        <h2 class="section-title">
-            Estamos disponibles<br>para <em>ayudarle ahora</em>
-        </h2>
-        <p>
-            Escríbanos por WhatsApp y le respondemos de inmediato.<br>
-            Atención presencial con previo agendamiento
-        </p>
-        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-            <a href="https://wa.me/56998461172?text=Hola%2C%20tengo%20una%20consulta%20sobre%20el%20servicio%20de%20cremaci%C3%B3n" target="_blank" rel="noopener" class="btn btn-primary" aria-label="Consultar por WhatsApp">Consultar por WhatsApp</a>
-        </div>
-    </div>
-</section>
+<section class="cta-section" aria-labelledby="cta-t"><svg class="cta-waves" viewBox="0 0 2000 667" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<path d="M0 300C150 290 310 340 450 420 580 495 700 570 880 640 960 662 1040 667 1130 667H0Z" fill="#f0eaf9"/>
+<path d="M0 462C200 440 400 470 590 520 760 566 920 628 1130 667H0Z" fill="#e9e1f7"/>
+<path d="M0 520C220 500 470 560 700 640" fill="none" stroke="#fff" stroke-width="2" opacity=".85"/>
+<path d="M2000 250C1900 330 1800 400 1680 450 1520 520 1300 560 1090 667H2000Z" fill="#e3f2ec"/>
+<path d="M960 667C1140 562 1400 502 1650 542 1800 566 1900 542 2000 502V667Z" fill="#d6ede5"/>
+<path d="M1100 640C1300 560 1560 560 1760 590" fill="none" stroke="#fff" stroke-width="2" opacity=".8"/></svg><svg class="sprig sp-l" viewBox="0 0 260 340" aria-hidden="true"><use href="#sprig"/></svg><svg class="sprig sp-r" viewBox="0 0 260 340" aria-hidden="true"><use href="#sprig"/></svg><div class="cta-inner reveal">
+<div class="cta-orn" aria-hidden="true"><span></span><svg class="cta-heart" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span></span></div>
+<span class="section-tag">¿No encontró su respuesta?</span>
+<h2 class="section-title" id="cta-t">Estamos disponibles<br>para <em>ayudarle ahora</em></h2>
+<p>Escríbanos por WhatsApp y le respondemos de inmediato.<br>Atención presencial con previo agendamiento</p>
+<a href={waFijo(MSG)} data-wa={MSG} target="_blank" rel="noopener" class="btn-wa"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg> Consultar por WhatsApp <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></section>

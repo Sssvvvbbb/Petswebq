@@ -1,0 +1,13 @@
+---
+// Una reseña de Google (la usa ResenasGoogle). lugar: "destacada" (con fotos),
+// "lateral" (botón que la destaca) u "oculta" (en espera).
+import type { Resena } from '../../data/resenas';
+interface Props { r: Resena; i: number; lugar: 'destacada' | 'lateral' | 'oculta' }
+const { r, i, lugar } = Astro.props;
+const lateral = lugar === 'lateral';
+---
+<article class={lugar === 'destacada' ? 'g-card g-big' : 'g-card'} data-i={i} tabindex={lateral ? 0 : undefined} role={lateral ? 'button' : undefined} aria-label={lateral ? `Ver la reseña de ${r.nombre}` : `Reseña de ${r.nombre}`}>
+<header class="g-head"><span class={`g-av c${i % 6}`} aria-hidden="true">{r.nombre.charAt(0)}</span><div class="g-who"><span class="g-name">{r.nombre}</span><span class="g-stars" role="img" aria-label="5 de 5 estrellas">★★★★★</span></div><span class="g-badge"><svg class="g-logo" aria-hidden="true"><use href="#logo-google"/></svg><span>en Google</span></span></header>
+<blockquote class="g-text" set:html={r.texto} />
+{r.fotos.length > 0 && <div class="g-photos" data-n={r.fotos.length}>{r.fotos.map(f => <img src={f.src} srcset={f.srcset} sizes={f.srcset ? f.sizes : undefined} alt={f.alt} loading="lazy" decoding="async">)}</div>}
+</article>

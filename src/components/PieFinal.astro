@@ -1,0 +1,56 @@
+---
+// Cierre de la home y de /testimonios: contacto (#contacto) y pie sobre un mismo fondo crema con ondas
+// y lavandas (necesita SvgDefs y Decoracion en la página). Su CSS es src/styles/final.css. Sin reveal: el contacto se ve siempre.
+import { WHATSAPP_PRINCIPAL, WHATSAPP_SECUNDARIO, MSG_CREMACION } from '../data/sitio';
+import '../styles/final.css';
+interface Props {
+  /** false: sin el título "Contacto" ni la frase (cuando la página ya tiene un llamado justo antes). */
+  titulo?: boolean;
+}
+const { titulo = true } = Astro.props;
+const MAPS = 'https://www.google.com/maps/place/Pets+Al+Cielo/@-41.4417349,-72.9405311,13.07z/data=!4m6!3m5!1s0x96182f3840ce3759:0x52c61b1adf6e89fd!8m2!3d-41.4129877!4d-72.8823701!16s%2Fg%2F11xdssj818?entry=ttu&g_ep=EgoyMDI2MDUxNy4wIKXMDSoASAFQAw%3D%3D';
+---
+<div class="finale">
+<svg class="fwaves" viewBox="0 0 2000 667" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M0 380C260 360 520 420 760 520 900 580 1040 640 1180 667H0Z" fill="#f0eaf9"/><path d="M0 470C240 440 480 490 700 570 820 612 940 650 1080 667H0Z" fill="#e9e1f7"/><path d="M0 520C220 500 470 560 700 640" fill="none" stroke="#fff" stroke-width="2" opacity=".85"/><path d="M2000 420C1880 440 1740 470 1580 520 1420 568 1250 600 1100 667H2000Z" fill="#e3f2ec"/><path d="M2000 480C1860 520 1700 540 1540 560 1380 580 1220 620 1090 667H2000Z" fill="#d6ede5"/><path d="M1100 640C1300 560 1560 560 1760 590" fill="none" stroke="#fff" stroke-width="2" opacity=".8"/></svg>
+<section class="contact-bar" id="contacto" aria-labelledby="contacto-t">
+    <div class="container">
+        {titulo ? <Fragment><h2 class="contact-title" id="contacto-t"><em>Contacto</em></h2>
+        <p class="contact-sub">Escríbanos por WhatsApp y le respondemos de inmediato.</p></Fragment> : <h2 class="sr-only" id="contacto-t">Contacto</h2>}
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <svg width="28" height="28" viewBox="0 0 64 64" fill="none" aria-hidden="true"><use href="#icon-house"/></svg>
+                </div>
+                <div class="contact-label">Crematorio en</div>
+                <div class="contact-value"><a href={MAPS} target="_blank" rel="noopener" aria-label="Ver en Google Maps: Puerto Montt, X Región">Puerto Montt, X Región</a></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <svg width="24" height="24" viewBox="0 0 64 64" fill="none" aria-hidden="true"><defs><linearGradient id="ph-body" x1="18" y1="6" x2="46" y2="58" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#eea5e9"/><stop offset="100%" stop-color="#cbaef2"/></linearGradient><linearGradient id="ph-screen" x1="22" y1="12" x2="42" y2="46" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#b8e8ff"/><stop offset="100%" stop-color="#a8e6d6"/></linearGradient><linearGradient id="ph-btn" x1="29" y1="49" x2="35" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff4cc"/><stop offset="100%" stop-color="#f9c8e0"/></linearGradient></defs><rect x="18" y="6" width="28" height="52" rx="6" fill="url(#ph-body)"/><rect x="22" y="12" width="20" height="34" rx="2" fill="url(#ph-screen)"/><circle cx="32" cy="52" r="3" fill="url(#ph-btn)"/></svg>
+                </div>
+                <div class="contact-label">WhatsApp 24/7</div>
+                <div class="contact-value"><a href={`https://wa.me/${WHATSAPP_PRINCIPAL}`} target="_blank" rel="noopener" aria-label="WhatsApp +569 9846 1172">+569 9846 1172</a></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <svg class="tel-ic" width="40" height="40" viewBox="110 120 290 270" aria-hidden="true"><path d="M138 150 L129 166 L126 179 L126 187 L125 188 L126 206 L132 231 L144 257 L152 270 L164 285 L190 311 L218 333 L244 350 L259 357 L261 359 L263 359 L267 362 L271 363 L273 365 L276 365 L290 371 L294 371 L296 373 L302 373 L305 375 L323 376 L324 377 L342 376 L361 369 L372 361 L378 355 L385 342 L385 333 L386 331 L383 324 L359 308 L355 307 L350 303 L348 303 L335 295 L328 295 L324 297 L311 314 L300 325 L295 328 L288 330 L279 330 L267 325 L262 321 L257 319 L253 315 L230 299 L229 297 L214 285 L194 265 L183 251 L178 241 L179 231 L194 217 L200 207 L201 202 L200 187 L182 149 L178 143 L169 136 L158 135 L148 140Z" fill="#eea5e9" stroke="#eea5e9" stroke-width="3" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="contact-label">Atención Inmediata</div>
+                <div class="contact-value"><a href={`https://wa.me/${WHATSAPP_SECUNDARIO}?text=${MSG_CREMACION}`} target="_blank" rel="noopener" aria-label="WhatsApp +569 4008 2594">+569 4008 2594</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer role="contentinfo"><div class="fi">
+<div class="footer-logo">Pets<em>Al</em>Cielo</div>
+<h2 class="sr-only">Consultas e Información Adicional</h2>
+<div class="fgrid">
+<div><h3>Crematorio en Puerto Montt</h3>Cremación 100% individual de perritos, gatitos y otras mascotitas con retiro a domicilio. Nuestros pequeños merecen dignidad y respeto del agua y no la violencia del fuego.</div>
+<div><h3>Ecología y consciencia</h3>Único crematorio en Puerto Montt con recuperación de chip.</div>
+<div><h3>Servicio especial: Reencuentro</h3>Posibilidad de cremación para mascotas amadas que fallecieron en el pasado. Perros, gatos, conejos, hámsteres, aves y todas las especies.</div>
+<div><h3>Servicio en la Décima Región</h3>Puerto Montt, Puerto Varas, Osorno, Ancud, Castro, Frutillar, Llanquihue y toda la Región de Los Lagos. En nuestros 7 años de funcionamiento hemos acompañado a familias de toda la región.</div>
+</div>
+<div class="fbottom"><strong>© 2026 PetsAlCielo — Crematorio Verde para Mascotitas en la Región de Los Lagos</strong><br>🌈 Con amor y respeto por quienes fueron y todavía son parte de su familia 🌈</div>
+</div></footer>
+<svg class="fl" viewBox="0 0 150 190" aria-hidden="true"><use href="#ramo-lavanda"/></svg><svg class="fr" viewBox="0 0 150 190" aria-hidden="true"><use href="#ramo-lavanda"/></svg>
+</div>
