@@ -1,7 +1,7 @@
 ---
 // Carrusel de testimonios (9:16, imagen o video). Las diapositivas del HTML son el
-// respaldo; el JS las reemplaza con /Assets/testimonios/testimonios.json (así se
-// agregan testimonios sin tocar el código: subir el archivo a /Assets/testimonios/ y
+// respaldo; el JS las reemplaza con /Assets/pagina-web-testimonios/testimonios/testimonios.json (así se
+// agregan testimonios sin tocar el código: subir el archivo a /Assets/pagina-web-testimonios/testimonios/ y
 // sumar una línea al JSON con type "video"|"image", src, mp4 (opcional), poster y alt).
 // Videos: el HTML no lleva el archivo. Se ve la portada (data-poster, se asigna al
 // mostrarse la diapositiva actual y la siguiente) y el <video> se crea al pulsar.
@@ -9,10 +9,10 @@
 // Sin avance automático con movimiento reducido. Contenido principal: sin reveal.
 import Hojas from './Hojas.astro';
 const RESPALDO = [
-    { tipo: 'image', src: '/Assets/testimonios/testimonio-01.webp', alt: 'Testimonio de Blacky' },
-    { tipo: 'video', src: '/Assets/testimonios/testimonio-02.webm', poster: '/Assets/testimonios/testimonio-02-portada.webp', alt: 'Testimonio de Luna' },
-    { tipo: 'video', src: '/Assets/testimonios/testimonio-03.webm', poster: '/Assets/testimonios/testimonio-03-portada.webp', alt: 'Testimonio Vicho' },
-    { tipo: 'video', src: '/Assets/testimonios/testimonio-04.webm', poster: '/Assets/testimonios/testimonio-04-portada.webp', alt: 'Testimonio de Luffy' },
+    { tipo: 'image', src: '/Assets/pagina-web-testimonios/testimonios/testimonio-01.webp', alt: 'Testimonio de Blacky' },
+    { tipo: 'video', src: '/Assets/pagina-web-testimonios/testimonios/testimonio-02.webm', poster: '/Assets/pagina-web-testimonios/testimonios/testimonio-02-portada.webp', alt: 'Testimonio de Luna' },
+    { tipo: 'video', src: '/Assets/pagina-web-testimonios/testimonios/testimonio-03.webm', poster: '/Assets/pagina-web-testimonios/testimonios/testimonio-03-portada.webp', alt: 'Testimonio Vicho' },
+    { tipo: 'video', src: '/Assets/pagina-web-testimonios/testimonios/testimonio-04.webm', poster: '/Assets/pagina-web-testimonios/testimonios/testimonio-04-portada.webp', alt: 'Testimonio de Luffy' },
 ];
 ---
 <section class="t-sec t-carr" id="carrusel-testimonios" aria-label="Carrusel de testimonios"><Hojas /><div class="t-wrap">
@@ -30,7 +30,7 @@ const RESPALDO = [
 <div class="t-dots" id="tDots" role="tablist" aria-label="Testimonios"></div></div></section>
 
 <script>
-    const MANIFEST = '/Assets/testimonios/testimonios.json';
+    const MANIFEST = '/Assets/pagina-web-testimonios/testimonios/testimonios.json';
     const container = document.getElementById('testiSlidesContainer');
     const prevBtn = document.getElementById('tPrev')!;
     const nextBtn = document.getElementById('tNext')!;

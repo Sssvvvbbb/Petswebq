@@ -1,15 +1,15 @@
 {
   "fotos": [
     {
-      "src": "/Assets/anfora-gris.webp",
-      "grande": "/Assets/anfora-gris-1100.webp",
-      "mini": "/Assets/anfora-gris-140.webp",
+      "src": "/Assets/biblioteca/anforas/anfora-gris.webp",
+      "grande": "/Assets/biblioteca/anforas/anfora-gris-1100.webp",
+      "mini": "/Assets/biblioteca/anforas/anfora-gris-140.webp",
       "alt": "Ánfora de bronce pintada en gris con bordes dorados"
     },
     {
-      "src": "/Assets/anfora-gato3d-blanco.webp",
-      "grande": "/Assets/anfora-gato3d-blanco-1100.webp",
-      "mini": "/Assets/anfora-gato3d-blanco-140.webp",
+      "src": "/Assets/biblioteca/anforas/anfora-gato3d-blanco.webp",
+      "grande": "/Assets/biblioteca/anforas/anfora-gato3d-blanco-1100.webp",
+      "mini": "/Assets/biblioteca/anforas/anfora-gato3d-blanco-140.webp",
       "alt": "Ánfora de impresión 3D de color blanco, forma de gato acostado"
     }
   ]
