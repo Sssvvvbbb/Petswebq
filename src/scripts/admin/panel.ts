@@ -270,9 +270,10 @@ function agregar(archivos: FileList | File[]) {
     const imagenes = Array.from(archivos).filter(a => a.type.startsWith('image/') || /\.(hei[cf]|jpe?g|png|webp|gif|avif)$/i.test(a.name));
     if (!imagenes.length) { avisar('Eso no es una foto. Elige una foto, por favor.', 'error'); return; }
     const nuevas = imagenes.map(archivo => ({ nuevo: 'n' + contador++, archivo, alt: '', quitada: false }) as Fila);
+    const desde = pendientes.length;
     pendientes.push(...nuevas);
     avisar('');
-    abrirPrevia();
+    abrirPrevia(desde);
     const tipo = actual.tipo;
     for (const f of nuevas) {
         // Una por una: así no se agota la memoria del celular con varias fotos grandes.
@@ -314,6 +315,11 @@ function diapositivas() {
         if (f.error) { marco.textContent = '😕'; }
         else if (!f.vista) { const g = document.createElement('span'); g.className = 'ad-giro'; marco.appendChild(g); }
         else { const img = document.createElement('img'); img.src = f.vista; img.alt = ''; img.draggable = false; marco.appendChild(img); }
+        // Número de la foto, arriba a la izquierda.
+        const num = document.createElement('b');
+        num.className = 'ad-diapo-num';
+        num.textContent = String(i + 1);
+        marco.appendChild(num);
         d.appendChild(marco);
         if (f.error) {
             const p = document.createElement('p'); p.className = 'ad-error'; p.textContent = f.error; d.appendChild(p);
@@ -330,8 +336,18 @@ function diapositivas() {
         q.type = 'button';
         q.className = 'ad-quitar';
         q.dataset.previa = String(i);
-        q.append(svgUso('i-basura'), document.createTextNode(f.error ? 'Sacar' : 'No agregar esta'));
-        d.appendChild(q);
+        q.append(svgUso('i-basura'), document.createTextNode('No subir esta foto'));
+        // "Subir más fotos" abre el mismo selector de fotos; las nuevas se suman al carrusel.
+        const mas = document.createElement('label');
+        mas.className = 'ad-quitar ad-mas';
+        mas.htmlFor = 'adArchivos';
+        mas.tabIndex = 0;
+        mas.setAttribute('role', 'button');
+        mas.append(svgUso('i-mas'), document.createTextNode('Subir más fotos'));
+        const botones = document.createElement('div');
+        botones.className = 'ad-diapo-botones';
+        botones.append(q, mas);
+        d.appendChild(botones);
         return d;
     }));
     $('adPuntos').replaceChildren(...vivas.map(() => document.createElement('i')));
@@ -356,12 +372,15 @@ function marcarDiapo() {
     Array.from($('adPuntos').children).forEach((p, k) => p.classList.toggle('on', k === i));
 }
 
-function abrirPrevia() {
+// `desde`: la primera foto recién elegida (si se agregan más con la ventana abierta, se muestra esa).
+function abrirPrevia(desde = 0) {
     const abierta = !previa.hidden;
     previa.hidden = false;
     document.documentElement.classList.add('ad-sin-scroll');
     diapositivas();
-    if (!abierta) { diapos.scrollLeft = 0; marcarDiapo(); $('adPreviaT').focus(); }
+    diapos.scrollLeft = desde * diapos.clientWidth;
+    marcarDiapo();
+    if (!abierta) $('adPreviaT').focus();
 }
 
 function cerrarPrevia() {
@@ -402,6 +421,10 @@ diapos.addEventListener('input', e => {
     const i = Number((t.dataset.i || '').slice(1));
     if (pendientes[i]) pendientes[i].alt = t.value;
     t.classList.remove('ad-falta');
+});
+// La etiqueta 'Subir más fotos' también se activa con Enter o espacio.
+diapos.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && (e.target as Element).classList?.contains('ad-mas')) { e.preventDefault(); entrada.click(); }
 });
 diapos.addEventListener('click', e => {
     const b = (e.target as Element).closest<HTMLButtonElement>('[data-previa]');

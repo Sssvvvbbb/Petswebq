@@ -140,7 +140,11 @@ html.ad-sin-scroll { overflow: hidden; }
 .ad-diapo-foto img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
 .ad-diapo label { font-weight: 600; color: var(--navy); }
 .ad-diapo textarea { min-height: 110px; flex: none; }
-.ad-diapo .ad-quitar { align-self: center; }
+.ad-diapo-num { position: absolute; top: 12px; left: 12px; display: grid; place-items: center; min-width: 44px; height: 44px; padding: 0 12px; border-radius: 999px; background: linear-gradient(135deg, var(--lilac2), #8f6fcf); color: #fff; font-size: 1.3rem; font-weight: 700; box-shadow: 0 6px 16px rgba(35, 42, 77, .25); }
+.ad-diapo-botones { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.ad-diapo-botones > * { flex: 1 1 180px; max-width: 260px; cursor: pointer; }
+.ad-mas { border-color: #a9dcc9; color: #2c7d66; }
+.ad-mas:hover { border-color: var(--sage); color: #1f5e4c; }
 .ad-flecha { position: absolute; top: calc(min(52dvh, 460px) / 2 + 14px); z-index: 2; transform: translateY(-50%); display: grid; place-items: center; width: 48px; height: 48px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .95); color: var(--navy); box-shadow: 0 6px 18px rgba(35, 42, 77, .2); }
 .ad-flecha svg { width: 24px; height: 24px; }
 .ad-flecha:disabled { opacity: 0; pointer-events: none; }
