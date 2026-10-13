@@ -22,15 +22,18 @@ interface Fila {
     quitada: boolean;
 }
 
-// Ícono y frase de cada sección (las secciones nuevas usan el ícono de foto).
-const ICONOS: Record<string, string> = {
-    'galeria:instalaciones': 'i-casa',
-    'galeria:jardin': 'i-equipo',
-    'galeria:urnas': 'i-anfora',
-    'galeria:relicarios': 'i-relicario',
-    'galeria:despedida': 'i-paloma',
-    testimonios: 'i-burbuja',
+// Ícono y colores de cada sección: los mismos de las tarjetas de la Biblioteca de la
+// home (src/components/inicio/Biblioteca.astro). Relicarios y la página de
+// testimonios no tienen tarjeta allí: 💗 y 💌. Una sección nueva usa 🖼️.
+const ESTILO: Record<string, [string, string]> = {
+    'galeria:instalaciones': ['🏡', 'mf-1'],
+    'galeria:jardin': ['🌸', 'mf-2'],
+    'galeria:urnas': ['⚱️', 'mf-3'],
+    'galeria:relicarios': ['💗', 'mf-4'],
+    'galeria:despedida': ['🕊️', 'mf-5'],
+    testimonios: ['💌', 'mf-t'],
 };
+const estilo = (id: string) => ESTILO[id] || ['🖼️', 'mf-4'];
 const subtitulo = (s: SeccionSrv) => (s.id === 'galeria:relicarios' ? 'Pronto en la página' : s.tipo === 'testimonios' ? 'Fotos del carrusel' : 'Galería');
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -110,6 +113,17 @@ function miniatura(f: Fila): HTMLElement {
     return marco;
 }
 
+function cuadroTexto(f: Fila, i: number | string, filas = 3) {
+    const ta = document.createElement('textarea');
+    ta.maxLength = 200;
+    ta.rows = filas;
+    ta.value = f.alt;
+    ta.disabled = f.quitada;
+    ta.placeholder = 'Escribe aquí qué se ve en la foto';
+    ta.dataset.i = String(i);
+    return ta;
+}
+
 function tarjeta(f: Fila, i: number): HTMLLIElement {
     const li = document.createElement('li');
     li.className = 'ad-item' + (f.quitada ? ' ad-quitada' : '') + (f.nuevo ? ' ad-nueva' : '') + (f.error ? ' ad-falla' : '');
@@ -125,38 +139,39 @@ function tarjeta(f: Fila, i: number): HTMLLIElement {
     arriba.appendChild(num);
     if (f.nuevo && !f.error) { const s = document.createElement('span'); s.className = 'ad-chip'; s.textContent = 'Nueva'; arriba.appendChild(s); }
     if (f.item?.type === 'video') { const s = document.createElement('span'); s.className = 'ad-chip ad-chip-video'; s.textContent = 'Video'; arriba.appendChild(s); }
-    li.append(arriba, miniatura(f));
-
-    if (f.error) {
-        const p = document.createElement('p');
-        p.className = 'ad-error';
-        p.textContent = f.error;
-        li.appendChild(p);
-    } else {
-        const inp = document.createElement('input');
-        inp.type = 'text';
-        inp.maxLength = 200;
-        inp.value = f.alt;
-        inp.disabled = f.quitada;
-        inp.placeholder = '¿Qué se ve en la foto?';
-        inp.setAttribute('aria-label', '¿Qué se ve en la foto?');
-        inp.dataset.i = String(i);
-        li.appendChild(inp);
-        if (f.conv?.aviso) {
-            const p = document.createElement('p');
-            p.className = 'ad-nota';
-            p.textContent = f.conv.aviso;
-            li.appendChild(p);
-        }
-    }
-
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'ad-quitar';
     b.dataset.acc = f.quitada ? 'volver' : 'quitar';
     b.dataset.i = String(i);
     b.append(svgUso(f.quitada ? 'i-volver' : 'i-basura'), document.createTextNode(f.quitada ? 'No quitar' : 'Quitar'));
-    li.appendChild(b);
+    arriba.appendChild(b);
+
+    const cuerpo = document.createElement('div');
+    cuerpo.className = 'ad-cuerpo';
+    const texto = document.createElement('div');
+    texto.className = 'ad-texto';
+    if (f.error) {
+        const p = document.createElement('p');
+        p.className = 'ad-error';
+        p.textContent = f.error;
+        texto.appendChild(p);
+    } else {
+        const lab = document.createElement('label');
+        const ta = cuadroTexto(f, i);
+        ta.id = 'adAlt' + i;
+        lab.htmlFor = ta.id;
+        lab.textContent = '¿Qué se ve en la foto?';
+        texto.append(lab, ta);
+        if (f.conv?.aviso) {
+            const p = document.createElement('p');
+            p.className = 'ad-nota';
+            p.textContent = f.conv.aviso;
+            texto.appendChild(p);
+        }
+    }
+    cuerpo.append(miniatura(f), texto);
+    li.append(arriba, cuerpo);
     return li;
 }
 
@@ -202,7 +217,7 @@ function abrir(id: string) {
     original = JSON.stringify(pedido());
     document.querySelectorAll<HTMLButtonElement>('.ad-op').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === id)));
     $('adTitulo').textContent = s.titulo;
-    $('adIcono').setAttribute('href', '#' + (ICONOS[s.id] || 'i-foto'));
+    $('adIcono').textContent = estilo(s.id)[0];
     $('adAyuda').textContent = s.tipo === 'testimonios'
         ? 'Estas fotos salen en la página de testimonios.'
         : s.id === 'galeria:relicarios'
@@ -222,14 +237,18 @@ function opciones() {
     for (const s of secciones) {
         const b = document.createElement('button');
         b.type = 'button';
-        b.className = 'ad-op';
+        b.className = 'ad-op ' + estilo(s.id)[1];
         b.dataset.id = s.id;
         b.setAttribute('aria-pressed', String(actual?.id === s.id));
         const t = document.createElement('strong');
         t.textContent = s.titulo;
         const c = document.createElement('span');
         c.textContent = `${subtitulo(s)} · ${plural(s.items.length, 'foto', 'fotos')}`;
-        b.append(svgUso(ICONOS[s.id] || 'i-foto'), t, c);
+        const e = document.createElement('span');
+        e.className = 'ad-emoji';
+        e.setAttribute('aria-hidden', 'true');
+        e.textContent = estilo(s.id)[0];
+        b.append(e, t, c);
         grupos[s.tipo].appendChild(b);
     }
 }
@@ -250,11 +269,10 @@ function agregar(archivos: FileList | File[]) {
     if (!actual || ocupado) return;
     const imagenes = Array.from(archivos).filter(a => a.type.startsWith('image/') || /\.(hei[cf]|jpe?g|png|webp|gif|avif)$/i.test(a.name));
     if (!imagenes.length) { avisar('Eso no es una foto. Elige una foto, por favor.', 'error'); return; }
-    // Las nuevas quedan primero, a la vista; después se pueden mover.
     const nuevas = imagenes.map(archivo => ({ nuevo: 'n' + contador++, archivo, alt: '', quitada: false }) as Fila);
-    filas.unshift(...nuevas);
+    pendientes.push(...nuevas);
     avisar('');
-    dibujar();
+    abrirPrevia();
     const tipo = actual.tipo;
     for (const f of nuevas) {
         // Una por una: así no se agota la memoria del celular con varias fotos grandes.
@@ -265,10 +283,133 @@ function agregar(archivos: FileList | File[]) {
             } catch (e) {
                 f.error = e instanceof Error ? e.message : 'No se pudo abrir esta foto.';
             }
-            if (filas.includes(f) && !arrastre) dibujar();
+            if (pendientes.includes(f)) diapositivas();
+            else if (filas.includes(f) && !arrastre) dibujar();
         });
     }
 }
+
+// ── Vista previa de las fotos que se están agregando: una grande por vez, con su
+// cuadro de texto; se pasan deslizando o con las flechas. Al final se elige si van
+// al principio o al final de la lista. ──
+let pendientes: Fila[] = [];
+const previa = $('adPrevia'), diapos = $('adDiapos');
+
+function diapositivas() {
+    const vivas = pendientes;
+    const n = vivas.filter(f => !f.error).length;
+    // Si se está escribiendo en una foto mientras otra termina de prepararse, el
+    // cursor se queda donde estaba.
+    const foco = document.activeElement as HTMLTextAreaElement | null;
+    const enFoco = foco && diapos.contains(foco) ? { id: foco.id, a: foco.selectionStart, b: foco.selectionEnd } : null;
+    $('adPreviaT').textContent = `Está agregando ${plural(n, 'imagen', 'imágenes')}`;
+    const ir = Math.round(diapos.scrollLeft / Math.max(1, diapos.clientWidth));
+    diapos.replaceChildren(...vivas.map((f, i) => {
+        const d = document.createElement('div');
+        d.className = 'ad-diapo';
+        d.setAttribute('role', 'group');
+        d.setAttribute('aria-label', `Foto ${i + 1} de ${vivas.length}`);
+        const marco = document.createElement('div');
+        marco.className = 'ad-diapo-foto';
+        if (f.error) { marco.textContent = '😕'; }
+        else if (!f.vista) { const g = document.createElement('span'); g.className = 'ad-giro'; marco.appendChild(g); }
+        else { const img = document.createElement('img'); img.src = f.vista; img.alt = ''; img.draggable = false; marco.appendChild(img); }
+        d.appendChild(marco);
+        if (f.error) {
+            const p = document.createElement('p'); p.className = 'ad-error'; p.textContent = f.error; d.appendChild(p);
+        } else {
+            const lab = document.createElement('label');
+            const ta = cuadroTexto(f, 'p' + i, 4);
+            ta.id = 'adPrev' + i;
+            lab.htmlFor = ta.id;
+            lab.textContent = '¿Qué se ve en la foto?';
+            d.append(lab, ta);
+            if (f.conv?.aviso) { const p = document.createElement('p'); p.className = 'ad-nota'; p.textContent = f.conv.aviso; d.appendChild(p); }
+        }
+        const q = document.createElement('button');
+        q.type = 'button';
+        q.className = 'ad-quitar';
+        q.dataset.previa = String(i);
+        q.append(svgUso('i-basura'), document.createTextNode(f.error ? 'Sacar' : 'No agregar esta'));
+        d.appendChild(q);
+        return d;
+    }));
+    $('adPuntos').replaceChildren(...vivas.map(() => document.createElement('i')));
+    diapos.scrollLeft = Math.min(ir, vivas.length - 1) * diapos.clientWidth;
+    marcarDiapo();
+    if (enFoco) {
+        const ta = document.getElementById(enFoco.id) as HTMLTextAreaElement | null;
+        ta?.focus({ preventScroll: true });
+        ta?.setSelectionRange(enFoco.a, enFoco.b);
+    }
+    const ok = n > 0;
+    ($('adAlPrincipio') as HTMLButtonElement).disabled = !ok;
+    ($('adAlFinal') as HTMLButtonElement).disabled = !ok;
+}
+
+function marcarDiapo() {
+    const total = diapos.children.length;
+    const i = Math.round(diapos.scrollLeft / Math.max(1, diapos.clientWidth));
+    ($('adPrev') as HTMLButtonElement).disabled = i <= 0;
+    ($('adSig') as HTMLButtonElement).disabled = i >= total - 1;
+    $('adPuntos').hidden = total < 2;
+    Array.from($('adPuntos').children).forEach((p, k) => p.classList.toggle('on', k === i));
+}
+
+function abrirPrevia() {
+    const abierta = !previa.hidden;
+    previa.hidden = false;
+    document.documentElement.classList.add('ad-sin-scroll');
+    diapositivas();
+    if (!abierta) { diapos.scrollLeft = 0; marcarDiapo(); $('adPreviaT').focus(); }
+}
+
+function cerrarPrevia() {
+    previa.hidden = true;
+    document.documentElement.classList.remove('ad-sin-scroll');
+    pendientes = [];
+}
+
+function confirmarPrevia(alPrincipio: boolean) {
+    const listas = pendientes.filter(f => !f.error);
+    if (!listas.length) return;
+    if (alPrincipio) filas.unshift(...listas); else filas.push(...listas);
+    cerrarPrevia();
+    dibujar();
+    const lis = lista.querySelectorAll<HTMLLIElement>('.ad-item');
+    const primera = lis[filas.indexOf(listas[0])];
+    listas.forEach(f => lis[filas.indexOf(f)]?.classList.add('ad-brilla'));
+    primera?.scrollIntoView({ block: 'center', behavior: suave() });
+}
+
+diapos.addEventListener('scroll', () => requestAnimationFrame(marcarDiapo), { passive: true });
+$('adPrev').addEventListener('click', () => diapos.scrollBy({ left: -diapos.clientWidth, behavior: suave() }));
+$('adSig').addEventListener('click', () => diapos.scrollBy({ left: diapos.clientWidth, behavior: suave() }));
+$('adAlPrincipio').addEventListener('click', () => confirmarPrevia(true));
+$('adAlFinal').addEventListener('click', () => confirmarPrevia(false));
+$('adPreviaCerrar').addEventListener('click', () => {
+    if (pendientes.some(f => f.alt.trim()) && !confirm('¿Salir sin agregar estas fotos?')) return;
+    cerrarPrevia();
+});
+previa.addEventListener('keydown', e => {
+    if (e.key === 'Escape') $('adPreviaCerrar').click();
+    if ((e.target as Element).tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowLeft') $('adPrev').click();
+    if (e.key === 'ArrowRight') $('adSig').click();
+});
+diapos.addEventListener('input', e => {
+    const t = e.target as HTMLTextAreaElement;
+    const i = Number((t.dataset.i || '').slice(1));
+    if (pendientes[i]) pendientes[i].alt = t.value;
+    t.classList.remove('ad-falta');
+});
+diapos.addEventListener('click', e => {
+    const b = (e.target as Element).closest<HTMLButtonElement>('[data-previa]');
+    if (!b) return;
+    const [f] = pendientes.splice(+b.dataset.previa!, 1);
+    if (f?.vista) URL.revokeObjectURL(f.vista);
+    if (!pendientes.length) cerrarPrevia(); else diapositivas();
+});
 
 async function guardar() {
     if (!actual || ocupado) return;
@@ -285,8 +426,8 @@ async function guardar() {
     if (sinTexto.length) {
         dibujar();
         avisar(sinTexto.length === 1 ? 'Falta escribir qué se ve en la foto nueva.' : 'Falta escribir qué se ve en las fotos nuevas.', 'error');
-        sinTexto.forEach(f => lista.querySelector<HTMLInputElement>(`input[data-i="${filas.indexOf(f)}"]`)?.classList.add('ad-falta'));
-        lista.querySelector<HTMLInputElement>('input.ad-falta')?.focus();
+        sinTexto.forEach(f => lista.querySelector<HTMLTextAreaElement>(`textarea[data-i="${filas.indexOf(f)}"]`)?.classList.add('ad-falta'));
+        lista.querySelector<HTMLTextAreaElement>('textarea.ad-falta')?.focus();
         return;
     }
     if (!activas.length && !confirm('No quedará ninguna foto aquí. ¿Guardar igual?')) return;
@@ -391,7 +532,7 @@ lista.addEventListener('pointerdown', e => {
     if (ocupado || arrastre || (e.pointerType === 'mouse' && e.button !== 0)) return;
     const t = e.target as Element;
     const li = t.closest<HTMLLIElement>('.ad-item');
-    if (!li || t.closest('input, button') || li.classList.contains('ad-quitada') || li.classList.contains('ad-falla')) return;
+    if (!li || t.closest('input, textarea, button') || li.classList.contains('ad-quitada') || li.classList.contains('ad-falla')) return;
     const r = li.getBoundingClientRect();
     arrastre = { li, id: e.pointerId, sx: e.clientX, sy: e.clientY, x: e.clientX, y: e.clientY, gx: e.clientX - r.left, gy: e.clientY - r.top, tactil: e.pointerType !== 'mouse', activo: false };
     if (arrastre.tactil) arrastre.timer = window.setTimeout(empezar, 320);
@@ -414,7 +555,7 @@ addEventListener('pointercancel', soltar);
 // Con el dedo, una vez que la foto "se levantó", la página no debe desplazarse.
 addEventListener('touchmove', e => { if (arrastre?.activo) e.preventDefault(); }, { passive: false });
 // Mantener el dedo encima no debe abrir el menú del navegador.
-lista.addEventListener('contextmenu', e => { if ((e.target as Element).closest('.ad-item') && !(e.target as Element).closest('input')) e.preventDefault(); });
+lista.addEventListener('contextmenu', e => { if ((e.target as Element).closest('.ad-item') && !(e.target as Element).closest('input, textarea')) e.preventDefault(); });
 
 // Teclado: flechas para mover la foto enfocada.
 lista.addEventListener('keydown', e => {
@@ -443,7 +584,7 @@ document.addEventListener('click', e => {
     dibujar();
 });
 lista.addEventListener('input', e => {
-    const t = e.target as HTMLInputElement;
+    const t = e.target as HTMLTextAreaElement;
     if (t.dataset.i === undefined) return;
     filas[+t.dataset.i].alt = t.value;
     t.classList.remove('ad-falta');
@@ -460,6 +601,6 @@ zona.addEventListener('drop', e => {
 });
 guardarBtn.addEventListener('click', guardar);
 descartarBtn.addEventListener('click', () => { if (actual && confirm('¿Deshacer todos los cambios que no guardaste?')) { const id = actual.id; actual = null; abrir(id); } });
-addEventListener('beforeunload', e => { if (cambiado() || ocupado) e.preventDefault(); });
+addEventListener('beforeunload', e => { if (cambiado() || ocupado || pendientes.length) e.preventDefault(); });
 
 cargar().catch(e => { $('adCargando').textContent = e instanceof Error ? e.message : 'No se pudo cargar. Recarga la página.'; });
