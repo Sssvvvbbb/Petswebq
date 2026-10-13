@@ -33,8 +33,8 @@ async function decodificar(archivo: File): Promise<{ img: CanvasImageSource; anc
     } catch {
         URL.revokeObjectURL(url);
         throw new Error(/\.hei[cf]$/i.test(archivo.name)
-            ? 'Este navegador no abre fotos HEIC (iPhone). Súbela desde el iPhone, o en el iPhone ve a Ajustes > Cámara > Formatos y elige "Más compatible".'
-            : 'No se pudo abrir este archivo como imagen.');
+            ? 'Esta foto no se puede abrir aquí. Prueba subiéndola desde el celular.'
+            : 'No se pudo abrir esta foto.');
     }
     return { img, ancho: img.naturalWidth, alto: img.naturalHeight, fin: () => URL.revokeObjectURL(url) };
 }
@@ -91,15 +91,15 @@ const ajustar = (w: number, h: number, maxW: number, maxH: number) => {
 export async function convertir(archivo: File, tipo: 'galeria' | 'testimonios'): Promise<Convertida> {
     const { img, ancho, alto, fin } = await decodificar(archivo);
     try {
-        if (!ancho || !alto) throw new Error('La imagen está vacía.');
+        if (!ancho || !alto) throw new Error('No se pudo abrir esta foto.');
         if (tipo === 'testimonios') {
             // Recorte central a 9:16.
             let sw = ancho, sh = Math.round(ancho * 16 / 9);
             if (sh > alto) { sh = alto; sw = Math.round(alto * 9 / 16); }
             const [w, h] = ajustar(sw, sh, 720, 1280);
             const src = await webp(dibujar(img, (ancho - sw) / 2, (alto - sh) / 2, sw, sh, w, h));
-            const aviso = ancho / alto > 9 / 16 * 1.25 ? 'Se recortó al centro en formato vertical (9:16), como se ve en el carrusel.' : undefined;
-            return { src, ancho: w, alto: h, aviso: w < 400 ? 'La foto es pequeña: puede verse borrosa.' : aviso };
+            const aviso = ancho / alto > 9 / 16 * 1.25 ? 'Se recortó un poquito para que quede de pie, como en la página.' : undefined;
+            return { src, ancho: w, alto: h, aviso: w < 400 ? 'Esta foto es chiquita: puede verse borrosa.' : aviso };
         }
         const [w, h] = ajustar(ancho, alto, 1600, 1600);
         const src = await webp(dibujar(img, 0, 0, ancho, alto, w, h));
@@ -107,7 +107,7 @@ export async function convertir(archivo: File, tipo: 'galeria' | 'testimonios'):
         const grande = gw === w ? src : await webp(dibujar(img, 0, 0, ancho, alto, gw, gh));
         const lado = Math.min(ancho, alto);
         const mini = await webp(dibujar(img, (ancho - lado) / 2, (alto - lado) / 2, lado, lado, 140, 140), 0.8);
-        return { src, grande, mini, ancho: w, alto: h, aviso: Math.max(w, h) < 800 ? 'La foto es pequeña: puede verse borrosa en pantallas grandes.' : undefined };
+        return { src, grande, mini, ancho: w, alto: h, aviso: Math.max(w, h) < 800 ? 'Esta foto es chiquita: puede verse borrosa.' : undefined };
     } finally {
         fin();
     }

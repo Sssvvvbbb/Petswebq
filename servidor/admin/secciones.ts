@@ -22,8 +22,8 @@ const GALERIAS: Record<string, { titulo: string; carpeta: string }> = {
     instalaciones: { titulo: 'Nuestros servicios', carpeta: 'servicios' },
     jardin: { titulo: 'Nuestro equipo e instalaciones', carpeta: 'equipo' },
     urnas: { titulo: 'Ánforas', carpeta: 'anforas' },
-    relicarios: { titulo: 'Relicarios (se verán con el nuevo diseño)', carpeta: 'relicarios' },
-    despedida: { titulo: 'Testimonios de la Biblioteca (“Gracias”)', carpeta: 'testimonios' },
+    relicarios: { titulo: 'Relicarios', carpeta: 'relicarios' },
+    despedida: { titulo: 'Testimonios de la Biblioteca', carpeta: 'testimonios' },
 };
 const ORDEN = Object.keys(GALERIAS);
 export const carpetaGaleria = (clave: string) => `/Assets/biblioteca/${GALERIAS[clave]?.carpeta || clave}`;
@@ -116,9 +116,9 @@ export async function guardar(env: Env, form: FormData, prueba?: Prueba): Promis
         if (p?.nuevo === undefined) continue;
         const n = String(p.nuevo);
         if (!/^n\d{1,3}$/.test(n) || nuevas.has(n)) throw new ErrorUsuario('Foto nueva inválida');
-        if (nuevas.size >= 20) throw new ErrorUsuario('Máximo 20 fotos nuevas por vez');
+        if (nuevas.size >= 20) throw new ErrorUsuario('Puedes guardar hasta 20 fotos nuevas de una vez. Guarda estas y luego agrega las demás.');
         const alt = limpiarAlt(p.alt);
-        if (!alt) throw new ErrorUsuario('Cada foto nueva necesita una descripción');
+        if (!alt) throw new ErrorUsuario('Falta escribir qué se ve en una foto nueva.');
         if (s.tipo === 'galeria') {
             const clave = id.slice('galeria:'.length);
             const carpeta = carpetaGaleria(clave);
@@ -138,7 +138,7 @@ export async function guardar(env: Env, form: FormData, prueba?: Prueba): Promis
     for (let intento = 0; intento < 3; intento++) {
         const padre = prueba ? null : await cabeza(env);
         const actual = prueba ? await leerPublicada(prueba, s) : await leerSeccion(env, s, padre!.commit);
-        if (actual.sha !== base) throw new ErrorUsuario('Alguien cambió esta sección mientras la editabas. Recarga la página y vuelve a intentarlo (tus fotos nuevas habrá que elegirlas otra vez).', 409);
+        if (actual.sha !== base) throw new ErrorUsuario('Alguien cambió estas fotos hace un ratito. Recarga la página y vuelve a intentarlo.', 409);
 
         const porSrc = new Map(actual.items.map(it => [it.src, it]));
         const usadas = new Set<string>();
@@ -146,7 +146,7 @@ export async function guardar(env: Env, form: FormData, prueba?: Prueba): Promis
             if (p?.nuevo !== undefined) return nuevas.get(String(p.nuevo))!;
             const src = String(p?.src ?? '');
             const it = porSrc.get(src);
-            if (!it || usadas.has(src)) throw new ErrorUsuario('La lista no coincide con las fotos guardadas. Recarga la página.');
+            if (!it || usadas.has(src)) throw new ErrorUsuario('Las fotos cambiaron. Recarga la página y vuelve a intentarlo.');
             usadas.add(src);
             const alt = limpiarAlt(p.alt);
             return { ...it, alt: alt || it.alt || '' };
@@ -160,5 +160,5 @@ export async function guardar(env: Env, form: FormData, prueba?: Prueba): Promis
         const hecho = await commit(env, padre!, [...archivos, { path: s.ruta, content: JSON.stringify(datos, null, 2) + '\n' }], mensaje);
         if (hecho) return { commit: hecho, nuevas: nuevas.size, quitadas };
     }
-    throw new ErrorUsuario('El repositorio está ocupado. Espera un momento y vuelve a guardar.', 503);
+    throw new ErrorUsuario('Hay mucho movimiento ahora. Espera un momento y vuelve a guardar.', 503);
 }

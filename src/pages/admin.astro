@@ -1,6 +1,8 @@
 ---
 // /admin: la administradora sube fotos a las galerías de la Biblioteca y al carrusel
-// de /testimonios. Protegida con Cloudflare Access (código al correo); la API está en
+// de /testimonios. Pensada para usarse sin saber nada técnico: íconos grandes, pocas
+// palabras, y las fotos se ordenan arrastrándolas (manteniéndolas presionadas en el
+// celular). Protegida con Cloudflare Access (código al correo); la API está en
 // functions/api/admin/ y guarda cada cambio como un commit en main (ver CLAUDE.md,
 // sección "/admin"). Sin índice en Google (noindex aquí y X-Robots-Tag en _headers),
 // sin Google Analytics y con su propia CSP (permite WebAssembly para convertir a WebP).
@@ -12,44 +14,61 @@ import '../styles/admin.css';
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Administración de fotos | Pets Al Cielo</title>
+<meta name="theme-color" content="#f3e6f6">
+<title>Fotos de Pets Al Cielo</title>
 <link rel="icon" type="image/x-icon" href="/Assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/Assets/favicon-32x32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/Assets/apple-touch-icon.png">
 </head>
 <body>
+<svg class="ad-sprite" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-casa" viewBox="0 0 64 64"><path d="M14 29v23h36V29" fill="#eadffa"/><path d="M8 31 32 11l24 20M14 29v23h36V29" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 46c-6-4-9-7-9-10.5 0-2.6 2-4.5 4.5-4.5 1.9 0 3.5 1 4.5 2.6 1-1.6 2.6-2.6 4.5-2.6 2.5 0 4.5 1.9 4.5 4.5C41 39 38 42 32 46z" fill="#ee9fc2"/></symbol>
+<symbol id="i-equipo" viewBox="0 0 64 64"><circle cx="22" cy="22" r="7" fill="#d9efe9" stroke="currentColor" stroke-width="3.5"/><circle cx="42" cy="22" r="7" fill="#eadffa" stroke="currentColor" stroke-width="3.5"/><path d="M9 50c0-8 6-14 13-14s13 6 13 14M29 50c0-8 6-14 13-14s13 6 13 14" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><path d="M32 16c-3-2-4.5-3.6-4.5-5.4 0-1.4 1-2.4 2.3-2.4 1 0 1.8.5 2.2 1.3.5-.8 1.3-1.3 2.3-1.3 1.3 0 2.2 1 2.2 2.4 0 1.8-1.5 3.4-4.5 5.4z" fill="#ee9fc2"/></symbol>
+<symbol id="i-anfora" viewBox="0 0 64 64"><path d="M25 14c0 5-9 9-9 21 0 11 7 17 16 17s16-6 16-17c0-12-9-16-9-21z" fill="#eadffa"/><path d="M23 14h18M25 14c0 5-9 9-9 21 0 11 7 17 16 17s16-6 16-17c0-12-9-16-9-21M24 56h16M29 8h6" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 41c-4-2.8-6-4.9-6-7.2 0-1.8 1.4-3.1 3.1-3.1 1.3 0 2.4.7 2.9 1.8.5-1.1 1.6-1.8 2.9-1.8 1.7 0 3.1 1.3 3.1 3.1 0 2.3-2 4.4-6 7.2z" fill="#ee9fc2"/></symbol>
+<symbol id="i-relicario" viewBox="0 0 64 64"><path d="M18 6c0 13 6 20 14 20s14-7 14-20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 5"/><circle cx="32" cy="28" r="3" fill="none" stroke="currentColor" stroke-width="3"/><path d="M32 58C20 50 13 44 13 37c0-5 4-9 9-9 4 0 7.6 2.2 10 5.6C34.4 30.2 38 28 42 28c5 0 9 4 9 9 0 7-7 13-19 21z" fill="#eadffa" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round"/><circle cx="32" cy="42" r="5" fill="#ee9fc2"/></symbol>
+<symbol id="i-paloma" viewBox="2 -6 60 60"><path d="M24 30C25 17 33 9 46 7c-3 6-3 11-1 15-6 0-11 3-14 8z" fill="#eadffa" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/><path d="M13 23c4-3 9-2 12 2 5 6 13 8 23 6l10-5-3 7 5 4c-6 4-14 6-22 6-14 0-22-8-25-20z" fill="#fff" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/><path d="M13 23.5l-6 2 6 2" fill="#f0b35a" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="16.5" cy="24" r="1.7" fill="currentColor"/><path d="M8 27c-2 4-2 8 0 11" fill="none" stroke="#5fae95" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="5.5" cy="32" rx="2.2" ry="3.4" fill="#8fcdb4"/><ellipse cx="10.5" cy="35" rx="2.2" ry="3.4" transform="rotate(-30 10.5 35)" fill="#8fcdb4"/></symbol>
+<symbol id="i-burbuja" viewBox="0 0 64 64"><path d="M10 14h44a4 4 0 0 1 4 4v24a4 4 0 0 1-4 4H30l-12 10v-10h-8a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4z" fill="#d9efe9" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round"/><path d="M32 38c-6-4-9-6.8-9-10 0-2.5 2-4.4 4.4-4.4 1.9 0 3.6 1 4.6 2.6 1-1.6 2.7-2.6 4.6-2.6 2.4 0 4.4 1.9 4.4 4.4 0 3.2-3 6-9 10z" fill="#ee9fc2"/></symbol>
+<symbol id="i-foto" viewBox="0 0 64 64"><rect x="8" y="14" width="48" height="38" rx="6" fill="#eadffa" stroke="currentColor" stroke-width="3.5"/><circle cx="24" cy="28" r="5" fill="#ee9fc2"/><path d="M10 48l14-12 10 8 8-6 12 10" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round"/></symbol>
+<symbol id="i-mas" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+<symbol id="i-basura" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-volver" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-mano" viewBox="0 0 24 24"><path d="M9 11V5a1.5 1.5 0 0 1 3 0v5m0-1V4a1.5 1.5 0 0 1 3 0v6m0-3a1.5 1.5 0 0 1 3 0v6c0 4-2.5 7-6.5 7-2.5 0-4-1-5.5-3l-3-4.5a1.5 1.5 0 0 1 2.5-1.7L9 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
 <header class="ad-cab">
-<a class="ad-logo" href="/"><img src="/Assets/logo_para_web-360.webp" alt="Pets Al Cielo" width="180" height="60"></a>
-<div class="ad-cab-txt"><h1>Administración de fotos</h1><p id="adCorreo"></p></div>
-<a class="ad-ver" href="/" target="_blank" rel="noopener">Ver el sitio ↗</a>
+<a class="ad-logo" href="/"><img src="/Assets/logo_para_web-360.webp" alt="Pets Al Cielo" width="180" height="180"></a>
+<div class="ad-cab-txt"><h1>Fotos de <em>Pets Al Cielo</em></h1><p id="adCorreo"></p></div>
+<a class="ad-ver" href="/" target="_blank" rel="noopener">Ver la página ↗</a>
+<svg class="ad-ondas" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22C240 4 480 4 720 20s480 18 720 2v18H0z" fill="#fcf9f2"/></svg>
 </header>
 
 <main class="ad-main">
 <noscript><p class="ad-aviso ad-error">Esta página necesita JavaScript.</p></noscript>
-<p id="adPrueba" class="ad-aviso ad-prueba" hidden><strong>Modo de prueba.</strong> Puedes probar todo (elegir fotos, convertirlas, ordenarlas, quitarlas y guardar), pero no se guarda nada en el sitio. Para cambios reales: petsalcielo.cl/admin.</p>
-<p id="adAviso" class="ad-aviso" role="status" aria-live="polite" hidden></p>
+<p id="adPrueba" class="ad-aviso ad-prueba" hidden><strong>Esto es una prueba.</strong> Puedes probar todo, pero la página de verdad no cambia.</p>
+<p id="adCargando" class="ad-cargando"><span class="ad-giro" aria-hidden="true"></span> Cargando…</p>
 
 <section class="ad-paso" id="adPaso1" aria-labelledby="adP1" hidden>
-<h2 id="adP1"><span class="ad-num">1</span> ¿Dónde van las fotos?</h2>
-<div class="ad-grupo"><h3>Galerías de la Biblioteca</h3><div id="adGalerias" class="ad-opciones"></div></div>
-<div class="ad-grupo"><h3>Página web de testimonios (petsalcielo.cl/testimonios)</h3><div id="adTestimonios" class="ad-opciones"></div></div>
+<h2 id="adP1"><span class="ad-num">1</span> ¿Dónde quieres poner fotos?</h2>
+<div class="ad-grupo"><h3>Biblioteca</h3><div id="adGalerias" class="ad-opciones"></div></div>
+<div class="ad-grupo"><h3>Página de testimonios</h3><div id="adTestimonios" class="ad-opciones"></div></div>
 </section>
 
 <section class="ad-paso" id="adEditor" aria-labelledby="adP2" hidden>
-<h2 id="adP2"><span class="ad-num">2</span> <span id="adTitulo"></span></h2>
+<h2 id="adP2"><span class="ad-num">2</span> <svg class="ad-ico-titulo" aria-hidden="true"><use id="adIcono" href="#i-foto"/></svg> <span id="adTitulo"></span></h2>
 <p class="ad-ayuda" id="adAyuda"></p>
+<p id="adAviso" class="ad-aviso" role="status" aria-live="polite" hidden></p>
 <label class="ad-zona" id="adZona" for="adArchivos">
-<strong>Elegir fotos</strong>
-<span>o arrastrarlas aquí. Se convierten a WebP automáticamente.</span>
+<span class="ad-agregar"><svg aria-hidden="true"><use href="#i-mas"/></svg> Agregar fotos</span>
+<span class="ad-zona-txt ad-solo-mouse">o suéltalas aquí</span>
 <input type="file" id="adArchivos" accept="image/*" multiple>
 </label>
-<p class="ad-donde"><label for="adPosicion">Agregar las fotos nuevas</label>
-<select id="adPosicion"><option value="inicio">al principio</option><option value="final">al final</option></select></p>
+<p class="ad-pista"><svg aria-hidden="true"><use href="#i-mano"/></svg> <span class="ad-solo-mouse">Arrastra una foto para cambiarla de lugar.</span><span class="ad-solo-tactil">Mantén el dedo sobre una foto y muévela para cambiarla de lugar.</span></p>
 <ol id="adLista" class="ad-lista"></ol>
 <div class="ad-barra">
 <span id="adResumen" class="ad-resumen"></span>
-<button type="button" id="adDescartar" class="ad-sec" disabled>Descartar cambios</button>
-<button type="button" id="adGuardar" class="ad-pri" disabled>Guardar y publicar</button>
+<button type="button" id="adDescartar" class="ad-sec" disabled><svg aria-hidden="true"><use href="#i-volver"/></svg> Deshacer</button>
+<button type="button" id="adGuardar" class="ad-pri" disabled><svg aria-hidden="true"><use href="#i-check"/></svg> <span id="adGuardarTxt">Guardar</span></button>
 </div>
 </section>
 </main>
