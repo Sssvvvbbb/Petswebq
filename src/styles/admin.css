@@ -137,7 +137,9 @@ html.ad-sin-scroll { overflow: hidden; }
 .ad-diapos::-webkit-scrollbar { display: none; }
 .ad-diapo { flex: 0 0 100%; display: flex; flex-direction: column; gap: 10px; padding: 14px 20px 6px; scroll-snap-align: center; overflow-y: auto; }
 .ad-diapo-foto { position: relative; flex: none; display: grid; place-items: center; height: min(52dvh, 460px); border-radius: 18px; background: #fff; overflow: hidden; box-shadow: 0 6px 24px rgba(149, 117, 205, .12); }
-.ad-diapo-foto img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+/* La foto entera, ajustada al recuadro fijo: se achica hasta que su lado más largo
+   (ancho si es horizontal, alto si es vertical) toca el borde; el recuadro no crece. */
+.ad-diapo-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; }
 .ad-diapo label { font-weight: 600; color: var(--navy); }
 .ad-diapo textarea { min-height: 110px; flex: none; }
 .ad-diapo-num { position: absolute; top: 12px; left: 12px; display: grid; place-items: center; min-width: 44px; height: 44px; padding: 0 12px; border-radius: 999px; background: linear-gradient(135deg, var(--lilac2), #8f6fcf); color: #fff; font-size: 1.3rem; font-weight: 700; box-shadow: 0 6px 16px rgba(35, 42, 77, .25); }
