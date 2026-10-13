@@ -1,12 +1,12 @@
 {
   "fotos": [
-    { "src": "/Assets/Nuestro_equipo_fundadora_2_mascotas_petsalcielo.webp", "alt": "Logo PetsAlCielo" },
-    { "src": "/Assets/nuestro-equipo-pets-al-cielo-crematorio-puerto-montt.webp", "alt": "Equipo Pets, Puerto Montt" },
-    { "src": "/Assets/Instalaciones_crematorio_puerto_montt_verde_petsalcielo.webp", "alt": "Instalaciones crematorio Puerto Montt verde Petsalcielo" },
-    { "src": "/Assets/Instalaciones_crematorio_puerto_montt_petsalcielo.webp", "alt": "Instalaciones crematorio Puerto Montt Petsalcielo" },
-    { "src": "/Assets/Instalaciones_oficinas_del_crematorio_petsalcielo.webp", "alt": "Instalaciones oficinas del crematorio Petsalcielo" },
-    { "src": "/Assets/Instalaciones_salita_de_despedida_crematorio_en_puertomontt.webp", "alt": "Instalaciones salita de despedida crematorio en Puerto Montt" },
-    { "src": "/Assets/Instalaciones_cremacion_puerto_montt_pet_sal_cielo.webp", "alt": "Instalaciones cremación Puerto Montt Pet Al Cielo" }
+    { "src": "/Assets/biblioteca/equipo/Nuestro_equipo_fundadora_2_mascotas_petsalcielo.webp", "alt": "Logo PetsAlCielo" },
+    { "src": "/Assets/biblioteca/equipo/nuestro-equipo-pets-al-cielo-crematorio-puerto-montt.webp", "alt": "Equipo Pets, Puerto Montt" },
+    { "src": "/Assets/biblioteca/equipo/Instalaciones_crematorio_puerto_montt_verde_petsalcielo.webp", "alt": "Instalaciones crematorio Puerto Montt verde Petsalcielo" },
+    { "src": "/Assets/biblioteca/equipo/Instalaciones_crematorio_puerto_montt_petsalcielo.webp", "alt": "Instalaciones crematorio Puerto Montt Petsalcielo" },
+    { "src": "/Assets/biblioteca/equipo/Instalaciones_oficinas_del_crematorio_petsalcielo.webp", "alt": "Instalaciones oficinas del crematorio Petsalcielo" },
+    { "src": "/Assets/biblioteca/equipo/Instalaciones_salita_de_despedida_crematorio_en_puertomontt.webp", "alt": "Instalaciones salita de despedida crematorio en Puerto Montt" },
+    { "src": "/Assets/biblioteca/equipo/Instalaciones_cremacion_puerto_montt_pet_sal_cielo.webp", "alt": "Instalaciones cremación Puerto Montt Pet Al Cielo" }
   ]
 }
 

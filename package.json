@@ -15,7 +15,8 @@
     "visual": "node scripts/visual.mjs"
   },
   "dependencies": {
-    "astro": "7.3.5"
+    "astro": "7.3.5",
+    "@jsquash/webp": "1.5.0"
   },
   "devDependencies": {
     "parse5": "^7.1.2",

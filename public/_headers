@@ -12,3 +12,18 @@
 
 /gallery/*
   Cache-Control: public, max-age=0, must-revalidate
+
+# /admin (panel de fotos): CSP propia. Quita la general y permite WebAssembly
+# ('wasm-unsafe-eval', para convertir a WebP en Safari) e imágenes blob: (vistas
+# previas). Sin Google Analytics ni dominios externos. No se indexa.
+/admin
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; img-src 'self' blob: data:; style-src 'self'; font-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store
+
+/admin.html
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; img-src 'self' blob: data:; style-src 'self'; font-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store

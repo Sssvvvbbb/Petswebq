@@ -1,0 +1,60 @@
+---
+// /admin: la administradora sube fotos a las galerías de la Biblioteca y al carrusel
+// de /testimonios. Protegida con Cloudflare Access (código al correo); la API está en
+// functions/api/admin/ y guarda cada cambio como un commit en main (ver CLAUDE.md,
+// sección "/admin"). Sin índice en Google (noindex aquí y X-Robots-Tag en _headers),
+// sin Google Analytics y con su propia CSP (permite WebAssembly para convertir a WebP).
+import '../styles/admin.css';
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Administración de fotos | Pets Al Cielo</title>
+<link rel="icon" type="image/x-icon" href="/Assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/Assets/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/Assets/apple-touch-icon.png">
+</head>
+<body>
+<header class="ad-cab">
+<a class="ad-logo" href="/"><img src="/Assets/logo_para_web-360.webp" alt="Pets Al Cielo" width="180" height="60"></a>
+<div class="ad-cab-txt"><h1>Administración de fotos</h1><p id="adCorreo"></p></div>
+<a class="ad-ver" href="/" target="_blank" rel="noopener">Ver el sitio ↗</a>
+</header>
+
+<main class="ad-main">
+<noscript><p class="ad-aviso ad-error">Esta página necesita JavaScript.</p></noscript>
+<p id="adAviso" class="ad-aviso" role="status" aria-live="polite" hidden></p>
+
+<section class="ad-paso" id="adPaso1" aria-labelledby="adP1" hidden>
+<h2 id="adP1"><span class="ad-num">1</span> ¿Dónde van las fotos?</h2>
+<div class="ad-grupo"><h3>Galerías de la Biblioteca</h3><div id="adGalerias" class="ad-opciones"></div></div>
+<div class="ad-grupo"><h3>Página web de testimonios (petsalcielo.cl/testimonios)</h3><div id="adTestimonios" class="ad-opciones"></div></div>
+</section>
+
+<section class="ad-paso" id="adEditor" aria-labelledby="adP2" hidden>
+<h2 id="adP2"><span class="ad-num">2</span> <span id="adTitulo"></span></h2>
+<p class="ad-ayuda" id="adAyuda"></p>
+<label class="ad-zona" id="adZona" for="adArchivos">
+<strong>Elegir fotos</strong>
+<span>o arrastrarlas aquí. Se convierten a WebP automáticamente.</span>
+<input type="file" id="adArchivos" accept="image/*" multiple>
+</label>
+<p class="ad-donde"><label for="adPosicion">Agregar las fotos nuevas</label>
+<select id="adPosicion"><option value="inicio">al principio</option><option value="final">al final</option></select></p>
+<ol id="adLista" class="ad-lista"></ol>
+<div class="ad-barra">
+<span id="adResumen" class="ad-resumen"></span>
+<button type="button" id="adDescartar" class="ad-sec" disabled>Descartar cambios</button>
+<button type="button" id="adGuardar" class="ad-pri" disabled>Guardar y publicar</button>
+</div>
+</section>
+</main>
+
+<script>
+    import '../scripts/admin/panel';
+</script>
+</body>
+</html>
