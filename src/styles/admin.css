@@ -100,3 +100,4 @@ button { cursor: pointer; }
     .ad-pri, .ad-sec { flex: 1; padding: 10px 12px; white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+.ad-aviso.ad-prueba { background: #fff6e0; color: #6b5212; }

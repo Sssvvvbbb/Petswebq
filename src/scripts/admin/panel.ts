@@ -2,7 +2,8 @@
 // sus fotos, agregar fotos (se convierten a WebP en el navegador, ver webp.ts),
 // ordenarlas, editar su descripción, quitarlas y guardar. Guardar manda la lista
 // final a /api/admin/guardar, que hace un commit en main; el sitio se publica solo
-// en unos minutos (.github/workflows/deploy.yml).
+// en unos minutos (.github/workflows/deploy.yml). En las vistas previas (*.pages.dev)
+// la API está en modo de prueba: todo funciona igual, pero no se guarda nada.
 import { convertir, type Convertida } from './webp';
 
 interface ItemSrv { src: string; alt?: string; mini?: string; poster?: string; type?: string }
@@ -207,7 +208,8 @@ function opciones() {
 }
 
 async function cargar(seguir?: string) {
-    const d = await api<{ correo: string; secciones: SeccionSrv[] }>('estado');
+    const d = await api<{ correo: string; prueba?: boolean; secciones: SeccionSrv[] }>('estado');
+    $('adPrueba').hidden = !d.prueba;
     secciones = d.secciones;
     $('adCorreo').textContent = d.correo ? 'Sesión: ' + d.correo : '';
     actual = null;
@@ -272,8 +274,12 @@ async function guardar() {
     guardarBtn.textContent = 'Guardando…';
     avisar('Guardando… no cierres esta página.');
     try {
-        const r = await api<{ nuevas: number; quitadas: number }>('guardar', { method: 'POST', body: fd });
+        const r = await api<{ nuevas: number; quitadas: number; prueba?: boolean }>('guardar', { method: 'POST', body: fd });
         original = JSON.stringify(pedido());
+        if (r.prueba) {
+            avisar(`✓ Prueba correcta: ${r.nuevas} foto${r.nuevas === 1 ? '' : 's'} nueva${r.nuevas === 1 ? '' : 's'} y ${r.quitadas} quitada${r.quitadas === 1 ? '' : 's'}. En modo de prueba no se guardó nada; en petsalcielo.cl/admin se habría publicado.`, 'ok');
+            return;
+        }
         const donde = s.tipo === 'testimonios' ? 'petsalcielo.cl/testimonios' : `la galería "${s.titulo}" de la Biblioteca`;
         avisar(`✓ Guardado${r.nuevas ? ` (${r.nuevas} foto${r.nuevas > 1 ? 's' : ''} nueva${r.nuevas > 1 ? 's' : ''})` : ''}. Se verá en ${donde} en 2 a 5 minutos, cuando termine de publicarse.`, 'ok');
         ocupado = false;

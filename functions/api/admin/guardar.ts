@@ -3,9 +3,10 @@
 import { ErrorUsuario, guardar } from '../../../servidor/admin/secciones';
 import { respuesta, type Contexto } from '../../../servidor/admin/tipos';
 
-export async function onRequestPost({ request, env }: Contexto): Promise<Response> {
+export async function onRequestPost({ request, env, data }: Contexto): Promise<Response> {
     try {
-        return respuesta(await guardar(env, await request.formData()));
+        const prueba = data.prueba ? { activos: env.ASSETS!, origen: new URL(request.url).origin } : undefined;
+        return respuesta(await guardar(env, await request.formData(), prueba));
     } catch (e) {
         if (e instanceof ErrorUsuario) return respuesta({ error: e.message }, e.status);
         console.error(e);

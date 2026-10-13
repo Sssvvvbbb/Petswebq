@@ -8,13 +8,14 @@ export interface Env {
     GITHUB_REPO?: string;        // dueño/repo (por defecto Sssvvvbbb/Petswebq)
     GITHUB_BRANCH?: string;      // por defecto main
     ADMIN_LOCAL?: string;        // "1" solo en .dev.vars: salta Access en localhost
-    GITHUB_API?: string;         // solo para pruebas locales (API simulada); por defecto https://api.github.com
+    GITHUB_API?: string;
+    ASSETS?: { fetch(r: Request): Promise<Response> }; // archivos del despliegue (lo pone Pages)         // solo para pruebas locales (API simulada); por defecto https://api.github.com
 }
 
 export interface Contexto {
     request: Request;
     env: Env;
-    data: { correo?: string };
+    data: { correo?: string; prueba?: boolean };
     next: () => Promise<Response>;
 }
 
