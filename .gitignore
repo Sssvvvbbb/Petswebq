@@ -4,3 +4,5 @@ dist/
 .claude/settings.local.json
 __pycache__/
 .visual/
+.dev.vars
+.wrangler/

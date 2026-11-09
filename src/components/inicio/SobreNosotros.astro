@@ -1,8 +1,9 @@
 ---
+import Onda from './Onda.astro';
 // Sección #nosotros: foto de Mulán e historia de PetsAlCielo.
 ---
 <!-- About -->
-<section class="section" id="nosotros" itemscope itemtype="https://schema.org/AboutPage">
+<section class="pg hw section soft-c" id="nosotros" itemscope itemtype="https://schema.org/AboutPage">
     <div class="container">
         <div class="about-split">
             <div class="about-visual reveal">
@@ -15,7 +16,7 @@
                 </div>
             </div>
             <div class="about-text">
-                <span class="section-tag reveal">Sobre Nosotros</span>
+                <span class="section-tag tag-lila reveal">Sobre Nosotros</span>
                 <h2 class="section-title reveal reveal-delay-1">Crematorio para Mascotas en<br><em>La Vara, Senda Central</em></h2>
                 <p class="reveal reveal-delay-2">
                     “Pets Al Cielo es un servicio familiar que comenzó el año 2019, después de la triste partida de nuestra perrita <em>Mulán</em>, quien nos acompañó por 13 años y que era una integrante más de nuestra familia. A pesar de tener en nuestra parcela un lugar especial para sepultarla, NO quisimos esa opción porque la queríamos con nosotros, no afuera y lejos en el frío de la tierra, y descubrimos con tristeza que NO existían crematorios de mascotitas en Puerto Montt o sus alrededores en esos años. Así nace <em>Pets Al Cielo</em> una Cremación Verde e Individual, que se lleva a cabo mediante el procedimiento de Hidrólisis Alcalina (Agua y No Fuego), lo que nos permite entregar toda la parte ósea de la mascotita en forma de Polvito de Calcio, en un ánfora o en una plantita como Nutriente para retornar al ciclo de la vida a su Pequeño(a)".
@@ -23,4 +24,5 @@
             </div>
         </div>
     </div>
+<Onda forma="b" capas={[['#e3f0e6', .22], ['#e3f0e6', .5], ['#e3f0e6', .85], ['#e3f0e6', 1]]} />
 </section>

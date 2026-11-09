@@ -1,0 +1,15 @@
+---
+// Sección #testimonios de la home: "Crematorio de confianza", con enlace a /testimonios.
+// El fondo (ilustración) va en home.css: confianza-fondo en escritorio y
+// confianza-movil-arriba/abajo en el celular (public/Assets/index/).
+import Onda from './Onda.astro';
+---
+<section class="confianza pg hw" id="testimonios" aria-labelledby="confianza-t">
+<div class="cf-wrap reveal-fog">
+<p class="cf-eyebrow">Con amor y respeto</p>
+<h2 id="confianza-t">Crematorio de Confianza<br>para <em>Familias de Puerto Montt</em></h2>
+<p class="cf-lead">Cumplimos 7 años acompañando familias en la despedida de sus pequeños amados. <span class="cf-l2">El amor por los animales y el respeto es la base de nuestro trabajo.</span></p>
+<a class="cf-btn" href="/testimonios">Testimonios de familias y rescatistas</a>
+</div>
+<Onda forma="a" capas={[['#e3efe6', .75], ['#ece6f0', .85], ['#f4eef4', .92], ['#fcf9f2', 1]]} />
+</section>

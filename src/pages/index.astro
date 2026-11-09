@@ -4,21 +4,22 @@ import '../styles/home.css';
 import MejoraProgresiva from '../components/MejoraProgresiva.astro';
 import SvgDefs from '../components/SvgDefs.astro';
 import Menu from '../components/Menu.astro';
-import GalleryModal from '../components/GalleryModal.astro';
+import Galeria from '../components/Galeria.astro';
 import TopBar from '../components/TopBar.astro';
-import Footer from '../components/Footer.astro';
-import HeroCarousel from '../components/HeroCarousel.astro';
 import GoogleTag from '../components/GoogleTag.astro';
 import Favicons from '../components/Favicons.astro';
-import Cifras from '../components/inicio/Cifras.astro';
+import Decoracion from '../components/Decoracion.astro';
+import Portada from '../components/inicio/Portada.astro';
+import Eco from '../components/inicio/Eco.astro';
 import Servicios from '../components/inicio/Servicios.astro';
 import Biblioteca from '../components/inicio/Biblioteca.astro';
 import Homenajes from '../components/inicio/Homenajes.astro';
 import SobreNosotros from '../components/inicio/SobreNosotros.astro';
 import VideoEducativo from '../components/inicio/VideoEducativo.astro';
-import Llamado from '../components/inicio/Llamado.astro';
-import Contacto from '../components/inicio/Contacto.astro';
-import '../styles/home-galeria.css';
+import Confianza from '../components/inicio/Confianza.astro';
+import PieFinal from '../components/PieFinal.astro';
+import Explicaciones from '../components/inicio/Explicaciones.astro';
+import '../styles/galeria-biblioteca.css';
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -66,8 +67,8 @@ import '../styles/home-galeria.css';
         <link rel="preload" href="/Assets/Fonts/CormorantGaramond-VariableFont_wght-latin.woff2" as="font" type="font/woff2" crossorigin>
         <style is:inline>@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-VariableFont_opsz_wght-latin.woff2') format('woff2')}@font-face{font-family:'DM Sans';font-style:italic;font-weight:100 900;font-display:swap;src:url('/Assets/Fonts/DMSans-Italic-VariableFont_opsz_wght-latin.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-VariableFont_wght-latin.woff2') format('woff2')}@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300 700;font-display:swap;src:url('/Assets/Fonts/CormorantGaramond-Italic-VariableFont_wght-latin.woff2') format('woff2')}</style>
         <!-- Preload imagen hero (LCP) -->
-        <link rel="preload" as="image" href="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" media="(min-width:769px)">
-        <link rel="preload" as="image" href="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" imagesrcset="/Assets/imagen_hero_crematorio_puertomontt_llanquihue-800.webp 800w, /Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp 1672w" imagesizes="100vw" media="(max-width:768px)" fetchpriority="high">
+        <link rel="preload" as="image" href="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" media="(min-width:900px)">
+        <link rel="preload" as="image" href="/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp" imagesrcset="/Assets/imagen_hero_crematorio_puertomontt_llanquihue-800.webp 800w, /Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp 1672w" imagesizes="100vw" media="(max-width:899px)" fetchpriority="high">
         <!-- DNS prefetch para dominios de acción del usuario -->
         <link rel="dns-prefetch" href="https://wa.me">
         <link rel="dns-prefetch" href="https://api.whatsapp.com">
@@ -81,6 +82,7 @@ import '../styles/home-galeria.css';
 
         <!-- SVG defs compartidos: gradientes reutilizables (evita duplicados en el DOM) -->
         <SvgDefs />
+        <Decoracion />
 
         <!-- Top Bar -->
         <TopBar variant="home" />
@@ -88,39 +90,30 @@ import '../styles/home-galeria.css';
         <!-- Navigation -->
         <Menu />
 
-        <!-- Hero Carousel -->
-        <HeroCarousel variant="home" />
+        <main>
+        <Portada />
 
-        <Cifras />
+        <Eco />
 
         <Servicios />
 
-        <div class="divider"></div>
-
         <Biblioteca />
-
-        <div class="divider"></div>
 
         <Homenajes />
 
-        <div class="divider"></div>
-
         <SobreNosotros />
-
-        <div class="divider"></div>
 
         <VideoEducativo />
 
-        <Llamado />
+        <Confianza />
+        </main>
 
-        <Contacto />
+        <PieFinal />
 
-        <!-- Footer -->
-        <Footer variant="home" />
-
+        <Explicaciones />
 
         <!-- ── GALLERY LIGHTBOX MODAL ── -->
-        <GalleryModal fondo="oscuro" />
+        <Galeria />
 
 
 

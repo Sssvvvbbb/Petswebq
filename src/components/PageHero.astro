@@ -1,20 +1,30 @@
 ---
-// Cabecera de página interior con migas de pan (preguntas-frecuentes).
+// Cabecera de /preguntas-frecuentes: ondas pastel arriba y abajo (el mismo dibujo,
+// recortado de dos formas) y onda de transición a la sección de preguntas.
+import Onda from './inicio/Onda.astro';
 ---
 <header class="page-hero">
-    <div class="hero-orb hero-orb-1"></div>
-    <div class="hero-orb hero-orb-2"></div>
-    <div class="hero-orb hero-orb-3"></div>
-    <div class="page-hero-inner">
-        <nav aria-label="Breadcrumb" class="breadcrumb">
-            <a href="/">Inicio</a>
-            <span class="breadcrumb-sep">›</span>
-            <span>Preguntas Frecuentes</span>
-        </nav>
-        <span class="hero-eyebrow">Todo lo que necesita saber</span>
-        <h1 class="page-title"><em>Preguntas Frecuentes</em></h1>
-        <p class="page-lead">
-            Sabemos que este es un momento difícil. Aquí encontrará respuestas claras y honestas sobre nuestro proceso de cremación ecológica para mascotas.
-        </p>
-    </div>
+<svg class="svg-defs" width="0" height="0" aria-hidden="true"><defs><linearGradient id="hl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9e0f8"/><stop offset="1" stop-color="#f3edfb"/></linearGradient>
+<linearGradient id="hm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8f4ee"/><stop offset="1" stop-color="#d6edf1"/></linearGradient>
+<linearGradient id="hb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e5dcf7"/><stop offset="1" stop-color="#f2e7f8"/></linearGradient>
+<radialGradient id="hc" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#fdfaf9"/><stop offset="1" stop-color="#faf6f6"/></radialGradient><g id="faq-ondas"><rect width="2000" height="667" fill="url(#hc)"/>
+<path d="M0 0H640C560 62 470 112 360 160 250 206 120 246 0 232Z" fill="url(#hl)"/>
+<path d="M0 0H430C340 70 230 150 90 200 60 210 30 214 0 214Z" fill="#efe8fa" opacity=".7"/>
+<path d="M0 170C150 196 300 172 440 96" fill="none" stroke="#fff" stroke-width="2" opacity=".9"/>
+<path d="M1110 0H2000V150C1850 128 1700 176 1560 160 1400 144 1240 60 1110 0Z" fill="url(#hm)"/>
+<path d="M1290 0C1450 92 1650 152 2000 42" fill="none" stroke="#fff" stroke-width="2" opacity=".9"/>
+<path d="M2000 225C1900 300 1790 440 1560 506 1700 524 1860 504 2000 420Z" fill="#f2e6f7" opacity=".85"/>
+<path d="M0 372C130 372 270 430 372 472L0 540Z" fill="#dff2ea"/>
+<path d="M0 500C250 560 560 640 640 667H0Z" fill="#e7def7"/>
+<path d="M0 562C150 500 330 450 520 470 760 492 900 600 1100 667H0Z" fill="url(#hb)" opacity=".92"/>
+<path d="M0 500C250 520 520 560 760 640" fill="none" stroke="#fff" stroke-width="2" opacity=".8"/>
+<path d="M970 667C1080 560 1250 512 1450 542 1650 572 1820 522 2000 480V667Z" fill="#d8efe8"/>
+<path d="M1500 667C1650 600 1850 452 2000 420V667Z" fill="#dbe4f6" opacity=".95"/>
+<path d="M1600 650C1760 590 1880 520 2000 470" fill="none" stroke="#fff" stroke-width="2" opacity=".8"/></g></defs></svg>
+<svg class="hero-waves hw-t" viewBox="0 0 2000 667" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><use href="#faq-ondas"/></svg>
+<svg class="hero-waves hw-b" viewBox="0 0 2000 667" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><use href="#faq-ondas"/></svg>
+<div class="page-hero-inner">
+<h1 class="page-title">Preguntas <em>Frecuentes</em></h1>
+<p class="page-lead">Sabemos que este es un momento difícil. Aquí encontrará respuestas claras y honestas sobre nuestro proceso de cremación ecológica para mascotas.</p></div>
+<Onda forma="b" capas={[['#fcf9f2', .22], ['#fcf9f2', .5], ['#fcf9f2', .85], ['#fcf9f2', 1]]} />
 </header>

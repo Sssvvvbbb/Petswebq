@@ -1,0 +1,51 @@
+---
+// Modal de la home con las explicaciones de la sección Eco y el video educativo.
+// Lo abre cualquier elemento con data-open="hidro|fuego|impacto|video". Los textos
+// van en <template> (sin armar HTML en JS); el ícono se copia del círculo pulsado.
+---
+<div id="exp" class="glb" role="dialog" aria-modal="true" aria-labelledby="exp-t" aria-hidden="true"><div class="glb-in"><div class="glb-h"><h2 id="exp-t"></h2><button type="button" id="exp-x" aria-label="Cerrar">✕</button></div><div class="glb-b" id="exp-b"></div></div></div>
+
+<template data-exp="hidro" data-titulo="También conocido como Cremación Verde"><div class="glb-t"><p>Llamado científicamente como Hidrólisis Alcalina, es el proceso natural que ocurre en algunos lagos del mundo. Es respetuoso con el medio ambiente y con la mascotita, ya que nos asegura un proceso individual y no termina en cenizas: es el Polvito de Calcio lo entregado en su urna especial junto a su chip de identificación operativo.</p></div></template>
+<template data-exp="fuego" data-titulo="Sin combustión"><div class="glb-t"><p>En lugar de quemar, usamos agua. No emite humo ni gases de combustión y es un proceso más suave y no tóxico. Es una despedida en paz y respeta el entorno en que vivimos y vivirán las futuras generaciones.</p><p>También nos permite recuperar el 95% de chips de identificación operativos, así como dientecitos y las prótesis si las tuvo; es la prueba que garantiza que la familia recibe únicamente su mascotita y no otra. El proceso nos entrega Polvito de Calcio en vez de ceniza, apta para plantar junto a retoños y plantas, volver al ciclo de vida.</p></div></template>
+<template data-exp="impacto" data-titulo="Volver al ciclo de la vida"><div class="glb-t"><p>Muchas familias eligen llevar un poquito de polvo de calcio consigo en un relicario que siempre les acompaña, hay otras familias que construyen un altar para sus pequeños y algunas deciden ofrecerlas al viento y la tierra.</p><p>Todas las formas de recordar a nuestros pequeños y pequeñas son hermosas, pero una de las más bellas es usar una porción del polvito de calcio para el nacimiento de un árbol o una planta que cuidarán con el corazón. Es volver al ciclo de la vida y tenerlos a nuestro lado.</p></div></template>
+<template data-exp="video" data-titulo="Sobre la hidrólisis alcalina"><div class="glb-v"><iframe src="https://www.youtube-nocookie.com/embed/QA8nm3SR-wU?rel=0&modestbranding=1" title="Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></template>
+
+<script>
+    const modal = document.getElementById('exp')!;
+    const cuerpo = document.getElementById('exp-b')!;
+    const titulo = document.getElementById('exp-t')!;
+    const cerrarBtn = document.getElementById('exp-x')!;
+    let origen: HTMLElement | null = null;
+
+    function abrir(clave: string, desde: HTMLElement) {
+        const plantilla = document.querySelector<HTMLTemplateElement>(`template[data-exp="${clave}"]`);
+        if (!plantilla) return;
+        origen = desde;
+        titulo.textContent = plantilla.dataset.titulo || '';
+        const icono = desde.querySelector('i svg');
+        titulo.classList.toggle('has-ic', !!icono);
+        if (icono) {
+            const marco = document.createElement('span');
+            marco.className = 'glb-ic';
+            marco.appendChild(icono.cloneNode(true));
+            titulo.prepend(marco);
+        }
+        cuerpo.replaceChildren(plantilla.content.cloneNode(true));
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+        requestAnimationFrame(() => modal.classList.add('on'));
+        cerrarBtn.focus();
+    }
+    function cerrar() {
+        modal.classList.remove('on');
+        modal.setAttribute('aria-hidden', 'true');
+        setTimeout(() => { modal.style.display = 'none'; cuerpo.replaceChildren(); }, 300);
+        origen?.focus();
+    }
+    document.addEventListener('click', e => {
+        const el = (e.target as Element).closest<HTMLElement>('[data-open]');
+        if (el) { e.preventDefault(); abrir(el.dataset.open!, el); return; }
+        if (e.target === modal || e.target === cerrarBtn) cerrar();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.style.display === 'flex') cerrar(); });
+</script>

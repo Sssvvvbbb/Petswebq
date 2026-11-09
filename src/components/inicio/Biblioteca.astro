@@ -1,8 +1,9 @@
 ---
-// Sección #Biblioteca: texto y mosaico de galerías (.mosaic-item[data-gallery]); el modal es GalleryModal y su JS está en la página.
+import Onda from './Onda.astro';
+// Sección #Biblioteca: texto y mosaico de galerías (.mosaic-item[data-gallery]); la galería es el componente Galeria (que también precarga los JSON).
 ---
 <!-- Gallery -->
-<section class="section" id="Biblioteca" aria-labelledby="gallery-heading">
+<section class="pg hw section soft-b" id="Biblioteca" aria-labelledby="gallery-heading">
     <div class="container">
         <div class="about-split" style="align-items: start;">
             <div>
@@ -60,28 +61,6 @@
             </div>
         </div>
     </div>
+<Onda forma="b" invertida capas={[['#f0e8fb', .22], ['#f0e8fb', .5], ['#f0e8fb', .85], ['#f0e8fb', 1]]} />
 </section>
 
-<script>
-    // Precarga la primera foto de cada galería cuando la sección se acerca a la pantalla.
-    // ── PRELOAD galerías — solo cuando la sección sea visible ──
-    (function () {
-        const gallerySection = document.getElementById('Biblioteca');
-        const target = gallerySection || document.body;
-        const preloadIO = new IntersectionObserver((entries) => {
-            if (!entries[0].isIntersecting) return;
-            preloadIO.disconnect();
-            ['instalaciones', 'jardin', 'urnas', 'despedida'].forEach(key => {
-                fetch('/gallery/' + key + '.json')
-                    .then(r => r.ok ? r.json() : null)
-                    .then(d => {
-                        if (!d || !d.fotos || !d.fotos.length) return;
-                        const pre = new Image();
-                        pre.src = d.fotos[0].src;
-                    })
-                    .catch(() => {});
-            });
-        }, { rootMargin: '400px' });
-        preloadIO.observe(target);
-    })();
-</script>

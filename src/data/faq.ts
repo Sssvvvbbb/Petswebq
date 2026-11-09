@@ -3,14 +3,15 @@
 // JSON-LD FAQPage del <head>, así que siempre coinciden.
 //
 // - id: valor de data-group/data-cat (el filtro de categorías usa el mismo).
+// - icono: id del ícono en faq/Iconos.astro (i-drop, i-shield, i-van, i-urn).
 // - respuesta: HTML. Puede llevar <p>, <strong>, <ul>/<li> y la etiqueta de
 //   color <span class="faq-tag">…</span>, que no se copia al JSON-LD.
 export interface Pregunta { pregunta: string; respuesta: string }
-export interface GrupoFaq { id: string; icono: string; titulo: string; estilo?: string; preguntas: Pregunta[] }
+export interface GrupoFaq { id: string; icono: string; titulo: string; preguntas: Pregunta[] }
 
 export const GRUPOS_FAQ: GrupoFaq[] = [
   {
-    id: "proceso", icono: "🌊", titulo: "El Proceso de Cremación",
+    id: "proceso", icono: "i-drop", titulo: "El Proceso de Cremación",
     preguntas: [
       {
         pregunta: "¿Qué es la cremación ecológica o con agua?",
@@ -43,8 +44,7 @@ export const GRUPOS_FAQ: GrupoFaq[] = [
     ],
   },
   {
-    id: "garantias", icono: "✅", titulo: "Garantías e Identidad",
-    estilo: "padding-top:0",
+    id: "garantias", icono: "i-shield", titulo: "Garantías e Identidad",
     preguntas: [
       {
         pregunta: "¿La cremación es siempre individual?",
@@ -65,7 +65,7 @@ export const GRUPOS_FAQ: GrupoFaq[] = [
     ],
   },
   {
-    id: "servicio", icono: "🚐", titulo: "Servicio y Logística",
+    id: "servicio", icono: "i-van", titulo: "Servicio y Logística",
     preguntas: [
       {
         pregunta: "¿Hacen retiro de mascotitas desde Domicilio o Clínicas Veterinarias?",
@@ -86,7 +86,7 @@ export const GRUPOS_FAQ: GrupoFaq[] = [
     ],
   },
   {
-    id: "Ánforas", icono: "🏺", titulo: "Ánforas y Relicarios",
+    id: "Ánforas", icono: "i-urn", titulo: "Ánforas y Relicarios",
     preguntas: [
       {
         pregunta: "¿Qué tipos de ánforas ofrecen?",
