@@ -397,7 +397,7 @@ async function escenarios(browser, lista) {
       // Diapositiva activa de la portada de la home, de testimonios y de las reseñas
       [...document.querySelectorAll('.hero-inner > .hs')].findIndex(d => d.classList.contains('active')),
       [...document.querySelectorAll('#testiSlidesContainer .testi-slide')].findIndex(d => d.classList.contains('active')),
-      document.querySelector('#gMain .g-card')?.dataset.i ?? '',
+      document.querySelector('#gMain .g-card:not([hidden])')?.dataset.i ?? '',
       document.getElementById('igcTrack')?.style.transform ?? '',
     ].join('|'));
     const antes = await estado();

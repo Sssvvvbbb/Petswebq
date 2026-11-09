@@ -5,37 +5,64 @@
 import Onda from './Onda.astro';
 import { waFijo } from '../../data/sitio';
 const MSG_HABLAR = 'Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios';
+// Corazones de la portada (laboratorio, 2026-11-09). Celular (.hc-*): dos corazones
+// blancos dibujados con pincel seco; después el chico se transforma en una patita.
+// Computador (.hcd-*): un corazón chico dibujado y una patita que aparece con rebote. La
+// animación es solo CSS (home.css, .hero-corazones); pathLength="1" permite animar el
+// trazo sin medirlo. Pasadas del pincel: [ancho, opacidad, dx, dy] en unidades del viewBox.
+const CORAZON = 'M101 58 C94 34 64 22 44 38 C20 57 26 92 52 120 C68 137 88 151 100 170 C111 151 131 137 148 120 C176 92 182 56 158 38 C138 23 108 30 98 66';
+const PASADAS_GRANDE = [[12.75,0.95,0,0],[3.3,0.9,6.3,-4.5],[2.7,0.8,-6.75,4.8],[1.8,0.7,3,7.5]];
+const PASADAS_PC = [[23.65,0.95,0,0],[6.12,0.9,11.68,-8.35],[5.01,0.8,-12.52,8.9],[3.34,0.7,5.56,13.91]];
+const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21,12.24],[4.59,0.7,7.65,19.13]];
 ---
 <header class="hero pg hw" id="inicio" aria-label="Bienvenida PetsAlCielo">
 <picture><source media="(max-width:899px)" srcset="/Assets/imagen_hero_crematorio_puertomontt_llanquihue-800.webp 800w, /Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp 1672w" sizes="100vw"><img class="hero-photo" src="/Assets/cremacion_en_puerto_montt_petsalcielo_header.webp" alt="" width="1672" height="941" loading="eager" fetchpriority="high"></picture>
 <div class="hero-glow"></div>
+<div class="hero-bajo-nav"></div>
+<div class="hero-corazones" aria-hidden="true">
+<svg class="hc hc-grande" viewBox="0 0 200 190"><defs><filter id="pincel-portada" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="ruido"/><feDisplacementMap in="SourceGraphic" in2="ruido" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter></defs><g filter="url(#pincel-portada)">{PASADAS_GRANDE.map(([w, o, dx, dy]) => <path class="trazo" d={CORAZON} pathLength="1" transform={`translate(${dx} ${dy})`} stroke-width={w} opacity={o}/>)}</g></svg>
+<svg class="hc hc-chico" viewBox="0 0 200 190"><g class="grupo"><g filter="url(#pincel-portada)">{PASADAS_CHICO.map(([w, o, dx, dy]) => <path class="trazo" d={CORAZON} pathLength="1" transform={`translate(${dx} ${dy})`} stroke-width={w} opacity={o}/>)}</g></g></svg>
+<svg class="hc hc-pata" viewBox="20 30 160 160"><path class="pieza" d="M100 98C126 98 150 122 156 146C162 170 146 184 128 182C116 181 108 176 100 176C92 176 84 181 72 182C54 184 38 170 44 146C50 122 74 98 100 98Z"/><g transform="rotate(-28 50 94)"><ellipse class="pieza" cx="50" cy="94" rx="15" ry="20"/></g><g transform="rotate(-10 80 58)"><ellipse class="pieza" cx="80" cy="58" rx="16" ry="22"/></g><g transform="rotate(10 120 58)"><ellipse class="pieza" cx="120" cy="58" rx="16" ry="22"/></g><g transform="rotate(28 150 94)"><ellipse class="pieza" cx="150" cy="94" rx="15" ry="20"/></g></svg>
+<svg class="hc hcd-chico" viewBox="0 0 200 190"><defs><filter id="pincel-portada-pc" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="ruido"/><feDisplacementMap in="SourceGraphic" in2="ruido" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter></defs><g filter="url(#pincel-portada-pc)">{PASADAS_PC.map(([w, o, dx, dy]) => <path class="trazo" d={CORAZON} pathLength="1" transform={`translate(${dx} ${dy})`} stroke-width={w} opacity={o}/>)}</g></svg>
+<svg class="hc hcd-pata" viewBox="20 30 160 160"><path class="pieza" d="M100 98C126 98 150 122 156 146C162 170 146 184 128 182C116 181 108 176 100 176C92 176 84 181 72 182C54 184 38 170 44 146C50 122 74 98 100 98Z"/><g transform="rotate(-28 50 94)"><ellipse class="pieza" cx="50" cy="94" rx="15" ry="20"/></g><g transform="rotate(-10 80 58)"><ellipse class="pieza" cx="80" cy="58" rx="16" ry="22"/></g><g transform="rotate(10 120 58)"><ellipse class="pieza" cx="120" cy="58" rx="16" ry="22"/></g><g transform="rotate(28 150 94)"><ellipse class="pieza" cx="150" cy="94" rx="15" ry="20"/></g></svg>
+</div>
+<svg class="hero-olas" viewBox="0 0 1440 245" preserveAspectRatio="none" aria-hidden="true"><defs><filter id="olas-brillo" x="-10%" y="-80%" width="120%" height="260%"><feGaussianBlur stdDeviation="9"/></filter></defs><path d="M250 245C380 222 520 142 650 106C730 86 800 76 860 76C1010 74 1130 118 1300 172L1440 196V245Z" fill="#fcdbe8" opacity=".55"/><path d="M900 80C1010 80 1110 116 1250 160" fill="none" stroke="#fff" stroke-width="14" opacity=".5" filter="url(#olas-brillo)"/><path d="M0 52C120 44 240 66 350 112C430 146 480 164 560 178C700 202 840 218 1020 245H0Z" fill="#e8b8e0" opacity=".5"/><path d="M0 100C90 136 200 176 330 184C450 192 570 210 680 245H0Z" fill="#e4b2de" opacity=".45"/><path d="M380 245C540 214 800 200 960 162C1060 140 1160 148 1310 184L1440 206V245Z" fill="#f9c6df" opacity=".65"/></svg>
 <div class="hero-inner">
 {[0, 1, 2].map(n => (
-<div class={n === 0 ? 'hs active' : 'hs'} role="tabpanel" aria-label={`Diapositiva ${n + 1}`}>
-{n === 0 && <Fragment><h1>Un adiós digno<br>para quienes<br><em>amamos.</em></h1>
+<div class={n === 0 ? 'hs active' : 'hs'} role="group" aria-roledescription="diapositiva" aria-label={`${n + 1} de 3`}>
+{n === 0 && <Fragment><h1>Un adiós digno<br>para quienes<br><em>amamos</em></h1>
 <i class="bar"></i>
 <p class="sub">Cremación individual SIEMPRE.<br>Respeto y dignidad en cada paso.</p>
-<div class="hs-btns"><a href="/preguntas-frecuentes" class="btn btn-primary">Preguntas frecuentes ›</a><a href={waFijo(MSG_HABLAR)} data-wa={MSG_HABLAR} class="btn btn-ghost">Hablar por WhatsApp</a></div></Fragment>}
-{n === 1 && <Fragment><h2>Cremación ecológica<br>por <em>agua</em>, sin fuego,<br>sin humo.</h2>
+<div class="hs-btns"><a href="/preguntas-frecuentes" class="btn btn-primary">Preguntas Frecuentes ›</a><a href={waFijo(MSG_HABLAR)} data-wa={MSG_HABLAR} class="btn btn-ghost">Hablar por WhatsApp</a></div></Fragment>}
+{n === 1 && <Fragment><h2>Cremación ecológica<br>por <em>agua</em>, sin fuego,<br>sin humo</h2>
 <i class="bar"></i>
 <p class="sub">El proceso más respetuoso<br>con el medio ambiente.</p>
 <div class="hs-btns"><button type="button" class="btn btn-primary" data-open="video">Conocer el proceso</button><a href="#nosotros" class="btn btn-ghost">Sobre Nosotros</a></div></Fragment>}
-{n === 2 && <Fragment><h2>Su compañero<br>de vida, <em>siempre</em><br>en su corazón.</h2>
+{n === 2 && <Fragment><h2>Su compañero<br>de vida, <em>siempre</em><br>en su corazón</h2>
 <i class="bar"></i>
 <p class="sub">Una despedida digna, individual<br>y respetuosa con el planeta.</p>
 <a href="#servicios" class="btn btn-primary">Conocer nuestros servicios ›</a></Fragment>}
-<div class="hero-dots" role="tablist" aria-label="Controles del carrusel">{[0, 1, 2].map(i => <button type="button" class={i === n ? 'dot active' : 'dot'} aria-label={`Diapositiva ${i + 1}`} role="tab" aria-selected={i === n ? 'true' : 'false'}></button>)}</div>
 </div>
 ))}
 </div>
-<Onda forma="a" capas={[['#e6ddf3', .6], ['#e8def4', .75], ['#e2f0e8', 1], ['#e4f2e9', 1]]} />
+<Onda forma="a" clase="wv-pc" capas={[['#f9cfe0', .55], ['#f5dfe9', .8], ['#eaeee9', 1], ['#e4f2e9', 1]]} />
+<Onda forma="p" clase="wv-movil" capas={[['#9ccdb0', 1], ['#b3dcc2', 1], ['#c4e4cf', 1], ['#e4f2e9', 1]]} />
 </header>
 
 <script>
-    // Carrusel de la portada: avanza cada 6,5 s, salvo con movimiento reducido o con la pestaña oculta.
+    // Carrusel de la portada (sin puntos): avanza cada 4 s, salvo con movimiento
+    // reducido o con la pestaña oculta, y se detiene con el mouse o el foco sobre un botón.
+    // Un clic o toque en la parte lila (fuera de los botones) pasa a la siguiente.
+    // En celular, la primera diapositiva espera a que terminen los corazones (unos 6,5 s)
+    // y los corazones se desvanecen mientras se ve la diapositiva 2, cuyo título los tapa.
     const diapositivas = document.querySelectorAll<HTMLElement>('.hero-inner > .hs');
-    const grupos = document.querySelectorAll<HTMLElement>('.hero-dots');
+    const zona = document.querySelector<HTMLElement>('.hero-inner');
+    const portada = document.getElementById('inicio');
+    const foto = document.querySelector<HTMLElement>('.hero-photo');
     const quieto = matchMedia('(prefers-reduced-motion: reduce)');
+    const corazones = document.querySelector<HTMLElement>('.hero-corazones');
+    const celular = matchMedia('(max-width: 639px)');
+    let primeraEspera = corazones && celular.matches && !quieto.matches ? 7300 : 0;
     let actual = 0;
     let temporizador: number | undefined;
 
@@ -43,17 +70,50 @@ const MSG_HABLAR = 'Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios';
         diapositivas[actual].classList.remove('active');
         actual = (n + diapositivas.length) % diapositivas.length;
         diapositivas[actual].classList.add('active');
-        grupos.forEach(g => Array.from(g.children).forEach((p, i) => {
-            p.classList.toggle('active', i === actual);
-            p.setAttribute('aria-selected', String(i === actual));
-        }));
+        corazones?.classList.toggle('oculto', actual === 1 && celular.matches);
     }
     function avanzar() {
         clearInterval(temporizador);
+        clearTimeout(temporizador);
         if (quieto.matches || document.hidden) return;
-        temporizador = window.setInterval(() => mostrar(actual + 1), 6500);
+        if (primeraEspera) {
+            temporizador = window.setTimeout(() => { mostrar(actual + 1); avanzar(); }, primeraEspera);
+            primeraEspera = 0;
+            return;
+        }
+        temporizador = window.setInterval(() => mostrar(actual + 1), 4000);
     }
-    grupos.forEach(g => Array.from(g.children).forEach((p, i) => p.addEventListener('click', () => { mostrar(i); avanzar(); })));
+    zona?.querySelectorAll('.btn').forEach(b => {
+        b.addEventListener('mouseenter', () => clearInterval(temporizador));
+        b.addEventListener('mouseleave', avanzar);
+    });
+    zona?.addEventListener('focusin', () => clearInterval(temporizador));
+    zona?.addEventListener('focusout', avanzar);
+    // Parte lila: en computador, tablet o ventana apaisada, el 40 % izquierdo; en celular,
+    // lo que está sobre el cielo de la foto (la foto aparece de a poco en su primer 20 %).
+    function enLila(e: MouseEvent) {
+        if (!portada || !foto) return false;
+        if (matchMedia('(min-width: 900px), (min-width: 640px) and (orientation: landscape)').matches) return e.clientX < portada.clientWidth * 0.4;
+        const f = foto.getBoundingClientRect();
+        return e.clientY < f.top + f.height * 0.2;
+    }
+    portada?.addEventListener('click', e => {
+        if ((e.target as Element).closest('a, button') || !enLila(e)) return;
+        mostrar(actual + 1);
+        avanzar();
+    });
     document.addEventListener('visibilitychange', avanzar);
     avanzar();
+
+    // Celular y tablet: la foto no sube sobre el texto. Deja en --fin-texto dónde termina
+    // la diapositiva más alta; el CSS (home.css) lo usa como tope de la foto.
+    function medir() {
+        if (!portada) return;
+        const arriba = portada.getBoundingClientRect().top;
+        const fin = Math.max(...Array.from(diapositivas, d => d.getBoundingClientRect().bottom));
+        portada.style.setProperty('--fin-texto', Math.ceil(fin - arriba) + 'px');
+    }
+    medir();
+    addEventListener('resize', medir);
+    document.fonts?.ready.then(medir);
 </script>

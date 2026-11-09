@@ -1,6 +1,6 @@
 // Reseñas de Google de /testimonios (componente testimonios/ResenasGoogle).
 // Son citas textuales de clientes: no corregirles la redacción. El texto es HTML
-// (puede llevar <br>). fotos: 0 a 3; la primera reseña se muestra destacada al cargar.
+// (puede llevar <br>). fotos: 0 a 4; a la izquierda solo van las que tienen fotos (la primera de ellas, al cargar).
 export interface FotoResena { src: string; srcset?: string; sizes?: string; alt: string }
 export interface Resena { nombre: string; texto: string; fotos: FotoResena[] }
 
@@ -66,6 +66,28 @@ export const RESENAS: Resena[] = [
       {
         "src": "/Assets/pagina-web-testimonios/reviews/arturo-rivero-1.webp",
         "alt": "Ánforas y recuerdos de sus mascotas en un estante, foto compartida por Arturo Rivero"
+      }
+    ]
+  },
+  {
+    "nombre": "Gloria Coronado Ramirez",
+    "texto": "Gracias de corazón por la delicadeza, el respeto y el amor con el que trataron a mi gatita Leonor.<br> Agradecer a Susana y Pedro por la la hermosa atención y cada detalle en la despedida de mi fiel compañera.<br> Su respeto por nuestro dolor demuestran que entienden el amor tan grande que se les tiene a una mascota.<br> Gracias por ayudarme a cerrar este ciclo con paz.<br> Trataron a mi gatita,como parte de su familia.<br> Excelente servicio en Puerto montt.",
+    "fotos": [
+      {
+        "src": "/Assets/pagina-web-testimonios/reviews/gloria-coronado-1.webp",
+        "alt": "Retrato de Leonor con alas de ángel sobre las nubes, foto compartida por Gloria Coronado Ramirez"
+      },
+      {
+        "src": "/Assets/pagina-web-testimonios/reviews/gloria-coronado-2.webp",
+        "alt": "Ánfora, cuadro con las huellas y certificado de eco-incineración de Leonor, foto compartida por Gloria Coronado Ramirez"
+      },
+      {
+        "src": "/Assets/pagina-web-testimonios/reviews/gloria-coronado-3.webp",
+        "alt": "Leonor sentada sobre un escritorio, foto compartida por Gloria Coronado Ramirez"
+      },
+      {
+        "src": "/Assets/pagina-web-testimonios/reviews/gloria-coronado-4.webp",
+        "alt": "Leonor echada dentro de una caja, foto compartida por Gloria Coronado Ramirez"
       }
     ]
   }

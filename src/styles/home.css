@@ -42,7 +42,7 @@ a{color:inherit}
 .hero .leaves-tr{position:absolute;top:calc(var(--bar) + var(--navh) - 10px);right:-10px;width:clamp(110px,30vw,280px);z-index:2;pointer-events:none}
 .hero .lav-bl{position:absolute;left:-6px;bottom:0;width:clamp(110px,34vw,320px);z-index:2;pointer-events:none}
 .hero .lav-br{position:absolute;right:-8px;bottom:0;width:clamp(60px,16vw,200px);z-index:2;pointer-events:none;opacity:.9}
-@media(min-width:900px){
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){
  .hero{min-height:clamp(640px,92vh,860px)}
  .hero-photo{width:100%;height:100%;object-position:68% 60%;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 40%);mask-image:linear-gradient(90deg,transparent 0,#000 40%)}
  .hero-inner{padding-left:max(2.4rem,calc((100vw - 1180px)/2 + 1rem));padding-bottom:9rem;max-width:none}
@@ -168,6 +168,7 @@ a{color:inherit}
 .section,.video-section{overflow-x:clip}
 .hero{overflow:hidden}
 @media(min-width:900px){.hero .lav-bl{width:130px;left:-24px}.eco .leaf-l{top:clamp(14rem,20vw,22rem)}}
+@media(min-width:900px) and (max-width:1049px){.eco .leaf-l{width:20vw}}
 
 /* ── cada sección = una pantalla; la onda vive DEBAJO del pliegue (solo se ve al hacer scroll) ── */
 .pg{--wh:0px;position:relative;min-height:calc(100vh + var(--wh));min-height:calc(100svh + var(--wh));padding-top:calc(var(--bar) + var(--navh) + .8rem)!important;padding-bottom:calc(var(--wh) + 1.6rem)!important;display:flex;flex-direction:column;justify-content:center;align-items:stretch}
@@ -184,25 +185,27 @@ a{color:inherit}
 .lazo svg.scene{height:calc(100% - var(--wh)*.0)}
 .confianza.pg{justify-content:center}
 @media(min-width:761px){.confianza .cf-wrap{padding-top:clamp(2rem,4vw,3rem);padding-bottom:clamp(2rem,4vw,3rem)}}
-@media(min-width:900px){
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){
  .hero-photo{top:0;height:auto;bottom:calc(var(--wh)*.55);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 38%),linear-gradient(180deg,#000 82%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 38%),linear-gradient(180deg,#000 82%,transparent 100%);mask-composite:intersect}
  .hero.pg .hero-inner{padding-top:calc(var(--bar) + var(--navh) + clamp(3rem,10vh,6rem));padding-bottom:calc(var(--wh) + 2rem)}
  .hero .lav-bl{width:130px;left:-24px}
 }
-@media(max-width:899px){.hero.pg{min-height:calc(100svh + var(--wh))}.hero.pg .hero-inner{padding-bottom:12rem}}
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero.pg{min-height:calc(100svh + var(--wh))}.hero.pg .hero-inner{padding-bottom:12rem}}
 
 .eco.pg,.proceso.pg,.lazo.pg{align-items:center}
 .proceso.pg .steps{width:100%}
 .hero-photo{bottom:calc(var(--wh)*.22)!important}
-@media(min-width:900px){.hero-photo{bottom:calc(var(--wh)*.22)!important;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 38%),linear-gradient(180deg,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 38%),linear-gradient(180deg,#000 88%,transparent 100%)}}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-photo{bottom:calc(var(--wh)*.22)!important;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 38%),linear-gradient(180deg,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 38%),linear-gradient(180deg,#000 88%,transparent 100%)}}
 
 .confianza>.wv{position:absolute}
 
 @media(max-width:899px){
- .hero-photo{bottom:calc(var(--wh)*.92)!important;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 94%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 94%,transparent 100%)}
- .eco .leaf-l{top:auto;bottom:calc(var(--wh)*.9 + 1rem)}
- .eco .leaf-r{top:auto;bottom:calc(var(--wh)*.9 + 5rem)}
+ /* Celular: las ramas van en un espacio propio bajo el texto (padding-bottom), nunca encima. */
+ .eco.pg{--hoja:clamp(92px,25vw,170px);padding-bottom:calc(var(--wh)*.9 + 2.8rem + var(--hoja)*1.05)!important}
+ .eco .leaf-l{top:auto;width:var(--hoja);bottom:calc(var(--wh)*.9 + 1rem)}
+ .eco .leaf-r{top:auto;width:calc(var(--hoja)*.95);bottom:calc(var(--wh)*.9 + 2rem)}
 }
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero-photo{bottom:calc(var(--wh)*.92)!important;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 94%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 94%,transparent 100%)}}
 
 /* ── final: contacto en el cielo, montañas y lago como fondo del pie ── */
 .ridge{position:relative;height:clamp(130px,19vw,280px);background:#f3e3ee;margin-top:-1px}
@@ -240,7 +243,7 @@ body{background:#fcf9f2}
 @media(max-width:760px){.confianza{background:var(--confb) center calc(100% - var(--wh)*.3)/100% auto no-repeat,var(--confa) top center/100% auto no-repeat,#fcf9f2}}
 
 .hero .proof{margin-top:1.2rem;max-width:30rem;font-size:clamp(.78rem,2.9vw,.98rem);line-height:1.55;color:#3d4468}
-@media(min-width:900px){
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){
  .hero.pg .hero-inner{padding-left:max(1.4rem,calc((100vw - 1360px)/2 + 1.4rem))}
 }
 
@@ -262,13 +265,9 @@ body{background:#fcf9f2}
 .hero-inner>.hs.active{opacity:1;visibility:visible;transform:none;transition:opacity .7s ease,transform .7s ease}
 .hero h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.95rem,7.4vw,3.9rem);line-height:1.12;color:var(--navy)}
 .hero h2 em{font-style:italic;color:#9a78d6;font-weight:500}
-@media(min-width:900px){.hero h2{font-size:clamp(3.1rem,4.6vw,4.5rem)}}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero h2{font-size:clamp(3.1rem,4.6vw,4.5rem)}}
 .hs-btns{display:flex;gap:.7rem;flex-wrap:wrap}
 .hero button.btn{border:0;cursor:pointer}
-.hero-dots{position:absolute;z-index:4;left:0;right:0;bottom:calc(var(--wh) + 1.1rem);display:flex;justify-content:center;gap:.55rem}
-.hero-dots .dot{width:9px;height:9px;border-radius:50%;border:0;padding:0;background:rgba(35,42,77,.25);cursor:pointer;transition:all .3s}
-.hero-dots .dot.active{background:#8f6fcf;width:26px;border-radius:6px}
-.hero-dots .dot:focus-visible{outline:2px solid #1f6f5a;outline-offset:3px}
 
 /* ===== eco: círculos = botones ===== */
 .eco-icons button.eci{background:none;border:0;font:inherit;color:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.55rem;border-radius:18px;padding:.2rem .3rem;line-height:1.25;text-align:center}
@@ -319,7 +318,7 @@ button.btn-eco{border:0;cursor:pointer;color:#fff;font-family:inherit}
 /* ===== escritorio: el texto escala con el ancho (como el zoom táctil del móvil) =====
    Las medidas están calibradas a 1440px: al 80% o 125% de zoom del navegador
    el texto se ve más pequeño/grande pero NO cambia dónde corta las líneas. */
-@media(min-width:900px){
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){
  .hero.pg .hero-inner{padding-left:calc(100vw*.0486);padding-top:calc(var(--bar) + var(--navh) + 100vw*.05)}
  .hero-inner>.hs{max-width:calc(100vw*.4)}
  .hero h1,.hero h2{font-size:calc(100vw*.046)!important}
@@ -329,10 +328,8 @@ button.btn-eco{border:0;cursor:pointer;color:#fff;font-family:inherit}
  .hero .proof{font-size:calc(100vw*.0109);max-width:calc(100vw*.3);margin-top:calc(100vw*.0125)}
  .hs-btns{gap:calc(100vw*.0075)}
 }
-/* flor del hero eliminada; puntos del carrusel bajo los botones */
+/* flor del hero eliminada */
 .hero .lav-bl,.hero .lav-br{display:none!important}
-.hero-dots{position:static!important;justify-content:flex-start!important;margin-top:1.1rem;bottom:auto}
-@media(min-width:900px){.hero-dots{margin-top:calc(100vw*.014)}}
 /* hero → Eco: corte marcado (dos secciones distintas) */
 /* botones sin sombra */
 .btn,.btn-primary,.btn-eco,.nav-cta,.cf-btn,.ig-btn,button.btn,.hero .btn{box-shadow:none!important}
@@ -342,26 +339,24 @@ button.btn-eco{border:0;cursor:pointer;color:#fff;font-family:inherit}
 .hero-inner{align-items:start}
 .hero-inner>.hs,.hero-inner>.hs.active{align-self:start;transform:none!important}
 .hero-inner>.hs h1,.hero-inner>.hs h2{margin-top:0}
-@media(min-width:900px){.hero.pg .hero-inner{padding-top:calc(var(--bar) + var(--navh) + 100vw*.04)}}
-@media(max-width:899px){.hero.pg .hero-inner{padding-top:calc(var(--bar) + var(--navh) + 26px)}}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero.pg .hero-inner{padding-top:calc(var(--bar) + var(--navh) + 100vw*.04)}}
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero.pg .hero-inner{padding-top:calc(var(--bar) + var(--navh) + 26px)}}
 /* hero: altura de inicio según la referencia (título pegado bajo el nav) */
-@media(min-width:900px){.hero.pg .hero-inner{padding-top:calc(var(--bar) + var(--navh) + 100vw*.011)}}
-@media(max-width:899px){.hero.pg .hero-inner{padding-top:calc(var(--bar) + var(--navh) + 10px)}}
-@media(min-width:900px){.hero.pg .hero-inner{padding-top:calc(var(--bar) + var(--navh) + 100vw*.016)}}
-/* puntos del carrusel: siempre en la misma posición (la de la diapositiva más alta) */
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero.pg .hero-inner{padding-top:calc(var(--bar) + var(--navh) + 100vw*.011)}}
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero.pg .hero-inner{padding-top:calc(var(--bar) + var(--navh) + 10px)}}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero.pg .hero-inner{padding-top:calc(var(--bar) + var(--navh) + 100vw*.016)}}
+/* diapositivas en columna, alineadas a la izquierda */
 .hero-inner>.hs,.hero-inner>.hs.active{align-self:stretch!important;display:flex;flex-direction:column;align-items:flex-start}
-.hero-inner>.hs .hero-dots{margin-top:auto!important;padding-top:1.1rem}
-@media(min-width:900px){.hero-inner>.hs .hero-dots{padding-top:calc(100vw*.014)}}
 .hero-inner>.hs .hs-btns{align-self:flex-start}
 /* diapositivas 1 y 2 (escritorio): espaciado título → raya → texto → botones según la referencia */
-@media(min-width:900px){
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){
  .hero-inner>.hs:nth-child(-n+2) .bar{margin:calc(100vw*.0148) 0 calc(100vw*.0209)}
  .hero-inner>.hs:nth-child(-n+2) p.sub{margin-bottom:calc(100vw*.0284)}
 }
 /* móvil: sin la iluminación blanca sobre la foto del hero */
-@media(max-width:899px){.hero-glow{display:none!important}}
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero-glow{display:none!important}}
 /* móvil y tablet (hasta 1100px): sin el difuminado claro a la izquierda de la foto */
-@media(max-width:899px){
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){
  .hero-glow{display:none!important}
  .hero-photo{-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 94%,transparent 100%)!important;mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 94%,transparent 100%)!important;-webkit-mask-composite:source-over!important;mask-composite:add!important}
 }
@@ -370,22 +365,22 @@ button.btn-eco{border:0;cursor:pointer;color:#fff;font-family:inherit}
 .btn,.btn-ghost,.btn-primary,.btn-eco,.nav-cta,.cf-btn,.igc-a{opacity:1!important}
 .btn-ghost{background:#fff!important}
 /* móvil: el borde superior de la foto se funde en un velo claro (nubes → fondo lila) */
-@media(max-width:899px){
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){
  .hero-glow{display:block!important;inset:auto 0 calc(var(--wh)*.92) 0!important;height:46%!important;z-index:1;
   background:linear-gradient(180deg,rgba(244,238,226,0) 0,rgba(244,238,226,.7) 14%,rgba(244,238,226,.88) 28%,rgba(244,238,226,.6) 46%,rgba(244,238,226,.22) 62%,rgba(244,238,226,0) 76%)!important}
 }
 /* móvil: foto sin velo superior (solo un fundido breve en las nubes) y fondo beige-morado-mora */
-@media(max-width:899px){
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){
  .hero-glow{display:none!important}
  .hero{background:linear-gradient(180deg,#f2e4e4 0%,#ecdde6 38%,#e4d3e4 70%,#dccbe1 100%)!important}
  .hero-photo{-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0,rgba(0,0,0,.12) 6%,rgba(0,0,0,.4) 13%,rgba(0,0,0,.72) 20%,rgba(0,0,0,.92) 26%,#000 32%,#000 94%,rgba(0,0,0,0) 100%)!important;mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0,rgba(0,0,0,.12) 6%,rgba(0,0,0,.4) 13%,rgba(0,0,0,.72) 20%,rgba(0,0,0,.92) 26%,#000 32%,#000 94%,rgba(0,0,0,0) 100%)!important}
 }
 /* botones del hero 20% más pequeños */
 .hero .btn{font-size:.72rem!important;padding:.68rem 1.44rem!important}
-@media(min-width:900px){.hero .btn{font-size:calc(100vw*.00784)!important;padding:calc(100vw*.0076) calc(100vw*.0156)!important}}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero .btn{font-size:calc(100vw*.00784)!important;padding:calc(100vw*.0076) calc(100vw*.0156)!important}}
 /* diapositiva 1: botones 10% más pequeños */
 .hero-inner>.hs:nth-child(1) .btn{font-size:.648rem!important;padding:.612rem 1.296rem!important}
-@media(min-width:900px){.hero-inner>.hs:nth-child(1) .btn{font-size:calc(100vw*.007056)!important;padding:calc(100vw*.00684) calc(100vw*.01404)!important}}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-inner>.hs:nth-child(1) .btn{font-size:calc(100vw*.007056)!important;padding:calc(100vw*.00684) calc(100vw*.01404)!important}}
 .glb-head{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
 .glb-ic{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#dff0e8}
 .glb-ic svg{width:28px;height:28px}
@@ -397,7 +392,7 @@ button.btn-eco{border:0;cursor:pointer;color:#fff;font-family:inherit}
 .glb-h .glb-ic svg[viewBox="0 0 36 32"]{width:34px;height:30px}
 /* frase del 95%: dentro de un bloque blanco */
 .hero .proof{background:#fff;border-radius:18px;padding:.9rem 1.1rem;border:1px solid rgba(168,150,210,.28);color:#3d4468;display:block;width:fit-content}
-@media(min-width:900px){.hero .proof{border-radius:calc(100vw*.0125);padding:calc(100vw*.0083) calc(100vw*.0125)}}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero .proof{border-radius:calc(100vw*.0125);padding:calc(100vw*.0083) calc(100vw*.0125)}}
 .hero .proof{display:none!important}
 /* bloque contacto +15% */
 .eci svg[viewBox="0 0 24 24"] ellipse{vector-effect:non-scaling-stroke}
@@ -419,3 +414,139 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
 .glass-card:hover{box-shadow:0 0 0 1px rgba(214,200,236,.9),0 20px 50px rgba(255,255,255,1)!important}
 /* las 3 diapositivas de la portada, como bloque, 20 px más abajo */
 .hero-inner>.hs{position:relative;top:20px}
+
+/* Portada con panel rosa-lila (2026-11-09): degradé lila → rosa a la izquierda (computador) o
+   arriba (celular), que se funde con la foto; textos, raya y puntos en blanco. */
+/* --velo-salmon: la parte de arriba del panel, algo más clara y hacia el salmón (se
+   desvanece hacia el 40 % de la altura de la primera pantalla) para que no se vea más
+   oscura que el resto. */
+.hero{--velo-salmon:linear-gradient(180deg,rgba(252,200,196,.12) 0,rgba(252,200,196,0) 30vh)}
+/* lado izquierdo del panel: 10 % más hacia salmón (#fa8072) que el lila original #e4add8 */
+.hero{--rosa-lila:linear-gradient(90deg,#f1bbd1 0%,#f4bfd3 18%,#f7c3d5 32%,#f9c6d6 42%);--cielo:#c2bad6}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-glow{background:var(--velo-salmon),radial-gradient(ellipse 34% 46% at 0% 100%,rgba(218,160,211,.12),rgba(218,160,211,0) 70%),var(--rosa-lila);-webkit-mask-image:linear-gradient(90deg,#000 0,#000 31%,rgba(0,0,0,.85) 36%,transparent 47%);mask-image:linear-gradient(90deg,#000 0,#000 31%,rgba(0,0,0,.85) 36%,transparent 47%)}}
+/* Celular: fondo lila y, detrás del borde superior de la foto (misma caja), un
+   degradé del lila al color del cielo; la foto aparece de a poco (curva suave) sobre
+   ese degradé, así el lila pasa al cielo sin corte. */
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){
+ .hero{background:var(--velo-salmon),linear-gradient(100deg,#f1bbd1 0%,#f5c0d4 55%,#f9c6d6 100%)!important}
+ .hero::before{content:"";position:absolute;left:0;right:0;bottom:calc(var(--wh)*.92);height:46%;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(194,186,214,0) 0%,rgba(194,186,214,.45) 9%,rgba(194,186,214,.85) 17%,var(--cielo) 24%,var(--cielo) 100%)}
+ .hero-photo{-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0,rgba(0,0,0,.03) 4%,rgba(0,0,0,.1) 8%,rgba(0,0,0,.22) 12%,rgba(0,0,0,.38) 16%,rgba(0,0,0,.56) 20%,rgba(0,0,0,.74) 24%,rgba(0,0,0,.88) 28%,rgba(0,0,0,.97) 32%,#000 36%,#000 94%,rgba(0,0,0,0) 100%)!important;mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0,rgba(0,0,0,.03) 4%,rgba(0,0,0,.1) 8%,rgba(0,0,0,.22) 12%,rgba(0,0,0,.38) 16%,rgba(0,0,0,.56) 20%,rgba(0,0,0,.74) 24%,rgba(0,0,0,.88) 28%,rgba(0,0,0,.97) 32%,#000 36%,#000 94%,rgba(0,0,0,0) 100%)!important}
+}
+.hero h1,.hero h2,.hero h1 em,.hero h2 em{color:#fff}
+.hero p.sub{color:#fff}
+.hero .bar{background:#fff}
+.hero .btn-primary{background:#ad89dc;color:#fff}
+.hero .btn-ghost{background:#fff!important;color:#5a2d9c;font-weight:600}
+.hero .btn:focus-visible{outline-color:#fff}
+/* Celular: el contenido, más arriba. Computador: a 1 cm del borde izquierdo de la pantalla. */
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero-inner>.hs{top:-6px}}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero.pg .hero-inner{padding-left:1cm!important}}
+/* Portada sin puntos (2026-11-09): el espacio que dejaron se reparte entre título,
+   raya, texto y botones (todas las diapositivas). */
+.hero h1,.hero h2{line-height:1.16}
+.hero .bar{margin:1.2rem 0 1.1rem}
+.hero p.sub{line-height:1.6;margin-bottom:1.5rem}
+.hs-btns{gap:.75rem}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){
+ .hero-inner>.hs .bar{margin:calc(100vw*.018) 0 calc(100vw*.023)}
+ .hero-inner>.hs p.sub{line-height:1.65;margin-bottom:calc(100vw*.031)}
+ .hs-btns{gap:calc(100vw*.009)}
+}
+/* celulares angostos (desde 350 px): los dos botones caben en una fila */
+@media(max-width:419px){.hs-btns{gap:.5rem}}
+@media(max-width:389px){.hero-inner>.hs:nth-child(n) .btn{padding-left:.9rem!important;padding-right:.9rem!important}}
+@media(max-width:349px){.hs-btns{flex-wrap:nowrap;gap:.35rem}.hero-inner>.hs:nth-child(n) .btn{font-size:.6rem!important;padding:.6rem .62rem!important;white-space:nowrap}}
+/* olas suaves al pie del panel rosa-lila (computador) */
+.hero-olas{display:none}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-olas{display:block;position:absolute;z-index:1;left:0;top:calc(100svh - 52vw*245/1440);width:52vw;height:auto;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,#000 62%,transparent 97%),linear-gradient(180deg,#000 75%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,#000 62%,transparent 97%),linear-gradient(180deg,#000 75%,transparent 100%);mask-composite:intersect}}
+/* computador: bajo la foto sigue el degradé rosa-lila (antes, lavanda) hasta la onda, que pasa del rosa al verde de Eco */
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero{background:var(--velo-salmon),linear-gradient(90deg,#f1bbd1 0%,#f6c2d5 25%,#fbcbd9 55%,#fbd3dd 100%)}}
+/* Celular (2026-11-09): la foto queda donde estaba (arriba, el mismo paso al cielo) y
+   termina con el pasto justo en el borde de la primera pantalla. Debajo, una franja
+   corta (--paso) pasa del verde del pasto a la primera onda y siguen las ondas en
+   diagonal (más altas a la derecha), en mentas que se aclaran hacia el verde de Eco.
+   Al entrar no se ve ni la franja ni las ondas. En pantallas bajas (tablet o ventana
+   angosta y baja) la parte firme de la foto nunca sube sobre el texto: Portada.astro deja en
+   --fin-texto dónde termina la diapositiva más alta; solo el borde de arriba de la foto,
+   casi transparente, puede pasar por detrás. La foto mide al menos 240 px (--foto-fin). */
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){
+ .hero{--ola1:#9ccdb0;--paso:14px;--h0:calc((100svh + var(--wh))*.46);--foto-base:calc((100svh + var(--wh))*.54 - var(--wh)*.92);--foto-top:max(var(--foto-base),calc(var(--fin-texto,0px) - var(--h0)*.12 + 16px));--foto-fin:max(100svh,calc(var(--foto-top) + 240px));--onda:calc(var(--wh)*.8 + 14px)}
+ .hero.pg{min-height:calc(var(--foto-fin) + var(--paso) + var(--onda))}
+ .hero>.wv-movil{height:var(--onda)}
+ .hero{background:linear-gradient(0deg,var(--ola1) 0,var(--ola1) calc(var(--onda) + 1px),transparent calc(var(--onda) + 1px)),var(--velo-salmon),linear-gradient(100deg,#f1bbd1 0%,#f5c0d4 55%,#f9c6d6 100%)!important}
+ .hero-photo{top:var(--foto-top)!important;bottom:auto!important;height:calc(var(--foto-fin) - var(--foto-top))!important;-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0) calc(var(--h0)*0),rgba(0,0,0,0.03) calc(var(--h0)*0.04),rgba(0,0,0,0.1) calc(var(--h0)*0.08),rgba(0,0,0,0.22) calc(var(--h0)*0.12),rgba(0,0,0,0.38) calc(var(--h0)*0.16),rgba(0,0,0,0.56) calc(var(--h0)*0.2),rgba(0,0,0,0.74) calc(var(--h0)*0.24),rgba(0,0,0,0.88) calc(var(--h0)*0.28),rgba(0,0,0,0.97) calc(var(--h0)*0.32),#000 calc(var(--h0)*0.36),#000 100%)!important;mask-image:linear-gradient(180deg,rgba(0,0,0,0) calc(var(--h0)*0),rgba(0,0,0,0.03) calc(var(--h0)*0.04),rgba(0,0,0,0.1) calc(var(--h0)*0.08),rgba(0,0,0,0.22) calc(var(--h0)*0.12),rgba(0,0,0,0.38) calc(var(--h0)*0.16),rgba(0,0,0,0.56) calc(var(--h0)*0.2),rgba(0,0,0,0.74) calc(var(--h0)*0.24),rgba(0,0,0,0.88) calc(var(--h0)*0.28),rgba(0,0,0,0.97) calc(var(--h0)*0.32),#000 calc(var(--h0)*0.36),#000 100%)!important}
+ .hero::before{top:var(--foto-top);bottom:auto;height:var(--h0);background:linear-gradient(180deg,rgba(194,186,214,0) 0%,rgba(194,186,214,.45) 9%,rgba(194,186,214,.85) 17%,var(--cielo) 24%,var(--cielo) 100%)}
+ .hero::after{display:block;content:"";position:absolute;left:0;right:0;top:var(--foto-fin);height:calc(var(--paso) + 1px);bottom:auto;z-index:0;pointer-events:none;background:linear-gradient(180deg,#14240b 0%,#517055 30%,#81ab8f 60%,var(--ola1) 100%)}
+}
+/* ondas bajo la portada: una para computador y otra para celular */
+.hero>.wv-movil{display:none}
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero>.wv-pc{display:none}.hero>.wv-movil{display:block}}
+/* Computador: la foto llena siempre la primera pantalla. Con top + bottom y height:auto,
+   una <img> toma su alto de la proporción (1672×941) y no se estira: en pantallas menos
+   anchas que 16:9 la foto terminaba antes y dejaba un gran espacio rosa debajo. */
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-photo{bottom:auto!important;height:max(calc(100vw*941/1672),100vh)!important}}
+/* Celular y tablet vertical: el texto empieza bajo la barra del menú según su alto real
+   (en tablets la barra pasa a dos líneas). En tablet vertical, además, el bloque de texto
+   queda centrado en la zona lila, entre la barra y el comienzo de la foto. */
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero.pg .hero-inner{padding-top:calc(max(var(--bar) + var(--navh),var(--fixed-bars-h,0px)) + 10px)}}
+@media(min-width:640px) and (max-width:899px) and (orientation:portrait){.hero.pg .hero-inner{min-height:calc(var(--foto-base) + var(--h0)*.1);padding-bottom:0!important;align-content:center}}
+/* Borde superior de la portada: 13 px que pasan de un rosa salmón muy claro (#fadee8) al
+   rosado, en curva suave. Así el borde de la barra blanca se ve recto y limpio, sin la
+   línea oscura que el ojo ve en un cambio brusco (bandas de Mach). */
+.hero-bajo-nav{position:absolute;left:0;right:0;top:var(--fixed-bars-h,90px);height:13px;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(250,222,232,1) 0%,rgba(250,222,232,0.86) 11%,rgba(250,222,232,0.7) 22%,rgba(250,222,232,0.54) 33%,rgba(250,222,232,0.4) 44%,rgba(250,222,232,0.28) 56%,rgba(250,222,232,0.18) 67%,rgba(250,222,232,0.1) 78%,rgba(250,222,232,0.04) 89%,rgba(250,222,232,0) 100%)}
+/* Corazones de la portada (solo celular, laboratorio 2026-11-09). Posiciones medidas en
+   una pantalla de 390 × 844: centro a un % del ancho y a px fijos desde arriba (el título
+   también va a px fijos). En celulares más angostos que 390 px se achican con el ancho.
+   Secuencia: espera 0,4 s → corazón grande (2,2 s) → corazón chico (2,2 s) → pausa 0,5 s →
+   el chico se encoge y crece la patita con rebote (1,2 s). Con movimiento reducido se
+   muestra el estado final, sin animar. En la diapositiva 2 se desvanecen (.oculto). */
+.hero-corazones{display:none}
+.hcd-chico,.hcd-pata{display:none}
+@media(max-width:639px){
+ .hero-corazones{display:block;position:absolute;inset:0;z-index:2;pointer-events:none;transition:opacity .6s ease}
+ .hero-corazones.oculto{opacity:0}
+ .hc{position:absolute;display:block;height:auto;overflow:visible}
+ .hcd-chico,.hcd-pata{display:none}
+ .hc-grande{left:calc(79.3% + 10px);top:141.8px;width:min(120px,30.77vw);transform:translate(-50%,-50%) rotate(14deg)}
+ .hc-chico,.hc-pata{left:calc(66.3% + 10px);top:184.8px;width:min(40px,10.26vw);transform:translate(-50%,-50%) rotate(-10deg)}
+ .hc .trazo{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 2;stroke-dashoffset:1.02;animation:hc-dibujo 2.2s cubic-bezier(.55,.1,.35,1) .4s forwards}
+ .hc-chico .trazo{animation-delay:2.27s}
+ @keyframes hc-dibujo{to{stroke-dashoffset:0}}
+ .hc-chico .grupo{transform-box:fill-box;transform-origin:50% 55%;animation:hc-encoger .35s ease-in 4.97s forwards}
+ @keyframes hc-encoger{to{opacity:0;transform:scale(.25)}}
+ .hc-pata .pieza{fill:#fff;opacity:0;transform-box:fill-box;transform-origin:50% 60%;animation:hc-pop 1.2s cubic-bezier(.34,1.56,.64,1) 5.12s forwards}
+ @keyframes hc-pop{0%{opacity:0;transform:scale(.3)}100%{opacity:1;transform:scale(1)}}
+}
+/* Computador (y tablet o ventana apaisada): solo el corazón chico y la patita. Medidas
+   en una pantalla de 1624 px de ancho; como el texto de la portada, escalan con el ancho
+   (90 px = barra superior + menú). Corazón: espera 0,5 s y se dibuja en 2,2 s; patita:
+   aparece con rebote a los 0,5 s, en 0,9 s. Nada choca con las diapositivas. */
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){
+ .hero-corazones{display:block;position:absolute;inset:0;z-index:2;pointer-events:none}
+ .hc{position:absolute;display:block;height:auto;overflow:visible}
+ .hc-grande,.hc-chico,.hc-pata{display:none}
+ .hcd-chico{display:block;left:31.3vw;top:calc(90px + 24.43vw);width:3.39vw;transform:translate(-50%,-50%) rotate(7deg)}
+ .hcd-pata{display:block;left:27vw;top:calc(90px + 24.91vw);width:5.54vw;transform:translate(-50%,-50%) rotate(-17deg)}
+ .hc .trazo{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 2;stroke-dashoffset:1.02;animation:hc-dibujo 2.2s cubic-bezier(.55,.1,.35,1) .5s forwards}
+ .hcd-pata .pieza{fill:#fff;opacity:0;transform-box:fill-box;transform-origin:50% 60%;animation:hc-pop .9s cubic-bezier(.34,1.56,.64,1) .5s forwards}
+ @keyframes hc-dibujo{to{stroke-dashoffset:0}}
+ @keyframes hc-pop{0%{opacity:0;transform:scale(.3)}100%{opacity:1;transform:scale(1)}}
+}
+@media(prefers-reduced-motion:reduce){.hcd-chico .trazo{animation:none;stroke-dashoffset:0}.hcd-pata .pieza{animation:none;opacity:1}}
+@media(max-width:639px) and (prefers-reduced-motion:reduce){
+ .hc .trazo{animation:none;stroke-dashoffset:0}
+ .hc-chico{display:none}
+ .hc-pata .pieza{animation:none;opacity:1}
+}
+/* Eco en celular: más aire entre los elementos (antes se veía apretado) */
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){
+ .eco .eyebrow{margin-bottom:1.4rem}
+ .eco h2 em{margin-top:.25rem}
+ .eco p.lead{margin:1.9rem auto 2.9rem;line-height:1.75}
+ .eco-icons{margin-bottom:4rem}
+ .eco-icons li{gap:1rem}
+ .eco-nota{margin-top:2rem;line-height:1.6}
+}
+
+/* "Sobre Nosotros": morado, como el botón Contactar del menú (#9575cd) */
+.section-tag.tag-lila{color:#9575cd}

@@ -79,7 +79,7 @@ body{background:var(--bg-t)}
 .g-main{display:flex}.g-side{display:flex;flex-direction:column;gap:.9rem}
 .g-card{background:#fff;border-radius:20px;padding:1.2rem 1.3rem;border:1px solid rgba(120,160,140,.15);box-shadow:0 6px 22px rgba(80,120,100,.08);display:flex;flex-direction:column;gap:.8rem}
 .g-big{flex:1;padding:1.6rem 1.7rem}
-.g-side .g-card{flex:1;cursor:pointer;transition:transform .2s}.g-side .g-card:hover{transform:translateY(-2px)}
+.g-side .g-card{flex:1}.g-side .g-btn{cursor:pointer;transition:transform .2s}.g-side .g-btn:hover{transform:translateY(-2px)}.g-card[hidden]{display:none}
 .g-head{display:flex;align-items:center;gap:.8rem}
 .g-av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;font-size:1.1rem;flex:none}
 .g-big .g-av{width:52px;height:52px;font-size:1.3rem}
@@ -90,7 +90,7 @@ body{background:var(--bg-t)}
 .g-text{margin:0;color:#44527f;font-size:.88rem;line-height:1.65;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .g-big .g-text{font-size:1.02rem;line-height:1.75;-webkit-line-clamp:unset;display:block}
 .g-photos{display:grid;gap:.6rem;margin-top:auto}
-.g-photos[data-n="1"]{grid-template-columns:1fr}.g-photos[data-n="2"]{grid-template-columns:1fr 1fr}.g-photos[data-n="3"]{grid-template-columns:repeat(3,1fr)}
+.g-photos[data-n="1"]{grid-template-columns:1fr}.g-photos[data-n="2"]{grid-template-columns:1fr 1fr}.g-photos[data-n="3"]{grid-template-columns:repeat(3,1fr)}.g-photos[data-n="4"]{grid-template-columns:repeat(4,1fr)}.g-photos[data-n="4"] img{aspect-ratio:.8}@media(max-width:520px){.g-photos[data-n="4"]{grid-template-columns:1fr 1fr}.g-photos[data-n="4"] img{aspect-ratio:1.15}}
 .g-photos img{width:100%;aspect-ratio:1.15;object-fit:cover;border-radius:12px;display:block}
 .g-photos[data-n="1"] img{aspect-ratio:1.9}
 .g-ctrl{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1.6rem}.g-ctrl .t-dots{margin:0}
@@ -125,7 +125,7 @@ body{background:var(--bg-t)}
 .t-h1{text-wrap:balance}@media(max-width:600px){.t-h1 br{display:none}.t-h1{font-size:2rem}}
 /* reseñas: color de la inicial (sin style="" por la CSP) y fotos solo en la destacada */
 .g-av.c0{background:#6a63c9}.g-av.c1{background:#9b7cf0}.g-av.c2{background:#2fa58e}.g-av.c3{background:#7b6fb0}.g-av.c4{background:#c27dc4}.g-av.c5{background:#5f86c9}
-.g-side .g-photos{display:none}
+
 .reveal-delay-1{transition-delay:.1s}
 /* el menú conserva los colores originales del sitio (el diseño nuevo usa otro --teal) */
 nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
@@ -271,3 +271,22 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
  .t-slide.next{left:calc(50% + 12px);opacity:1;visibility:visible}
 }
 @media(min-width:900px) and (prefers-reduced-motion:reduce){.t-slide{transition:none}}
+/* Reseñas: la destacada siempre ocupa el mismo alto, así las flechas y los puntos no se
+   mueven al cambiar (en el celular el salto hacía perder las flechas). Todas las
+   destacadas están en la misma celda; la visible se superpone a las demás, que solo
+   se esconden (siguen ocupando lugar), y el alto es el de la más larga. Las fotos van en
+   una caja de alto fijo: 1 foto la llena, 2 o 3 la reparten en columnas y 4 en 2 × 2. */
+.g-main{display:grid}
+.g-main>.g-card{grid-area:1/1}
+.g-main>.g-card[hidden]{display:flex;visibility:hidden}
+.g-big .g-photos{height:clamp(150px,40vw,240px);grid-template-rows:1fr}
+.g-big .g-photos img{height:100%;aspect-ratio:auto;min-height:0}
+.g-big .g-photos[data-n="4"]{grid-template-columns:repeat(4,1fr)}
+@media(max-width:520px){.g-big .g-photos[data-n="4"]{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}}
+/* las reseñas del costado (nombre en una línea, texto cortado a 3) también miden siempre lo mismo */
+.g-side .g-text{min-height:calc(3 * 1.65em)}
+.g-side .g-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* el ancho de las reseñas no depende de su contenido (si no, al cambiar la destacada
+   cambiaba el ancho, el texto se reacomodaba y el alto variaba) */
+.g-grid>*{min-width:0}
+@media(max-width:820px){.g-grid{grid-template-columns:minmax(0,1fr)}}

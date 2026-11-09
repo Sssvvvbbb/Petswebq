@@ -1,10 +1,10 @@
 /* Menú del sitio (componente Menu). Va después del CSS de cada página: sus reglas mandan. */
     /* ── MENÚ DEL SITIO (copiado de testimonios) ── */
     nav {
-        background: rgba(250,248,249,0.92);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(168,230,214,0.25);
+        /* blanco opaco y sin borde: la barra queda limpia sobre la portada (el desenfoque
+           de fondo y el borde dejaban una línea fina y oscura en algunos celulares) */
+        background: #fff;
+        border-bottom: 0;
         position: fixed;
         top: 28px;
         left: 0;

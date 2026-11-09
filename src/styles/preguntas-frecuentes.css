@@ -119,3 +119,23 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
 /* sobre el fondo blanco-beige: halo claro en vez de sombra oscura */
 .faq-item,.cat-btn{box-shadow:0 0 0 1px rgba(226,216,240,.75),0 14px 40px rgba(255,255,255,.95)}
 .faq-item:hover{box-shadow:0 0 0 1px rgba(214,200,236,.9),0 16px 44px rgba(255,255,255,1)}
+
+/* Adornos a los costados de las preguntas (faq/Adornos): solo en pantallas con espacio
+   libre a los lados. Ocupan el ancho que dejan las preguntas (860 px al centro) y van a
+   una altura fija desde el comienzo de la sección: no se mueven al filtrar; los que ya
+   no caben en la sección se desvanecen (.fuera, lo pone el script de Adornos). */
+.faq-adornos{display:none}
+@media(min-width:1200px){
+ .section>.container{position:relative;z-index:1}
+ .section{overflow-x:clip}
+ .faq-adornos{display:block;position:absolute;inset:0;z-index:0;pointer-events:none;--lado:clamp(0px,calc(50vw - 470px),340px)}
+ .faq-adornos svg{position:absolute;height:auto;overflow:visible;transition:opacity .5s ease,visibility 0s}
+ .faq-adornos svg.fuera{opacity:0!important;visibility:hidden;transition:opacity .5s ease,visibility 0s .5s}
+ .fa-linea{right:0;top:100px;width:calc(var(--lado)*1.15)}
+ .fa-rama{left:-.5vw;top:470px;width:calc(var(--lado)*.6);opacity:.9}
+ .fa-gato{right:3vw;top:880px;width:calc(var(--lado)*.45);opacity:.9}
+ .fa-corazones{left:0;top:1250px;width:calc(var(--lado)*.85)}
+ .fa-onda{bottom:-1px;width:42vw;height:clamp(120px,12vw,220px);-webkit-mask-image:linear-gradient(180deg,#000 45%,transparent);mask-image:linear-gradient(180deg,#000 45%,transparent)}
+ .fa-onda-izq{left:0}
+ .fa-onda-der{right:0}
+}
