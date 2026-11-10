@@ -54,15 +54,29 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
     // y se detiene con el mouse sobre un botón o con el foco de teclado en uno. Avanza
     // aunque el equipo pida reducir el movimiento (decisión del dueño, 2026-11-10).
     // Un clic o toque en la parte lila (fuera de los botones) pasa a la siguiente.
-    // En celular, la primera diapositiva espera a que terminen los corazones (unos 6,5 s)
-    // y los corazones se desvanecen mientras se ve la diapositiva 2, cuyo título los tapa.
+    // Al entrar, la primera diapositiva pasa a la segunda 1 s después de que termina la
+    // animación corazón → huella (celular ~6,3 s, computador ~2,7 s; se lee de la propia
+    // animación); desde ahí, cada 4 s. En celular los corazones se desvanecen mientras se
+    // ve la diapositiva 2, cuyo título los tapa.
     const diapositivas = document.querySelectorAll<HTMLElement>('.hero-inner > .hs');
     const zona = document.querySelector<HTMLElement>('.hero-inner');
     const portada = document.getElementById('inicio');
     const foto = document.querySelector<HTMLElement>('.hero-photo');
     const corazones = document.querySelector<HTMLElement>('.hero-corazones');
     const celular = matchMedia('(max-width: 639px)');
-    let primeraEspera = corazones && celular.matches ? 7300 : 0;
+    // Espera a que termine la animación de los corazones que se está viendo (la promesa
+    // finished de cada una). Sin getAnimations (navegadores antiguos), los tiempos de
+    // home.css; y nunca más de 12 s.
+    function finCorazones(): Promise<unknown> {
+        const tope = (ms: number) => new Promise(r => setTimeout(r, ms));
+        try {
+            const animaciones = corazones?.getAnimations({ subtree: true }) ?? [];
+            if (animaciones.length) return Promise.race([Promise.all(animaciones.map(a => a.finished.catch(() => {}))), tope(12000)]);
+        } catch { /* sin Web Animations */ }
+        return corazones ? tope(celular.matches ? 6320 : 2700) : Promise.resolve();
+    }
+    let primera = true;
+    let ronda = 0;
     let actual = 0;
     let temporizador: number | undefined;
     let detenido = false;
@@ -76,21 +90,24 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
     function avanzar() {
         clearInterval(temporizador);
         clearTimeout(temporizador);
+        const esta = ++ronda; // una espera de los corazones que quedó atrás ya no cuenta
         if (document.hidden || detenido) return;
-        if (primeraEspera) {
-            temporizador = window.setTimeout(() => { mostrar(actual + 1); avanzar(); }, primeraEspera);
-            primeraEspera = 0;
+        if (primera) {
+            primera = false;
+            finCorazones().then(() => {
+                if (esta === ronda) temporizador = window.setTimeout(() => { mostrar(actual + 1); avanzar(); }, 1000);
+            });
             return;
         }
         temporizador = window.setInterval(() => mostrar(actual + 1), 4000);
     }
     function detener(si: boolean) {
         detenido = si;
-        if (si) { clearInterval(temporizador); clearTimeout(temporizador); } else avanzar();
+        if (si) { clearInterval(temporizador); clearTimeout(temporizador); ronda++; } else avanzar();
     }
     // Solo el mouse (no un toque: en el celular dispara mouseenter y nunca mouseleave) y
     // el foco de teclado (no el que deja un clic o un toque): si no, quedaba detenido.
-    zona?.querySelectorAll('.btn').forEach(b => {
+    zona?.querySelectorAll<HTMLElement>('.btn').forEach(b => {
         b.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') detener(true); });
         b.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') detener(false); });
     });

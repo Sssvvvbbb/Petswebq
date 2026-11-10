@@ -549,3 +549,22 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
 
 /* "Sobre Nosotros": morado, como el botón Contactar del menú (#9575cd) */
 .section-tag.tag-lila{color:#9575cd}
+
+/* Rosado de la portada algo más intenso (2026-11-10): base #f8b1cd, punto medio entre el
+   anterior #f1bbd1 (algo soso) y #ffa7c9 (chillón). Cada
+   parada del degradado se movió lo mismo que la base, así conserva el leve aclarado
+   hacia la derecha. */
+.hero{--rosa-lila:linear-gradient(90deg,#f8b1cd 0%,#fbb5cf 18%,#feb9d1 32%,#ffbcd2 42%)}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero{background:var(--velo-salmon),linear-gradient(90deg,#f8b1cd 0%,#fdb8d1 25%,#ffc1d5 55%,#ffc9d9 100%)}}
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero{background:linear-gradient(0deg,var(--ola1) 0,var(--ola1) calc(var(--onda) + 1px),transparent calc(var(--onda) + 1px)),var(--velo-salmon),linear-gradient(100deg,#f8b1cd 0%,#fcb6d0 55%,#ffbcd2 100%)!important}}
+/* Borde superior: 5 px de rosa claro (#ffd4e4) al rosado y, debajo (::after), una cola
+   muy suave que se desvanece en 85 px. Si el degradado termina de golpe, el ojo ve una
+   franja más oscura justo debajo (bandas de Mach), aunque el color sea el mismo. En
+   computador, la cola solo va sobre el panel rosado, no sobre la foto. */
+.hero-bajo-nav{height:5px;background:linear-gradient(180deg,rgba(255,212,228,1) 0,rgba(255,212,228,.62) 1px,rgba(255,212,228,.42) 2px,rgba(255,212,228,.32) 3px,rgba(255,212,228,.26) 4px,rgba(255,212,228,.22) 5px)}
+.hero-bajo-nav::after{content:"";position:absolute;left:0;right:0;top:5px;height:85px;background:linear-gradient(180deg,rgba(255,212,228,.22) 0,rgba(255,212,228,.16) 7px,rgba(255,212,228,.1) 19px,rgba(255,212,228,.055) 37px,rgba(255,212,228,.022) 59px,rgba(255,212,228,0) 85px)}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-bajo-nav::after{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 31%,transparent 47%);mask-image:linear-gradient(90deg,#000 0,#000 31%,transparent 47%)}}
+/* Computador: el título de la diapositiva 2 ("por agua, sin fuego," es su línea más
+   larga) va más chico para caber en el panel rosado opaco (hasta el 31 % del ancho) con
+   margen, sin pasar sobre la foto: termina en el 27,8 % del ancho. */
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-inner>.hs:nth-child(2) h2{font-size:calc(100vw*.03)!important}}
