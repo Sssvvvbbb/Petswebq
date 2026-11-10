@@ -1,16 +1,88 @@
 {
   "fotos": [
     {
-      "src": "/Assets/biblioteca/anforas/anfora-gris.webp",
-      "grande": "/Assets/biblioteca/anforas/anfora-gris-1100.webp",
-      "mini": "/Assets/biblioteca/anforas/anfora-gris-140.webp",
-      "alt": "Ánfora de bronce pintada en gris con bordes dorados"
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-ce1bca.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-ce1bca-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-ce1bca-140.webp",
+      "alt": "Relicario dorado con forma de corazón, cadena larga"
     },
     {
-      "src": "/Assets/biblioteca/anforas/anfora-gato3d-blanco.webp",
-      "grande": "/Assets/biblioteca/anforas/anfora-gato3d-blanco-1100.webp",
-      "mini": "/Assets/biblioteca/anforas/anfora-gato3d-blanco-140.webp",
-      "alt": "Ánfora de impresión 3D de color blanco, forma de gato acostado"
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-ed666b.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-ed666b-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-ed666b-140.webp",
+      "alt": "Relicario dorado con forma de corazón pequeño, cadena larga"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-6741d0.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-6741d0-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-6741d0-140.webp",
+      "alt": "Relicario plateado con forma rectangular, cadena larga"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-1af2b5.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-1af2b5-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-1af2b5-140.webp",
+      "alt": "Relicario plateado con forma de gatito en media luna, cadena larga"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-0d47c0.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-0d47c0-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-0d47c0-140.webp",
+      "alt": "Relicario rosado con forma de gatito, cadena larga"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-3fec3b.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-3fec3b-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-3fec3b-140.webp",
+      "alt": "Relicario de gatito dorado posado en media luna plateada, cadena larga"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-e7878f.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-e7878f-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-e7878f-140.webp",
+      "alt": "Relicario plateado con forma de gota, cadena larga"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-03bf60.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-03bf60-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-03bf60-140.webp",
+      "alt": "Relicario con forma de gota y con dibujo de huellitas, cadena larga"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-7b2972.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-7b2972-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-7b2972-140.webp",
+      "alt": "Relicario dorado con forma de corazón y con huellitas dibujadas, cadena larga"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-3f1613.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-3f1613-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-3f1613-140.webp",
+      "alt": "Relicario plateado con forma de corazón pequeño, cadena larga"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-5e014a.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-5e014a-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-5e014a-140.webp",
+      "alt": "Relicario plateado con forma circular y una huellita plateada, cadena larga"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-ce7b8d.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-ce7b8d-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-ce7b8d-140.webp",
+      "alt": "Relicario plateado con forma de flor de loto, cadena larga"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-6af070.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-6af070-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-6af070-140.webp",
+      "alt": "Relicario rosado con forma de huella, tamaño mediano, idealmente para guardar pelito"
+    },
+    {
+      "src": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-a4c3ec.webp",
+      "grande": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-a4c3ec-1100.webp",
+      "mini": "/Assets/biblioteca/relicarios/relicarios-20261110-140621-a4c3ec-140.webp",
+      "alt": "Relicario plateado con forma rectangular y con una huellita dibujada, cadena larga"
     }
   ]
 }
