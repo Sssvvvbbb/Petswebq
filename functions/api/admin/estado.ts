@@ -4,6 +4,8 @@
 // la pide a /api/admin/archivo y nunca a su dirección pública. Pedirla antes de tiempo
 // hace que Cloudflare guarde la página de inicio con el nombre de la foto por 30 días
 // (sin 404.html, una ruta que no existe responde la home), y la foto queda rota.
+// Además, el encuadre de las fotos de las reseñas (servidor/admin/encuadre.ts).
+import { leerEncuadre } from '../../../servidor/admin/encuadre';
 import { rama } from '../../../servidor/admin/github';
 import { leerSeccion, secciones, type Seccion } from '../../../servidor/admin/secciones';
 import { respuesta, type Contexto } from '../../../servidor/admin/tipos';
@@ -27,9 +29,9 @@ export async function onRequestGet(ctx: Contexto): Promise<Response> {
     const { env, data } = ctx;
     const ref = rama(env);
     const lista = await secciones(env, ref);
-    const datos = await Promise.all(lista.map(async s => {
+    const [datos, encuadre] = await Promise.all([Promise.all(lista.map(async s => {
         const [{ sha, items }, enSitio] = await Promise.all([leerSeccion(env, s, ref), publicadas(ctx, s)]);
         return { id: s.id, tipo: s.tipo, titulo: s.titulo, sha, items: items.map(it => (enSitio?.has(it.src) ? it : { ...it, pendiente: true })) };
-    }));
-    return respuesta({ correo: data.correo, secciones: datos });
+    })), leerEncuadre(env, ref)]);
+    return respuesta({ correo: data.correo, secciones: datos, encuadre });
 }

@@ -12,6 +12,8 @@
 // interacción". Decidido con el dueño: priorizar velocidad y SEO.
 // El script va empaquetado por Astro (la CSP no permite scripts en línea) y
 // googletagmanager.com está permitido en script-src.
+// Dentro de un marco (la vista previa de /admin muestra /testimonios así) no carga nada:
+// no es una visita.
 ---
 <script>
     import { GA_ID } from '../data/sitio';
@@ -19,8 +21,9 @@
     w.dataLayer = w.dataLayer || [];
     // gtag.js necesita el objeto arguments, no un arreglo
     function gtag(..._: unknown[]) { w.dataLayer.push(arguments); }
+    const enMarco = window.top !== window.self;
     gtag('js', new Date());
-    gtag('config', GA_ID);
+    if (!enMarco) gtag('config', GA_ID);
 
     function cargarGtag() {
         const s = document.createElement('script');
@@ -35,6 +38,7 @@
             else cargarGtag();
         }, 3000);
     }
-    if (document.readyState === 'complete') despuesDeCargar();
+    if (enMarco) { /* vista previa de /admin */ }
+    else if (document.readyState === 'complete') despuesDeCargar();
     else window.addEventListener('load', despuesDeCargar, { once: true });
 </script>

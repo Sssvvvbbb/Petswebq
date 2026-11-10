@@ -1,6 +1,7 @@
 ---
 // /admin: la administradora sube fotos a las galerías de la Biblioteca y al carrusel
-// de /testimonios. Pensada para usarse sin saber nada técnico: íconos grandes, pocas
+// de /testimonios, y elige qué parte se ve de las fotos de las reseñas de Google
+// (#adEncuadre, src/scripts/admin/encuadre.ts). Pensada para usarse sin saber nada técnico: íconos grandes, pocas
 // palabras, y las fotos se ordenan arrastrándolas (manteniéndolas presionadas en el
 // celular). Se entra con el código que Cloudflare Access manda al correo, y el dueño lo
 // enciende y apaga con una regla del panel de Cloudflare. La API está en functions/api/admin/ y guarda cada cambio como un commit
@@ -67,6 +68,23 @@ import PanelFotos from '../components/admin/PanelFotos.astro';
 <span id="adResumen" class="ad-resumen"></span>
 <button type="button" id="adDescartar" class="ad-sec" disabled><svg aria-hidden="true"><use href="#i-volver"/></svg> Deshacer</button>
 <button type="button" id="adGuardar" class="ad-pri" disabled><svg aria-hidden="true"><use href="#i-check"/></svg> <span id="adGuardarTxt">Guardar</span></button>
+</div>
+</section>
+
+<section class="ad-paso" id="adEncuadre" aria-labelledby="adP3" hidden>
+<h2 id="adP3"><span class="ad-num">2</span> <span class="ad-emoji ad-emoji-titulo" aria-hidden="true">⭐</span> Fotos de las reseñas de Google</h2>
+<p class="ad-ayuda">Arrastra una foto para elegir qué parte se ve. Cada foto se mueve solo hacia donde no cabe entera: hacia los lados o hacia arriba y abajo. Con las flechas de abajo pasas a las otras reseñas.</p>
+<div class="ad-vistas" role="group" aria-label="Cómo se ve en">
+<button type="button" class="ad-vista" data-vista="movil" aria-pressed="true">📱 Celular</button>
+<button type="button" class="ad-vista" data-vista="escritorio" aria-pressed="false">💻 Computador</button>
+</div>
+<p class="ad-pista" id="adEncPista"><svg aria-hidden="true"><use href="#i-mano"/></svg> <span>Pon el cursor o el dedo sobre una foto.</span></p>
+<p id="adEncAviso" class="ad-aviso" role="status" aria-live="polite" hidden></p>
+<div class="ad-marco" id="adMarco"><iframe id="adVista" title="Vista previa de las reseñas de Google" scrolling="no"></iframe></div>
+<div class="ad-barra">
+<span id="adEncResumen" class="ad-resumen"></span>
+<button type="button" id="adEncDescartar" class="ad-sec" disabled><svg aria-hidden="true"><use href="#i-volver"/></svg> Deshacer</button>
+<button type="button" id="adEncGuardar" class="ad-pri" disabled><svg aria-hidden="true"><use href="#i-check"/></svg> <span id="adEncGuardarTxt">Guardar</span></button>
 </div>
 </section>
 </main>

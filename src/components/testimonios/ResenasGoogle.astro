@@ -39,7 +39,8 @@ const GOOGLE_RESENAS = 'https://search.google.com/local/reviews?placeid=ChIJWTfO
     if (grid && principal && lado && puntos) {
         const grandes = Array.from(principal.querySelectorAll<HTMLElement>('.g-card'));
         const grupos = Array.from(lado.querySelectorAll<HTMLElement>('.g-trio'));
-        const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // ?encuadre: la vista previa de /admin (ajustar el encuadre de las fotos) no avanza sola.
+        const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches || new URLSearchParams(location.search).has('encuadre');
         let actual = 0; // posición en grandes
         let temporizador: number | undefined;
 

@@ -212,3 +212,11 @@ body { -webkit-touch-callout: none; }
 /* Salir: cierra la sesión de Cloudflare Access (código al correo). */
 .ad-salir { font: inherit; border: 0; cursor: pointer; color: var(--lilac-t); font-weight: 500; white-space: nowrap; text-decoration: none; padding: 8px 14px; border-radius: 999px; background: rgba(255, 255, 255, .7); }
 .ad-salir:hover { background: #fff; }
+
+/* Encuadre de las fotos de las reseñas (src/scripts/admin/encuadre.ts): la página
+   /testimonios en un marco de 390 o 1280 px, achicado con transform si no cabe. */
+.ad-vistas { display: flex; gap: 10px; flex-wrap: wrap; margin: 4px 0 14px; }
+.ad-vista { padding: 12px 20px; border-radius: 999px; background: #fff; color: var(--ink); font-weight: 600; box-shadow: 0 0 0 2px var(--borde) inset; }
+.ad-vista[aria-pressed="true"] { background: var(--lilac-t); color: #fff; box-shadow: none; }
+.ad-marco { position: relative; overflow: hidden; border-radius: 18px; background: #eef4f1; box-shadow: 0 0 0 2px var(--borde) inset; min-height: 120px; }
+.ad-marco iframe { position: absolute; left: 0; top: 0; border: 0; height: 600px; transform-origin: 0 0; background: #fff; }

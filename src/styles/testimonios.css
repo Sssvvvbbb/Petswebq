@@ -289,6 +289,10 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
    dentro de ella. */
 .g-big .g-photos.g-justif{display:block;position:relative;flex:1 1 0;height:auto;min-height:clamp(150px,40vw,240px);margin-top:0}
 .g-big .g-photos.g-justif img{position:absolute;height:auto;aspect-ratio:auto}
+/* Encuadre elegido en /admin (TarjetaResena): una posición para el celular (hasta 820 px,
+   donde las reseñas van en una columna) y otra para el computador. */
+.g-big .g-photos img{object-position:var(--pos-m,50% 50%)}
+@media(min-width:821px){.g-big .g-photos img{object-position:var(--pos-e,50% 50%)}}
 /* Al costado, grupos de tres reseñas sin fotos con el texto completo. Como las
    destacadas, todos los grupos van en la misma celda y el alto es el del más largo:
    al cambiar no se mueve nada (ni en el celular, donde van debajo). Las tarjetas de un

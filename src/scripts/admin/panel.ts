@@ -1,12 +1,14 @@
 // Panel de /admin: elegir dónde van las fotos (galería de la Biblioteca o página de
 // testimonios), agregarlas (se convierten a WebP en el navegador, ver webp.ts),
 // ordenarlas arrastrándolas (con el mouse, o manteniendo el dedo encima en el
-// celular), escribir qué se ve en cada una, quitarlas y guardar. Guardar manda la
+// celular), escribir qué se ve en cada una, quitarlas y guardar. Además, el encuadre de
+// las fotos de las reseñas de Google (encuadre.ts). Guardar manda la
 // lista final a /api/admin/guardar, que hace un commit en main; el sitio se publica
 // solo en unos minutos (.github/workflows/deploy.yml). Se entra con el código que
 // Cloudflare Access manda al correo; el dueño lo enciende y apaga con una regla del panel
 // de Cloudflare (ver CLAUDE.md, "/admin").
 // Textos sin palabras técnicas: lo usa la administradora del sitio.
+import { crearEncuadre, type Encuadre } from './encuadre';
 import { convertir, type Convertida } from './webp';
 
 interface ItemSrv { src: string; alt?: string; mini?: string; grande?: string; poster?: string; type?: string; pendiente?: boolean }
@@ -78,6 +80,8 @@ async function api<T>(ruta: string, init: RequestInit = {}): Promise<T> {
     if (!r.ok || !d) throw new Error(d?.error || 'Algo salió mal. Recarga la página.');
     return d;
 }
+
+const encuadre = crearEncuadre(api);
 
 // Lista final como la recibe el servidor: sirve también para saber si hay algo sin guardar.
 const pedido = () => filas.filter(f => !f.quitada && !f.error).map(f => (f.nuevo ? { nuevo: f.nuevo, alt: f.alt.trim() } : { src: f.src!, alt: f.alt.trim() }));
@@ -214,8 +218,17 @@ function dibujar() {
 
 function abrir(id: string) {
     const s = secciones.find(x => x.id === id);
-    if (!s) return;
+    if (!s && id !== 'encuadre') return;
     if (actual && actual.id !== id && cambiado() && !confirm('Hay cambios sin guardar aquí. ¿Salir sin guardarlos?')) return;
+    if (!s) {
+        actual = null;
+        editor.hidden = true;
+        document.querySelectorAll<HTMLButtonElement>('.ad-op').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === id)));
+        encuadre.abrir();
+        return;
+    }
+    if (encuadre.cambiado() && !confirm('El encuadre de las reseñas tiene cambios sin guardar. ¿Salir sin guardarlos?')) return;
+    encuadre.cerrar();
     actual = s;
     filas.forEach(f => f.vista && URL.revokeObjectURL(f.vista));
     filas = s.items.map(item => ({ src: item.src, item, alt: item.alt || '', quitada: false }));
@@ -254,11 +267,28 @@ function opciones() {
         b.append(e, t, c);
         grupos[s.tipo].appendChild(b);
     }
+    // Encuadre de las fotos de las reseñas de Google (encuadre.ts).
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'ad-op mf-4';
+    b.dataset.id = 'encuadre';
+    b.setAttribute('aria-pressed', 'false');
+    const e = document.createElement('span');
+    e.className = 'ad-emoji';
+    e.setAttribute('aria-hidden', 'true');
+    e.textContent = '⭐';
+    const t = document.createElement('strong');
+    t.textContent = 'Fotos de las reseñas de Google';
+    const c = document.createElement('span');
+    c.textContent = 'Elegir qué parte se ve';
+    b.append(e, t, c);
+    grupos.testimonios.appendChild(b);
 }
 
 async function cargar(seguir?: string) {
-    const d = await api<{ correo?: string; secciones: SeccionSrv[] }>('estado');
+    const d = await api<{ correo?: string; secciones: SeccionSrv[]; encuadre: { sha: string; datos: Encuadre } }>('estado');
     secciones = d.secciones;
+    if (!encuadre.cambiado()) encuadre.cargar(d.encuadre);
     $('adCorreo').textContent = d.correo ? 'Hola, ' + d.correo : '';
     actual = null;
     opciones();
@@ -623,11 +653,11 @@ zona.addEventListener('drop', e => {
 guardarBtn.addEventListener('click', guardar);
 descartarBtn.addEventListener('click', () => { if (actual && confirm('¿Deshacer todos los cambios que no guardaste?')) { const id = actual.id; actual = null; abrir(id); } });
 let saliendo = false;
-addEventListener('beforeunload', e => { if (!saliendo && (cambiado() || ocupado || pendientes.length)) e.preventDefault(); });
+addEventListener('beforeunload', e => { if (!saliendo && (cambiado() || ocupado || pendientes.length || encuadre.cambiado())) e.preventDefault(); });
 
 // Salir: cierra la sesión de Cloudflare Access (dirección de Cloudflare, no del sitio).
 $('adSalir').addEventListener('click', () => {
-    if ((cambiado() || pendientes.length) && !confirm('Hay cambios sin guardar. ¿Salir igual?')) return;
+    if ((cambiado() || pendientes.length || encuadre.cambiado()) && !confirm('Hay cambios sin guardar. ¿Salir igual?')) return;
     saliendo = true;
     location.href = '/cdn-cgi/access/logout';
 });
