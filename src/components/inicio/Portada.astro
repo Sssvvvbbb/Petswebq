@@ -73,7 +73,7 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
             const animaciones = corazones?.getAnimations({ subtree: true }) ?? [];
             if (animaciones.length) return Promise.race([Promise.all(animaciones.map(a => a.finished.catch(() => {}))), tope(12000)]);
         } catch { /* sin Web Animations */ }
-        return corazones ? tope(celular.matches ? 6320 : 2700) : Promise.resolve();
+        return corazones ? tope(celular.matches ? 6300 : 2700) : Promise.resolve();
     }
     let primera = true;
     let ronda = 0;
