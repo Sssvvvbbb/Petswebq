@@ -1,16 +1,18 @@
 ---
-// Reseñas de Google: a la izquierda, destacada, solo una reseña con fotos; al costado,
-// tres reseñas en solo texto: las que siguen a la destacada en el orden de
-// src/data/resenas.ts (pueden incluir otras con fotos, que al pulsarlas pasan a ser
-// la destacada). Las flechas y los puntos recorren solo las reseñas con fotos.
+// Reseñas de Google: a la izquierda, destacada, una reseña con fotos; al costado, un
+// grupo de tres reseñas sin fotos (texto completo) que cambia junto con la destacada.
+// El grupo k son las reseñas sin fotos 3k, 3k+1 y 3k+2 (en el orden de
+// src/data/resenas.ts, vuelve al principio al llegar al final): ese orden alterna largas
+// y cortas para que los grupos midan parecido. Todos los grupos están en la misma
+// celda y el alto es el del más largo (testimonios.css), así nada se mueve al cambiar.
+// Las flechas y los puntos recorren las reseñas con fotos.
 // Citas textuales: no corregirles la redacción. Todo va en el HTML (sin JS se ven la
-// primera con fotos y sus tres siguientes); el JS solo muestra y oculta.
+// primera con fotos y el primer grupo); el JS solo muestra y oculta.
 import { RESENAS } from '../../data/resenas';
 import TarjetaResena from './TarjetaResena.astro';
 const conFotos = RESENAS.map((r, i) => (r.fotos.length ? i : -1)).filter(i => i >= 0);
-// Las tres reseñas que van al costado de la destacada i.
-const laterales = (i: number) => [1, 2, 3].map(k => (i + k) % RESENAS.length);
-const primeras = laterales(conFotos[0]);
+const sinFotos = RESENAS.map((r, i) => (r.fotos.length ? -1 : i)).filter(i => i >= 0);
+const grupos = conFotos.map((_, k) => [0, 1, 2].map(j => sinFotos[(3 * k + j) % sinFotos.length]));
 const GOOGLE_RESENAS = 'https://search.google.com/local/reviews?placeid=ChIJWTfOQDgvGJYR_Ylu3xobxlI';
 ---
 <section class="t-sec t-goo" id="resenas-google" aria-labelledby="google-reviews-heading"><div class="t-wrap t-wide">
@@ -20,16 +22,15 @@ const GOOGLE_RESENAS = 'https://search.google.com/local/reviews?placeid=ChIJWTfO
 <p class="t-lead">Palabras de familias que nos dejaron su reseña en Google, publicadas con su autorización.</p></div>
 <div class="g-grid reveal" id="gGrid" aria-roledescription="reseñas">
 <div class="g-main" id="gMain">{conFotos.map((i, k) => <TarjetaResena r={RESENAS[i]} i={i} lugar="destacada" oculta={k > 0} />)}</div>
-<div class="g-side" id="gSide">{[...primeras, ...RESENAS.map((_, i) => i).filter(i => !primeras.includes(i))].map(i => <TarjetaResena r={RESENAS[i]} i={i} lugar="lateral" oculta={!primeras.includes(i)} />)}</div>
+<div class="g-side" id="gSide">{grupos.map((g, k) => <div class="g-trio" hidden={k > 0}>{g.map(i => <TarjetaResena r={RESENAS[i]} i={i} lugar="lateral" />)}</div>)}</div>
 </div>
 <div class="g-ctrl"><button type="button" class="t-arrow g-arrow" id="gPrev" aria-label="Reseña anterior">‹</button><div class="t-dots" id="gDots"></div><button type="button" class="t-arrow g-arrow" id="gNext" aria-label="Reseña siguiente">›</button></div>
 <a class="g-cta" href={GOOGLE_RESENAS} target="_blank" rel="noopener"><svg class="g-logo" aria-hidden="true"><use href="#logo-google"/></svg><span>Ver más reseñas en Google</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 </div></section>
 
 <script>
-    // Muestra una reseña con fotos en #gMain y, en #gSide, las tres que le siguen en
-    // el orden general (solo texto). Sin avance automático con movimiento reducido;
-    // se detiene con el mouse encima.
+    // Muestra una reseña con fotos en #gMain y, en #gSide, su grupo de tres reseñas sin
+    // fotos. Sin avance automático con movimiento reducido; se detiene con el mouse encima.
     const grid = document.getElementById('gGrid');
     const principal = document.getElementById('gMain');
     const lado = document.getElementById('gSide');
@@ -37,34 +38,20 @@ const GOOGLE_RESENAS = 'https://search.google.com/local/reviews?placeid=ChIJWTfO
 
     if (grid && principal && lado && puntos) {
         const grandes = Array.from(principal.querySelectorAll<HTMLElement>('.g-card'));
-        const chicas = Array.from(lado.querySelectorAll<HTMLElement>('.g-card'));
-        const porI = new Map(chicas.map(t => [+t.dataset.i!, t]));
-        const total = chicas.length;
+        const grupos = Array.from(lado.querySelectorAll<HTMLElement>('.g-trio'));
         const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
         let actual = 0; // posición en grandes
         let temporizador: number | undefined;
 
         function ubicar() {
             grandes.forEach((t, k) => { t.hidden = k !== actual; });
-            const i = +grandes[actual].dataset.i!;
-            const visibles = [1, 2, 3].map(k => porI.get((i + k) % total)!);
-            chicas.forEach(t => { t.hidden = !visibles.includes(t); });
-            visibles.forEach(t => lado!.appendChild(t));
+            grupos.forEach((g, k) => { g.hidden = k !== actual; });
             Array.from(puntos!.children).forEach((b, k) => b.classList.toggle('active', k === actual));
         }
         const ir = (k: number) => { actual = (k + grandes.length) % grandes.length; ubicar(); };
         function avanzar() {
             clearInterval(temporizador);
             if (!quieto) temporizador = window.setInterval(() => ir(actual + 1), 9000);
-        }
-        // Pulsar una reseña lateral con fotos la destaca.
-        function destacar(e: Event) {
-            const t = (e.target as Element).closest<HTMLElement>('.g-btn');
-            const k = t ? grandes.findIndex(g => g.dataset.i === t.dataset.i) : -1;
-            if (k < 0) return false;
-            ir(k);
-            avanzar();
-            return true;
         }
 
         puntos.replaceChildren(...grandes.map((g, k) => {
@@ -74,10 +61,6 @@ const GOOGLE_RESENAS = 'https://search.google.com/local/reviews?placeid=ChIJWTfO
             b.addEventListener('click', () => { ir(k); avanzar(); });
             return b;
         }));
-        lado.addEventListener('click', destacar);
-        lado.addEventListener('keydown', e => {
-            if ((e.key === 'Enter' || e.key === ' ') && destacar(e)) e.preventDefault();
-        });
         document.getElementById('gNext')!.addEventListener('click', () => { ir(actual + 1); avanzar(); });
         document.getElementById('gPrev')!.addEventListener('click', () => { ir(actual - 1); avanzar(); });
         grid.addEventListener('mouseenter', () => clearInterval(temporizador));

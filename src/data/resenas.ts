@@ -1,6 +1,7 @@
 // Reseñas de Google de /testimonios (componente testimonios/ResenasGoogle).
 // Son citas textuales de clientes: no corregirles la redacción. El texto es HTML
-// (puede llevar <br>). fotos: 0 a 4; a la izquierda solo van las que tienen fotos (la primera de ellas, al cargar).
+// (puede llevar <br>). fotos: 0 a 4; a la izquierda van las que tienen fotos (la primera de ellas, al cargar);
+// al costado, de a tres, las sin fotos en este orden (alterna largas y cortas: ver ResenasGoogle).
 export interface FotoResena { src: string; srcset?: string; sizes?: string; alt: string }
 export interface Resena { nombre: string; texto: string; fotos: FotoResena[] }
 
@@ -26,16 +27,6 @@ export const RESENAS: Resena[] = [
         "alt": "Teo, foto compartida por Dafne Retamal"
       }
     ]
-  },
-  {
-    "nombre": "Daniela Risco",
-    "texto": "Agradecida de la hermosa labor que realizan, lleve a mi perrita Emma que me acompañó durante 14 años, apenas ingrese sentí un ambiente cálido, de mucho amor y entendimiento hacia la pérdida que estaba cursando.<br> Felicidades por esta hermosa labor en la que nos ayudan a mantener a nuestros compañeros de vida, siempre junto a nosotros.",
-    "fotos": []
-  },
-  {
-    "nombre": "Constanza Villagran",
-    "texto": "He tenido que acudir a Pets al Cielo en dos ocasiones por mi Fanny y Pequita y no tengo palabras suficientes para agradecer el servicio que brindan. En los momentos más dolorosos, han demostrado una empatía, respeto y calidad humana, te acompañan con un amor y una delicadeza. Los recomiendo a ojos cerrados, de verdad hacen honor a su nombre y tratan a nuestras mascotas con el mayor de los respetos 🌸",
-    "fotos": []
   },
   {
     "nombre": "Rodrigo Latorre",
@@ -90,5 +81,45 @@ export const RESENAS: Resena[] = [
         "alt": "Leonor echada dentro de una caja, foto compartida por Gloria Coronado Ramirez"
       }
     ]
+  },
+  {
+    "nombre": "Johana Herrera",
+    "texto": "En los momentos mas difíciles ha sido súper importante el apoyo de Pets al cielo; una atención de primer nivel, donde nos recibieron con amor y mucho respeto; excelente servicio. Me siento muy agradecida 🤍",
+    "fotos": []
+  },
+  {
+    "nombre": "Antonia Angel",
+    "texto": "mi experiencia muy bonita, porque siempre se preocuparon sobre cómo se sentía uno, y siempre hacían todo con cariño, me hacian sentir de una manera muy acogedora y sentía que me entendían perfecto por el dolor que estaba pasando, muchas gracias por todo 🩷",
+    "fotos": []
+  },
+  {
+    "nombre": "Constanza Villagran",
+    "texto": "He tenido que acudir a Pets al Cielo en dos ocasiones por mi Fanny y Pequita y no tengo palabras suficientes para agradecer el servicio que brindan. En los momentos más dolorosos, han demostrado una empatía, respeto y calidad humana, te acompañan con un amor y una delicadeza. Los recomiendo a ojos cerrados, de verdad hacen honor a su nombre y tratan a nuestras mascotas con el mayor de los respetos 🌸",
+    "fotos": []
+  },
+  {
+    "nombre": "Mundo MasCotas PetShop",
+    "texto": "Como siempre una excelente atención, gran acogida y contención en momentos difíciles al despedir a un integrante de nuestra familia y nuestra manada. Muchísimas gracias por todo. 🐶💖🌈",
+    "fotos": []
+  },
+  {
+    "nombre": "Ingrid Henriquez Cardenas",
+    "texto": "Muy agradecida, de la compañía cariñosa y genuina que nos entregaron en ese momento de tanto dolor. Logramos despedir a nuestra querida Nala, de forma respetuosa, permitiéndonos realizar nuestro duelo, con un cierre hermoso para ella. Quedándose en nuestra casita, de una forma que nos permite seguir sintiéndola con nosotros. De corazón muchas gracias.",
+    "fotos": []
+  },
+  {
+    "nombre": "Daniela Risco",
+    "texto": "Agradecida de la hermosa labor que realizan, lleve a mi perrita Emma que me acompañó durante 14 años, apenas ingrese sentí un ambiente cálido, de mucho amor y entendimiento hacia la pérdida que estaba cursando.<br> Felicidades por esta hermosa labor en la que nos ayudan a mantener a nuestros compañeros de vida, siempre junto a nosotros.",
+    "fotos": []
+  },
+  {
+    "nombre": "Sebastián S. López",
+    "texto": "Un lugar muy acogedor para la situación por la que uno va con los pequeños. Super acorde a lo que uno espera de una despedida bonita. Atienden super bien y el proceso es super transparente y cuidadoso.",
+    "fotos": []
+  },
+  {
+    "nombre": "Omayra Asencio",
+    "texto": "Llegamos al lugar indicado para poder despedir a una integrante de nuestra familia, a pesar de haber sido una situación traumática, en pets al cielo supieron darnos tranquilidad, comprensión y confianza. Estaremos siempre agradecidos con ustedes por ayudarnos a que nuestra querida moka pudiese descansar y volver a su hogar. Muchas gracias por tanto, en nombre de nuestra familia y nuestra pequeña Moka que en paz descansara y siempre será recordada en nuestros corazones ❤️",
+    "fotos": []
   }
 ];

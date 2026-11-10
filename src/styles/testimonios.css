@@ -79,7 +79,7 @@ body{background:var(--bg-t)}
 .g-main{display:flex}.g-side{display:flex;flex-direction:column;gap:.9rem}
 .g-card{background:#fff;border-radius:20px;padding:1.2rem 1.3rem;border:1px solid rgba(120,160,140,.15);box-shadow:0 6px 22px rgba(80,120,100,.08);display:flex;flex-direction:column;gap:.8rem}
 .g-big{flex:1;padding:1.6rem 1.7rem}
-.g-side .g-card{flex:1}.g-side .g-btn{cursor:pointer;transition:transform .2s}.g-side .g-btn:hover{transform:translateY(-2px)}.g-card[hidden]{display:none}
+.g-side .g-card{flex:1}.g-card[hidden]{display:none}
 .g-head{display:flex;align-items:center;gap:.8rem}
 .g-av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;font-size:1.1rem;flex:none}
 .g-big .g-av{width:52px;height:52px;font-size:1.3rem}
@@ -283,8 +283,15 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
 .g-big .g-photos img{height:100%;aspect-ratio:auto;min-height:0}
 .g-big .g-photos[data-n="4"]{grid-template-columns:repeat(4,1fr)}
 @media(max-width:520px){.g-big .g-photos[data-n="4"]{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}}
-/* las reseñas del costado (nombre en una línea, texto cortado a 3) también miden siempre lo mismo */
-.g-side .g-text{min-height:calc(3 * 1.65em)}
+/* Al costado, grupos de tres reseñas sin fotos con el texto completo. Como las
+   destacadas, todos los grupos van en la misma celda y el alto es el del más largo:
+   al cambiar no se mueve nada (ni en el celular, donde van debajo). Las tarjetas de un
+   grupo más corto se estiran parejo. */
+.g-side{display:grid;grid-template-columns:minmax(0,1fr)}
+.g-trio{grid-area:1/1;min-width:0;display:flex;flex-direction:column;gap:.9rem}
+.g-trio[hidden]{visibility:hidden}
+.g-side .g-card{flex:1 0 auto}
+.g-side .g-text{display:block;-webkit-line-clamp:unset;overflow:visible}
 .g-side .g-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* el ancho de las reseñas no depende de su contenido (si no, al cambiar la destacada
    cambiaba el ancho, el texto se reacomodaba y el alto variaba) */
