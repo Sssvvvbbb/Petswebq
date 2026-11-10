@@ -283,6 +283,12 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
 .g-big .g-photos img{height:100%;aspect-ratio:auto;min-height:0}
 .g-big .g-photos[data-n="4"]{grid-template-columns:repeat(4,1fr)}
 @media(max-width:520px){.g-big .g-photos[data-n="4"]{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}}
+/* Con JS (ResenasGoogle): como todas las destacadas miden lo de la más alta, a las más
+   cortas les sobra espacio. La caja de fotos lo ocupa entero (sin bajar del mínimo de
+   antes, que es lo que cuenta para el alto) y el script reparte las fotos en filas
+   dentro de ella. */
+.g-big .g-photos.g-justif{display:block;position:relative;flex:1 1 0;height:auto;min-height:clamp(150px,40vw,240px);margin-top:0}
+.g-big .g-photos.g-justif img{position:absolute;height:auto;aspect-ratio:auto}
 /* Al costado, grupos de tres reseñas sin fotos con el texto completo. Como las
    destacadas, todos los grupos van en la misma celda y el alto es el del más largo:
    al cambiar no se mueve nada (ni en el celular, donde van debajo). Las tarjetas de un

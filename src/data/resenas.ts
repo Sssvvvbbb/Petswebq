@@ -2,7 +2,8 @@
 // Son citas textuales de clientes: no corregirles la redacción. El texto es HTML
 // (puede llevar <br>). fotos: 0 a 4; a la izquierda van las que tienen fotos (la primera de ellas, al cargar);
 // al costado, de a tres, las sin fotos en este orden (alterna largas y cortas: ver ResenasGoogle).
-export interface FotoResena { src: string; srcset?: string; sizes?: string; alt: string }
+// ancho y alto: los del archivo de src (dan la proporción de la caja de fotos y evitan saltos al cargar).
+export interface FotoResena { src: string; ancho: number; alto: number; srcset?: string; sizes?: string; alt: string }
 export interface Resena { nombre: string; texto: string; fotos: FotoResena[] }
 
 export const RESENAS: Resena[] = [
@@ -12,16 +13,22 @@ export const RESENAS: Resena[] = [
     "fotos": [
       {
         "src": "/Assets/pagina-web-testimonios/reviews/dafne-retamal-1.webp",
+        "ancho": 652,
+        "alto": 542,
         "alt": "Ánfora y retrato de Teo, foto compartida por Dafne Retamal"
       },
       {
         "src": "/Assets/pagina-web-testimonios/reviews/dafne-retamal-2.webp",
+        "ancho": 652,
+        "alto": 687,
         "srcset": "/Assets/pagina-web-testimonios/reviews/dafne-retamal-2-440.webp 440w, /Assets/pagina-web-testimonios/reviews/dafne-retamal-2.webp 652w",
         "sizes": "(max-width: 768px) 35vw, 260px",
         "alt": "Teo, foto compartida por Dafne Retamal"
       },
       {
         "src": "/Assets/pagina-web-testimonios/reviews/dafne-retamal-3.webp",
+        "ancho": 647,
+        "alto": 712,
         "srcset": "/Assets/pagina-web-testimonios/reviews/dafne-retamal-3-440.webp 440w, /Assets/pagina-web-testimonios/reviews/dafne-retamal-3.webp 652w",
         "sizes": "(max-width: 768px) 35vw, 260px",
         "alt": "Teo, foto compartida por Dafne Retamal"
@@ -34,6 +41,8 @@ export const RESENAS: Resena[] = [
     "fotos": [
       {
         "src": "/Assets/pagina-web-testimonios/reviews/rodrigo-latorre-1.webp",
+        "ancho": 1112,
+        "alto": 525,
         "alt": "Ánfora, cuadros con la huella y el retrato de Tomás y certificado de eco-incineración, foto compartida por Rodrigo Latorre"
       }
     ]
@@ -44,6 +53,8 @@ export const RESENAS: Resena[] = [
     "fotos": [
       {
         "src": "/Assets/pagina-web-testimonios/reviews/carmen-gloria-diaz-1.webp",
+        "ancho": 1342,
+        "alto": 536,
         "srcset": "/Assets/pagina-web-testimonios/reviews/carmen-gloria-diaz-1-1000.webp 1000w, /Assets/pagina-web-testimonios/reviews/carmen-gloria-diaz-1.webp 1342w",
         "sizes": "(max-width: 768px) 90vw, 650px",
         "alt": "Ánforas y retratos de Zeus, Negrita y Aquiles, foto compartida por Carmen Gloria Diaz Bunster"
@@ -56,6 +67,8 @@ export const RESENAS: Resena[] = [
     "fotos": [
       {
         "src": "/Assets/pagina-web-testimonios/reviews/arturo-rivero-1.webp",
+        "ancho": 950,
+        "alto": 712,
         "alt": "Ánforas y recuerdos de sus mascotas en un estante, foto compartida por Arturo Rivero"
       }
     ]
@@ -66,18 +79,26 @@ export const RESENAS: Resena[] = [
     "fotos": [
       {
         "src": "/Assets/pagina-web-testimonios/reviews/gloria-coronado-1.webp",
+        "ancho": 464,
+        "alto": 682,
         "alt": "Retrato de Leonor con alas de ángel sobre las nubes, foto compartida por Gloria Coronado Ramirez"
       },
       {
         "src": "/Assets/pagina-web-testimonios/reviews/gloria-coronado-2.webp",
+        "ancho": 438,
+        "alto": 658,
         "alt": "Ánfora, cuadro con las huellas y certificado de eco-incineración de Leonor, foto compartida por Gloria Coronado Ramirez"
       },
       {
         "src": "/Assets/pagina-web-testimonios/reviews/gloria-coronado-3.webp",
+        "ancho": 444,
+        "alto": 673,
         "alt": "Leonor sentada sobre un escritorio, foto compartida por Gloria Coronado Ramirez"
       },
       {
         "src": "/Assets/pagina-web-testimonios/reviews/gloria-coronado-4.webp",
+        "ancho": 1097,
+        "alto": 642,
         "alt": "Leonor echada dentro de una caja, foto compartida por Gloria Coronado Ramirez"
       }
     ]

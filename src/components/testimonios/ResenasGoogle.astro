@@ -68,4 +68,54 @@ const GOOGLE_RESENAS = 'https://search.google.com/local/reviews?placeid=ChIJWTfO
         ubicar();
         avanzar();
     }
+
+    // Fotos de la destacada: la caja ocupa el espacio libre de la tarjeta y las fotos se
+    // reparten en filas justificadas al ancho (en su orden: todas en una fila, una arriba y
+    // dos abajo, etc.). Se elige el reparto que las muestra más grandes y menos recortadas
+    // (llenar la caja pesa más que un recorte moderado); si caben enteras no se estiran y
+    // quedan centradas en el alto libre. Sin JS quedan en la grilla de alto fijo del CSS.
+    const cajas = Array.from(document.querySelectorAll<HTMLElement>('#gMain .g-photos'));
+    function repartos(n: number): number[][] {
+        if (n === 0) return [[]];
+        const todos: number[][] = [];
+        for (let k = 1; k <= n; k++) for (const resto of repartos(n - k)) todos.push([k, ...resto]);
+        return todos;
+    }
+    function acomodar(caja: HTMLElement) {
+        const fotos = Array.from(caja.querySelectorAll('img'));
+        const prop = fotos.map(f => +f.getAttribute('width')! / +f.getAttribute('height')! || 1);
+        const ancho = caja.clientWidth, alto = caja.clientHeight;
+        const hueco = parseFloat(getComputedStyle(document.documentElement).fontSize) * 0.6;
+        if (!ancho || !alto) return;
+        let mejor: { filas: number[][]; altos: number[]; escala: number } | null = null, puntaje = -1;
+        for (const reparto of repartos(fotos.length)) {
+            let i = 0;
+            const filas = reparto.map(k => Array.from({ length: k }, () => i++));
+            // alto de cada fila para que sus fotos, enteras, llenen el ancho
+            const altos = filas.map(f => (ancho - (f.length - 1) * hueco) / f.reduce((s, j) => s + prop[j], 0));
+            const natural = altos.reduce((s, h) => s + h, 0), libre = alto - (filas.length - 1) * hueco;
+            if (libre <= 0) continue;
+            // escala < 1: no caben enteras y se recortan arriba y abajo
+            const escala = Math.min(1, libre / natural);
+            const p = ancho * natural * escala * Math.sqrt(escala);
+            if (p > puntaje) { puntaje = p; mejor = { filas, altos, escala }; }
+        }
+        if (!mejor) return;
+        const usado = mejor.altos.reduce((s, h) => s + h, 0) * mejor.escala + (mejor.filas.length - 1) * hueco;
+        let y = Math.max(0, (alto - usado) / 2);
+        mejor.filas.forEach((fila, n) => {
+            const h = mejor!.altos[n] * mejor!.escala, suma = fila.reduce((s, j) => s + prop[j], 0);
+            let x = 0;
+            for (const j of fila) {
+                const w = (ancho - (fila.length - 1) * hueco) * prop[j] / suma;
+                Object.assign(fotos[j].style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' });
+                x += w + hueco;
+            }
+            y += h + hueco;
+        });
+    }
+    if (cajas.length && 'ResizeObserver' in window) {
+        const observador = new ResizeObserver(cambios => cambios.forEach(c => acomodar(c.target as HTMLElement)));
+        cajas.forEach(c => { c.classList.add('g-justif'); observador.observe(c); });
+    }
 </script>
