@@ -4,27 +4,27 @@
     "src": "/Assets/pagina-web-testimonios/testimonios/testimonio-01.webp",
     "mp4": "",
     "poster": "",
-    "alt": "Testimonio de Blacky"
+    "alt": "Testimonio de gatito Blacky"
   },
   {
     "type": "video",
     "src": "/Assets/pagina-web-testimonios/testimonios/testimonio-02.webm",
     "mp4": "",
     "poster": "/Assets/pagina-web-testimonios/testimonios/testimonio-02-portada.webp",
-    "alt": "Testimonio de Luna"
+    "alt": "Testimonio de gatita Luna"
   },
   {
     "type": "video",
     "src": "/Assets/pagina-web-testimonios/testimonios/testimonio-03.webm",
     "mp4": "",
     "poster": "/Assets/pagina-web-testimonios/testimonios/testimonio-03-portada.webp",
-    "alt": "Testimonio Vicho"
+    "alt": "Testimonio perrito Vicho"
   },
   {
     "type": "video",
     "src": "/Assets/pagina-web-testimonios/testimonios/testimonio-04.webm",
     "mp4": "",
     "poster": "/Assets/pagina-web-testimonios/testimonios/testimonio-04-portada.webp",
-    "alt": "Testimonio de Luffy"
+    "alt": "Testimonio de gatito Luffy"
   }
 ]
