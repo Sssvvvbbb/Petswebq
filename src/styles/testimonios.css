@@ -290,3 +290,11 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
    cambiaba el ancho, el texto se reacomodaba y el alto variaba) */
 .g-grid>*{min-width:0}
 @media(max-width:820px){.g-grid{grid-template-columns:minmax(0,1fr)}}
+/* Puntitos de los carruseles: cada botón es un área táctil de 24 × 24 px (lo mínimo
+   recomendado); el punto visible sigue igual, dibujado al centro con ::before. */
+.t-dots{gap:0}
+.t-dots button{position:relative;width:24px;height:24px;border-radius:0;background:none}
+.t-dots button::before{content:"";position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;background:#dcd3ee;transform:translate(-50%,-50%);transition:width .3s,background .3s}
+.t-dots button.active{width:30px;background:none;border-radius:0}
+.t-dots button.active::before{width:22px;border-radius:9px;background:var(--lilac-t)}
+.t-dots button:focus-visible{outline:2px solid var(--lilac-t);outline-offset:-2px;border-radius:8px}
