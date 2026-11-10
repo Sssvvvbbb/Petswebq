@@ -9,7 +9,7 @@
 // Textos sin palabras técnicas: lo usa la administradora del sitio.
 import { convertir, type Convertida } from './webp';
 
-interface ItemSrv { src: string; alt?: string; mini?: string; grande?: string; poster?: string; type?: string }
+interface ItemSrv { src: string; alt?: string; mini?: string; grande?: string; poster?: string; type?: string; pendiente?: boolean }
 interface SeccionSrv { id: string; tipo: 'galeria' | 'testimonios'; titulo: string; sha: string; items: ItemSrv[] }
 interface Fila {
     src?: string;
@@ -98,7 +98,10 @@ function miniatura(f: Fila): HTMLElement {
     const marco = document.createElement('div');
     marco.className = 'ad-foto';
     const it = f.item;
-    const url = f.vista || (it?.type === 'video' ? it.poster : it?.grande || it?.src);
+    const publica = it?.type === 'video' ? it.poster : it?.grande || it?.src;
+    // Una foto que aún no está publicada se pide al repositorio, nunca a su dirección
+    // pública: Cloudflare guardaría la home con ese nombre por 30 días (ver estado.ts).
+    const url = f.vista || (it?.pendiente && publica?.startsWith('/Assets/') ? '/api/admin/archivo?ruta=' + encodeURIComponent(publica) : publica);
     if (f.error) {
         marco.textContent = '😕';
     } else if (!url) {
@@ -109,10 +112,6 @@ function miniatura(f: Fila): HTMLElement {
         img.draggable = false;
         img.decoding = 'async';
         img.loading = 'lazy';
-        // Una foto recién guardada aún no está publicada: se pide al repositorio.
-        img.addEventListener('error', () => {
-            if (url.startsWith('/Assets/') && !img.dataset.repo) { img.dataset.repo = '1'; img.src = '/api/admin/archivo?ruta=' + encodeURIComponent(url); }
-        });
         img.src = url;
         marco.appendChild(img);
     }
