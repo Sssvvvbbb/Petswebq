@@ -390,12 +390,12 @@ async function escenarios(browser, lista) {
     if (portadas > 2) avisos.push(`${p}: se descargaron ${portadas} portadas de video sin mostrarlas`);
     await page.close();
 
-    // 6. Movimiento reducido: los carruseles no avanzan solos.
+    // 6. Movimiento reducido: los carruseles no avanzan solos (salvo la portada de la home,
+    // que avanza siempre por decisión del dueño, 2026-11-10).
     page = await abrir(browser, p, { antes: pg => pg.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]) });
     const estado = () => page.evaluate(() => [
       [...document.querySelectorAll('.carousel-dots .dot')].findIndex(d => d.classList.contains('active')),
-      // Diapositiva activa de la portada de la home, de testimonios y de las reseñas
-      [...document.querySelectorAll('.hero-inner > .hs')].findIndex(d => d.classList.contains('active')),
+      // Diapositiva activa de testimonios y de las reseñas
       [...document.querySelectorAll('#testiSlidesContainer .testi-slide')].findIndex(d => d.classList.contains('active')),
       document.querySelector('#gMain .g-card:not([hidden])')?.dataset.i ?? '',
       document.getElementById('igcTrack')?.style.transform ?? '',

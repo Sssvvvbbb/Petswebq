@@ -45,13 +45,14 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
 </div>
 ))}
 </div>
-<Onda forma="a" clase="wv-pc" capas={[['#f9cfe0', .55], ['#f5dfe9', .8], ['#eaeee9', 1], ['#e4f2e9', 1]]} />
+<Onda forma="a" clase="wv-pc" capas={[['#f9cfe0', .55], ['#f5dfe9', .8], ['#dcefe3', 1], ['#e4f2e9', 1]]} />
 <Onda forma="p" clase="wv-movil" capas={[['#9ccdb0', 1], ['#b3dcc2', 1], ['#c4e4cf', 1], ['#e4f2e9', 1]]} />
 </header>
 
 <script>
-    // Carrusel de la portada (sin puntos): avanza cada 4 s, salvo con movimiento
-    // reducido o con la pestaña oculta, y se detiene con el mouse o el foco sobre un botón.
+    // Carrusel de la portada (sin puntos): avanza cada 4 s, salvo con la pestaña oculta,
+    // y se detiene con el mouse sobre un botón o con el foco de teclado en uno. Avanza
+    // aunque el equipo pida reducir el movimiento (decisión del dueño, 2026-11-10).
     // Un clic o toque en la parte lila (fuera de los botones) pasa a la siguiente.
     // En celular, la primera diapositiva espera a que terminen los corazones (unos 6,5 s)
     // y los corazones se desvanecen mientras se ve la diapositiva 2, cuyo título los tapa.
@@ -59,12 +60,12 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
     const zona = document.querySelector<HTMLElement>('.hero-inner');
     const portada = document.getElementById('inicio');
     const foto = document.querySelector<HTMLElement>('.hero-photo');
-    const quieto = matchMedia('(prefers-reduced-motion: reduce)');
     const corazones = document.querySelector<HTMLElement>('.hero-corazones');
     const celular = matchMedia('(max-width: 639px)');
-    let primeraEspera = corazones && celular.matches && !quieto.matches ? 7300 : 0;
+    let primeraEspera = corazones && celular.matches ? 7300 : 0;
     let actual = 0;
     let temporizador: number | undefined;
+    let detenido = false;
 
     function mostrar(n: number) {
         diapositivas[actual].classList.remove('active');
@@ -75,7 +76,7 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
     function avanzar() {
         clearInterval(temporizador);
         clearTimeout(temporizador);
-        if (quieto.matches || document.hidden) return;
+        if (document.hidden || detenido) return;
         if (primeraEspera) {
             temporizador = window.setTimeout(() => { mostrar(actual + 1); avanzar(); }, primeraEspera);
             primeraEspera = 0;
@@ -83,12 +84,18 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
         }
         temporizador = window.setInterval(() => mostrar(actual + 1), 4000);
     }
+    function detener(si: boolean) {
+        detenido = si;
+        if (si) { clearInterval(temporizador); clearTimeout(temporizador); } else avanzar();
+    }
+    // Solo el mouse (no un toque: en el celular dispara mouseenter y nunca mouseleave) y
+    // el foco de teclado (no el que deja un clic o un toque): si no, quedaba detenido.
     zona?.querySelectorAll('.btn').forEach(b => {
-        b.addEventListener('mouseenter', () => clearInterval(temporizador));
-        b.addEventListener('mouseleave', avanzar);
+        b.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') detener(true); });
+        b.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') detener(false); });
     });
-    zona?.addEventListener('focusin', () => clearInterval(temporizador));
-    zona?.addEventListener('focusout', avanzar);
+    zona?.addEventListener('focusin', e => { if ((e.target as Element).matches(':focus-visible')) detener(true); });
+    zona?.addEventListener('focusout', () => { if (detenido) detener(false); });
     // Parte lila: en computador, tablet o ventana apaisada, el 40 % izquierdo; en celular,
     // lo que está sobre el cielo de la foto (la foto aparece de a poco en su primer 20 %).
     function enLila(e: MouseEvent) {

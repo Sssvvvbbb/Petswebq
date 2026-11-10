@@ -494,16 +494,16 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
    queda centrado en la zona lila, entre la barra y el comienzo de la foto. */
 @media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero.pg .hero-inner{padding-top:calc(max(var(--bar) + var(--navh),var(--fixed-bars-h,0px)) + 10px)}}
 @media(min-width:640px) and (max-width:899px) and (orientation:portrait){.hero.pg .hero-inner{min-height:calc(var(--foto-base) + var(--h0)*.1);padding-bottom:0!important;align-content:center}}
-/* Borde superior de la portada: 13 px que pasan de un rosa salmón muy claro (#fadee8) al
+/* Borde superior de la portada: 5 px que pasan de un rosa salmón muy claro (#fadee8) al
    rosado, en curva suave. Así el borde de la barra blanca se ve recto y limpio, sin la
    línea oscura que el ojo ve en un cambio brusco (bandas de Mach). */
-.hero-bajo-nav{position:absolute;left:0;right:0;top:var(--fixed-bars-h,90px);height:13px;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(250,222,232,1) 0%,rgba(250,222,232,0.86) 11%,rgba(250,222,232,0.7) 22%,rgba(250,222,232,0.54) 33%,rgba(250,222,232,0.4) 44%,rgba(250,222,232,0.28) 56%,rgba(250,222,232,0.18) 67%,rgba(250,222,232,0.1) 78%,rgba(250,222,232,0.04) 89%,rgba(250,222,232,0) 100%)}
+.hero-bajo-nav{position:absolute;left:0;right:0;top:var(--fixed-bars-h,90px);height:5px;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(250,222,232,1) 0%,rgba(250,222,232,0.86) 11%,rgba(250,222,232,0.7) 22%,rgba(250,222,232,0.54) 33%,rgba(250,222,232,0.4) 44%,rgba(250,222,232,0.28) 56%,rgba(250,222,232,0.18) 67%,rgba(250,222,232,0.1) 78%,rgba(250,222,232,0.04) 89%,rgba(250,222,232,0) 100%)}
 /* Corazones de la portada (solo celular, laboratorio 2026-11-09). Posiciones medidas en
    una pantalla de 390 × 844: centro a un % del ancho y a px fijos desde arriba (el título
    también va a px fijos). En celulares más angostos que 390 px se achican con el ancho.
    Secuencia: espera 0,4 s → corazón grande (2,2 s) → corazón chico (2,2 s) → pausa 0,5 s →
-   el chico se encoge y crece la patita con rebote (1,2 s). Con movimiento reducido se
-   muestra el estado final, sin animar. En la diapositiva 2 se desvanecen (.oculto). */
+   el chico se encoge y crece la patita con rebote (1,2 s). Se anima también con movimiento
+   reducido (decisión del dueño). En la diapositiva 2 se desvanecen (.oculto). */
 .hero-corazones{display:none}
 .hcd-chico,.hcd-pata{display:none}
 @media(max-width:639px){
@@ -536,12 +536,7 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
  @keyframes hc-dibujo{to{stroke-dashoffset:0}}
  @keyframes hc-pop{0%{opacity:0;transform:scale(.3)}100%{opacity:1;transform:scale(1)}}
 }
-@media(prefers-reduced-motion:reduce){.hcd-chico .trazo{animation:none;stroke-dashoffset:0}.hcd-pata .pieza{animation:none;opacity:1}}
-@media(max-width:639px) and (prefers-reduced-motion:reduce){
- .hc .trazo{animation:none;stroke-dashoffset:0}
- .hc-chico{display:none}
- .hc-pata .pieza{animation:none;opacity:1}
-}
+/* Los corazones se animan aunque el equipo pida reducir el movimiento (decisión del dueño, 2026-11-10). */
 /* Eco en celular: más aire entre los elementos (antes se veía apretado) */
 @media(max-width:639px),(max-width:899px) and (orientation:portrait){
  .eco .eyebrow{margin-bottom:1.4rem}
