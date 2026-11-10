@@ -298,3 +298,4 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
 .t-dots button.active{width:30px;background:none;border-radius:0}
 .t-dots button.active::before{width:22px;border-radius:9px;background:var(--lilac-t)}
 .t-dots button:focus-visible{outline:2px solid var(--lilac-t);outline-offset:-2px;border-radius:8px}
+.t-dots button{-webkit-tap-highlight-color:transparent}
