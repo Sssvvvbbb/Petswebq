@@ -4,19 +4,19 @@
       "src": "/Assets/biblioteca/anforas/anfora_madera_crematorio_petsalcielo.webp",
       "grande": "/Assets/biblioteca/anforas/anfora_madera_crematorio_petsalcielo-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora_madera_crematorio_petsalcielo-140.webp",
-      "alt": "Ánfora de Madera en Crematorio Petsalcielo"
+      "alt": "Ánfora de Madera Raulí"
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora_bronce_crematorio_petsalcielo.webp",
       "grande": "/Assets/biblioteca/anforas/anfora_bronce_crematorio_petsalcielo-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora_bronce_crematorio_petsalcielo-140.webp",
-      "alt": "Ánfora de Bronce, huellitas y chip de identificación PetsAlCielo"
+      "alt": "Ánfora de Bronce, huellitas y chip de identificación"
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora_3d_ecologico_crematorio_pestacielo.webp",
       "grande": "/Assets/biblioteca/anforas/anfora_3d_ecologico_crematorio_pestacielo-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora_3d_ecologico_crematorio_pestacielo-140.webp",
-      "alt": "Ánfora 3D ecológica en crematorio PetsAlCielo"
+      "alt": "Ánfora 3D ecológica para gatitos"
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora_de_luz_crematorio_puerto_montt_pets_al_cielo.webp",
@@ -34,55 +34,55 @@
       "src": "/Assets/biblioteca/anforas/anfora-corazon-rosado.webp",
       "grande": "/Assets/biblioteca/anforas/anfora-corazon-rosado-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora-corazon-rosado-140.webp",
-      "alt": "Ánfora de bronce con forma de corazón pintada color rosado"
+      "alt": "Ánfora de bronce con forma de corazón pintada en rosado con huellitas doradas"
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora-corazon-blanco.webp",
       "grande": "/Assets/biblioteca/anforas/anfora-corazon-blanco-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora-corazon-blanco-140.webp",
-      "alt": "Ánfora de bronce con forma de corazón pintada color blanco"
+      "alt": "Ánfora de bronce con forma de corazón pintada en blanco con una huellita gris"
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora-3d-placas.webp",
       "grande": "/Assets/biblioteca/anforas/anfora-3d-placas-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora-3d-placas-140.webp",
-      "alt": "Ánfora de impresión 3D, muestra de plaquitas con nombre impreso de la mascotita"
+      "alt": "Ánfora de impresión 3D, lleva colgante con plaquita con nombre de la mascotita"
     },
     {
       "src": "/Assets/biblioteca/anforas/anforas-blancas.webp",
       "grande": "/Assets/biblioteca/anforas/anforas-blancas-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anforas-blancas-140.webp",
-      "alt": "Ánforas de bronce pintadas en blanco, tamaños pequeño, mediano y grande"
+      "alt": "Ánforas de bronce pintadas en blanco, tamaños pequeño, mediano y grande, con huellitas doradas"
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora-muydorada.webp",
       "grande": "/Assets/biblioteca/anforas/anfora-muydorada-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora-muydorada-140.webp",
-      "alt": "Ánfora de bronce pintada en dorado  tipo 1"
+      "alt": "Ánfora de bronce pintada en dorado con huellitas negras"
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora-dorada.webp",
       "grande": "/Assets/biblioteca/anforas/anfora-dorada-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora-dorada-140.webp",
-      "alt": "Ánfora de bronce pintada en dorado  tipo 2, más oscura"
+      "alt": "Ánfora de bronce pintada en dorado oscuro con huellitas doradas"
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora-madera2.webp",
       "grande": "/Assets/biblioteca/anforas/anfora-madera2-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora-madera2-140.webp",
-      "alt": "Ánforas de madera con impresión de la mascotita"
+      "alt": "Ánforas de madera con foto impresa de la mascotita"
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora-luna-kissie.webp",
       "grande": "/Assets/biblioteca/anforas/anfora-luna-kissie-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora-luna-kissie-140.webp",
-      "alt": "Ánfora de impresión 3D, tipo luna, con diseño de la mascotita y con bombilla a batería. Luna que ilumina"
+      "alt": "Ánfora de impresión 3D con forma de luna con dibujo de la mascotita y con bombilla a batería. Luna que ilumina por interruptor."
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora-morada.webp",
       "grande": "/Assets/biblioteca/anforas/anfora-morada-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora-morada-140.webp",
-      "alt": "Ánfora de bronce pintada en morado"
+      "alt": "Ánfora de bronce pintada en morado con huellitas grises"
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora-vela.webp",
@@ -112,7 +112,7 @@
       "src": "/Assets/biblioteca/anforas/anfora-cafe.webp",
       "grande": "/Assets/biblioteca/anforas/anfora-cafe-1100.webp",
       "mini": "/Assets/biblioteca/anforas/anfora-cafe-140.webp",
-      "alt": "Ánfora de bronce pintada café"
+      "alt": "Ánfora de bronce pintada café con huellas doradas"
     },
     {
       "src": "/Assets/biblioteca/anforas/anfora-gota.webp",
