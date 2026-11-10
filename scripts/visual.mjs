@@ -423,11 +423,12 @@ process.on('exit', () => rmSync(CANDADO, { force: true }));
 console.log('Compilando...');
 await new Promise((ok, mal) => spawn(process.execPath, [ASTRO, 'build', '--root', process.cwd()], { stdio: 'ignore' })
   .on('exit', c => (c === 0 ? ok() : mal(new Error('astro build falló (código ' + c + ')')))));
+// /admin no se prueba aquí: su API (Pages Functions) no existe en este servidor.
 // --paginas acepta "inicio,testimonios" o "/,/testimonios". Se queda con el último
 // segmento porque Git Bash convierte "/nosotros" en "C:/Program Files/Git/nosotros".
 paginas = args.paginas
   ? String(args.paginas).split(',').map(x => x.split('/').pop()).map(x => (x === '' || x === 'inicio' ? '/' : '/' + x))
-  : readdirSync('dist').filter(f => f.endsWith('.html')).map(f => (f === 'index.html' ? '/' : '/' + f.replace(/\.html$/, '')));
+  : readdirSync('dist').filter(f => f.endsWith('.html') && f !== 'admin.html').map(f => (f === 'index.html' ? '/' : '/' + f.replace(/\.html$/, '')));
 const servidor = await levantarServidor();
 const sitioPublico = ['/', '/testimonios', '/preguntas-frecuentes'].filter(p => paginas.includes(p));
 const browser = await puppeteer.launch({ executablePath: buscarChrome(), headless: true });

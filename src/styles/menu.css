@@ -307,3 +307,6 @@
 /* Ícono de WhatsApp de la barra superior (todas las páginas) */
 .wa-mini { display: inline-flex; align-items: center; transition: opacity 0.2s; }
 .wa-mini:hover { opacity: 0.75; }
+
+/* Corazón del menú de escritorio ("Ir a inicio"): área táctil de al menos 24 × 24 px */
+.nav-menu li a[aria-label="Ir a inicio"]{display:inline-flex;align-items:center;justify-content:center;min-width:24px;min-height:24px}

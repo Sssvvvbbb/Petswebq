@@ -415,6 +415,10 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
 /* las 3 diapositivas de la portada, como bloque, 20 px más abajo */
 .hero-inner>.hs{position:relative;top:20px}
 
+/* --pantalla: alto de la pantalla del celular sin la barra del navegador (svh); los
+   navegadores antiguos (Chrome < 108, iOS < 15.4) no conocen svh y usan vh. */
+:root{--pantalla:100vh}
+@supports(height:100svh){:root{--pantalla:100svh}}
 /* Portada con panel rosa-lila (2026-11-09): degradé lila → rosa a la izquierda (computador) o
    arriba (celular), que se funde con la foto; textos, raya y puntos en blanco. */
 /* --velo-salmon: la parte de arriba del panel, algo más clara y hacia el salmón (se
@@ -458,7 +462,7 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
 @media(max-width:349px){.hs-btns{flex-wrap:nowrap;gap:.35rem}.hero-inner>.hs:nth-child(n) .btn{font-size:.6rem!important;padding:.6rem .62rem!important;white-space:nowrap}}
 /* olas suaves al pie del panel rosa-lila (computador) */
 .hero-olas{display:none}
-@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-olas{display:block;position:absolute;z-index:1;left:0;top:calc(100svh - 52vw*245/1440);width:52vw;height:auto;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,#000 62%,transparent 97%),linear-gradient(180deg,#000 75%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,#000 62%,transparent 97%),linear-gradient(180deg,#000 75%,transparent 100%);mask-composite:intersect}}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-olas{display:block;position:absolute;z-index:1;left:0;top:calc(var(--pantalla) - 52vw*245/1440);width:52vw;height:auto;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,#000 62%,transparent 97%),linear-gradient(180deg,#000 75%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,#000 62%,transparent 97%),linear-gradient(180deg,#000 75%,transparent 100%);mask-composite:intersect}}
 /* computador: bajo la foto sigue el degradé rosa-lila (antes, lavanda) hasta la onda, que pasa del rosa al verde de Eco */
 @media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero{background:var(--velo-salmon),linear-gradient(90deg,#f1bbd1 0%,#f6c2d5 25%,#fbcbd9 55%,#fbd3dd 100%)}}
 /* Celular (2026-11-09): la foto queda donde estaba (arriba, el mismo paso al cielo) y
@@ -470,7 +474,7 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
    --fin-texto dónde termina la diapositiva más alta; solo el borde de arriba de la foto,
    casi transparente, puede pasar por detrás. La foto mide al menos 240 px (--foto-fin). */
 @media(max-width:639px),(max-width:899px) and (orientation:portrait){
- .hero{--ola1:#9ccdb0;--paso:14px;--h0:calc((100svh + var(--wh))*.46);--foto-base:calc((100svh + var(--wh))*.54 - var(--wh)*.92);--foto-top:max(var(--foto-base),calc(var(--fin-texto,0px) - var(--h0)*.12 + 16px));--foto-fin:max(100svh,calc(var(--foto-top) + 240px));--onda:calc(var(--wh)*.8 + 14px)}
+ .hero{--ola1:#9ccdb0;--paso:14px;--h0:calc((var(--pantalla) + var(--wh))*.46);--foto-base:calc((var(--pantalla) + var(--wh))*.54 - var(--wh)*.92);--foto-top:max(var(--foto-base),calc(var(--fin-texto,0px) - var(--h0)*.12 + 16px));--foto-fin:max(var(--pantalla),calc(var(--foto-top) + 240px));--onda:calc(var(--wh)*.8 + 14px)}
  .hero.pg{min-height:calc(var(--foto-fin) + var(--paso) + var(--onda))}
  .hero>.wv-movil{height:var(--onda)}
  .hero{background:linear-gradient(0deg,var(--ola1) 0,var(--ola1) calc(var(--onda) + 1px),transparent calc(var(--onda) + 1px)),var(--velo-salmon),linear-gradient(100deg,#f1bbd1 0%,#f5c0d4 55%,#f9c6d6 100%)!important}

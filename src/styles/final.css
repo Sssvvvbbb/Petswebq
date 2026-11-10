@@ -45,11 +45,11 @@ footer .fi{max-width:1180px;margin:0 auto}
 .finale .contact-value,.finale .contact-value a{color:#b28edc!important;font-weight:300;font-size:clamp(.62rem,2.3vw,1.62rem)}
 .finale .contact-icon{width:clamp(32px,7.2vw,74px);height:clamp(32px,7.2vw,74px)}
 .finale .contact-icon svg{width:50%;height:50%}
-.finale .footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#767791!important;margin-bottom:.9rem}
-.finale .footer-logo em{color:#767791!important;font-style:normal;padding:0}
-.finale .fgrid{color:#767791!important;font-size:.7rem;line-height:1.55}
-.finale .fgrid h4{color:#767791!important;font-size:.7rem}
-.finale .fbottom{color:#767791!important;border-top-color:rgba(118,119,145,.35)!important;font-size:.78rem}
+.finale .footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#64657f!important;margin-bottom:.9rem}
+.finale .footer-logo em{color:#64657f!important;font-style:normal;padding:0}
+.finale .fgrid{color:#64657f!important;font-size:.7rem;line-height:1.55}
+.finale .fgrid h4{color:#64657f!important;font-size:.7rem}
+.finale .fbottom{color:#64657f!important;border-top-color:rgba(118,119,145,.35)!important;font-size:.78rem}
 @media(min-width:760px){.finale .fgrid{grid-template-columns:repeat(4,1fr);gap:1.4rem}.finale footer{padding-left:clamp(1.5rem,10vw,200px);padding-right:clamp(1.5rem,10vw,200px)}}
 .finale .ig-btn{display:none!important}
 .finale .contact-item{position:relative;cursor:pointer;transition:transform .3s}
@@ -80,4 +80,4 @@ footer .fi{max-width:1180px;margin:0 auto}
 .contact-icon svg.tel-ic{width:40px;height:40px}
 @media(max-width:768px){.contact-icon svg.tel-ic{width:26px;height:26px}}
 .finale .contact-icon svg.tel-ic{width:57.6%;height:57.6%}
-.finale .fgrid h3{color:#767791;font-size:.7rem;font-weight:600;margin-bottom:.4rem}
+.finale .fgrid h3{color:#64657f;font-size:.7rem;font-weight:600;margin-bottom:.4rem}
