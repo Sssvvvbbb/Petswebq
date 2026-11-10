@@ -58,14 +58,6 @@ export async function listar(env: Env, carpeta: string, ref: string): Promise<{ 
     return ghJson(env, `/contents/${rutaApi(carpeta)}?ref=${encodeURIComponent(ref)}`);
 }
 
-// Cuántas fotos nuevas se guardaron hoy desde /admin en la rama (según los mensajes
-// "Admin: … (+N fotos…)"). Se usa para el límite diario del sitio de prueba.
-export async function fotosDeHoy(env: Env): Promise<number> {
-    const hoy = new Date(Date.now() - 3 * 3600_000).toISOString().slice(0, 10); // día en Chile (aprox.)
-    const lista = await ghJson<{ commit: { message: string } }[]>(env, `/commits?sha=${encodeURIComponent(rama(env))}&since=${hoy}T03:00:00Z&per_page=100`);
-    return lista.reduce((n, c) => n + Number((c.commit.message.match(/^Admin:.*\(\+(\d+) foto/) || [])[1] || 0), 0);
-}
-
 // Archivo binario tal cual (para ver fotos recién subidas que aún no se publican).
 export function leerCrudo(env: Env, ruta: string): Promise<Response> {
     return gh(env, `/contents/${rutaApi(ruta)}?ref=${encodeURIComponent(rama(env))}`, {}, 'application/vnd.github.raw+json');

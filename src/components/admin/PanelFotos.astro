@@ -1,0 +1,10 @@
+---
+// Script del panel de /admin (src/scripts/admin/panel.ts). Va en este componente y no en
+// la página para que Astro lo publique como /_astro/PanelFotos….js: la regla de
+// Cloudflare que protege /admin bloquea toda dirección con "admin" salvo las exactas
+// (ver CLAUDE.md, "/admin"), así que los archivos del panel no llevan esa palabra.
+import '../../styles/panel-fotos.css';
+---
+<script>
+    import '../../scripts/admin/panel';
+</script>

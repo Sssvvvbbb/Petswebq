@@ -172,7 +172,7 @@ html.ad-sin-scroll { overflow: hidden; }
 .ad-aviso { margin: 0 0 16px; padding: 14px 18px; border-radius: 18px; background: #f1ecfb; color: var(--navy); font-size: 1.05rem; }
 .ad-aviso.ad-ok { background: #e3f4ec; color: #1f5e4c; }
 .ad-aviso.ad-error { background: #fdecef; color: var(--rojo); }
-.ad-aviso.ad-prueba { background: #fff4d9; color: #6b5212; }
+
 
 @media (max-width: 640px) {
     :root { --cab: 78px; }
@@ -206,9 +206,9 @@ html.ad-sin-scroll { overflow: hidden; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation-duration: 2s !important; } }
 
-/* Clave del sitio de prueba */
-.ad-clave-caja { width: min(460px, 100%); height: auto !important; }
-.ad-clave-cuerpo { display: flex; flex-direction: column; gap: 10px; padding: 18px 20px 4px; }
-.ad-clave-cuerpo input { padding: 14px 16px; border: 2px solid var(--borde); border-radius: 14px; font-size: 18px; }
-.ad-clave-cuerpo input:focus { border-color: var(--lilac2); outline: none; }
-@media (max-width: 640px) { .ad-previa:has(.ad-clave-caja) { padding: 16px; } .ad-clave-caja { border-radius: 24px !important; } .ad-clave-caja .ad-previa-pie { flex-direction: row; } }
+/* Sin menú del clic derecho ni del toque largo (iPhone) en todo el panel (ver panel.ts). */
+body { -webkit-touch-callout: none; }
+
+/* Salir: cierra la sesión de Cloudflare Access (código al correo). */
+.ad-salir { font: inherit; border: 0; cursor: pointer; color: var(--lilac-t); font-weight: 500; white-space: nowrap; text-decoration: none; padding: 8px 14px; border-radius: 999px; background: rgba(255, 255, 255, .7); }
+.ad-salir:hover { background: #fff; }

@@ -3,8 +3,9 @@
 // ordenarlas arrastrándolas (con el mouse, o manteniendo el dedo encima en el
 // celular), escribir qué se ve en cada una, quitarlas y guardar. Guardar manda la
 // lista final a /api/admin/guardar, que hace un commit en main; el sitio se publica
-// solo en unos minutos (.github/workflows/deploy.yml). En las vistas previas
-// (*.pages.dev) la API está en modo de prueba: todo funciona igual, pero no se guarda.
+// solo en unos minutos (.github/workflows/deploy.yml). Se entra con el código que
+// Cloudflare Access manda al correo; el dueño lo enciende y apaga con una regla del panel
+// de Cloudflare (ver CLAUDE.md, "/admin").
 // Textos sin palabras técnicas: lo usa la administradora del sitio.
 import { convertir, type Convertida } from './webp';
 
@@ -60,47 +61,20 @@ function avisar(texto: string, tipo: 'ok' | 'error' | 'info' = 'info') {
     if (texto && tipo !== 'info') aviso.scrollIntoView({ block: 'center', behavior: suave() });
 }
 
-// Sitio de prueba (index.petswebq.pages.dev): guardar pide una clave simple, que se
-// recuerda mientras la pestaña esté abierta.
-let pruebaReal = false;
-const leerClave = () => { try { return sessionStorage.getItem('adClave') || ''; } catch { return ''; } };
-const guardarClave = (c: string) => { try { if (c) sessionStorage.setItem('adClave', c); else sessionStorage.removeItem('adClave'); } catch { /* sin almacenamiento */ } };
-class ErrorClave extends Error {}
-
-function pedirClave(error = ''): Promise<boolean> {
-    const caja = $('adClave'), inp = $<HTMLInputElement>('adClaveInput'), err = $('adClaveError');
-    caja.hidden = false;
-    document.documentElement.classList.add('ad-sin-scroll');
-    inp.value = '';
-    err.textContent = error;
-    err.hidden = !error;
-    inp.focus();
-    return new Promise(listo => {
-        const cerrar = (ok: boolean) => {
-            caja.hidden = true;
-            if ($('adPrevia').hidden) document.documentElement.classList.remove('ad-sin-scroll');
-            $('adClaveForm').removeEventListener('submit', enviar);
-            $('adClaveCancelar').removeEventListener('click', cancelar);
-            listo(ok);
-        };
-        const enviar = (e: Event) => { e.preventDefault(); guardarClave(inp.value.trim()); cerrar(!!inp.value.trim()); };
-        const cancelar = () => cerrar(false);
-        $('adClaveForm').addEventListener('submit', enviar);
-        $('adClaveCancelar').addEventListener('click', cancelar);
-    });
-}
+// Sin menú del clic derecho (ni del toque largo) en todo el panel, por decisión del dueño.
+document.addEventListener('contextmenu', e => e.preventDefault());
 
 async function api<T>(ruta: string, init: RequestInit = {}): Promise<T> {
     let r: Response;
     try {
-        const clave = leerClave();
-        r = await fetch('/api/admin/' + ruta, { ...init, credentials: 'same-origin', headers: { 'X-Admin': '1', ...(clave ? { 'X-Clave': clave } : {}) } });
+        r = await fetch('/api/admin/' + ruta, { ...init, credentials: 'same-origin', headers: { 'X-Admin': '1' } });
     } catch {
-        // Con la sesión de Access vencida, la API redirige al inicio de sesión de otro dominio y fetch falla.
+        // Con la sesión del correo vencida, Access redirige a su inicio de sesión (otro dominio) y fetch falla.
         throw new Error('Se cortó la conexión o hay que volver a entrar. Recarga la página.');
     }
-    const d = await r.json().catch(() => null) as (T & { error?: string; clave?: boolean }) | null;
-    if (r.status === 401 && d?.clave) { guardarClave(''); throw new ErrorClave(d.error); }
+    const d = await r.json().catch(() => null) as (T & { error?: string }) | null;
+    // Panel apagado: la regla de Cloudflare responde con su propia página (no JSON).
+    if (!d && r.status === 403) throw new Error('El panel está apagado. Pide que lo enciendan y recarga la página.');
     if (!r.ok || !d) throw new Error(d?.error || 'Algo salió mal. Recarga la página.');
     return d;
 }
@@ -284,16 +258,9 @@ function opciones() {
 }
 
 async function cargar(seguir?: string) {
-    const d = await api<{ correo: string; prueba?: boolean; pruebaReal?: boolean; secciones: SeccionSrv[] }>('estado');
-    pruebaReal = !!d.pruebaReal;
-    $('adPrueba').hidden = !d.prueba && !pruebaReal;
-    if (pruebaReal) {
-        const b = document.createElement('strong');
-        b.textContent = 'Sitio de prueba: las fotos sí se suben, pero solo a esta página de prueba.';
-        $('adPrueba').replaceChildren(b, document.createTextNode(' La página real (petsalcielo.cl) no cambia.'));
-    }
+    const d = await api<{ correo?: string; secciones: SeccionSrv[] }>('estado');
     secciones = d.secciones;
-    $('adCorreo').textContent = d.prueba || pruebaReal ? '' : d.correo ? 'Hola, ' + d.correo : '';
+    $('adCorreo').textContent = d.correo ? 'Hola, ' + d.correo : '';
     actual = null;
     opciones();
     $('adCargando').hidden = true;
@@ -492,7 +459,6 @@ async function guardar() {
     if (!activas.length && !confirm('No quedará ninguna foto aquí. ¿Guardar igual?')) return;
     const quitadas = filas.filter(f => f.quitada && !f.nuevo).length;
     if (quitadas && !confirm(`Vas a quitar ${plural(quitadas, 'foto', 'fotos')} de la página. ¿Seguro?`)) return;
-    if (pruebaReal && !leerClave() && !(await pedirClave())) return;
 
     const fd = new FormData();
     fd.set('seccion', s.id);
@@ -509,22 +475,11 @@ async function guardar() {
     $('adGuardarTxt').textContent = 'Guardando…';
     avisar('Guardando… espera un poquito y no cierres la página.');
     try {
-        let r: { nuevas: number; quitadas: number; prueba?: boolean; pruebaReal?: boolean };
-        try {
-            r = await api('guardar', { method: 'POST', body: fd });
-        } catch (e) {
-            // Clave equivocada: se pide otra vez y se reintenta.
-            if (!(e instanceof ErrorClave) || !(await pedirClave(e.message))) throw e instanceof ErrorClave ? new Error('No se guardó: falta la clave de prueba.') : e;
-            r = await api('guardar', { method: 'POST', body: fd });
-        }
+        await api('guardar', { method: 'POST', body: fd });
         original = JSON.stringify(pedido());
-        if (r.prueba) {
-            avisar('¡Muy bien! 🎉 Todo funcionó. Como esto es una prueba, la página de verdad no cambió.', 'ok');
-            return;
-        }
         ocupado = false;
         await cargar(s.id);
-        avisar(r.pruebaReal ? '¡Listo! 🎉 Se guardó en el sitio de prueba. Las fotos aparecerán en esta página de prueba en unos minutos.' : '¡Listo! 🎉 Las fotos aparecerán en la página en unos minutos.', 'ok');
+        avisar('¡Listo! 🎉 Las fotos aparecerán en la página en unos minutos.', 'ok');
     } catch (e) {
         avisar(e instanceof Error ? e.message : 'No se pudo guardar. Inténtalo otra vez.', 'error');
     } finally {
@@ -668,6 +623,14 @@ zona.addEventListener('drop', e => {
 });
 guardarBtn.addEventListener('click', guardar);
 descartarBtn.addEventListener('click', () => { if (actual && confirm('¿Deshacer todos los cambios que no guardaste?')) { const id = actual.id; actual = null; abrir(id); } });
-addEventListener('beforeunload', e => { if (cambiado() || ocupado || pendientes.length) e.preventDefault(); });
+let saliendo = false;
+addEventListener('beforeunload', e => { if (!saliendo && (cambiado() || ocupado || pendientes.length)) e.preventDefault(); });
+
+// Salir: cierra la sesión de Cloudflare Access (dirección de Cloudflare, no del sitio).
+$('adSalir').addEventListener('click', () => {
+    if ((cambiado() || pendientes.length) && !confirm('Hay cambios sin guardar. ¿Salir igual?')) return;
+    saliendo = true;
+    location.href = '/cdn-cgi/access/logout';
+});
 
 cargar().catch(e => { $('adCargando').textContent = e instanceof Error ? e.message : 'No se pudo cargar. Recarga la página.'; });

@@ -10,7 +10,7 @@
 //   mover o quitar, pero no se suben desde aquí.
 // Las fotos llegan ya convertidas a WebP por el navegador (src/scripts/admin/).
 import type { Env } from './tipos';
-import { cabeza, commit, crearBlob, fotosDeHoy, leerTexto, listar, rama } from './github';
+import { cabeza, commit, crearBlob, leerTexto, listar, rama } from './github';
 
 export class ErrorUsuario extends Error {
     constructor(mensaje: string, public status = 400) { super(mensaje); }
@@ -53,25 +53,6 @@ export async function leerSeccion(env: Env, s: Seccion, ref: string) {
     return { sha, datos, items: items.filter(it => it && typeof it.src === 'string') };
 }
 
-// Modo de prueba (vistas previas en *.pages.dev, sin Access ni token): las secciones
-// se leen de los JSON publicados en el propio despliegue y nada se escribe.
-export interface Prueba { activos: { fetch(r: Request): Promise<Response> }; origen: string }
-
-export function seccionesPrueba(): Seccion[] {
-    return [
-        ...ORDEN.map(c => ({ id: 'galeria:' + c, tipo: 'galeria' as const, titulo: GALERIAS[c].titulo, ruta: `public/gallery/${c}.json` })),
-        { id: 'testimonios', tipo: 'testimonios', titulo: 'Testimonios de la página web', ruta: 'public/Assets/pagina-web-testimonios/testimonios/testimonios.json' },
-    ];
-}
-
-export async function leerPublicada(prueba: Prueba, s: Seccion) {
-    const r = await prueba.activos.fetch(new Request(prueba.origen + s.ruta.slice('public'.length)));
-    const datos = JSON.parse(await r.text()); // un JSON que no existe llega como HTML y falla aquí
-    const items: Item[] = s.tipo === 'galeria' ? datos.fotos : datos;
-    if (!Array.isArray(items)) throw new Error(`${s.ruta} no tiene el formato esperado`);
-    return { sha: 'publicado', datos, items: items.filter(it => it && typeof it.src === 'string') };
-}
-
 export const limpiarAlt = (x: unknown) =>
     String(x ?? '').replace(/[\u0000-\u001f\u007f<>]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200);
 
@@ -97,28 +78,20 @@ interface Pedido { src?: unknown; nuevo?: unknown; alt?: unknown }
 // una foto existente {src, alt} o una nueva {nuevo: "n0", alt} con sus archivos en
 // el formulario). `base` es el sha del JSON que se cargó: si alguien más lo cambió
 // entretanto, no se pisa (409).
-export async function guardar(env: Env, form: FormData, prueba?: Prueba, maxDia?: number): Promise<{ commit: string; nuevas: number; quitadas: number; prueba?: boolean }> {
+export async function guardar(env: Env, form: FormData): Promise<{ commit: string; nuevas: number; quitadas: number }> {
     const id = String(form.get('seccion') || '');
     const base = String(form.get('sha') || '');
     let pedido: Pedido[];
     try { pedido = JSON.parse(String(form.get('lista') || '')); } catch { throw new ErrorUsuario('Lista inválida'); }
     if (!Array.isArray(pedido) || pedido.length > 300) throw new ErrorUsuario('Lista inválida');
 
-    const s = (prueba ? seccionesPrueba() : await secciones(env)).find(x => x.id === id);
+    const s = (await secciones(env)).find(x => x.id === id);
     if (!s) throw new ErrorUsuario('Sección desconocida');
-
-    // Sitio de prueba: máximo de fotos nuevas por día.
-    if (maxDia) {
-        const pedidas = pedido.filter(p => p?.nuevo !== undefined).length;
-        const hechas = pedidas ? await fotosDeHoy(env) : 0;
-        if (hechas + pedidas > maxDia) throw new ErrorUsuario(`En el sitio de prueba se pueden subir ${maxDia} fotos por día y hoy ya van ${hechas}. Mañana se puede seguir.`, 429);
-    }
 
     // Fotos nuevas: se validan y suben como blobs una sola vez (sirven en los reintentos).
     const stamp = sello();
     const archivos: { path: string; sha: string }[] = [];
     const nuevas = new Map<string, Item>();
-    const subir = (b: Uint8Array) => (prueba ? Promise.resolve('') : crearBlob(env, b));
     for (const p of pedido) {
         if (p?.nuevo === undefined) continue;
         const n = String(p.nuevo);
@@ -132,19 +105,19 @@ export async function guardar(env: Env, form: FormData, prueba?: Prueba, maxDia?
             const nombre = `${carpeta}/${carpeta.split('/').pop()}-${stamp}-${azar()}`;
             const v: Record<string, string> = { src: `${nombre}.webp`, grande: `${nombre}-1100.webp`, mini: `${nombre}-140.webp` };
             for (const [campo, url] of Object.entries(v)) {
-                archivos.push({ path: 'public' + url, sha: await subir(await webp(form, `${n}:${campo}`, LIMITES[campo])) });
+                archivos.push({ path: 'public' + url, sha: await crearBlob(env, await webp(form, `${n}:${campo}`, LIMITES[campo])) });
             }
             nuevas.set(n, { ...v, alt });
         } else {
             const url = `/Assets/pagina-web-testimonios/testimonios/testimonio-${stamp}-${azar()}.webp`;
-            archivos.push({ path: 'public' + url, sha: await subir(await webp(form, `${n}:src`, 1_500_000)) });
+            archivos.push({ path: 'public' + url, sha: await crearBlob(env, await webp(form, `${n}:src`, 1_500_000)) });
             nuevas.set(n, { type: 'image', src: url, mp4: '', poster: '', alt });
         }
     }
 
     for (let intento = 0; intento < 3; intento++) {
-        const padre = prueba ? null : await cabeza(env);
-        const actual = prueba ? await leerPublicada(prueba, s) : await leerSeccion(env, s, padre!.commit);
+        const padre = await cabeza(env);
+        const actual = await leerSeccion(env, s, padre.commit);
         if (actual.sha !== base) throw new ErrorUsuario('Alguien cambió estas fotos hace un ratito. Recarga la página y vuelve a intentarlo.', 409);
 
         const porSrc = new Map(actual.items.map(it => [it.src, it]));
@@ -163,8 +136,7 @@ export async function guardar(env: Env, form: FormData, prueba?: Prueba, maxDia?
         const partes = [nuevas.size && `+${nuevas.size} foto${nuevas.size > 1 ? 's' : ''}`, quitadas && `-${quitadas} quitada${quitadas > 1 ? 's' : ''}`].filter(Boolean);
         const mensaje = `Admin: ${s.titulo}${partes.length ? ` (${partes.join(', ')})` : ' (orden y descripciones)'}\n\nGuardado desde /admin (rama ${rama(env)}).`;
 
-        if (prueba) return { commit: 'prueba', nuevas: nuevas.size, quitadas, prueba: true };
-        const hecho = await commit(env, padre!, [...archivos, { path: s.ruta, content: JSON.stringify(datos, null, 2) + '\n' }], mensaje);
+        const hecho = await commit(env, padre, [...archivos, { path: s.ruta, content: JSON.stringify(datos, null, 2) + '\n' }], mensaje);
         if (hecho) return { commit: hecho, nuevas: nuevas.size, quitadas };
     }
     throw new ErrorUsuario('Hay mucho movimiento ahora. Espera un momento y vuelve a guardar.', 503);

@@ -20,7 +20,26 @@ export default defineConfig({
   // CSS minificado con esbuild: lightningcss (el de Vite por defecto) borra
   // `backdrop-filter` cuando le sigue `-webkit-backdrop-filter`, y Chrome pierde
   // el desenfoque del menú y de las tarjetas.
-  vite: { build: { assetsInlineLimit: 0, cssMinify: 'esbuild' } },
+  // assetFileNames repite la regla de Astro (vite-build-config.js: el nombre de página
+  // llega como "<página>@_@astro" y se corta en "@_@") y solo cambia el CSS de /admin a
+  // panel-fotos.<hash>.css: la regla de Cloudflare que protege /admin bloquea toda
+  // dirección con "admin" salvo las exactas del panel (ver CLAUDE.md, "/admin").
+  vite: {
+    build: {
+      assetsInlineLimit: 0,
+      cssMinify: 'esbuild',
+      rollupOptions: {
+        output: {
+          assetFileNames(info) {
+            const nombre = info.names?.[0] ?? '';
+            const pagina = nombre.includes('@_@') ? nombre.split('@_@')[0] : null;
+            if (pagina === 'admin') return '_astro/panel-fotos.[hash][extname]';
+            return pagina ? `_astro/${pagina}.[hash][extname]` : '_astro/[name].[hash][extname]';
+          },
+        },
+      },
+    },
+  },
   // Saca los atributos style del HTML a un CSS (la CSP no permite estilos en línea).
   integrations: [estilosEnLinea()],
 });

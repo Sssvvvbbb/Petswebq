@@ -2,11 +2,11 @@
 // /admin: la administradora sube fotos a las galerías de la Biblioteca y al carrusel
 // de /testimonios. Pensada para usarse sin saber nada técnico: íconos grandes, pocas
 // palabras, y las fotos se ordenan arrastrándolas (manteniéndolas presionadas en el
-// celular). Protegida con Cloudflare Access (código al correo); la API está en
-// functions/api/admin/ y guarda cada cambio como un commit en main (ver CLAUDE.md,
-// sección "/admin"). Sin índice en Google (noindex aquí y X-Robots-Tag en _headers),
+// celular). Se entra con el código que Cloudflare Access manda al correo, y el dueño lo
+// enciende y apaga con una regla del panel de Cloudflare. La API está en functions/api/admin/ y guarda cada cambio como un commit
+// en main (ver CLAUDE.md, sección "/admin"). Sin menú del clic derecho. Sin índice en Google (noindex aquí y X-Robots-Tag en _headers),
 // sin Google Analytics y con su propia CSP (permite WebAssembly para convertir a WebP).
-import '../styles/admin.css';
+import PanelFotos from '../components/admin/PanelFotos.astro';
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -38,12 +38,12 @@ import '../styles/admin.css';
 <a class="ad-logo" href="/"><img src="/Assets/logo_para_web-360.webp" alt="Pets Al Cielo" width="180" height="180"></a>
 <div class="ad-cab-txt"><h1>Fotos de <em>Pets Al Cielo</em></h1><p id="adCorreo"></p></div>
 <a class="ad-ver" href="/" target="_blank" rel="noopener">Ver la página ↗</a>
+<button type="button" class="ad-salir" id="adSalir">Salir</button>
 <svg class="ad-ondas" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 22C240 4 480 4 720 20s480 18 720 2v18H0z" fill="#fcf9f2"/></svg>
 </header>
 
 <main class="ad-main">
 <noscript><p class="ad-aviso ad-error">Esta página necesita JavaScript.</p></noscript>
-<p id="adPrueba" class="ad-aviso ad-prueba" hidden><strong>Puede probar todo, pero la página real no cambia.</strong> Esto es una web de experimentación para próxima implementación.</p>
 <p id="adCargando" class="ad-cargando"><span class="ad-giro" aria-hidden="true"></span> Cargando…</p>
 
 <section class="ad-paso" id="adPaso1" aria-labelledby="adP1" hidden>
@@ -71,18 +71,6 @@ import '../styles/admin.css';
 </section>
 </main>
 
-<div class="ad-previa" id="adClave" role="dialog" aria-modal="true" aria-labelledby="adClaveT" hidden>
-<form class="ad-previa-caja ad-clave-caja" id="adClaveForm">
-<div class="ad-previa-cab"><h2 id="adClaveT">Clave de prueba</h2></div>
-<div class="ad-clave-cuerpo">
-<label for="adClaveInput">Escriba la clave para guardar en el sitio de prueba.</label>
-<input type="password" id="adClaveInput" autocomplete="off" required>
-<p class="ad-error" id="adClaveError" hidden></p>
-</div>
-<div class="ad-previa-pie"><button type="button" class="ad-sec" id="adClaveCancelar">Cancelar</button><button type="submit" class="ad-pri">Entrar</button></div>
-</form>
-</div>
-
 <div class="ad-previa" id="adPrevia" role="dialog" aria-modal="true" aria-labelledby="adPreviaT" hidden>
 <div class="ad-previa-caja">
 <div class="ad-previa-cab"><h2 id="adPreviaT" tabindex="-1"></h2><button type="button" class="ad-cerrar" id="adPreviaCerrar" aria-label="Cancelar y no agregar"><svg aria-hidden="true"><use href="#i-cerrar"/></svg></button></div>
@@ -99,8 +87,6 @@ import '../styles/admin.css';
 </div>
 </div>
 
-<script>
-    import '../scripts/admin/panel';
-</script>
+<PanelFotos />
 </body>
 </html>

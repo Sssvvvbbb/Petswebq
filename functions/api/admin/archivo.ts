@@ -3,8 +3,7 @@
 import { leerCrudo } from '../../../servidor/admin/github';
 import { respuesta, type Contexto } from '../../../servidor/admin/tipos';
 
-export async function onRequestGet({ request, env, data }: Contexto): Promise<Response> {
-    if (data.prueba) return respuesta({ error: 'No disponible en modo de prueba' }, 404);
+export async function onRequestGet({ request, env }: Contexto): Promise<Response> {
     const ruta = new URL(request.url).searchParams.get('ruta') || '';
     if (!/^\/Assets\/[\p{L}\p{N}_\-./]+\.webp$/u.test(ruta) || ruta.includes('..')) return respuesta({ error: 'Ruta inválida' }, 400);
     const r = await leerCrudo(env, 'public' + ruta);
