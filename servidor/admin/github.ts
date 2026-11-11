@@ -68,7 +68,8 @@ export async function crearBlob(env: Env, bytes: Uint8Array): Promise<string> {
     return b.sha;
 }
 
-export interface Entrada { path: string; sha?: string; content?: string }
+// sha: null borra el archivo.
+export interface Entrada { path: string; sha?: string | null; content?: string }
 
 // Crea el commit sobre `padre` y mueve la rama (sin forzar). Devuelve null si la
 // rama avanzó mientras tanto (otro commit, p. ej. el bot de Instagram): quien llama
@@ -76,7 +77,7 @@ export interface Entrada { path: string; sha?: string; content?: string }
 export async function commit(env: Env, padre: { commit: string; arbol: string }, entradas: Entrada[], mensaje: string): Promise<string | null> {
     const arbol = await ghJson<{ sha: string }>(env, '/git/trees', {
         method: 'POST',
-        body: JSON.stringify({ base_tree: padre.arbol, tree: entradas.map(e => ({ path: e.path, mode: '100644', type: 'blob', ...(e.sha ? { sha: e.sha } : { content: e.content }) })) }),
+        body: JSON.stringify({ base_tree: padre.arbol, tree: entradas.map(e => ({ path: e.path, mode: '100644', type: 'blob', ...(e.sha !== undefined ? { sha: e.sha } : { content: e.content }) })) }),
     });
     const c = await ghJson<{ sha: string }>(env, '/git/commits', {
         method: 'POST',

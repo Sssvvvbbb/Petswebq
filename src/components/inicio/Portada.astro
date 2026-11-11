@@ -54,6 +54,8 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
     // y se detiene con el mouse sobre un botón o con el foco de teclado en uno. Avanza
     // aunque el equipo pida reducir el movimiento (decisión del dueño, 2026-11-10).
     // Un clic o toque en la parte lila (fuera de los botones) pasa a la siguiente.
+    // Mientras un dedo toca la portada (celular, tablet) no corre el tiempo; al soltar,
+    // vuelve a contar desde cero. En computador (mouse) no cambia nada.
     // Al entrar, la primera diapositiva pasa a la segunda 1 s después de que termina la
     // animación corazón → huella (celular ~6,3 s, computador ~2,7 s; se lee de la propia
     // animación); desde ahí, cada 4 s. En celular los corazones se desvanecen mientras se
@@ -80,8 +82,11 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
     let actual = 0;
     let temporizador: number | undefined;
     let detenido = false;
+    let tocando = false;
+    let cambio = false; // ya pasó a la segunda diapositiva al menos una vez
 
     function mostrar(n: number) {
+        cambio = true;
         diapositivas[actual].classList.remove('active');
         actual = (n + diapositivas.length) % diapositivas.length;
         diapositivas[actual].classList.add('active');
@@ -91,7 +96,7 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
         clearInterval(temporizador);
         clearTimeout(temporizador);
         const esta = ++ronda; // una espera de los corazones que quedó atrás ya no cuenta
-        if (document.hidden || detenido) return;
+        if (document.hidden || detenido || tocando) return;
         if (primera) {
             primera = false;
             finCorazones().then(() => {
@@ -121,6 +126,16 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
         const f = foto.getBoundingClientRect();
         return e.clientY < f.top + f.height * 0.2;
     }
+    portada?.addEventListener('pointerdown', e => {
+        if (e.pointerType === 'mouse') return;
+        tocando = true;
+        // Antes del primer cambio, al soltar se vuelve a esperar a los corazones.
+        if (!cambio) primera = true;
+        clearInterval(temporizador); clearTimeout(temporizador); ronda++;
+    });
+    const soltar = (e: PointerEvent) => { if (tocando && e.pointerType !== 'mouse') { tocando = false; avanzar(); } };
+    addEventListener('pointerup', soltar);
+    addEventListener('pointercancel', soltar);
     portada?.addEventListener('click', e => {
         if ((e.target as Element).closest('a, button') || !enLila(e)) return;
         mostrar(actual + 1);

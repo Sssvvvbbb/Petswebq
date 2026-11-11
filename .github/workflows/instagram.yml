@@ -58,7 +58,11 @@ jobs:
     needs: update-feed
     if: needs.update-feed.outputs.sha != ''
     uses: ./.github/workflows/deploy.yml
+    permissions:
+      contents: read  # deploy.yml lee qué archivos se borraron, para purgarlos de la caché
     with:
       sha: ${{ needs.update-feed.outputs.sha }}
     secrets:
       CF_DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
+      CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+      CF_PURGE_TOKEN: ${{ secrets.CF_PURGE_TOKEN }}

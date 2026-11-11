@@ -171,6 +171,22 @@ for (const j of JSONS) {
   for (const m of texto.matchAll(/"(?:src|poster|mp4)"\s*:\s*"([^"]+)"/g)) revisar(m[1], j, null);
 }
 
+// /admin borra los archivos de una foto quitada de su galería, salvo los que el código
+// usa directamente: esos deben estar en servidor/admin/protegidas.ts.
+{
+  const protegidas = new Set(readFileSync('servidor/admin/protegidas.ts', 'utf8').match(/'\/Assets\/[^']+'/g)?.map(s => s.slice(1, -1)) ?? []);
+  const BORRABLE = /\/Assets\/(?:biblioteca\/[a-z0-9-]+|pagina-web-testimonios\/testimonios)\/[^"'`\s)(,]+\.(?:webp|webm|mp4|jpe?g|png)/gi;
+  (function recorrer(dir) {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, e.name);
+      if (e.isDirectory()) { if (!/^(admin)$/.test(e.name)) recorrer(p); continue; }
+      if (!/\.(astro|ts|mjs|js|css)$/.test(e.name)) continue;
+      for (const m of readFileSync(p, 'utf8').matchAll(BORRABLE))
+        if (!protegidas.has(m[0])) errores.push(`${p.replace(/\\/g, '/')}: usa ${m[0]}, que /admin borraría si se quita de su galería. Agregarla a servidor/admin/protegidas.ts`);
+    }
+  })('src');
+}
+
 if (avisos.length) {
   console.log(`Avisos en páginas que redirigen a la home (${avisos.length}):`);
   avisos.forEach(a => console.log('  · ' + a));

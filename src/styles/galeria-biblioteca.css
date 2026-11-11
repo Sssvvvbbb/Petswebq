@@ -36,9 +36,9 @@
 .gal[data-view="choose"] .gal-count{visibility:hidden}.gal[data-view="choose"] .gal-thumbs,.gal[data-view="choose"] .gal-cap,.gal[data-view="choose"] .gal-stage{display:none}
 .gal[data-view="gallery"] .gal-choose{display:none}
 .gal-choose{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;padding:0 1.2rem 2rem;min-height:0}
-.gal-opt{position:relative;width:min(100%,460px);height:clamp(150px,26vh,220px);border:1px solid rgba(255,255,255,.22);border-radius:20px;overflow:hidden;padding:0;cursor:pointer;background:#111;color:#fff;font:inherit;text-align:left;transition:transform .25s,border-color .25s}
+.gal-opt{position:relative;width:min(100%,460px);height:clamp(150px,26vh,220px);border:1px solid rgba(255,255,255,.22);border-radius:20px;overflow:hidden;padding:0;cursor:pointer;background:#111;color:#fff;font:inherit;text-align:left;transition:transform .3s,border-color .3s}
 .gal-opt:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.5)}
-.gal-opt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}.gal-opt:hover img{transform:scale(1.05)}
+.gal-opt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .gal-opt::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,22,46,.05) 30%,rgba(18,22,46,.78) 100%)}
 .gal-opt span{position:absolute;left:1.2rem;right:1.2rem;bottom:1rem;z-index:2;display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
 .gal-opt b{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.7rem}
@@ -91,5 +91,13 @@
 /* galerías sin vista general: sin botón "Ver ..." */
 .gal-back[hidden]{display:none!important}
 .gal-vacio{color:var(--ink2)}
-@media(prefers-reduced-motion:reduce){.gal,.gal-slide,.gal-slide img,.gal-opt,.gal-opt img,.gal-thumbs button{transition:none}}
+@media(prefers-reduced-motion:reduce){.gal,.gal-slide img,.gal-thumbs button{transition:none}}
+/* Cambio de foto: la nueva aparece encima en 0,7 s (como las diapositivas del hero) y la
+   anterior se desvanece después, así nunca se ve el fondo claro entre las dos (antes ambas
+   se desvanecían a la vez y se notaba un destello). También con movimiento reducido
+   (decisión del dueño, 2026-11-10): sin transición el cambio era un golpe. */
+.gal-slide{z-index:0;transition:opacity .5s ease .4s,visibility 0s .9s}
+.gal-slide.act{z-index:1;transition:opacity .7s ease,visibility 0s}
+/* Ánforas / Relicarios: al pasar el cursor suben 3 px en 0,3 s, como los botones de contacto
+   (PieFinal), también con movimiento reducido: sin transición, el cambio era un salto. */
 .gal-arrow[hidden]{display:none}

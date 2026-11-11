@@ -9,8 +9,13 @@
 //   testimonio-<fecha>-<azar>.webp, recortadas a 9:16. Los videos existentes se pueden
 //   mover o quitar, pero no se suben desde aquí.
 // Las fotos llegan ya convertidas a WebP por el navegador (src/scripts/admin/).
+// Quitar una foto la borra del sitio por completo (decisión del dueño, 2026-11-11): en el
+// mismo commit se borran sus archivos (todas sus versiones) si ninguna otra sección ni el
+// código (PROTEGIDAS) los usa, y las líneas de _redirects que llevaban a ellos.
+// .github/workflows/deploy.yml los purga de la caché de Cloudflare al publicarse.
 import type { Env } from './tipos';
-import { cabeza, commit, crearBlob, leerTexto, listar, rama } from './github';
+import { cabeza, commit, crearBlob, leerTexto, listar, rama, type Entrada } from './github';
+import { PROTEGIDAS } from './protegidas';
 
 export class ErrorUsuario extends Error {
     constructor(mensaje: string, public status = 400) { super(mensaje); }
@@ -67,6 +72,43 @@ async function webp(form: FormData, campo: string, limite: number): Promise<Uint
     const ascii = (i: number) => String.fromCharCode(...b.subarray(i, i + 4));
     if (b.length < 16 || ascii(0) !== 'RIFF' || ascii(8) !== 'WEBP') throw new ErrorUsuario(`El archivo ${campo} no es WebP`);
     return b;
+}
+
+// Archivos que se pueden borrar: solo en las carpetas que administra el panel.
+const BORRABLE = /^\/Assets\/(biblioteca\/[a-z0-9-]{1,40}|pagina-web-testimonios\/testimonios)\/[^/]{1,120}\.(webp|webm|mp4|jpe?g|png)$/i;
+// Todos los archivos de una foto (src, grande, mini; en un video, también poster y mp4).
+const archivosDe = (it: Item) => Object.values(it).filter((v): v is string => typeof v === 'string' && v.startsWith('/Assets/'));
+
+// Archivos de las fotos quitadas que nadie más usa y que existen en el repositorio,
+// y _redirects sin las líneas que llevaban a ellos (null si no cambia).
+async function sobrantes(env: Env, ref: string, s: Seccion, quitadas: Item[], lista: Item[]): Promise<{ borrar: string[]; redirects: string | null }> {
+    if (!quitadas.length) return { borrar: [], redirects: null };
+    const enUso = new Set<string>(PROTEGIDAS);
+    lista.forEach(it => archivosDe(it).forEach(f => enUso.add(f)));
+    for (const otra of await secciones(env, ref)) {
+        if (otra.id === s.id) continue;
+        (await leerSeccion(env, otra, ref)).items.forEach(it => archivosDe(it).forEach(f => enUso.add(f)));
+    }
+    const carpetas = new Map<string, Set<string>>();
+    const borrar: string[] = [];
+    for (const f of new Set(quitadas.flatMap(archivosDe))) {
+        if (enUso.has(f) || !BORRABLE.test(f)) continue;
+        const dir = f.slice(0, f.lastIndexOf('/'));
+        if (!carpetas.has(dir)) carpetas.set(dir, new Set((await listar(env, 'public' + dir, ref)).filter(x => x.type === 'file').map(x => x.name)));
+        if (carpetas.get(dir)!.has(f.slice(dir.length + 1))) borrar.push(f);
+    }
+    if (!borrar.length) return { borrar, redirects: null };
+    const destinos = new Set(borrar);
+    const { texto } = await leerTexto(env, 'public/_redirects', ref);
+    const lineas = texto.split('\n');
+    const quedan = lineas.filter(l => {
+        const [, hacia] = l.trim().split(/\s+/);
+        if (!hacia || l.trim().startsWith('#')) return true;
+        let h = hacia;
+        try { h = decodeURI(hacia); } catch { /* se compara tal cual */ }
+        return !destinos.has(hacia) && !destinos.has(h);
+    });
+    return { borrar, redirects: quedan.length === lineas.length ? null : quedan.join('\n') };
 }
 
 const sello = () => new Date().toISOString().replace(/[-:]/g, '').replace('T', '-').slice(0, 15);
@@ -132,11 +174,14 @@ export async function guardar(env: Env, form: FormData): Promise<{ commit: strin
             return { ...it, alt: alt || it.alt || '' };
         });
         const quitadas = actual.items.length - usadas.size;
+        const { borrar, redirects } = await sobrantes(env, padre.commit, s, actual.items.filter(it => !usadas.has(it.src)), lista);
         const datos = s.tipo === 'galeria' ? { ...actual.datos, fotos: lista } : lista;
-        const partes = [nuevas.size && `+${nuevas.size} foto${nuevas.size > 1 ? 's' : ''}`, quitadas && `-${quitadas} quitada${quitadas > 1 ? 's' : ''}`].filter(Boolean);
+        const partes = [nuevas.size && `+${nuevas.size} foto${nuevas.size > 1 ? 's' : ''}`, quitadas && `-${quitadas} borrada${quitadas > 1 ? 's' : ''}`].filter(Boolean);
         const mensaje = `Admin: ${s.titulo}${partes.length ? ` (${partes.join(', ')})` : ' (orden y descripciones)'}\n\nGuardado desde /admin (rama ${rama(env)}).`;
 
-        const hecho = await commit(env, padre, [...archivos, { path: s.ruta, content: JSON.stringify(datos, null, 2) + '\n' }], mensaje);
+        const entradas: Entrada[] = [...archivos, { path: s.ruta, content: JSON.stringify(datos, null, 2) + '\n' }, ...borrar.map(f => ({ path: 'public' + f, sha: null }))];
+        if (redirects !== null) entradas.push({ path: 'public/_redirects', content: redirects });
+        const hecho = await commit(env, padre, entradas, mensaje + (borrar.length ? `\n\nArchivos borrados:\n${borrar.join('\n')}` : ''));
         if (hecho) return { commit: hecho, nuevas: nuevas.size, quitadas };
     }
     throw new ErrorUsuario('Hay mucho movimiento ahora. Espera un momento y vuelve a guardar.', 503);

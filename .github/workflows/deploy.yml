@@ -9,6 +9,14 @@ name: Publicar en Cloudflare
 # Después de llamar al hook, espera a que https://petsalcielo.cl/version.txt
 # muestre el commit publicado (lo escribe src/pages/version.txt.ts al compilar
 # en Cloudflare). Si no aparece en 15 minutos, el workflow queda en rojo.
+#
+# Al publicarse, purga de la caché de Cloudflare los archivos de public/ borrados o
+# renombrados en los últimos 15 commits (fotos quitadas desde /admin, fotos viejas del
+# bot): si no, Cloudflare los seguiría sirviendo hasta 30 días. Purgar de nuevo uno ya
+# purgado no hace daño, y así no se pierde ninguno si un push cancela la espera de otro.
+# Necesita los secrets CF_ZONE_ID y CF_PURGE_TOKEN (token con permiso Zone > Cache Purge
+# solo para petsalcielo.cl); sin ellos, queda en rojo si había algo que purgar (fuera de
+# las fotos de Instagram, que solo dejan un aviso).
 on:
   push:
     branches: [main]
@@ -22,9 +30,15 @@ on:
     secrets:
       CF_DEPLOY_HOOK:
         required: true
+      CF_ZONE_ID:
+        required: false
+      CF_PURGE_TOKEN:
+        required: false
 
-# No lee ni escribe el repositorio: solo llama al hook y consulta el sitio
-permissions: {}
+# Solo lee el repositorio (para saber qué archivos se borraron): llama al hook,
+# consulta el sitio y purga la caché
+permissions:
+  contents: read
 
 jobs:
   deploy:
@@ -55,3 +69,49 @@ jobs:
           done
           echo "::error::Cloudflare no publicó $SHA en 15 minutos. Revisar el panel de Pages."
           exit 1
+
+      - name: Purgar de la caché de Cloudflare los archivos borrados
+        env:
+          SHA: ${{ inputs.sha || github.sha }}
+          REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          CF_PURGE_TOKEN: ${{ secrets.CF_PURGE_TOKEN }}
+        run: |
+          node --input-type=module <<'EOF'
+          const { SHA, REPO, GH_TOKEN, CF_ZONE_ID, CF_PURGE_TOKEN } = process.env;
+          const r = await fetch(`https://api.github.com/repos/${REPO}/compare/${SHA}~15...${SHA}`, {
+            headers: { Authorization: `Bearer ${GH_TOKEN}`, Accept: 'application/vnd.github+json' },
+            signal: AbortSignal.timeout(30000),
+          });
+          if (!r.ok) { console.log(`::error::GitHub ${r.status} al comparar commits: no se purgó la caché`); process.exit(1); }
+          const rutas = new Set();
+          for (const f of (await r.json()).files || []) {
+            const viejo = f.status === 'removed' ? f.filename : f.status === 'renamed' ? f.previous_filename : null;
+            if (viejo?.startsWith('public/') && !viejo.startsWith('public/_')) rutas.add(viejo.slice('public'.length));
+            // Redirecciones quitadas (a una foto borrada): Cloudflare puede tener guardado el 301.
+            if (f.filename === 'public/_redirects')
+              for (const l of (f.patch || '').split('\n')) { const m = l.match(/^-(\/Assets\/\S+)\s+\S+\s+30[18]/); if (m) rutas.add(decodeURI(m[1])); }
+          }
+          const urls = [...rutas].map(p => 'https://petsalcielo.cl' + p.split('/').map(encodeURIComponent).join('/'));
+          if (!urls.length) { console.log('Nada que purgar'); process.exit(0); }
+          if (!CF_ZONE_ID || !CF_PURGE_TOKEN) {
+            // Fotos viejas de Instagram: solo aviso. Cualquier otra (p. ej. una quitada desde /admin): rojo.
+            const grave = urls.some(u => !u.startsWith('https://petsalcielo.cl/Assets/instagram/'));
+            console.log(`::${grave ? 'error' : 'warning'}::Faltan los secrets CF_ZONE_ID y CF_PURGE_TOKEN: Cloudflare seguirá sirviendo ${urls.length} archivo(s) borrado(s) hasta 30 días`);
+            urls.forEach(u => console.log('  ' + u));
+            process.exit(grave ? 1 : 0);
+          }
+          for (let i = 0; i < urls.length; i += 30) {
+            const lote = urls.slice(i, i + 30);
+            const c = await fetch(`https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache`, {
+              method: 'POST',
+              headers: { Authorization: `Bearer ${CF_PURGE_TOKEN}`, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ files: lote }),
+              signal: AbortSignal.timeout(30000),
+            });
+            const d = await c.json().catch(() => ({}));
+            if (!c.ok || !d.success) { console.log(`::error::Cloudflare ${c.status} al purgar: ${JSON.stringify(d.errors || d).slice(0, 300)}`); process.exit(1); }
+            lote.forEach(u => console.log('Purgado ' + u));
+          }
+          EOF

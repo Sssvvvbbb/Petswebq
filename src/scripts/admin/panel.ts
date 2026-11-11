@@ -487,7 +487,7 @@ async function guardar() {
     }
     if (!activas.length && !confirm('No quedará ninguna foto aquí. ¿Guardar igual?')) return;
     const quitadas = filas.filter(f => f.quitada && !f.nuevo).length;
-    if (quitadas && !confirm(`Vas a quitar ${plural(quitadas, 'foto', 'fotos')} de la página. ¿Seguro?`)) return;
+    if (quitadas && !confirm(`Vas a borrar ${plural(quitadas, 'foto', 'fotos')}: se eliminan de la página y de los archivos del sitio, y no se pueden recuperar desde aquí. ¿Seguro?`)) return;
 
     const fd = new FormData();
     fd.set('seccion', s.id);
