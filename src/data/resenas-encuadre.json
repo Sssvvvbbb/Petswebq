@@ -1,1 +1,38 @@
-{}
+{
+  "/Assets/pagina-web-testimonios/reviews/dafne-retamal-1.webp": {
+    "movil": [
+      50,
+      23
+    ]
+  },
+  "/Assets/pagina-web-testimonios/reviews/dafne-retamal-2.webp": {
+    "movil": [
+      50,
+      100
+    ]
+  },
+  "/Assets/pagina-web-testimonios/reviews/dafne-retamal-3.webp": {
+    "movil": [
+      50,
+      54
+    ]
+  },
+  "/Assets/pagina-web-testimonios/reviews/gloria-coronado-4.webp": {
+    "movil": [
+      50,
+      14
+    ]
+  },
+  "/Assets/pagina-web-testimonios/reviews/gloria-coronado-1.webp": {
+    "movil": [
+      50,
+      7
+    ]
+  },
+  "/Assets/pagina-web-testimonios/reviews/gloria-coronado-3.webp": {
+    "movil": [
+      50,
+      0
+    ]
+  }
+}
