@@ -1,7 +1,13 @@
 ---
 // Cabecera de /preguntas-frecuentes: ondas pastel arriba y abajo (el mismo dibujo,
-// recortado de dos formas) y onda de transición a la sección de preguntas.
+// recortado de dos formas) y onda de transición a la sección de preguntas. También la
+// usa la página 404 con otro título y texto (props; sin ellas, los de la FAQ).
 import Onda from './inicio/Onda.astro';
+interface Props { titulo?: string; lead?: string }
+const {
+    titulo = 'Preguntas <em>Frecuentes</em>',
+    lead = 'Sabemos que este es un momento difícil. Aquí encontrará respuestas claras y honestas sobre nuestro proceso de cremación ecológica para mascotas.',
+} = Astro.props;
 ---
 <header class="page-hero">
 <svg class="svg-defs" width="0" height="0" aria-hidden="true"><defs><linearGradient id="hl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9e0f8"/><stop offset="1" stop-color="#f3edfb"/></linearGradient>
@@ -24,7 +30,7 @@ import Onda from './inicio/Onda.astro';
 <svg class="hero-waves hw-t" viewBox="0 0 2000 667" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><use href="#faq-ondas"/></svg>
 <svg class="hero-waves hw-b" viewBox="0 0 2000 667" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><use href="#faq-ondas"/></svg>
 <div class="page-hero-inner">
-<h1 class="page-title">Preguntas <em>Frecuentes</em></h1>
-<p class="page-lead">Sabemos que este es un momento difícil. Aquí encontrará respuestas claras y honestas sobre nuestro proceso de cremación ecológica para mascotas.</p></div>
+<h1 class="page-title" set:html={titulo} />
+<p class="page-lead">{lead}</p></div>
 <Onda forma="b" capas={[['#fcf9f2', .22], ['#fcf9f2', .5], ['#fcf9f2', .85], ['#fcf9f2', 1]]} />
 </header>

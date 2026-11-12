@@ -261,8 +261,8 @@ body{background:#fcf9f2}
 
 /* ===== hero carrusel (3 diapositivas) ===== */
 .hero-inner{display:grid}
-.hero-inner>.hs{grid-area:1/1;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .7s ease,transform .7s ease,visibility 0s .7s}
-.hero-inner>.hs.active{opacity:1;visibility:visible;transform:none;transition:opacity .7s ease,transform .7s ease}
+.hero-inner>.hs{grid-area:1/1;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity 1.15s ease,transform 1.15s ease,visibility 0s 1.15s}
+.hero-inner>.hs.active{opacity:1;visibility:visible;transform:none;transition:opacity 1.15s ease,transform 1.15s ease}
 .hero h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.95rem,7.4vw,3.9rem);line-height:1.12;color:var(--navy)}
 .hero h2 em{font-style:italic;color:#9a78d6;font-weight:500}
 @media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero h2{font-size:clamp(3.1rem,4.6vw,4.5rem)}}
@@ -474,17 +474,14 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
    --fin-texto dónde termina la diapositiva más alta; solo el borde de arriba de la foto,
    casi transparente, puede pasar por detrás. La foto mide al menos 240 px (--foto-fin). */
 @media(max-width:639px),(max-width:899px) and (orientation:portrait){
- .hero{--ola1:#9ccdb0;--paso:14px;--h0:calc((var(--pantalla) + var(--wh))*.46);--foto-base:calc((var(--pantalla) + var(--wh))*.54 - var(--wh)*.92);--foto-top:max(var(--foto-base),calc(var(--fin-texto,0px) - var(--h0)*.12 + 16px));--foto-fin:max(var(--pantalla),calc(var(--foto-top) + 240px));--onda:calc(var(--wh)*.8 + 14px)}
+ .hero{--ola1:#9ccdb0;--paso:14px;--h0:calc((var(--pantalla) + var(--wh))*.46);--foto-base:calc((var(--pantalla) + var(--wh))*.54 - var(--wh)*.92);--foto-top:max(var(--foto-base),calc(var(--fin-texto,0px) - var(--h0)*.12 + 16px));--foto-fin:max(var(--pantalla),calc(var(--foto-top) + 240px));--onda:calc((var(--wh)*.8 + 14px)*.65)}
  .hero.pg{min-height:calc(var(--foto-fin) + var(--paso) + var(--onda))}
- .hero>.wv-movil{height:var(--onda)}
  .hero{background:linear-gradient(0deg,var(--ola1) 0,var(--ola1) calc(var(--onda) + 1px),transparent calc(var(--onda) + 1px)),var(--velo-salmon),linear-gradient(100deg,#f1bbd1 0%,#f5c0d4 55%,#f9c6d6 100%)!important}
  .hero-photo{top:var(--foto-top)!important;bottom:auto!important;height:calc(var(--foto-fin) - var(--foto-top))!important;-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0) calc(var(--h0)*0),rgba(0,0,0,0.03) calc(var(--h0)*0.04),rgba(0,0,0,0.1) calc(var(--h0)*0.08),rgba(0,0,0,0.22) calc(var(--h0)*0.12),rgba(0,0,0,0.38) calc(var(--h0)*0.16),rgba(0,0,0,0.56) calc(var(--h0)*0.2),rgba(0,0,0,0.74) calc(var(--h0)*0.24),rgba(0,0,0,0.88) calc(var(--h0)*0.28),rgba(0,0,0,0.97) calc(var(--h0)*0.32),#000 calc(var(--h0)*0.36),#000 100%)!important;mask-image:linear-gradient(180deg,rgba(0,0,0,0) calc(var(--h0)*0),rgba(0,0,0,0.03) calc(var(--h0)*0.04),rgba(0,0,0,0.1) calc(var(--h0)*0.08),rgba(0,0,0,0.22) calc(var(--h0)*0.12),rgba(0,0,0,0.38) calc(var(--h0)*0.16),rgba(0,0,0,0.56) calc(var(--h0)*0.2),rgba(0,0,0,0.74) calc(var(--h0)*0.24),rgba(0,0,0,0.88) calc(var(--h0)*0.28),rgba(0,0,0,0.97) calc(var(--h0)*0.32),#000 calc(var(--h0)*0.36),#000 100%)!important}
  .hero::before{top:var(--foto-top);bottom:auto;height:var(--h0);background:linear-gradient(180deg,rgba(194,186,214,0) 0%,rgba(194,186,214,.45) 9%,rgba(194,186,214,.85) 17%,var(--cielo) 24%,var(--cielo) 100%)}
  .hero::after{display:block;content:"";position:absolute;left:0;right:0;top:var(--foto-fin);height:calc(var(--paso) + 1px);bottom:auto;z-index:0;pointer-events:none;background:linear-gradient(180deg,#14240b 0%,#517055 30%,#81ab8f 60%,var(--ola1) 100%)}
 }
 /* ondas bajo la portada: una para computador y otra para celular */
-.hero>.wv-movil{display:none}
-@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero>.wv-pc{display:none}.hero>.wv-movil{display:block}}
 /* Computador: la foto llena siempre la primera pantalla. Con top + bottom y height:auto,
    una <img> toma su alto de la proporción (1672×941) y no se estira: en pantallas menos
    anchas que 16:9 la foto terminaba antes y dejaba un gran espacio rosa debajo. */
@@ -550,13 +547,14 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
 /* "Sobre Nosotros": morado, como el botón Contactar del menú (#9575cd) */
 .section-tag.tag-lila{color:#9575cd}
 
-/* Rosado de la portada algo más intenso (2026-11-10): base #f8b1cd, punto medio entre el
+/* Rosado de la portada: base #ffb8d1 (2026-11-12; en el visor de VS Code el anterior
+   #f8b1cd se veía pálido). Historia (2026-11-10): base #f8b1cd, punto medio entre el
    anterior #f1bbd1 (algo soso) y #ffa7c9 (chillón). Cada
    parada del degradado se movió lo mismo que la base, así conserva el leve aclarado
    hacia la derecha. */
-.hero{--rosa-lila:linear-gradient(90deg,#f8b1cd 0%,#fbb5cf 18%,#feb9d1 32%,#ffbcd2 42%)}
-@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero{background:var(--velo-salmon),linear-gradient(90deg,#f8b1cd 0%,#fdb8d1 25%,#ffc1d5 55%,#ffc9d9 100%)}}
-@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero{background:linear-gradient(0deg,var(--ola1) 0,var(--ola1) calc(var(--onda) + 1px),transparent calc(var(--onda) + 1px)),var(--velo-salmon),linear-gradient(100deg,#f8b1cd 0%,#fcb6d0 55%,#ffbcd2 100%)!important}}
+.hero{--rosa-lila:linear-gradient(90deg,#ffb8d1 0%,#ffbcd3 18%,#ffc0d5 32%,#ffc3d6 42%)}
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero{background:var(--velo-salmon),linear-gradient(90deg,#ffb8d1 0%,#ffbfd5 25%,#ffc8d9 55%,#ffd0dd 100%)}}
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){.hero{background:var(--velo-salmon),linear-gradient(100deg,#ffb8d1 0%,#ffbdd4 55%,#ffc3d6 100%)!important}}
 /* Borde superior: 5 px de rosa claro (#ffd4e4) al rosado y, debajo (::after), una cola
    muy suave que se desvanece en 85 px. Si el degradado termina de golpe, el ojo ve una
    franja más oscura justo debajo (bandas de Mach), aunque el color sea el mismo. En
@@ -565,6 +563,53 @@ nav,.drawer{--teal:#29A798;--lavender:#CBAEF2}
 .hero-bajo-nav::after{content:"";position:absolute;left:0;right:0;top:5px;height:85px;background:linear-gradient(180deg,rgba(255,212,228,.22) 0,rgba(255,212,228,.16) 7px,rgba(255,212,228,.1) 19px,rgba(255,212,228,.055) 37px,rgba(255,212,228,.022) 59px,rgba(255,212,228,0) 85px)}
 @media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-bajo-nav::after{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 31%,transparent 47%);mask-image:linear-gradient(90deg,#000 0,#000 31%,transparent 47%)}}
 /* Computador: el título de la diapositiva 2 ("por agua, sin fuego," es su línea más
-   larga) va más chico para caber en el panel rosado opaco (hasta el 31 % del ancho) con
-   margen, sin pasar sobre la foto: termina en el 27,8 % del ancho. */
-@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-inner>.hs:nth-child(2) h2{font-size:calc(100vw*.03)!important}}
+   larga) va más chico que los otros para caber en el panel rosado sin pasar sobre la
+   foto; el dueño lo subió 10 px (2026-11-12). */
+@media(min-width:900px),(min-width:640px) and (orientation:landscape){.hero-inner>.hs:nth-child(2) h2{font-size:calc(100vw*.03 + 10px)!important}}
+/* Video educativo (#video): portada con botón ▶; el reproductor se crea al pulsar. */
+.video-fachada{position:absolute;inset:0;display:block;cursor:pointer;overflow:hidden}
+.video-fachada img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.video-play{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:0 8px 28px rgba(40,70,55,.35);transition:transform .25s ease,background .25s ease}
+.video-play::after{content:"";position:absolute;left:31px;top:24px;border-style:solid;border-width:14px 0 14px 22px;border-color:transparent transparent transparent #29a798}
+.video-fachada:hover .video-play,.video-fachada:focus-visible .video-play{transform:scale(1.08);background:#fff}
+.video-fachada:focus-visible{outline:3px solid #29a798;outline-offset:-3px}
+@media(max-width:480px){.video-play{width:60px;height:60px;margin:-30px 0 0 -30px}.video-play::after{left:24px;top:18px;border-width:12px 0 12px 19px}}
+/* Celular, diapositiva 2: el brote (dibujo del dueño, 2026-11-12) a la derecha, en px
+   desde arriba como los corazones, como en el dibujo: las hojas a la altura de "sin humo",
+   los corazones arriba a la derecha y los pies a la altura de los botones, a su derecha
+   (no toca el texto desde 300 px de ancho). Aparece y se va con la diapositiva (clase
+   .visible, Portada.astro). Lo que cae sobre la foto se desvanece: la máscara usa
+   --foto-top, así se ajusta a cada alto de pantalla. Corazones con el doble de grosor
+   que en el dibujo. */
+.hero-brote{display:none}
+@media(max-width:639px){
+ .hero-brote{--brote-top:103px;display:block;position:absolute;z-index:2;right:min(37px,calc(100vw - 326px));top:var(--brote-top);width:71px;height:auto;overflow:visible;pointer-events:none;opacity:0;transition:opacity 1.15s ease;
+  -webkit-mask-image:linear-gradient(180deg,#000 calc(var(--foto-top) - var(--brote-top) + var(--h0)*.03),transparent calc(var(--foto-top) - var(--brote-top) + var(--h0)*.15));
+  mask-image:linear-gradient(180deg,#000 calc(var(--foto-top) - var(--brote-top) + var(--h0)*.03),transparent calc(var(--foto-top) - var(--brote-top) + var(--h0)*.15))}
+ /* Pantallas angostas: "sin fuego," llega casi al borde; más chico y más abajo, con los
+    corazones junto a "sin humo" (los pies pueden quedar sobre la foto y se desvanecen). */
+ @media(max-width:345px){.hero-brote{--brote-top:163px;right:14px;width:60px}}
+ .hero-brote.visible{opacity:1}
+ .brote-corazones path{fill:none;stroke:#fff;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+ .brote-corazones path.eco{stroke-width:3;opacity:.45}
+ .brote-cuerpo,.brote-hoja{fill:#f8e3ea;stroke:#2a2628;stroke-width:5.5;stroke-linejoin:round}
+ .brote-tallo-borde{fill:none;stroke:#2a2628;stroke-width:17;stroke-linecap:round}
+ .brote-tallo{fill:none;stroke:#f8e3ea;stroke-width:8;stroke-linecap:round}
+ .brote-vena,.brote-trazo{fill:none;stroke:#2a2628;stroke-width:4.8;stroke-linecap:round;stroke-linejoin:round}
+ .brote-rubor{fill:none;stroke:#f3a6be;stroke-width:12;stroke-linecap:round;opacity:.75}
+ .brote-huella{fill:#f48fb0}
+}
+/* Celular y tablet vertical (2026-11-12): las olas de computador (rosadas translúcidas,
+   terminan en el menta de Eco), pero fuera de la primera pantalla, que sigue terminando
+   en el pasto sin taparlo. Bajo la foto, una franja de su mismo alto que las olas
+   continúa el pasto con su reflejo (la misma foto, invertida), y las olas van encima,
+   como en computador. Se ven solo al bajar. */
+@media(max-width:639px),(max-width:899px) and (orientation:portrait){
+ .hero{--ola-m:calc(var(--wh)*.75)}
+ .hero.pg{min-height:calc(var(--foto-fin) + var(--ola-m))}
+ .hero::after{display:block;content:"";position:absolute;left:0;right:0;top:var(--foto-fin);bottom:auto;height:calc(var(--ola-m) + 1px);z-index:0;pointer-events:none;
+  background:url(/Assets/imagen_hero_crematorio_puertomontt_llanquihue-800.webp) 78% 100%/auto calc(var(--foto-fin) - var(--foto-top)) no-repeat;
+  background-image:image-set(url(/Assets/imagen_hero_crematorio_puertomontt_llanquihue-800.webp) 1x,url(/Assets/imagen_hero_crematorio_puertomontt_llanquihue.webp) 2x);
+  transform:scaleY(-1)}
+ .hero>.wv-pc{height:var(--ola-m)}
+}

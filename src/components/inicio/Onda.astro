@@ -1,10 +1,10 @@
 ---
 // Onda de transición al pie de una sección del diseño nuevo de la home.
-// forma "a": portada y Confianza; "b": las demás; "p": portada en celular (diagonales:
-// más altas a la derecha, bajan hacia la izquierda). invertida: espejo horizontal.
+// forma "a": portada (también en celular) y Confianza; "b": las demás. invertida: espejo
+// horizontal.
 // clase: clases extra del <svg> (por ejemplo, para mostrarla solo en celular).
 interface Props {
-  forma: 'a' | 'b' | 'p';
+  forma: 'a' | 'b';
   capas: [string, number][]; // [color, opacidad], de la capa de atrás a la de adelante
   invertida?: boolean;
   clase?: string;
@@ -22,12 +22,6 @@ const trazos = {
     'M0 140 C260 88 520 170 800 126 C1060 86 1260 122 1440 78 L1440 200 L0 200Z',
     'M0 168 C300 128 560 192 840 160 C1100 128 1290 152 1440 124 L1440 200 L0 200Z',
     'M0 188 C320 170 600 200 900 186 C1150 174 1300 190 1440 180 L1440 200 L0 200Z',
-  ],
-  p: [
-    'M0 128 C300 120 520 92 760 80 C1040 64 1240 30 1440 4 L1440 200 L0 200Z',
-    'M0 152 C300 146 520 120 760 108 C1040 94 1240 62 1440 40 L1440 200 L0 200Z',
-    'M0 176 C300 172 520 150 780 138 C1040 126 1240 98 1440 78 L1440 200 L0 200Z',
-    'M0 196 C320 194 560 180 800 172 C1060 164 1250 142 1440 124 L1440 200 L0 200Z',
   ],
 }[forma];
 ---

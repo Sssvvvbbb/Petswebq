@@ -30,7 +30,7 @@ const GOOGLE_RESENAS = 'https://search.google.com/local/reviews?placeid=ChIJWTfO
 
 <script>
     // Muestra una reseña con fotos en #gMain y, en #gSide, su grupo de tres reseñas sin
-    // fotos. Sin avance automático con movimiento reducido; se detiene con el mouse encima.
+    // fotos. No avanza solo (decisión del dueño, 2026-11-12): cambia con las flechas o los puntos.
     const grid = document.getElementById('gGrid');
     const principal = document.getElementById('gMain');
     const lado = document.getElementById('gSide');
@@ -39,10 +39,7 @@ const GOOGLE_RESENAS = 'https://search.google.com/local/reviews?placeid=ChIJWTfO
     if (grid && principal && lado && puntos) {
         const grandes = Array.from(principal.querySelectorAll<HTMLElement>('.g-card'));
         const grupos = Array.from(lado.querySelectorAll<HTMLElement>('.g-trio'));
-        // ?encuadre: la vista previa de /admin (ajustar el encuadre de las fotos) no avanza sola.
-        const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches || new URLSearchParams(location.search).has('encuadre');
         let actual = 0; // posición en grandes
-        let temporizador: number | undefined;
 
         function ubicar() {
             grandes.forEach((t, k) => { t.hidden = k !== actual; });
@@ -50,24 +47,17 @@ const GOOGLE_RESENAS = 'https://search.google.com/local/reviews?placeid=ChIJWTfO
             Array.from(puntos!.children).forEach((b, k) => b.classList.toggle('active', k === actual));
         }
         const ir = (k: number) => { actual = (k + grandes.length) % grandes.length; ubicar(); };
-        function avanzar() {
-            clearInterval(temporizador);
-            if (!quieto) temporizador = window.setInterval(() => ir(actual + 1), 9000);
-        }
 
         puntos.replaceChildren(...grandes.map((g, k) => {
             const b = document.createElement('button');
             b.type = 'button';
             b.setAttribute('aria-label', `Ver la reseña de ${g.querySelector('.g-name')!.textContent}`);
-            b.addEventListener('click', () => { ir(k); avanzar(); });
+            b.addEventListener('click', () => ir(k));
             return b;
         }));
-        document.getElementById('gNext')!.addEventListener('click', () => { ir(actual + 1); avanzar(); });
-        document.getElementById('gPrev')!.addEventListener('click', () => { ir(actual - 1); avanzar(); });
-        grid.addEventListener('mouseenter', () => clearInterval(temporizador));
-        grid.addEventListener('mouseleave', avanzar);
+        document.getElementById('gNext')!.addEventListener('click', () => ir(actual + 1));
+        document.getElementById('gPrev')!.addEventListener('click', () => ir(actual - 1));
         ubicar();
-        avanzar();
     }
 
     // Fotos de la destacada: la caja ocupa el espacio libre de la tarjeta y las fotos se

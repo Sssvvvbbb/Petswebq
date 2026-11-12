@@ -13,6 +13,12 @@ const MSG_HABLAR = 'Hola%2C%20quisiera%20hablar%20sobre%20sus%20servicios';
 const CORAZON = 'M101 58 C94 34 64 22 44 38 C20 57 26 92 52 120 C68 137 88 151 100 170 C111 151 131 137 148 120 C176 92 182 56 158 38 C138 23 108 30 98 66';
 const PASADAS_GRANDE = [[12.75,0.95,0,0],[3.3,0.9,6.3,-4.5],[2.7,0.8,-6.75,4.8],[1.8,0.7,3,7.5]];
 const PASADAS_PC = [[23.65,0.95,0,0],[6.12,0.9,11.68,-8.35],[5.01,0.8,-12.52,8.9],[3.34,0.7,5.56,13.91]];
+// Brote de la diapositiva 2 (solo celular, 2026-11-12, calcado del dibujo del dueño): personaje
+// con los brazos en aro sobre la cabeza, un brote de dos hojas, carita de rayitas, huella
+// rosada en la panza y tres corazones blancos de trazo suelto (el doble de gruesos).
+const corazonLinea = (cx: number, cy: number, s: number) =>
+    `M${cx} ${cy + s * .85}C${cx - s * 1.1} ${cy + s * .1} ${cx - s} ${cy - s * .85} ${cx} ${cy - s * .35}C${cx + s} ${cy - s * .85} ${cx + s * 1.1} ${cy + s * .1} ${cx} ${cy + s * .85}Z`;
+const CORAZONES_BROTE: [number, number, number, number][] = [[239, 100, 37, 4], [205, 150, 36, -10], [270, 152, 34, 14]];
 const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21,12.24],[4.59,0.7,7.65,19.13]];
 ---
 <header class="hero pg hw" id="inicio" aria-label="Bienvenida PetsAlCielo">
@@ -26,6 +32,17 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
 <svg class="hc hcd-chico" viewBox="0 0 200 190"><defs><filter id="pincel-portada-pc" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="ruido"/><feDisplacementMap in="SourceGraphic" in2="ruido" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter></defs><g filter="url(#pincel-portada-pc)">{PASADAS_PC.map(([w, o, dx, dy]) => <path class="trazo" d={CORAZON} pathLength="1" transform={`translate(${dx} ${dy})`} stroke-width={w} opacity={o}/>)}</g></svg>
 <svg class="hc hcd-pata" viewBox="20 30 160 160"><path class="pieza" d="M100 98C126 98 150 122 156 146C162 170 146 184 128 182C116 181 108 176 100 176C92 176 84 181 72 182C54 184 38 170 44 146C50 122 74 98 100 98Z"/><g transform="rotate(-28 50 94)"><ellipse class="pieza" cx="50" cy="94" rx="15" ry="20"/></g><g transform="rotate(-10 80 58)"><ellipse class="pieza" cx="80" cy="58" rx="16" ry="22"/></g><g transform="rotate(10 120 58)"><ellipse class="pieza" cx="120" cy="58" rx="16" ry="22"/></g><g transform="rotate(28 150 94)"><ellipse class="pieza" cx="150" cy="94" rx="15" ry="20"/></g></svg>
 </div>
+<svg class="hero-brote" viewBox="60 55 260 757" aria-hidden="true">
+<g class="brote-corazones">{CORAZONES_BROTE.map(([cx, cy, t, giro]) => <g transform={`rotate(${giro} ${cx} ${cy})`}><path d={corazonLinea(cx, cy, t)}/><path class="eco" d={corazonLinea(cx + 3, cy - 2, t * .97)}/></g>)}</g>
+<path class="brote-tallo-borde" d="M188 372C186 344 188 320 197 299"/><path class="brote-tallo" d="M188 372C186 344 188 320 197 299"/>
+<path class="brote-hoja" d="M197 300C176 302 128 272 124 212C160 204 197 246 197 300Z"/><path class="brote-vena" d="M190 288C172 266 152 246 141 228"/>
+<path class="brote-hoja" d="M199 301C214 270 258 244 303 246C291 288 246 307 199 301Z"/><path class="brote-vena" d="M207 294C234 280 259 266 285 255"/>
+<path class="brote-cuerpo" d="M188 366C150 351 85 371 72 440C62 495 85 530 100 545C102 600 108 650 118 700C124 740 126 770 128 790C130 806 172 806 175 790L180 702C183 688 195 688 198 702L203 790C206 806 246 806 248 790C250 760 252 730 255 700C262 650 265 600 266 545C285 525 300 490 292 440C282 376 225 351 188 366Z"/>
+<path class="brote-rubor" d="M118 412C146 386 222 386 248 412"/>
+<path class="brote-trazo" d="M128 530C100 506 92 452 118 412C135 390 160 380 181 381M236 530C266 506 274 452 248 412C232 391 211 381 193 381"/>
+<path class="brote-trazo" d="M156 420L156 433M199 420L199 433M168 460Q181 471 194 459"/>
+<g class="brote-huella"><ellipse cx="183" cy="594" rx="19" ry="15"/><circle cx="157" cy="573" r="7.5"/><circle cx="172" cy="558" r="7.5"/><circle cx="194" cy="557" r="7.5"/><circle cx="209" cy="571" r="7.5"/></g>
+</svg>
 <svg class="hero-olas" viewBox="0 0 1440 245" preserveAspectRatio="none" aria-hidden="true"><defs><filter id="olas-brillo" x="-10%" y="-80%" width="120%" height="260%"><feGaussianBlur stdDeviation="9"/></filter></defs><path d="M250 245C380 222 520 142 650 106C730 86 800 76 860 76C1010 74 1130 118 1300 172L1440 196V245Z" fill="#fcdbe8" opacity=".55"/><path d="M900 80C1010 80 1110 116 1250 160" fill="none" stroke="#fff" stroke-width="14" opacity=".5" filter="url(#olas-brillo)"/><path d="M0 52C120 44 240 66 350 112C430 146 480 164 560 178C700 202 840 218 1020 245H0Z" fill="#e8b8e0" opacity=".5"/><path d="M0 100C90 136 200 176 330 184C450 192 570 210 680 245H0Z" fill="#e4b2de" opacity=".45"/><path d="M380 245C540 214 800 200 960 162C1060 140 1160 148 1310 184L1440 206V245Z" fill="#f9c6df" opacity=".65"/></svg>
 <div class="hero-inner">
 {[0, 1, 2].map(n => (
@@ -46,25 +63,25 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
 ))}
 </div>
 <Onda forma="a" clase="wv-pc" capas={[['#f9cfe0', .55], ['#f5dfe9', .8], ['#dcefe3', 1], ['#e4f2e9', 1]]} />
-<Onda forma="p" clase="wv-movil" capas={[['#9ccdb0', 1], ['#b3dcc2', 1], ['#c4e4cf', 1], ['#e4f2e9', 1]]} />
 </header>
 
 <script>
-    // Carrusel de la portada (sin puntos): avanza cada 4 s, salvo con la pestaña oculta,
+    // Carrusel de la portada (sin puntos): avanza cada 4,5 s, salvo con la pestaña oculta,
     // y se detiene con el mouse sobre un botón o con el foco de teclado en uno. Avanza
     // aunque el equipo pida reducir el movimiento (decisión del dueño, 2026-11-10).
     // Un clic o toque en la parte lila (fuera de los botones) pasa a la siguiente.
     // Mientras un dedo toca la portada (celular, tablet) no corre el tiempo; al soltar,
     // vuelve a contar desde cero. En computador (mouse) no cambia nada.
-    // Al entrar, la primera diapositiva pasa a la segunda 1 s después de que termina la
+    // Al entrar, la primera diapositiva pasa a la segunda 1,5 s después de que termina la
     // animación corazón → huella (celular ~6,3 s, computador ~2,7 s; se lee de la propia
-    // animación); desde ahí, cada 4 s. En celular los corazones se desvanecen mientras se
+    // animación); desde ahí, cada 4,5 s. En celular los corazones se desvanecen mientras se
     // ve la diapositiva 2, cuyo título los tapa.
     const diapositivas = document.querySelectorAll<HTMLElement>('.hero-inner > .hs');
     const zona = document.querySelector<HTMLElement>('.hero-inner');
     const portada = document.getElementById('inicio');
     const foto = document.querySelector<HTMLElement>('.hero-photo');
     const corazones = document.querySelector<HTMLElement>('.hero-corazones');
+    const brote = document.querySelector<SVGElement>('.hero-brote');
     const celular = matchMedia('(max-width: 639px)');
     // Espera a que termine la animación de los corazones que se está viendo (la promesa
     // finished de cada una). Sin getAnimations (navegadores antiguos), los tiempos de
@@ -91,6 +108,7 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
         actual = (n + diapositivas.length) % diapositivas.length;
         diapositivas[actual].classList.add('active');
         corazones?.classList.toggle('oculto', actual === 1 && celular.matches);
+        brote?.classList.toggle('visible', actual === 1);
     }
     function avanzar() {
         clearInterval(temporizador);
@@ -100,11 +118,11 @@ const PASADAS_CHICO = [[32.51,0.95,0,0],[8.42,0.9,16.06,-11.47],[6.88,0.8,-17.21
         if (primera) {
             primera = false;
             finCorazones().then(() => {
-                if (esta === ronda) temporizador = window.setTimeout(() => { mostrar(actual + 1); avanzar(); }, 1000);
+                if (esta === ronda) temporizador = window.setTimeout(() => { mostrar(actual + 1); avanzar(); }, 1500);
             });
             return;
         }
-        temporizador = window.setInterval(() => mostrar(actual + 1), 4000);
+        temporizador = window.setInterval(() => mostrar(actual + 1), 4500);
     }
     function detener(si: boolean) {
         detenido = si;

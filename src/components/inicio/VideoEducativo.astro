@@ -1,6 +1,12 @@
 ---
 import Onda from './Onda.astro';
-// Sección #video: video educativo de YouTube sobre la hidrólisis alcalina.
+// Sección #video: video educativo de YouTube sobre la hidrólisis alcalina. Muestra una
+// portada local con un botón ▶ y crea el reproductor de YouTube recién al pulsar (antes se
+// cargaba al acercarse, aunque nadie lo viera). Sin JS, el enlace abre el video en YouTube.
+// La portada es /Assets/video-educativo-portada.webp (miniatura del video sin las barras
+// negras); si no carga, queda el fondo verde del recuadro con el botón.
+const VIDEO = 'QA8nm3SR-wU';
+const TITULO = 'Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina';
 ---
 <!-- Video -->
 <section class="pg hw section video-section" id="video">
@@ -17,9 +23,24 @@ import Onda from './Onda.astro';
         </div>
         <div class="video-frame reveal">
             <div class="video-wrapper">
-                <iframe src="https://www.youtube-nocookie.com/embed/QA8nm3SR-wU?rel=0&modestbranding=1" title="Cremación Ecológica para Mascotas - Proceso de Hidrólisis Alcalina" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;border:none;"></iframe>
+                <a class="video-fachada" href={`https://www.youtube.com/watch?v=${VIDEO}`} target="_blank" rel="noopener" data-yt={VIDEO} data-titulo={TITULO} aria-label={`Reproducir el video: ${TITULO}`}><img src="/Assets/video-educativo-portada.webp" alt="" width="640" height="352" loading="lazy" decoding="async"><span class="video-play" aria-hidden="true"></span></a>
                 </div>
             </div>
     </div>
 <Onda forma="b" invertida capas={[['#fcf9f2', .22], ['#fcf9f2', .5], ['#fcf9f2', .85], ['#fcf9f2', 1]]} />
 </section>
+
+<script>
+    // Al pulsar la portada se crea el reproductor (youtube-nocookie, empieza a sonar solo).
+    const fachada = document.querySelector<HTMLAnchorElement>('#video .video-fachada');
+    fachada?.addEventListener('click', e => {
+        e.preventDefault();
+        const f = document.createElement('iframe');
+        f.src = `https://www.youtube-nocookie.com/embed/${fachada.dataset.yt}?rel=0&modestbranding=1&autoplay=1`;
+        f.title = fachada.dataset.titulo || 'Video';
+        f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        f.allowFullscreen = true;
+        fachada.replaceWith(f);
+        f.focus();
+    });
+</script>

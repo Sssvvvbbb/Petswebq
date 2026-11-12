@@ -1,7 +1,8 @@
 // Carrusel de Instagram de la home (#homenajes): carga /instagram.json cuando la
 // sección se acerca a la pantalla y muestra 2 publicaciones por vista (1 en el
 // celular). No oculta contenido (no suma a __listos). Sin feed, deja un enlace al
-// perfil. No avanza solo con movimiento reducido.
+// perfil. No avanza solo (decisión del dueño, 2026-11-12): cambia solo con las flechas
+// o los puntos.
 import { INSTAGRAM_URL } from '../data/sitio';
 
 interface Publicacion { src: string; alt?: string; permalink?: string }
@@ -13,9 +14,7 @@ const carrusel = document.getElementById('igc');
 
 if (seccion && pista && puntos && carrusel) {
     const ancho = matchMedia('(min-width:700px)');
-    const quieto = matchMedia('(prefers-reduced-motion: reduce)');
     let pagina = 0;
-    let temporizador: number | undefined;
 
     const porVista = () => (ancho.matches ? 2 : 1);
     const paginas = () => Math.ceil(pista.children.length / porVista());
@@ -30,11 +29,6 @@ if (seccion && pista && puntos && carrusel) {
             if (img.dataset.src && j < (pagina + 2) * n) { img.src = img.dataset.src!; img.removeAttribute('data-src'); }
         });
     }
-    function avanzar() {
-        clearInterval(temporizador);
-        if (quieto.matches || document.hidden) return;
-        temporizador = window.setInterval(() => ir(pagina + 1), 6500);
-    }
     function armarPuntos() {
         const n = porVista();
         const total = pista!.children.length;
@@ -42,7 +36,7 @@ if (seccion && pista && puntos && carrusel) {
             const b = document.createElement('button');
             b.type = 'button';
             b.setAttribute('aria-label', `Publicaciones ${k * n + 1}–${Math.min(total, (k + 1) * n)}`);
-            b.addEventListener('click', () => { ir(k); avanzar(); });
+            b.addEventListener('click', () => ir(k));
             return b;
         }));
         ir(Math.min(pagina, paginas() - 1));
@@ -78,12 +72,10 @@ if (seccion && pista && puntos && carrusel) {
             figura.appendChild(marco);
             return figura;
         }));
-        carrusel!.querySelector('.igc-p')!.addEventListener('click', () => { ir(pagina - 1); avanzar(); });
-        carrusel!.querySelector('.igc-n')!.addEventListener('click', () => { ir(pagina + 1); avanzar(); });
+        carrusel!.querySelector('.igc-p')!.addEventListener('click', () => ir(pagina - 1));
+        carrusel!.querySelector('.igc-n')!.addEventListener('click', () => ir(pagina + 1));
         ancho.addEventListener('change', armarPuntos);
-        document.addEventListener('visibilitychange', avanzar);
         armarPuntos();
-        avanzar();
     }
 
     const observador = new IntersectionObserver(entradas => {

@@ -3,15 +3,17 @@
 // /Assets/pagina-web-testimonios/testimonios/testimonios.json (lo edita /admin; cada
 // guardado es un commit que vuelve a publicar el sitio, así el HTML siempre trae todos
 // los testimonios y el JS no reemplaza nada al cargar). Cada elemento: type
-// "video"|"image", src, mp4 (opcional), poster y alt.
+// "video"|"image", src, mp4 (opcional), poster, alt y descripcion (opcional: texto largo
+// para lectores de pantalla, p. ej. la carta que trae escrita la imagen de Blacky; va en
+// un párrafo oculto unido a la imagen con aria-describedby).
 // Videos: el HTML no lleva el archivo. Se ve la portada (data-poster, se asigna al
 // mostrarse la diapositiva actual y la siguiente) y el <video> se crea al pulsar.
 // En escritorio se ven dos diapositivas a la vez (la actual y la siguiente).
-// Sin avance automático con movimiento reducido; se detiene con el mouse encima, con el
-// foco de teclado dentro o mientras se toca. Contenido principal: sin reveal.
+// No avanza solo (decisión del dueño, 2026-11-12): cambia con las flechas o los puntos.
+// Contenido principal: sin reveal.
 import Hojas from './Hojas.astro';
 import manifiesto from '../../../public/Assets/pagina-web-testimonios/testimonios/testimonios.json';
-interface Item { type: string; src: string; mp4?: string; poster?: string; alt?: string }
+interface Item { type: string; src: string; mp4?: string; poster?: string; alt?: string; descripcion?: string }
 const ITEMS = (manifiesto as Item[]).filter(it => it && it.src && (it.type === 'video' || it.type === 'image'));
 ---
 <section class="t-sec t-carr" id="carrusel-testimonios" aria-label="Carrusel de testimonios"><Hojas /><div class="t-wrap">
@@ -20,7 +22,7 @@ const ITEMS = (manifiesto as Item[]).filter(it => it && it.src && (it.type === '
 {ITEMS.map((t, i) => (
 <div class={i === 0 ? 't-slide testi-slide active' : 't-slide testi-slide'} role="group" aria-roledescription="testimonio" aria-label={`Testimonio ${i + 1} de ${ITEMS.length}`}>
 {t.type === 'image'
-    ? <img class="t-media testi-media" src={t.src} alt={t.alt || ''} width="400" height="711" fetchpriority={i === 0 ? 'high' : undefined} loading={i === 0 ? undefined : 'lazy'} decoding="async">
+    ? <Fragment><img class="t-media testi-media" src={t.src} alt={t.alt || ''} width="400" height="711" fetchpriority={i === 0 ? 'high' : undefined} loading={i === 0 ? undefined : 'lazy'} decoding="async" aria-describedby={t.descripcion ? `testi-desc-${i}` : undefined}>{t.descripcion && <p class="sr-only" id={`testi-desc-${i}`}>{t.descripcion}</p>}</Fragment>
     : <a class="t-video testi-video" href={t.src} data-video={t.src} data-mp4={t.mp4 || undefined} aria-label={`Reproducir: ${t.alt || 'testimonio en video'}`}><img class="t-media testi-media" data-poster={t.poster || undefined} alt={t.alt || ''} width="400" height="711" decoding="async"><span class="t-play" aria-hidden="true"></span></a>}
 </div>
 ))}
@@ -33,27 +35,13 @@ const ITEMS = (manifiesto as Item[]).filter(it => it && it.src && (it.type === '
     const prevBtn = document.getElementById('tPrev')!;
     const nextBtn = document.getElementById('tNext')!;
     const dotsEl = document.getElementById('tDots')!;
-    const DELAY = 5500;
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     // En escritorio se ven dos a la vez: la actual y la siguiente (clase "next").
     const doble = matchMedia('(min-width: 900px)');
 
     if (container) {
         let slides: HTMLElement[] = [], total = 0, current = 0;
-        let timer: number | undefined;
-        // Detenido mientras el mouse está encima, el foco de teclado está dentro o se toca.
-        let encima = false, foco = false, tocando = false;
-        const vid = (i: number) => slides[(i + total) % total]?.querySelector('video');
         // Índices de las diapositivas a la vista (1 en el celular, 2 en escritorio).
         const visibles = () => (doble.matches && total > 1 ? [current, (current + 1) % total] : [current]);
-        const stop = () => { clearTimeout(timer); timer = undefined; };
-        function schedule() {
-            stop();
-            if (reduce || total < 2 || encima || foco || tocando) return;
-            // Un video en reproducción en cualquiera de las diapositivas a la vista detiene el avance.
-            if (visibles().some(i => { const v = vid(i); return v && !v.paused && !v.ended; })) return;
-            timer = window.setTimeout(() => show(current + 1), DELAY);
-        }
         // Portada de un video: se carga solo cuando su diapositiva se muestra o es la siguiente.
         function portada(i: number) {
             const img = slides[(i + total) % total]?.querySelector<HTMLImageElement>('img[data-poster]:not([src])');
@@ -75,11 +63,9 @@ const ITEMS = (manifiesto as Item[]).filter(it => it && it.src && (it.type === '
             });
             portada(current); portada(current + 1);
             if (doble.matches) portada(current + 2);
-            schedule();
         }
         // Al pulsar la portada se crea el <video> con su archivo y recién ahí se descarga.
         function reproducir(a: HTMLAnchorElement) {
-            const sl = a.closest('.testi-slide');
             const img = a.querySelector('img');
             const v = document.createElement('video');
             v.className = 't-media testi-media';
@@ -89,12 +75,7 @@ const ITEMS = (manifiesto as Item[]).filter(it => it && it.src && (it.type === '
                 if (!src) return;
                 const so = document.createElement('source'); so.src = src; so.type = type!; v.appendChild(so);
             });
-            v.addEventListener('play', stop);
-            const aLaVista = () => visibles().some(i => slides[i] === sl);
-            v.addEventListener('pause', () => { if (!v.ended && aLaVista()) schedule(); });
-            v.addEventListener('ended', () => { if (slides[current] === sl) show(current + 1); else if (aLaVista()) schedule(); });
             a.replaceWith(v);
-            stop();
             v.play().catch(() => {});
             return v;
         }
@@ -106,19 +87,7 @@ const ITEMS = (manifiesto as Item[]).filter(it => it && it.src && (it.type === '
             // Con el teclado (Enter: clic sin detail) el foco pasa al reproductor, que reemplaza al enlace.
             if (!e.detail) v.focus();
         });
-        // Zona del carrusel: flechas, diapositivas y puntos.
-        const zona = container.closest<HTMLElement>('.t-wrap')!;
-        zona.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { encima = true; stop(); } });
-        zona.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { encima = false; schedule(); } });
-        zona.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') { tocando = true; stop(); } });
-        const soltar = (e: PointerEvent) => { if (tocando && e.pointerType !== 'mouse') { tocando = false; schedule(); } };
-        addEventListener('pointerup', soltar);
-        addEventListener('pointercancel', soltar);
-        // Solo el foco de teclado (no el que deja un clic o un toque en una flecha).
-        zona.addEventListener('focusin', e => { foco = (e.target as Element).matches(':focus-visible'); if (foco) stop(); });
-        zona.addEventListener('focusout', e => { if (!zona.contains(e.relatedTarget as Node)) { foco = false; schedule(); } });
         function init() {
-            stop();
             slides = Array.from(container!.querySelectorAll<HTMLElement>('.testi-slide'));
             total = slides.length;
             if (!total) return;
